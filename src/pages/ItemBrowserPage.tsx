@@ -1,28 +1,34 @@
-import { useMemo, useRef, useState, useEffect } from "react";
-import { Search, Package, Tag } from "lucide-react";
+import { useMemo, useRef, useState, useEffect, useCallback, memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Package, Tag, LayoutGrid, List } from "lucide-react";
 import { motion } from "framer-motion";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAllItems } from "@/hooks/use-items";
 import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
-import { staggerContainer, staggerItem } from "@/lib/motion";
+import { useTabStore } from "@/stores/tab-store";
+import { cn } from "@/lib/utils";
+import { springSnappy } from "@/lib/motion";
+import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import type { ItemSummary } from "@/types";
 
-const CARD_MIN_WIDTH = 300;
-const CARD_HEIGHT = 100;
-const GAP = 12;
+const GRID_CARD_MIN_WIDTH = 300;
+const GRID_CARD_HEIGHT = 100;
+const GRID_GAP = 12;
+
+const ROW_HEIGHT = 44;
 
 export default function ItemBrowserPage() {
   usePageTitle("Items");
   const { data: allItems, isLoading } = useAllItems();
   const {
-    itemQuery,
+    query,
     itemCategoryFilter,
-    setItemQuery,
+    itemViewMode,
     setItemCategoryFilter,
+    setItemViewMode,
   } = useSearchStore();
-  const { itemName } = useSettingsStore();
 
   const categories = useMemo(() => {
     if (!allItems) return [];
@@ -34,8 +40,8 @@ export default function ItemBrowserPage() {
 
   const filtered = useMemo(() => {
     let result = allItems ?? [];
-    if (itemQuery) {
-      const q = itemQuery.toLowerCase();
+    if (query) {
+      const q = query.toLowerCase();
       result = result.filter(
         (i) =>
           (i.name_en?.toLowerCase().includes(q) ?? false) ||
@@ -47,7 +53,7 @@ export default function ItemBrowserPage() {
       result = result.filter((i) => i.category === itemCategoryFilter);
     }
     return result;
-  }, [allItems, itemQuery, itemCategoryFilter]);
+  }, [allItems, query, itemCategoryFilter]);
 
   if (isLoading) {
     return (
@@ -70,23 +76,12 @@ export default function ItemBrowserPage() {
     <div className="flex flex-col gap-4 p-5">
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search items..."
-            value={itemQuery}
-            onChange={(e) => setItemQuery(e.target.value)}
-            className="h-9 w-full rounded-full glass border border-border/40 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/50 transition-shadow"
-          />
-        </div>
-
         <select
           value={itemCategoryFilter ?? ""}
           onChange={(e) =>
             setItemCategoryFilter(e.target.value || null)
           }
-          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
+          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
         >
           <option value="">All categories</option>
           {categories.map((c) => (
@@ -95,6 +90,45 @@ export default function ItemBrowserPage() {
             </option>
           ))}
         </select>
+
+        {/* View toggle */}
+        <div className="relative flex rounded-xl glass-light border border-border/40 p-0.5" role="group" aria-label="View mode">
+          <motion.div
+            className="absolute top-0.5 bottom-0.5 rounded-lg bg-accent"
+            layout
+            style={{
+              width: "calc(50% - 2px)",
+              left: itemViewMode === "grid" ? 2 : "calc(50%)",
+            }}
+            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+          />
+          <button
+            onClick={() => setItemViewMode("grid")}
+            className={cn(
+              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
+              itemViewMode === "grid"
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+            aria-label="Grid view"
+            aria-pressed={itemViewMode === "grid"}
+          >
+            <LayoutGrid className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => setItemViewMode("list")}
+            className={cn(
+              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
+              itemViewMode === "list"
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+            aria-label="List view"
+            aria-pressed={itemViewMode === "list"}
+          >
+            <List className="h-4 w-4" />
+          </button>
+        </div>
 
         <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
           <Package className="h-3.5 w-3.5" />
@@ -110,16 +144,27 @@ export default function ItemBrowserPage() {
             No items found matching your search.
           </p>
         </div>
-      ) : (
+      ) : itemViewMode === "grid" ? (
         <VirtualizedItemGrid items={filtered} />
+      ) : (
+        <VirtualizedItemList items={filtered} />
       )}
+
+      {query.length >= 2 && <SearchCrossResults exclude="items" />}
     </div>
   );
 }
 
+// ---------------------------------------------------------------------------
+// Grid view
+// ---------------------------------------------------------------------------
+
 function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(2);
+  const navigate = useNavigate();
+  const { itemName: getItemName, description: getDescription } = useSettingsStore();
+  const { openTab } = useTabStore();
 
   useEffect(() => {
     const el = parentRef.current;
@@ -127,7 +172,7 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
 
     const update = () => {
       const w = el.clientWidth;
-      setColumns(Math.max(1, Math.floor((w + GAP) / (CARD_MIN_WIDTH + GAP))));
+      setColumns(Math.max(1, Math.floor((w + GRID_GAP) / (GRID_CARD_MIN_WIDTH + GRID_GAP))));
     };
 
     update();
@@ -136,12 +181,27 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
     return () => ro.disconnect();
   }, []);
 
+  const handleItemClick = useCallback(
+    (item: ItemSummary) => {
+      openTab({
+        kind: "item",
+        entityId: item.id,
+        nameEn: item.name_en ?? "",
+        nameFr: item.name_fr ?? "",
+        typeKey: null,
+        spriteUrl: item.sprite_url,
+      });
+      navigate(`/items/${item.id}`);
+    },
+    [openTab, navigate],
+  );
+
   const rowCount = Math.ceil(items.length / columns);
 
   const virtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => CARD_HEIGHT + GAP,
+    estimateSize: () => GRID_CARD_HEIGHT + GRID_GAP,
     overscan: 5,
   });
 
@@ -172,11 +232,17 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
                 right: 0,
                 display: "grid",
                 gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                gap: `${GAP}px`,
+                gap: `${GRID_GAP}px`,
               }}
             >
               {rowItems.map((item) => (
-                <ItemCard key={item.id} item={item} />
+                <GridItemCard
+                  key={item.id}
+                  item={item}
+                  name={getItemName(item.name_en, item.name_fr)}
+                  effect={getDescription(item.effect_en, item.effect_fr)}
+                  onClick={handleItemClick}
+                />
               ))}
             </div>
           );
@@ -186,51 +252,157 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
   );
 }
 
-function ItemCard({ item }: { item: ItemSummary }) {
-  const { itemName: getItemName, description: getDesc } = useSettingsStore();
-  const name = getItemName(item.name_en, item.name_fr);
-  const effect = getDesc(item.effect_en, item.effect_fr);
+interface GridItemCardProps {
+  item: ItemSummary;
+  name: string;
+  effect: string;
+  onClick: (item: ItemSummary) => void;
+}
 
+const GridItemCard = memo(function GridItemCard({ item, name, effect, onClick }: GridItemCardProps) {
   return (
-    <div className="group flex gap-3 rounded-2xl glass border border-border/30 p-4 hover:border-primary/30 hover:shadow-warm transition-all duration-200">
-      {/* Sprite */}
+    <div
+      onClick={() => onClick(item)}
+      className="group flex gap-3 rounded-2xl glass-flat border border-border/30 px-3.5 py-3 cursor-pointer hover:border-primary/30 hover:shadow-warm transition-colors duration-150"
+    >
       {item.sprite_url ? (
-        <motion.img
+        <img
           src={item.sprite_url}
-          alt={name}
-          className="h-12 w-12 object-contain flex-shrink-0"
-          whileHover={{ scale: 1.15, rotate: [-2, 2, 0] }}
-          transition={{ duration: 0.3 }}
+          alt=""
+          loading="lazy"
+          className="h-10 w-10 object-contain flex-shrink-0 mt-0.5"
         />
       ) : (
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl glass text-muted-foreground flex-shrink-0">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg glass-light-flat text-muted-foreground flex-shrink-0 mt-0.5">
           <Package className="h-5 w-5" />
         </div>
       )}
-
-      {/* Info */}
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-heading text-sm font-semibold leading-tight">
+        <div className="flex items-center gap-2">
+          <span className="font-heading text-sm font-semibold leading-tight truncate">
             {name || "Unknown Item"}
           </span>
           {item.category && (
-            <span className="inline-flex items-center gap-1 rounded-full glass-subtle px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground">
+            <span className="inline-flex items-center gap-1 rounded-full glass-light-flat px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground flex-shrink-0">
               <Tag className="h-2.5 w-2.5" />
               {item.category}
             </span>
           )}
         </div>
-        {effect ? (
-          <p className="mt-1 text-xs text-muted-foreground leading-relaxed line-clamp-3">
+        {effect && (
+          <p className="mt-1 text-xs text-muted-foreground leading-relaxed line-clamp-2">
             {effect}
-          </p>
-        ) : (
-          <p className="mt-1 text-xs text-muted-foreground/50 italic">
-            No description available.
           </p>
         )}
       </div>
+    </div>
+  );
+});
+
+// ---------------------------------------------------------------------------
+// List view
+// ---------------------------------------------------------------------------
+
+function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
+  const parentRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const { itemName: getItemName, description: getDescription } = useSettingsStore();
+  const { openTab } = useTabStore();
+
+  const handleRowClick = useCallback(
+    (item: ItemSummary) => {
+      openTab({
+        kind: "item",
+        entityId: item.id,
+        nameEn: item.name_en ?? "",
+        nameFr: item.name_fr ?? "",
+        typeKey: null,
+        spriteUrl: item.sprite_url,
+      });
+      navigate(`/items/${item.id}`);
+    },
+    [openTab, navigate],
+  );
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => ROW_HEIGHT,
+    overscan: 20,
+  });
+
+  return (
+    <div
+      ref={parentRef}
+      className="overflow-y-auto rounded-xl glass border border-border/30"
+      style={{ height: "calc(100vh - 180px)" }}
+    >
+      <table className="w-full text-sm">
+        <thead className="sticky top-0 z-10 glass-heavy">
+          <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
+            <th className="w-10 px-1 py-2.5" scope="col"><span className="sr-only">Sprite</span></th>
+            <th className="px-3 py-2.5 text-left" scope="col">Name</th>
+            <th className="px-3 py-2.5 text-left" scope="col">Category</th>
+            <th className="px-3 py-2.5 text-left" scope="col">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style={{ height: virtualizer.getVirtualItems()[0]?.start ?? 0 }}>
+            <td colSpan={4} />
+          </tr>
+          {virtualizer.getVirtualItems().map((virtualRow) => {
+            const item = items[virtualRow.index];
+            const name = getItemName(item.name_en, item.name_fr);
+            const effect = getDescription(item.effect_en, item.effect_fr);
+            return (
+              <tr
+                key={item.id}
+                onClick={() => handleRowClick(item)}
+                className="border-b border-border/20 cursor-pointer hover:bg-primary/5 transition-colors"
+                style={{ height: ROW_HEIGHT }}
+              >
+                <td className="px-1 py-1">
+                  {item.sprite_url ? (
+                    <img
+                      src={item.sprite_url}
+                      alt=""
+                      className="h-8 w-8 object-contain"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex h-8 w-8 items-center justify-center rounded glass-light text-muted-foreground">
+                      <Package className="h-4 w-4" />
+                    </div>
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  <span className="font-heading font-medium">
+                    {name || "Unknown Item"}
+                  </span>
+                </td>
+                <td className="px-3 py-2">
+                  {item.category ? (
+                    <span className="inline-flex items-center gap-1 rounded-full glass-light px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground">
+                      <Tag className="h-2.5 w-2.5" />
+                      {item.category}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">—</span>
+                  )}
+                </td>
+                <td className="px-3 py-2">
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {effect || "—"}
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
+          <tr style={{ height: virtualizer.getTotalSize() - (virtualizer.getVirtualItems().at(-1)?.end ?? 0) }}>
+            <td colSpan={4} />
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

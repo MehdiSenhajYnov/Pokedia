@@ -87,6 +87,7 @@ pub async fn clear_cache(
     // Order matters: delete child tables before parents (FK constraints)
     let tables = [
         "favorites",
+        "ability_pokemon",
         "pokemon_moves",
         "pokemon_abilities",
         "pokemon",
@@ -95,6 +96,8 @@ pub async fn clear_cache(
         "type_efficacy",
         "types",
         "evolution_chains",
+        "natures",
+        "abilities",
         "sync_meta",
     ];
 

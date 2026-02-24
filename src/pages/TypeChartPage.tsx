@@ -209,7 +209,7 @@ export default function TypeChartPage() {
           {matchups ? (
             <motion.div
               key={`${type1}-${type2}`}
-              className="rounded-2xl glass border border-border/30 p-5 space-y-4"
+              className="rounded-2xl glass border border-border/30 p-5 space-y-4 shadow-glass"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
@@ -282,7 +282,7 @@ export default function TypeChartPage() {
       <section className="space-y-3">
         <button
           onClick={() => setChartExpanded(!chartExpanded)}
-          className="flex w-full items-center justify-between rounded-2xl glass border border-border/30 px-4 py-3 text-left hover:bg-accent/50 transition-colors"
+          className="flex w-full items-center justify-between rounded-2xl glass border border-border/30 px-4 py-3 text-left hover:shadow-warm transition-all"
         >
           <div className="flex items-center gap-2">
             <Grid3X3 className="h-5 w-5 text-muted-foreground" />

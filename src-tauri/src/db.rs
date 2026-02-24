@@ -38,6 +38,7 @@ async fn run_migrations(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Err
     let migrations = [
         include_str!("../migrations/001_initial_schema.sql"),
         include_str!("../migrations/002_add_species_id.sql"),
+        include_str!("../migrations/003_add_natures_abilities.sql"),
     ];
 
     for migration_sql in migrations {

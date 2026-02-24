@@ -55,8 +55,10 @@ pub fn run() {
             commands::moves::get_move_by_id,
             commands::moves::search_moves,
             commands::moves::get_pokemon_moves,
+            commands::moves::get_move_pokemon,
             // Items
             commands::items::get_all_items,
+            commands::items::get_item_by_id,
             commands::items::search_items,
             // Types
             commands::types::get_all_types,
@@ -66,6 +68,13 @@ pub fn run() {
             commands::sync::get_sync_status,
             commands::sync::cancel_sync,
             commands::sync::clear_cache,
+            // Natures
+            commands::natures::get_all_natures,
+            // Abilities
+            commands::abilities::get_all_abilities,
+            commands::abilities::get_ability_by_id,
+            commands::abilities::search_abilities,
+            commands::abilities::get_ability_pokemon,
             // Favorites
             commands::favorites::toggle_favorite,
             commands::favorites::get_favorites,

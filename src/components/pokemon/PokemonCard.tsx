@@ -1,29 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Plus, Check, Heart, Eye, GitCompareArrows } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import { cn } from "@/lib/utils";
 import { TypeBadge } from "./TypeBadge";
 import { PokemonSprite } from "@/components/ui/pokemon-sprite";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
+import { useTabStore } from "@/stores/tab-store";
 import { useIsFavorite, useToggleFavorite } from "@/hooks/use-favorites";
 import { getBaseId, getFormLabel } from "@/lib/pokemon-utils";
 import { TYPE_COLORS } from "@/lib/constants";
-import { heartBurst, scalePop, springPlayful } from "@/lib/motion";
 import type { PokemonSummary } from "@/types";
-import { useCallback, useRef } from "react";
+import { memo, useCallback, useRef } from "react";
 
 interface PokemonCardProps {
   pokemon: PokemonSummary;
   nameToIdMap?: Map<string, number>;
 }
 
-export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
+export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
   const navigate = useNavigate();
   const { pokemonName } = useSettingsStore();
   const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
+  const { openTab } = useTabStore();
   const isCompared = hasPokemon(pokemon.id);
   const isFavorite = useIsFavorite(pokemon.id);
   const { mutate: toggleFav } = useToggleFavorite();
@@ -48,6 +48,19 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
     el.style.transform = "perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)";
   }, []);
 
+  const handleMiddleClick = useCallback((e: React.MouseEvent) => {
+    if (e.button !== 1) return;
+    e.preventDefault();
+    openTab({
+      kind: "pokemon",
+      entityId: pokemon.id,
+      nameEn: pokemon.name_en ?? "",
+      nameFr: pokemon.name_fr ?? "",
+      typeKey: pokemon.type1_key,
+      spriteUrl: pokemon.sprite_url,
+    }, true);
+  }, [pokemon, openTab]);
+
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger asChild>
@@ -55,15 +68,15 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onMouseDown={handleMiddleClick}
           style={{
             transition: "transform 0.15s ease-out, box-shadow 0.2s ease",
           }}
-          className="group"
+          className="group active:scale-[0.97]"
         >
-          <motion.div whileTap={{ scale: 0.97 }}>
           <Link
             to={`/pokemon/${pokemon.id}`}
-            className="relative flex flex-col items-center rounded-xl glass border border-transparent p-4 transition-all duration-200 hover:border-[var(--type-color)] hover:shadow-[0_8px_30px_var(--type-glow)]"
+            className="relative flex flex-col items-center rounded-xl glass border border-border/30 p-4 transition-all duration-200 hover:border-[var(--type-color)] hover:shadow-[0_8px_30px_var(--type-glow)]"
             style={{
               "--type-color": `${typeHex}60`,
               "--type-glow": `${typeHex}20`,
@@ -86,17 +99,7 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
                 )}
                 aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
               >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={isFavorite ? "fav" : "not-fav"}
-                    variants={heartBurst}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                  >
-                    <Heart className={cn("h-3.5 w-3.5", isFavorite && "fill-current")} />
-                  </motion.div>
-                </AnimatePresence>
+                <Heart className={cn("h-3.5 w-3.5 transition-transform duration-200", isFavorite && "fill-current scale-110")} />
               </button>
 
               <button
@@ -106,24 +109,18 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
                   isCompared ? removePokemon(pokemon.id) : addPokemon(pokemon.id);
                 }}
                 className={cn(
-                  "flex h-6 w-6 items-center justify-center rounded-full border transition-colors",
+                  "flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200",
                   isCompared
-                    ? "border-primary bg-primary text-primary-foreground"
+                    ? "border-primary bg-primary text-primary-foreground scale-110"
                     : "border-border bg-background text-muted-foreground opacity-0 group-hover:opacity-100",
                 )}
                 aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
               >
-                <AnimatePresence mode="wait">
-                  {isCompared ? (
-                    <motion.div key="check" variants={scalePop} initial="initial" animate="animate" exit="exit">
-                      <Check className="h-3 w-3" />
-                    </motion.div>
-                  ) : (
-                    <motion.div key="plus" variants={scalePop} initial="initial" animate="animate" exit="exit">
-                      <Plus className="h-3 w-3" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {isCompared ? (
+                  <Check className="h-3 w-3" />
+                ) : (
+                  <Plus className="h-3 w-3" />
+                )}
               </button>
             </div>
 
@@ -133,18 +130,14 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
             </span>
 
             {/* Sprite */}
-            <motion.div
-              className="h-20 w-20"
-              whileHover={{ y: -8, rotate: [-2, 2, 0] }}
-              transition={springPlayful}
-            >
+            <div className="h-20 w-20 transition-transform duration-200 ease-out group-hover:-translate-y-2">
               <PokemonSprite
                 src={pokemon.sprite_url}
                 pokemonId={pokemon.id}
                 alt={name}
                 className="h-20 w-20"
               />
-            </motion.div>
+            </div>
 
             {/* Name + form label */}
             <span className="mt-2 truncate font-heading text-xs font-semibold">{name}</span>
@@ -163,12 +156,11 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
               BST {pokemon.base_stat_total ?? "\u2014"}
             </span>
           </Link>
-          </motion.div>
         </div>
       </ContextMenu.Trigger>
 
       <ContextMenu.Portal>
-        <ContextMenu.Content className="z-50 min-w-[160px] overflow-hidden rounded-xl glass border border-border/40 p-1 text-popover-foreground shadow-warm animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+        <ContextMenu.Content className="z-50 min-w-[160px] overflow-hidden rounded-xl glass border border-border/40 p-1 text-popover-foreground shadow-glass animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
           <ContextMenu.Item
             className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
             onSelect={() => navigate(`/pokemon/${pokemon.id}`)}
@@ -196,4 +188,4 @@ export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
       </ContextMenu.Portal>
     </ContextMenu.Root>
   );
-}
+});

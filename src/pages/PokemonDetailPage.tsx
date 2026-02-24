@@ -11,6 +11,7 @@ import { buildNameToIdMap, sortByPokedex, getBaseId, getFormLabel } from "@/lib/
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
 import { useRecentStore } from "@/stores/recent-store";
+import { useTabStore } from "@/stores/tab-store";
 import { useIsFavorite, useToggleFavorite } from "@/hooks/use-favorites";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
@@ -33,6 +34,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { getDefensiveMatchups } from "@/lib/type-chart";
 import { cn } from "@/lib/utils";
 import { staggerContainer, staggerItem, spriteFloat, sectionReveal } from "@/lib/motion";
+import { MeshGradientBg } from "@/components/layout/MeshGradientBg";
 import type { PokemonTypeName } from "@/lib/constants";
 
 export default function PokemonDetailPage() {
@@ -62,6 +64,7 @@ export default function PokemonDetailPage() {
   }, [allPokemon, pokemonId]);
   const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
   const { addRecent } = useRecentStore();
+  const { openTab } = useTabStore();
   const isFavorite = useIsFavorite(pokemonId ?? 0);
   const { mutate: toggleFav } = useToggleFavorite();
   const [showShiny, setShowShiny] = useState(false);
@@ -78,8 +81,18 @@ export default function PokemonDetailPage() {
   usePageTitle(pokemon ? `${name} ${idStr}` : "Loading...");
 
   useEffect(() => {
-    if (pokemonId) addRecent(pokemonId);
-  }, [pokemonId, addRecent]);
+    if (pokemonId && pokemon) {
+      addRecent(pokemonId);
+      openTab({
+        kind: "pokemon",
+        entityId: pokemonId,
+        nameEn: pokemon.name_en ?? "",
+        nameFr: pokemon.name_fr ?? "",
+        typeKey: pokemon.type1_key,
+        spriteUrl: pokemon.sprite_url,
+      });
+    }
+  }, [pokemonId, pokemon, addRecent, openTab]);
 
   const handleKeyNav = useCallback(
     (e: KeyboardEvent) => {
@@ -156,19 +169,22 @@ export default function PokemonDetailPage() {
   const typeHex = TYPE_COLORS_HEX[pokemon.type1_key ?? ""] ?? "#888";
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 p-6 page-glow relative overflow-hidden">
+    <div className="mx-auto max-w-4xl space-y-8 p-6 relative overflow-hidden">
+      {/* Contextual mesh gradient tinted by Pokemon type */}
+      <MeshGradientBg accentColor={`${typeHex}40`} />
+
       {/* ── Navigation ── */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
           <button
-            onClick={() => navigate(-1)}
-            className="flex h-8 items-center gap-1.5 rounded-full glass border border-border/40 px-3 text-xs hover:bg-accent transition-colors"
-            aria-label="Go back"
+            onClick={() => navigate("/")}
+            className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
+            aria-label="Back to Pokédex"
           >
-            <ArrowLeft className="h-3.5 w-3.5" /> Back
+            <ArrowLeft className="h-3.5 w-3.5" /> Pokédex
           </button>
 
-          <div className="flex items-center rounded-full glass border border-border/40">
+          <div className="flex items-center rounded-full glass-light border border-border/40">
             {prevId !== null ? (
               <Link
                 to={`/pokemon/${prevId}`}
@@ -202,7 +218,7 @@ export default function PokemonDetailPage() {
           <button
             onClick={() => toggleFav(pokemon.id)}
             className={cn(
-              "flex h-8 items-center gap-1.5 rounded-full glass border border-border/40 px-3 text-xs hover:bg-accent transition-colors",
+              "flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all",
               isFavorite && "text-red-500",
             )}
             aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -217,7 +233,7 @@ export default function PokemonDetailPage() {
                 ? removePokemon(pokemon.id)
                 : addPokemon(pokemon.id)
             }
-            className="flex h-8 items-center gap-1.5 rounded-full glass border border-border/40 px-3 text-xs hover:bg-accent transition-colors"
+            className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
             aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
           >
             {isCompared ? (
@@ -282,7 +298,7 @@ export default function PokemonDetailPage() {
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowShiny((s) => !s)}
               className={cn(
-                "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full glass border px-2.5 py-0.5 text-[10px] font-medium transition-colors",
+                "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full glass-light border px-2.5 py-0.5 text-[10px] font-medium transition-all",
                 showShiny
                   ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
                   : "border-border/40 text-muted-foreground hover:bg-accent",
@@ -326,10 +342,10 @@ export default function PokemonDetailPage() {
           )}
 
           <div className="mt-2.5 flex gap-3 justify-center sm:justify-start">
-            <span className="rounded-full glass border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+            <span className="rounded-full glass-light border border-border/30 px-3 py-1 text-xs text-muted-foreground">
               Height: {heightStr}
             </span>
-            <span className="rounded-full glass border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+            <span className="rounded-full glass-light border border-border/30 px-3 py-1 text-xs text-muted-foreground">
               Weight: {weightStr}
             </span>
           </div>
@@ -352,7 +368,7 @@ export default function PokemonDetailPage() {
               <span
                 key={a.slot}
                 className={cn(
-                  "rounded-xl glass border px-3 py-1.5 text-xs",
+                  "rounded-xl glass-light border px-3 py-1.5 text-xs",
                   a.is_hidden === 1
                     ? "border-dashed border-purple-400/40 text-purple-300"
                     : "border-border/40",

@@ -73,7 +73,7 @@ export default function ComparisonPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass shadow-glass">
           <GitCompareArrows className="h-8 w-8 text-muted-foreground animate-[float_3s_ease-in-out_infinite]" />
         </div>
         <div className="text-center space-y-2">
@@ -121,13 +121,13 @@ export default function ComparisonPage() {
         <div className="flex gap-2">
           <button
             onClick={() => setPickerOpen(true)}
-            className="flex h-8 items-center gap-1.5 rounded-xl glass border border-border/40 px-3 text-xs font-medium hover:bg-accent transition-colors"
+            className="flex h-8 items-center gap-1.5 rounded-xl glass-light border border-border/40 px-3 text-xs font-medium hover:shadow-warm transition-all"
           >
             <Plus className="h-3.5 w-3.5" /> Add Pokemon
           </button>
           <button
             onClick={() => setShowClearConfirm(true)}
-            className="flex h-8 items-center gap-1.5 rounded-xl glass border border-border/40 px-3 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"
+            className="flex h-8 items-center gap-1.5 rounded-xl glass-light border border-border/40 px-3 text-xs font-medium text-destructive hover:bg-destructive/10 transition-all"
           >
             <Trash2 className="h-3.5 w-3.5" /> Clear All
           </button>
@@ -139,7 +139,7 @@ export default function ComparisonPage() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border/30">
-              <th className="sticky left-0 z-10 glass px-4 py-3 text-left font-heading text-xs font-medium text-muted-foreground w-24 min-w-24">
+              <th className="sticky left-0 z-10 glass-heavy px-4 py-3 text-left font-heading text-xs font-medium text-muted-foreground w-24 min-w-24">
                 Stat
               </th>
               <AnimatePresence mode="popLayout">
@@ -187,7 +187,7 @@ export default function ComparisonPage() {
           <tbody>
             {/* Types row */}
             <tr className="border-b border-border/20">
-              <td className="sticky left-0 z-10 glass px-4 py-2.5 font-heading text-xs font-medium text-muted-foreground">
+              <td className="sticky left-0 z-10 glass-heavy px-4 py-2.5 font-heading text-xs font-medium text-muted-foreground">
                 Types
               </td>
               {selectedPokemon.map((p) => (
@@ -206,7 +206,7 @@ export default function ComparisonPage() {
             {/* Stat rows */}
             {STAT_KEYS.map((stat) => (
               <tr key={stat} className="border-b border-border/20">
-                <td className="sticky left-0 z-10 glass px-4 py-2.5 font-heading text-xs font-medium"
+                <td className="sticky left-0 z-10 glass-heavy px-4 py-2.5 font-heading text-xs font-medium"
                   style={{ color: STAT_COLORS[stat] }}
                 >
                   {STAT_LABELS[stat]}
@@ -256,7 +256,7 @@ export default function ComparisonPage() {
 
             {/* BST row */}
             <tr className="border-b border-border/20 bg-muted/10">
-              <td className="sticky left-0 z-10 glass bg-muted/10 px-4 py-2.5 font-heading text-xs font-bold text-primary">
+              <td className="sticky left-0 z-10 glass-heavy bg-muted/10 px-4 py-2.5 font-heading text-xs font-bold text-primary">
                 BST
               </td>
               {selectedPokemon.map((p) => {
@@ -281,7 +281,7 @@ export default function ComparisonPage() {
 
             {/* Weaknesses row */}
             <tr className="border-b border-border/20">
-              <td className="sticky left-0 z-10 glass px-4 py-2.5 font-heading text-xs font-medium text-red-400">
+              <td className="sticky left-0 z-10 glass-heavy px-4 py-2.5 font-heading text-xs font-medium text-red-400">
                 Weak
               </td>
               {selectedPokemon.map((p) => {
@@ -325,7 +325,7 @@ export default function ComparisonPage() {
 
             {/* Resistances row */}
             <tr className="border-b border-border/20">
-              <td className="sticky left-0 z-10 glass px-4 py-2.5 font-heading text-xs font-medium text-green-400">
+              <td className="sticky left-0 z-10 glass-heavy px-4 py-2.5 font-heading text-xs font-medium text-green-400">
                 Resist
               </td>
               {selectedPokemon.map((p) => {
@@ -369,7 +369,7 @@ export default function ComparisonPage() {
 
             {/* Immunities row */}
             <tr>
-              <td className="sticky left-0 z-10 glass px-4 py-2.5 font-heading text-xs font-medium text-gray-400">
+              <td className="sticky left-0 z-10 glass-heavy px-4 py-2.5 font-heading text-xs font-medium text-gray-400">
                 Immune
               </td>
               {selectedPokemon.map((p) => {
@@ -418,7 +418,7 @@ export default function ComparisonPage() {
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="mx-4 w-full max-w-sm rounded-2xl glass border border-border/30 p-6 shadow-warm"
+            className="mx-4 w-full max-w-sm rounded-2xl glass border border-border/30 p-6 shadow-glass"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="clear-compare-title"
@@ -438,7 +438,7 @@ export default function ComparisonPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="rounded-xl glass border border-border/40 px-4 py-2 text-sm font-medium hover:bg-accent transition-colors"
+                className="rounded-xl glass-light border border-border/40 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
               >
                 Cancel
               </button>
@@ -505,7 +505,7 @@ function PokemonPicker({ onClose }: { onClose: () => void }) {
         exit="exit"
         transition={{ duration: 0.2 }}
       >
-        <div className="pointer-events-auto w-full max-w-lg rounded-2xl glass border border-border/30 shadow-warm overflow-hidden" role="dialog" aria-modal="true" aria-label="Add Pokemon to comparison">
+        <div className="pointer-events-auto w-full max-w-lg rounded-2xl glass border border-border/30 shadow-glass overflow-hidden" role="dialog" aria-modal="true" aria-label="Add Pokemon to comparison">
           <div className="flex items-center gap-3 border-b border-border/30 px-4 py-3">
             <Search className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             <input
@@ -517,7 +517,7 @@ function PokemonPicker({ onClose }: { onClose: () => void }) {
             />
             <button
               onClick={onClose}
-              className="flex-shrink-0 rounded-lg glass border border-border/40 px-2 py-0.5 text-[10px] text-muted-foreground hover:bg-accent transition-colors"
+              className="flex-shrink-0 rounded-lg glass-light border border-border/40 px-2 py-0.5 text-[10px] text-muted-foreground hover:bg-accent transition-colors"
             >
               ESC
             </button>

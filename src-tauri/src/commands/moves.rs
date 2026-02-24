@@ -1,4 +1,4 @@
-use crate::models::{MoveDetail, MoveSummary, PokemonMoveEntry};
+use crate::models::{MoveDetail, MovePokemonEntry, MoveSummary, PokemonMoveEntry};
 use crate::AppState;
 use tauri::State;
 
@@ -55,6 +55,28 @@ pub async fn search_moves(
          LIMIT 50"
     )
     .bind(&pattern)
+    .fetch_all(&state.pool)
+    .await
+    .map_err(|e| e.to_string())?;
+
+    Ok(rows)
+}
+
+/// Get all pokemon that learn a specific move.
+#[tauri::command]
+pub async fn get_move_pokemon(
+    state: State<'_, AppState>,
+    move_id: i64,
+) -> Result<Vec<MovePokemonEntry>, String> {
+    let rows: Vec<MovePokemonEntry> = sqlx::query_as(
+        "SELECT p.id AS pokemon_id, p.name_key, p.name_en, p.name_fr, p.type1_key, p.type2_key, p.sprite_url,
+                pm.learn_method, pm.level_learned_at
+         FROM pokemon_moves pm
+         JOIN pokemon p ON p.id = pm.pokemon_id
+         WHERE pm.move_id = ?1
+         ORDER BY pm.learn_method, pm.level_learned_at, p.id"
+    )
+    .bind(move_id)
     .fetch_all(&state.pool)
     .await
     .map_err(|e| e.to_string())?;

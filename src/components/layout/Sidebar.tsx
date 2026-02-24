@@ -10,17 +10,44 @@ import {
   GitCompareArrows,
   Grid3X3,
   Swords,
+  Sparkles,
   Package,
+  Leaf,
   Settings,
   ChevronLeft,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const NAV_ITEMS = [
-  { to: "/", icon: BookOpen, label: "Pokédex", badge: null as string | null },
-  { to: "/compare", icon: GitCompareArrows, label: "Compare", badge: "compare" },
-  { to: "/types", icon: Grid3X3, label: "Types", badge: null },
-  { to: "/moves", icon: Swords, label: "Moves", badge: null },
-  { to: "/items", icon: Package, label: "Items", badge: null },
+interface NavItem {
+  to: string;
+  icon: LucideIcon;
+  label: string;
+  badge: string | null;
+}
+
+interface NavSection {
+  label: string;
+  items: NavItem[];
+}
+
+const NAV_SECTIONS: NavSection[] = [
+  {
+    label: "Encyclopedia",
+    items: [
+      { to: "/", icon: BookOpen, label: "Pokédex", badge: null },
+      { to: "/moves", icon: Swords, label: "Moves", badge: null },
+      { to: "/abilities", icon: Sparkles, label: "Abilities", badge: null },
+      { to: "/items", icon: Package, label: "Items", badge: null },
+      { to: "/natures", icon: Leaf, label: "Natures", badge: null },
+    ],
+  },
+  {
+    label: "Tools",
+    items: [
+      { to: "/types", icon: Grid3X3, label: "Types", badge: null },
+      { to: "/compare", icon: GitCompareArrows, label: "Compare", badge: "compare" },
+    ],
+  },
 ];
 
 const BOTTOM_ITEMS = [
@@ -75,7 +102,7 @@ export function Sidebar() {
     <motion.aside
       aria-label="Main navigation"
       className={cn(
-        "flex h-screen flex-col glass border-r border-border/30",
+        "flex h-screen flex-col glass-heavy border-r border-border/30",
         collapsed ? "rounded-r-2xl" : ""
       )}
       animate={{ width: collapsed ? 52 : 224 }}
@@ -107,61 +134,84 @@ export function Sidebar() {
 
       {/* ── Navigation ── */}
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-2 py-3">
-        {NAV_ITEMS.map(({ to, icon: Icon, label, badge }) => {
-          const badgeCount = badge === "compare" ? compareCount : 0;
-          return (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === "/"}
-              className={({ isActive }) =>
-                cn(
-                  "group relative flex h-10 items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors duration-150",
-                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                  isActive
-                    ? "text-primary"
-                    : "text-sidebar-foreground/60",
-                  collapsed && "justify-center px-0"
-                )
-              }
-              title={collapsed ? label : undefined}
-            >
-              {({ isActive }) => (
-                <>
-                  {/* Active indicator — vertical bar with glow */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="sidebar-active"
-                      className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-full bg-primary"
-                      transition={springSnappy}
-                      style={{
-                        marginLeft: collapsed ? -1 : -4,
-                        boxShadow: "0 0 10px var(--color-primary), 0 0 20px var(--color-primary)",
-                      }}
-                    />
+        {NAV_SECTIONS.map((section, sectionIdx) => (
+          <div key={section.label}>
+            {/* Section separator */}
+            {sectionIdx > 0 && (
+              collapsed ? (
+                <div className="my-2 border-t border-border/30" />
+              ) : (
+                <div className="mt-3 mb-1.5 px-3">
+                  <span className="text-[10px] uppercase tracking-wide font-heading font-medium text-sidebar-foreground/40">
+                    {section.label}
+                  </span>
+                </div>
+              )
+            )}
+            {/* First section header (only when expanded) */}
+            {sectionIdx === 0 && !collapsed && (
+              <div className="mb-1.5 px-3">
+                <span className="text-[10px] uppercase tracking-wide font-heading font-medium text-sidebar-foreground/40">
+                  {section.label}
+                </span>
+              </div>
+            )}
+            {section.items.map(({ to, icon: Icon, label, badge }) => {
+              const badgeCount = badge === "compare" ? compareCount : 0;
+              return (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={to === "/"}
+                  className={({ isActive }) =>
+                    cn(
+                      "group relative flex h-10 items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors duration-150",
+                      "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                      isActive
+                        ? "text-primary"
+                        : "text-sidebar-foreground/60",
+                      collapsed && "justify-center px-0"
+                    )
+                  }
+                  title={collapsed ? label : undefined}
+                >
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <motion.div
+                          layoutId="sidebar-active"
+                          className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-full bg-primary"
+                          transition={springSnappy}
+                          style={{
+                            marginLeft: collapsed ? -1 : -4,
+                            boxShadow: "0 0 10px var(--color-primary), 0 0 20px var(--color-primary)",
+                          }}
+                        />
+                      )}
+                      <motion.div
+                        className="flex items-center gap-2.5"
+                        variants={navItemVariants}
+                        initial="rest"
+                        whileHover="hover"
+                      >
+                        <Icon className="h-[18px] w-[18px] shrink-0" />
+                        {!collapsed && <span>{label}</span>}
+                      </motion.div>
+                      {badgeCount > 0 && (
+                        <span className={cn(
+                          "flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground",
+                          collapsed ? "absolute -right-0.5 -top-0.5" : "ml-auto"
+                        )}>
+                          {badgeCount}
+                        </span>
+                      )}
+                    </>
                   )}
-                  <motion.div
-                    className="flex items-center gap-2.5"
-                    variants={navItemVariants}
-                    initial="rest"
-                    whileHover="hover"
-                  >
-                    <Icon className="h-[18px] w-[18px] shrink-0" />
-                    {!collapsed && <span>{label}</span>}
-                  </motion.div>
-                  {badgeCount > 0 && (
-                    <span className={cn(
-                      "flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground",
-                      collapsed ? "absolute -right-0.5 -top-0.5" : "ml-auto"
-                    )}>
-                      {badgeCount}
-                    </span>
-                  )}
-                </>
-              )}
-            </NavLink>
-          );
-        })}
+                </NavLink>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* ── Bottom section ── */}

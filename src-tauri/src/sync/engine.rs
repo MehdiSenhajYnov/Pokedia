@@ -142,6 +142,65 @@ impl SyncEngine {
             self.update_sync_meta("evolution_chains", 0, 0, "error", Some(&e)).await;
         }
 
+        if self.is_cancelled() {
+            log::info!("Sync cancelled after evolution chains phase");
+            return Ok(());
+        }
+
+        // Phase 5: Natures + Abilities in parallel
+        let nat_done = self.is_resource_done("natures").await;
+        let abi_done = self.is_resource_done("abilities").await;
+
+        if nat_done {
+            log::info!("Skipping natures (already done)");
+        }
+        if abi_done {
+            log::info!("Skipping abilities (already done)");
+        }
+
+        if !nat_done || !abi_done {
+            let pool_nat = self.pool.clone();
+            let pool_abi = self.pool.clone();
+            let client_nat = self.client.clone();
+            let client_abi = self.client.clone();
+            let sem_nat = self.semaphore.clone();
+            let sem_abi = self.semaphore.clone();
+            let app_nat = self.app_handle.clone();
+            let app_abi = self.app_handle.clone();
+
+            let natures_handle = tokio::spawn(async move {
+                if nat_done { return Ok(()); }
+                let engine = SyncEngine {
+                    pool: pool_nat,
+                    client: client_nat,
+                    app_handle: app_nat,
+                    semaphore: sem_nat,
+                };
+                engine.sync_natures().await
+            });
+
+            let abilities_handle = tokio::spawn(async move {
+                if abi_done { return Ok(()); }
+                let engine = SyncEngine {
+                    pool: pool_abi,
+                    client: client_abi,
+                    app_handle: app_abi,
+                    semaphore: sem_abi,
+                };
+                engine.sync_abilities().await
+            });
+
+            let (nat_result, abi_result) = tokio::join!(natures_handle, abilities_handle);
+            if let Err(e) = nat_result.unwrap_or(Err("Natures sync task panicked".to_string())) {
+                log::error!("Natures sync failed: {}", e);
+                self.update_sync_meta("natures", 0, 0, "error", Some(&e)).await;
+            }
+            if let Err(e) = abi_result.unwrap_or(Err("Abilities sync task panicked".to_string())) {
+                log::error!("Abilities sync failed: {}", e);
+                self.update_sync_meta("abilities", 0, 0, "error", Some(&e)).await;
+            }
+        }
+
         // Validate data integrity
         self.validate_sync().await;
 
@@ -457,6 +516,119 @@ impl SyncEngine {
         Ok(())
     }
 
+    // ── Natures ───────────────────────────────────────────────────────
+
+    async fn sync_natures(&self) -> Result<(), String> {
+        let resource = "natures";
+        self.update_sync_meta(resource, 0, 0, "syncing", None).await;
+
+        let list = match self.retry(3, || async {
+            self.client.get_resource_list("nature").await
+        }).await {
+            Ok(l) => l,
+            Err(e) => {
+                let msg = e.to_string();
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                return Err(msg);
+            }
+        };
+        let total = list.len() as i64;
+        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+
+        let mut completed: i64 = 0;
+
+        for entry in &list {
+            if self.is_cancelled() {
+                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                return Ok(());
+            }
+
+            let id = match PokeApiClient::id_from_url(&entry.url) {
+                Some(id) => id,
+                None => continue,
+            };
+
+            let result = self.retry(3, || async {
+                let _permit = self.semaphore.acquire().await.unwrap();
+                self.client.fetch_nature(id).await
+            }).await;
+
+            match result {
+                Ok(parsed_nature) => {
+                    let _ = cache::natures::upsert_nature(&self.pool, &parsed_nature).await;
+                }
+                Err(e) => {
+                    log::warn!("Failed to fetch nature {}: {}", id, e);
+                }
+            }
+
+            completed += 1;
+            self.update_sync_meta(resource, total, completed, "syncing", None).await;
+        }
+
+        self.update_sync_meta(resource, total, completed, "done", None).await;
+        Ok(())
+    }
+
+    // ── Abilities ─────────────────────────────────────────────────────
+
+    async fn sync_abilities(&self) -> Result<(), String> {
+        let resource = "abilities";
+        self.update_sync_meta(resource, 0, 0, "syncing", None).await;
+
+        let list = match self.retry(3, || async {
+            self.client.get_resource_list("ability").await
+        }).await {
+            Ok(l) => l,
+            Err(e) => {
+                let msg = e.to_string();
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                return Err(msg);
+            }
+        };
+        let total = list.len() as i64;
+        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+
+        let mut completed: i64 = 0;
+
+        for entry in &list {
+            if self.is_cancelled() {
+                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                return Ok(());
+            }
+
+            let id = match PokeApiClient::id_from_url(&entry.url) {
+                Some(id) => id,
+                None => continue,
+            };
+
+            let result = self.retry(3, || async {
+                let _permit = self.semaphore.acquire().await.unwrap();
+                self.client.fetch_ability(id).await
+            }).await;
+
+            match result {
+                Ok(parsed_ability) => {
+                    let _ = cache::abilities::upsert_ability(&self.pool, &parsed_ability).await;
+                    for ap in &parsed_ability.pokemon {
+                        let _ = cache::abilities::upsert_ability_pokemon(&self.pool, parsed_ability.id, ap).await;
+                    }
+                }
+                Err(e) => {
+                    log::warn!("Failed to fetch ability {}: {}", id, e);
+                }
+            }
+
+            completed += 1;
+            if completed % 20 == 0 || completed == total {
+                self.update_sync_meta(resource, total, completed, "syncing", None).await;
+            }
+        }
+
+        self.update_sync_meta(resource, total, completed, "done", None).await;
+        Ok(())
+    }
+
     // ── Helpers ──────────────────────────────────────────────────────
 
     fn is_cancelled(&self) -> bool {
@@ -483,6 +655,8 @@ impl SyncEngine {
             ("pokemon", "SELECT COUNT(*) FROM pokemon"),
             ("items", "SELECT COUNT(*) FROM items"),
             ("evolution_chains", "SELECT COUNT(*) FROM evolution_chains"),
+            ("natures", "SELECT COUNT(*) FROM natures"),
+            ("abilities", "SELECT COUNT(*) FROM abilities"),
         ];
 
         for (resource, count_query) in checks {

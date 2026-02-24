@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllMoves, getMoveById, searchMoves, getPokemonMoves } from "@/lib/tauri";
+import { getAllMoves, getMoveById, searchMoves, getPokemonMoves, getMovePokemon } from "@/lib/tauri";
 
 export function useAllMoves() {
   return useQuery({
@@ -32,6 +32,15 @@ export function usePokemonMoves(pokemonId: number | null) {
     queryKey: ["pokemon-moves", pokemonId],
     queryFn: () => getPokemonMoves(pokemonId!),
     enabled: pokemonId !== null,
+    staleTime: Infinity,
+  });
+}
+
+export function useMovePokemon(moveId: number | null) {
+  return useQuery({
+    queryKey: ["move-pokemon", moveId],
+    queryFn: () => getMovePokemon(moveId!),
+    enabled: moveId !== null,
     staleTime: Infinity,
   });
 }

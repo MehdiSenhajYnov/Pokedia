@@ -105,9 +105,32 @@ export interface MoveDetail {
   effect_fr: string | null;
 }
 
+export interface MovePokemonEntry {
+  pokemon_id: number;
+  name_key: string;
+  name_en: string | null;
+  name_fr: string | null;
+  type1_key: string | null;
+  type2_key: string | null;
+  sprite_url: string | null;
+  learn_method: string;
+  level_learned_at: number;
+}
+
 // ── Items ────────────────────────────────────────────────────────
 
 export interface ItemSummary {
+  id: number;
+  name_key: string;
+  name_en: string | null;
+  name_fr: string | null;
+  category: string | null;
+  effect_en: string | null;
+  effect_fr: string | null;
+  sprite_url: string | null;
+}
+
+export interface ItemDetail {
   id: number;
   name_key: string;
   name_en: string | null;
@@ -146,6 +169,54 @@ export interface SyncResourceStatus {
   completed: number;
   status: string;
   error: string | null;
+}
+
+// ── Natures ─────────────────────────────────────────────────────
+
+export interface NatureSummary {
+  id: number;
+  name_key: string;
+  name_en: string | null;
+  name_fr: string | null;
+  increased_stat: string | null;
+  decreased_stat: string | null;
+  likes_flavor: string | null;
+  hates_flavor: string | null;
+}
+
+// ── Abilities ───────────────────────────────────────────────────
+
+export interface AbilitySummary {
+  id: number;
+  name_key: string;
+  name_en: string | null;
+  name_fr: string | null;
+  short_effect_en: string | null;
+  short_effect_fr: string | null;
+  generation: number | null;
+}
+
+export interface AbilityDetail {
+  id: number;
+  name_key: string;
+  name_en: string | null;
+  name_fr: string | null;
+  effect_en: string | null;
+  effect_fr: string | null;
+  short_effect_en: string | null;
+  short_effect_fr: string | null;
+  generation: number | null;
+}
+
+export interface AbilityPokemonEntry {
+  pokemon_id: number;
+  name_key: string;
+  name_en: string | null;
+  name_fr: string | null;
+  type1_key: string | null;
+  type2_key: string | null;
+  sprite_url: string | null;
+  is_hidden: number;
 }
 
 // ── Settings ─────────────────────────────────────────────────────

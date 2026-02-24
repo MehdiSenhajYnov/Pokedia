@@ -1,4 +1,4 @@
-use crate::models::ItemSummary;
+use crate::models::{ItemDetail, ItemSummary};
 use crate::AppState;
 use tauri::State;
 
@@ -9,13 +9,31 @@ pub async fn get_all_items(
 ) -> Result<Vec<ItemSummary>, String> {
     let rows: Vec<ItemSummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, category, effect_en, effect_fr, sprite_url
-         FROM items ORDER BY id"
+         FROM items ORDER BY id",
     )
     .fetch_all(&state.pool)
     .await
     .map_err(|e| e.to_string())?;
 
     Ok(rows)
+}
+
+/// Get a single item by ID (full data).
+#[tauri::command]
+pub async fn get_item_by_id(
+    state: State<'_, AppState>,
+    id: i64,
+) -> Result<Option<ItemDetail>, String> {
+    let row: Option<ItemDetail> = sqlx::query_as(
+        "SELECT id, name_key, name_en, name_fr, category, effect_en, effect_fr, sprite_url
+         FROM items WHERE id = ?1",
+    )
+    .bind(id)
+    .fetch_optional(&state.pool)
+    .await
+    .map_err(|e| e.to_string())?;
+
+    Ok(row)
 }
 
 /// Search items by name (supports partial matching).
@@ -33,7 +51,7 @@ pub async fn search_items(
             OR LOWER(name_en) LIKE ?1
             OR LOWER(name_fr) LIKE ?1
          ORDER BY id
-         LIMIT 50"
+         LIMIT 50",
     )
     .bind(&pattern)
     .fetch_all(&state.pool)

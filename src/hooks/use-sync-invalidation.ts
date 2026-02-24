@@ -18,9 +18,11 @@ const RESOURCE_QUERY_KEYS: Record<string, string[][]> = {
   items: [["items"]],
   types: [["types"]],
   evolution_chains: [["pokemon-evolution"]],
+  natures: [["natures"]],
+  abilities: [["abilities"]],
 };
 
-const ALL_RESOURCES = ["types", "moves", "pokemon", "items", "evolution_chains"];
+const ALL_RESOURCES = ["types", "moves", "pokemon", "items", "evolution_chains", "natures", "abilities"];
 
 const RESOURCE_LABELS: Record<string, string> = {
   types: "Types",
@@ -28,6 +30,8 @@ const RESOURCE_LABELS: Record<string, string> = {
   pokemon: "Pokemon",
   items: "Items",
   evolution_chains: "Evolution Chains",
+  natures: "Natures",
+  abilities: "Abilities",
 };
 
 /**

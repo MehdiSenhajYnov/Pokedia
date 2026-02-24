@@ -1,19 +1,20 @@
-import { useMemo, useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Search, LayoutGrid, List, Plus, Check, DatabaseZap, Heart } from "lucide-react";
+import { useMemo, useRef, useState, useEffect, useCallback, memo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LayoutGrid, List, Plus, Check, DatabaseZap, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAllPokemon } from "@/hooks/use-pokemon";
-import { useFavorites } from "@/hooks/use-favorites";
+import { useFavorites, useToggleFavorite } from "@/hooks/use-favorites";
 import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
-import { PokemonCard } from "@/components/pokemon/PokemonCard";
+import { useTabStore } from "@/stores/tab-store";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
-import { ALL_TYPES, STAT_COLORS } from "@/lib/constants";
+import { ALL_TYPES, STAT_COLORS, TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { buildNameToIdMap, getBaseId, getFormLabel } from "@/lib/pokemon-utils";
+import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import type { PokemonSummary } from "@/types";
 
 const GENERATIONS = [
@@ -32,13 +33,12 @@ export default function PokemonBrowserPage() {
   usePageTitle("Pokédex");
   const { data: allPokemon, isLoading } = useAllPokemon();
   const {
-    pokemonQuery,
+    query,
     pokemonTypeFilter,
     pokemonSort,
     pokemonViewMode,
     pokemonFavoritesOnly,
     pokemonGenFilter,
-    setPokemonQuery,
     setPokemonTypeFilter,
     setPokemonSort,
     setPokemonViewMode,
@@ -57,8 +57,8 @@ export default function PokemonBrowserPage() {
   const filtered = useMemo(() => {
     let result = allPokemon ?? [];
 
-    if (pokemonQuery) {
-      const q = pokemonQuery.toLowerCase().trim();
+    if (query) {
+      const q = query.toLowerCase().trim();
       result = result.filter((p) => {
         const en = (p.name_en ?? "").toLowerCase();
         const fr = (p.name_fr ?? "").toLowerCase();
@@ -134,7 +134,7 @@ export default function PokemonBrowserPage() {
     }
 
     return sorted;
-  }, [allPokemon, pokemonQuery, pokemonTypeFilter, pokemonSort, pokemonName, pokemonFavoritesOnly, favSet, pokemonGenFilter]);
+  }, [allPokemon, query, pokemonTypeFilter, pokemonSort, pokemonName, pokemonFavoritesOnly, favSet, pokemonGenFilter]);
 
   if (isLoading) {
     return (
@@ -174,28 +174,15 @@ export default function PokemonBrowserPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-5 page-glow relative overflow-hidden">
+    <div className="flex flex-col gap-4 p-5 relative overflow-hidden">
       <h1 className="sr-only">Pokédex</h1>
       {/* ── Toolbar ── */}
       <div className="flex flex-wrap items-center gap-3">
-        {/* Search */}
-        <div className="relative min-w-[200px] flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search by name or ID..."
-            value={pokemonQuery}
-            onChange={(e) => setPokemonQuery(e.target.value)}
-            className="h-9 w-full rounded-full glass border border-border/40 pl-9 pr-3 text-sm outline-none focus:ring-1 focus:ring-ring transition-shadow"
-            aria-label="Search Pokemon"
-          />
-        </div>
-
         {/* Type filter */}
         <select
           value={pokemonTypeFilter ?? ""}
           onChange={(e) => setPokemonTypeFilter(e.target.value || null)}
-          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
+          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
           aria-label="Filter by type"
         >
           <option value="">All types</option>
@@ -210,7 +197,7 @@ export default function PokemonBrowserPage() {
         <select
           value={pokemonGenFilter ?? ""}
           onChange={(e) => setPokemonGenFilter(e.target.value ? Number(e.target.value) : null)}
-          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
+          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
           aria-label="Filter by generation"
         >
           <option value="">All gens</option>
@@ -223,7 +210,7 @@ export default function PokemonBrowserPage() {
         <select
           value={pokemonSort}
           onChange={(e) => setPokemonSort(e.target.value)}
-          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
+          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
           aria-label="Sort by"
         >
           <option value="id">Sort: #ID</option>
@@ -244,7 +231,7 @@ export default function PokemonBrowserPage() {
             "flex h-9 items-center gap-1.5 rounded-xl border px-3 text-sm transition-colors",
             pokemonFavoritesOnly
               ? "border-red-500/50 bg-red-500/10 text-red-500"
-              : "border-border/40 glass text-muted-foreground hover:text-foreground",
+              : "border-border/40 glass-light text-muted-foreground hover:text-foreground",
           )}
           aria-label="Show favorites only"
           aria-pressed={pokemonFavoritesOnly}
@@ -254,7 +241,7 @@ export default function PokemonBrowserPage() {
         </button>
 
         {/* View toggle — segmented control */}
-        <div className="relative flex rounded-xl glass border border-border/40 p-0.5" role="group" aria-label="View mode">
+        <div className="relative flex rounded-xl glass-light border border-border/40 p-0.5" role="group" aria-label="View mode">
           {/* Sliding indicator */}
           <motion.div
             className="absolute top-0.5 bottom-0.5 rounded-lg bg-accent"
@@ -301,9 +288,13 @@ export default function PokemonBrowserPage() {
 
       {/* ── Content ── */}
       {pokemonViewMode === "grid" ? (
-        <VirtualizedGrid pokemon={filtered} nameToIdMap={nameToIdMap} />
+        <VirtualizedGrid pokemon={filtered} nameToIdMap={nameToIdMap}>
+          {query.length >= 2 && <SearchCrossResults exclude="pokemon" />}
+        </VirtualizedGrid>
       ) : (
-        <VirtualizedList pokemon={filtered} nameToIdMap={nameToIdMap} />
+        <VirtualizedList pokemon={filtered} nameToIdMap={nameToIdMap}>
+          {query.length >= 2 && <SearchCrossResults exclude="pokemon" />}
+        </VirtualizedList>
       )}
     </div>
   );
@@ -317,24 +308,46 @@ const CARD_MIN_WIDTH = 170;
 const CARD_HEIGHT = 210;
 const GAP = 20;
 
-function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number> }) {
+const SPRITE_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+
+function VirtualizedGrid({ pokemon, nameToIdMap, children }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number>; children?: React.ReactNode }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(5);
+  const navigate = useNavigate();
+  const { pokemonName } = useSettingsStore();
+  const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
+  const { openTab } = useTabStore();
+  const { data: favorites } = useFavorites();
+  const favSet = useMemo(() => new Set(favorites ?? []), [favorites]);
+  const { mutate: toggleFav } = useToggleFavorite();
 
   useEffect(() => {
     const el = parentRef.current;
     if (!el) return;
-
     const update = () => {
       const w = el.clientWidth;
       setColumns(Math.max(1, Math.floor((w + GAP) / (CARD_MIN_WIDTH + GAP))));
     };
-
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  const handleCardClick = useCallback((p: PokemonSummary) => {
+    navigate(`/pokemon/${p.id}`);
+  }, [navigate]);
+
+  const handleMiddleClick = useCallback((p: PokemonSummary) => {
+    openTab({
+      kind: "pokemon",
+      entityId: p.id,
+      nameEn: p.name_en ?? "",
+      nameFr: p.name_fr ?? "",
+      typeKey: p.type1_key,
+      spriteUrl: p.sprite_url,
+    }, true);
+  }, [openTab]);
 
   const rowCount = Math.ceil(pokemon.length / columns);
 
@@ -342,7 +355,7 @@ function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
     count: rowCount,
     getScrollElement: () => parentRef.current,
     estimateSize: () => CARD_HEIGHT + GAP,
-    overscan: 5,
+    overscan: 3,
   });
 
   if (pokemon.length === 0) {
@@ -383,16 +396,133 @@ function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
                 gap: `${GAP}px`,
               }}
             >
-              {rowPokemon.map((p) => (
-                <PokemonCard key={p.id} pokemon={p} nameToIdMap={nameToIdMap} />
-              ))}
+              {rowPokemon.map((p) => {
+                const baseId = getBaseId(p, nameToIdMap);
+                const formLabel = baseId !== p.id ? getFormLabel(p.name_key) : null;
+                return (
+                  <PokemonGridCard
+                    key={p.id}
+                    pokemon={p}
+                    name={pokemonName(p.name_en, p.name_fr)}
+                    baseId={baseId}
+                    formLabel={formLabel}
+                    typeHex={TYPE_COLORS[p.type1_key ?? ""]?.hex ?? "#888"}
+                    isFavorite={favSet.has(p.id)}
+                    isCompared={hasPokemon(p.id)}
+                    onToggleFav={toggleFav}
+                    onToggleCompare={isCompared => isCompared ? removePokemon(p.id) : addPokemon(p.id)}
+                    onClick={handleCardClick}
+                    onMiddleClick={handleMiddleClick}
+                  />
+                );
+              })}
             </div>
           );
         })}
       </div>
+      {children}
     </div>
   );
 }
+
+// Pure presentational grid card — ZERO hooks inside
+interface PokemonGridCardProps {
+  pokemon: PokemonSummary;
+  name: string;
+  baseId: number;
+  formLabel: string | null;
+  typeHex: string;
+  isFavorite: boolean;
+  isCompared: boolean;
+  onToggleFav: (id: number) => void;
+  onToggleCompare: (isCompared: boolean) => void;
+  onClick: (p: PokemonSummary) => void;
+  onMiddleClick: (p: PokemonSummary) => void;
+}
+
+const PokemonGridCard = memo(function PokemonGridCard({
+  pokemon, name, baseId, formLabel, typeHex,
+  isFavorite, isCompared,
+  onToggleFav, onToggleCompare, onClick, onMiddleClick,
+}: PokemonGridCardProps) {
+  return (
+    <div
+      className="group"
+      onMouseDown={(e) => { if (e.button === 1) { e.preventDefault(); onMiddleClick(pokemon); } }}
+    >
+      <div
+        onClick={() => onClick(pokemon)}
+        className="relative flex flex-col items-center rounded-xl glass-flat border border-border/30 p-4 cursor-pointer transition-all duration-200 hover:border-[var(--type-color)] hover:shadow-[0_8px_30px_var(--type-glow)] active:scale-[0.97]"
+        style={{
+          "--type-color": `${typeHex}60`,
+          "--type-glow": `${typeHex}20`,
+          backgroundImage: `radial-gradient(circle at 20% 0%, ${typeHex}0C, transparent 50%), linear-gradient(to bottom, transparent 40%, ${typeHex}18)`,
+        } as React.CSSProperties}
+      >
+        {/* Action buttons */}
+        <div className="absolute right-1.5 top-1.5 flex flex-col gap-1 z-10">
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggleFav(pokemon.id); }}
+            className={cn(
+              "flex h-6 w-6 items-center justify-center rounded-full transition-all",
+              isFavorite
+                ? "text-red-500"
+                : "text-muted-foreground/40 opacity-0 group-hover:opacity-100 hover:text-red-400",
+            )}
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            <Heart className={cn("h-3.5 w-3.5", isFavorite && "fill-current")} />
+          </button>
+
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggleCompare(isCompared); }}
+            className={cn(
+              "flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200",
+              isCompared
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-background text-muted-foreground opacity-0 group-hover:opacity-100",
+            )}
+            aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
+          >
+            {isCompared ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+          </button>
+        </div>
+
+        {/* ID */}
+        <span className="font-mono text-[10px] text-muted-foreground/60">
+          #{String(baseId).padStart(3, "0")}
+        </span>
+
+        {/* Sprite — plain img, no hooks */}
+        <div className="h-20 w-20 transition-transform duration-200 ease-out group-hover:-translate-y-2">
+          <img
+            src={pokemon.sprite_url ?? `${SPRITE_BASE}/${pokemon.id}.png`}
+            alt={name}
+            className="h-20 w-20 object-contain"
+            loading="lazy"
+          />
+        </div>
+
+        {/* Name + form label */}
+        <span className="mt-2 truncate font-heading text-xs font-semibold max-w-full">{name}</span>
+        {formLabel && (
+          <span className="truncate text-[10px] text-muted-foreground max-w-full">{formLabel}</span>
+        )}
+
+        {/* Type badges */}
+        <div className="mt-2 flex gap-1">
+          <TypeBadge type={pokemon.type1_key} />
+          {pokemon.type2_key && <TypeBadge type={pokemon.type2_key} />}
+        </div>
+
+        {/* BST */}
+        <span className="mt-1.5 font-mono text-[10px] text-muted-foreground">
+          BST {pokemon.base_stat_total ?? "\u2014"}
+        </span>
+      </div>
+    </div>
+  );
+})
 
 // ---------------------------------------------------------------------------
 // Virtualized List / table view
@@ -401,9 +531,11 @@ function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
 const ROW_HEIGHT = 56;
 const STAT_KEYS = ["hp", "atk", "def", "spa", "spd", "spe"] as const;
 
-function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number> }) {
+function VirtualizedList({ pokemon, nameToIdMap, children }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number>; children?: React.ReactNode }) {
   const { pokemonName } = useSettingsStore();
   const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
+  const { openTab } = useTabStore();
+  const navigate = useNavigate();
   const parentRef = useRef<HTMLDivElement>(null);
 
   const virtualizer = useVirtualizer({
@@ -431,7 +563,7 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
       style={{ height: "calc(100vh - 180px)" }}
     >
       <table className="w-full text-sm">
-        <thead className="sticky top-0 z-10 glass">
+        <thead className="sticky top-0 z-10 glass-heavy">
           <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             <th className="w-14 px-3 py-2.5 text-left" scope="col">#</th>
             <th className="w-10 px-1 py-2.5" scope="col"><span className="sr-only">Sprite</span></th>
@@ -461,8 +593,24 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
             return (
               <tr
                 key={p.id}
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest("a, button")) return;
+                  navigate(`/pokemon/${p.id}`);
+                }}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({
+                    kind: "pokemon",
+                    entityId: p.id,
+                    nameEn: p.name_en ?? "",
+                    nameFr: p.name_fr ?? "",
+                    typeKey: p.type1_key,
+                    spriteUrl: p.sprite_url,
+                  }, true);
+                }}
                 className={cn(
-                  "border-b border-border/20 transition-colors hover:bg-primary/5",
+                  "border-b border-border/20 transition-colors hover:bg-primary/5 cursor-pointer",
                   isForm && "bg-muted/30",
                 )}
                 style={{ height: ROW_HEIGHT }}
@@ -543,6 +691,7 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
           </tr>
         </tbody>
       </table>
+      {children}
     </div>
   );
 }

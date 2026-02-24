@@ -31,11 +31,15 @@ export default function SettingsPage() {
     langPokemonNames,
     langMoveNames,
     langItemNames,
+    langAbilityNames,
+    langNatureNames,
     langDescriptions,
     setTheme,
     setLangPokemonNames,
     setLangMoveNames,
     setLangItemNames,
+    setLangAbilityNames,
+    setLangNatureNames,
     setLangDescriptions,
     setAllLangs,
   } = useSettingsStore();
@@ -69,7 +73,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Theme */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5">
+      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
         <div className="flex items-center gap-2">
           <Palette className="h-4 w-4 text-primary" />
           <h2 className="font-heading text-sm font-semibold">Appearance</h2>
@@ -103,7 +107,7 @@ export default function SettingsPage() {
       </section>
 
       {/* Languages */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5">
+      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4 text-primary" />
@@ -112,13 +116,13 @@ export default function SettingsPage() {
           <div className="flex gap-1.5">
             <button
               onClick={() => setAllLangs("en")}
-              className="rounded-lg glass border border-border/40 px-3 py-1 text-xs font-medium hover:bg-accent transition-colors"
+              className="rounded-lg glass-light border border-border/40 px-3 py-1 text-xs font-medium hover:shadow-warm transition-all"
             >
               All EN
             </button>
             <button
               onClick={() => setAllLangs("fr")}
-              className="rounded-lg glass border border-border/40 px-3 py-1 text-xs font-medium hover:bg-accent transition-colors"
+              className="rounded-lg glass-light border border-border/40 px-3 py-1 text-xs font-medium hover:shadow-warm transition-all"
             >
               All FR
             </button>
@@ -128,13 +132,15 @@ export default function SettingsPage() {
         <div className="rounded-xl border border-border/30 overflow-hidden divide-y divide-border/30">
           <LangRow label="Pokemon names" value={langPokemonNames} onChange={setLangPokemonNames} />
           <LangRow label="Move names" value={langMoveNames} onChange={setLangMoveNames} />
+          <LangRow label="Ability names" value={langAbilityNames} onChange={setLangAbilityNames} />
           <LangRow label="Item names" value={langItemNames} onChange={setLangItemNames} />
+          <LangRow label="Nature names" value={langNatureNames} onChange={setLangNatureNames} />
           <LangRow label="Descriptions" value={langDescriptions} onChange={setLangDescriptions} />
         </div>
       </section>
 
       {/* Data Cache */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5">
+      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
         <div className="flex items-center gap-2">
           <Database className="h-4 w-4 text-primary" />
           <h2 className="font-heading text-sm font-semibold">Data Cache</h2>
@@ -143,13 +149,13 @@ export default function SettingsPage() {
         {syncStatus && syncStatus.resources.length > 0 && (
           <div className="rounded-xl border border-border/30 overflow-hidden">
             <div className="grid grid-cols-[1fr_auto_auto] gap-x-4 text-xs">
-              <div className="px-4 py-2 glass font-heading font-medium text-muted-foreground">
+              <div className="px-4 py-2 glass-heavy font-heading font-medium text-muted-foreground">
                 Resource
               </div>
-              <div className="px-4 py-2 glass font-heading font-medium text-muted-foreground text-right">
+              <div className="px-4 py-2 glass-heavy font-heading font-medium text-muted-foreground text-right">
                 Progress
               </div>
-              <div className="px-4 py-2 glass font-heading font-medium text-muted-foreground text-center">
+              <div className="px-4 py-2 glass-heavy font-heading font-medium text-muted-foreground text-center">
                 Status
               </div>
 
@@ -172,7 +178,7 @@ export default function SettingsPage() {
             onClick={() => startSync()}
             disabled={syncStatus?.is_syncing}
             className={cn(
-              "flex items-center gap-2 rounded-xl glass border border-border/40 px-4 py-2.5 text-sm font-medium transition-all",
+              "flex items-center gap-2 rounded-xl glass-light border border-border/40 px-4 py-2.5 text-sm font-medium transition-all",
               syncStatus?.is_syncing
                 ? "opacity-50 cursor-not-allowed"
                 : "hover:bg-accent hover:border-primary/30",
@@ -190,7 +196,7 @@ export default function SettingsPage() {
           </motion.button>
           <motion.button
             onClick={() => setShowClearConfirm(true)}
-            className="flex items-center gap-2 rounded-xl glass border border-border/40 px-4 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10 hover:border-destructive/30 transition-all"
+            className="flex items-center gap-2 rounded-xl glass-light border border-border/40 px-4 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10 hover:border-destructive/30 transition-all"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -201,7 +207,7 @@ export default function SettingsPage() {
       </section>
 
       {/* About */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5">
+      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
         <div className="flex items-center gap-2">
           <Info className="h-4 w-4 text-primary" />
           <h2 className="font-heading text-sm font-semibold">About</h2>
@@ -246,7 +252,7 @@ export default function SettingsPage() {
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="mx-4 w-full max-w-sm rounded-2xl glass border border-border/30 p-6 shadow-warm"
+            className="mx-4 w-full max-w-sm rounded-2xl glass border border-border/30 p-6 shadow-glass"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="clear-confirm-title"
@@ -267,7 +273,7 @@ export default function SettingsPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="rounded-xl glass border border-border/40 px-4 py-2 text-sm font-medium hover:bg-accent transition-colors"
+                className="rounded-xl glass-light border border-border/40 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
               >
                 Cancel
               </button>

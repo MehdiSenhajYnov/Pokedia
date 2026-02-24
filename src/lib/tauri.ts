@@ -7,11 +7,17 @@ import type {
   EvolutionNode,
   MoveSummary,
   MoveDetail,
+  MovePokemonEntry,
   ItemSummary,
+  ItemDetail,
   TypeEntry,
   TypeEfficacy,
   SyncStatus,
   AppSettings,
+  NatureSummary,
+  AbilitySummary,
+  AbilityDetail,
+  AbilityPokemonEntry,
 } from "@/types";
 
 // Settings
@@ -46,15 +52,31 @@ export const searchMoves = (query: string) =>
   invoke<MoveSummary[]>("search_moves", { query });
 export const getPokemonMoves = (pokemonId: number) =>
   invoke<PokemonMoveEntry[]>("get_pokemon_moves", { pokemonId });
+export const getMovePokemon = (moveId: number) =>
+  invoke<MovePokemonEntry[]>("get_move_pokemon", { moveId });
 
 // Items
 export const getAllItems = () => invoke<ItemSummary[]>("get_all_items");
+export const getItemById = (id: number) =>
+  invoke<ItemDetail | null>("get_item_by_id", { id });
 export const searchItems = (query: string) =>
   invoke<ItemSummary[]>("search_items", { query });
 
 // Types
 export const getAllTypes = () => invoke<TypeEntry[]>("get_all_types");
 export const getTypeEfficacy = () => invoke<TypeEfficacy[]>("get_type_efficacy");
+
+// Natures
+export const getAllNatures = () => invoke<NatureSummary[]>("get_all_natures");
+
+// Abilities
+export const getAllAbilities = () => invoke<AbilitySummary[]>("get_all_abilities");
+export const getAbilityById = (id: number) =>
+  invoke<AbilityDetail | null>("get_ability_by_id", { id });
+export const searchAbilities = (query: string) =>
+  invoke<AbilitySummary[]>("search_abilities", { query });
+export const getAbilityPokemon = (abilityId: number) =>
+  invoke<AbilityPokemonEntry[]>("get_ability_pokemon", { abilityId });
 
 // Favorites
 export const toggleFavorite = (pokemonId: number) =>

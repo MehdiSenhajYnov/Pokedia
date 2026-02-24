@@ -102,7 +102,7 @@ function NodeCard({
     <Link
       to={linkTo}
       className={cn(
-        "flex flex-col items-center gap-1 rounded-2xl glass border p-3 transition-all hover:bg-accent min-w-[80px]",
+        "flex flex-col items-center gap-1 rounded-2xl glass border p-3 transition-all hover:shadow-warm min-w-[80px]",
         isCurrent ? "ring-2 ring-primary glow-primary border-primary/40" : "border-border/30",
       )}
     >
@@ -132,7 +132,7 @@ function FormCard({
     <Link
       to={`/pokemon/${form.id}`}
       className={cn(
-        "flex flex-col items-center gap-1 rounded-2xl glass border border-dashed p-3 transition-all hover:bg-accent min-w-[80px]",
+        "flex flex-col items-center gap-1 rounded-2xl glass border border-dashed p-3 transition-all hover:shadow-warm min-w-[80px]",
         isCurrent ? "ring-2 ring-primary glow-primary border-primary/40" : "border-purple-400/30",
       )}
     >

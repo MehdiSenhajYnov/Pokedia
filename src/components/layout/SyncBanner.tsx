@@ -140,7 +140,7 @@ export function SyncBanner() {
           transition={{ duration: 0.25, ease: "easeInOut" }}
           className="overflow-hidden"
         >
-          <div className="border-b border-border/30 glass-subtle px-5 py-3">
+          <div className="border-b border-border/30 glass-heavy px-5 py-3">
             <div className="flex items-center gap-3">
               <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" />
               <div className="min-w-0 flex-1">

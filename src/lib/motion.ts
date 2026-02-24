@@ -9,13 +9,13 @@ export const springWobbly: Transition = { type: "spring", stiffness: 350, dampin
 
 // ─── Page transitions ───────────────────────────────────────────────
 export const pageVariants: Variants = {
-  initial: { opacity: 0, y: 30, scale: 0.96, filter: "blur(6px)" },
-  animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
-  exit: { opacity: 0, y: -20, scale: 0.97, filter: "blur(4px)" },
+  initial: { opacity: 0, y: 20, scale: 0.98 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -12, scale: 0.98 },
 };
 
 export const pageTransition: Transition = {
-  duration: 0.4,
+  duration: 0.25,
   ease: [0.25, 0.1, 0.25, 1],
 };
 
@@ -110,4 +110,17 @@ export const noResultsShake: Variants = {
     x: [0, -4, 4, -3, 3, 0],
     transition: { duration: 0.4 },
   },
+};
+
+// ─── Tab bar ────────────────────────────────────────────────────────
+export const tabBarVariants: Variants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.15 } },
+  exit: { opacity: 0, transition: { duration: 0.1 } },
+};
+
+export const tabPillVariants: Variants = {
+  initial: { opacity: 0, scale: 0.9 },
+  animate: { opacity: 1, scale: 1, transition: { duration: 0.15 } },
+  exit: { opacity: 0, scale: 0.9, transition: { duration: 0.1 } },
 };

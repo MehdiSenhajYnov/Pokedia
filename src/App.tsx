@@ -9,7 +9,12 @@ const PokemonDetailPage = lazy(() => import("@/pages/PokemonDetailPage"));
 const ComparisonPage = lazy(() => import("@/pages/ComparisonPage"));
 const TypeChartPage = lazy(() => import("@/pages/TypeChartPage"));
 const MoveBrowserPage = lazy(() => import("@/pages/MoveBrowserPage"));
+const MoveDetailPage = lazy(() => import("@/pages/MoveDetailPage"));
 const ItemBrowserPage = lazy(() => import("@/pages/ItemBrowserPage"));
+const ItemDetailPage = lazy(() => import("@/pages/ItemDetailPage"));
+const NatureBrowserPage = lazy(() => import("@/pages/NatureBrowserPage"));
+const AbilityBrowserPage = lazy(() => import("@/pages/AbilityBrowserPage"));
+const AbilityDetailPage = lazy(() => import("@/pages/AbilityDetailPage"));
 const SettingsPage = lazy(() => import("@/pages/SettingsPage"));
 
 const queryClient = new QueryClient({
@@ -52,7 +57,12 @@ function App() {
             <Route path="/compare" element={<Suspense fallback={<PageFallback />}><ComparisonPage /></Suspense>} />
             <Route path="/types" element={<Suspense fallback={<PageFallback />}><TypeChartPage /></Suspense>} />
             <Route path="/moves" element={<Suspense fallback={<PageFallback />}><MoveBrowserPage /></Suspense>} />
+            <Route path="/moves/:id" element={<Suspense fallback={<PageFallback />}><MoveDetailPage /></Suspense>} />
             <Route path="/items" element={<Suspense fallback={<PageFallback />}><ItemBrowserPage /></Suspense>} />
+            <Route path="/items/:id" element={<Suspense fallback={<PageFallback />}><ItemDetailPage /></Suspense>} />
+            <Route path="/natures" element={<Suspense fallback={<PageFallback />}><NatureBrowserPage /></Suspense>} />
+            <Route path="/abilities" element={<Suspense fallback={<PageFallback />}><AbilityBrowserPage /></Suspense>} />
+            <Route path="/abilities/:id" element={<Suspense fallback={<PageFallback />}><AbilityDetailPage /></Suspense>} />
             <Route path="/settings" element={<Suspense fallback={<PageFallback />}><SettingsPage /></Suspense>} />
           </Route>
         </Routes>

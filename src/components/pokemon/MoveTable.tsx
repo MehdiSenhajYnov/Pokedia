@@ -51,7 +51,7 @@ export function MoveTable({ moves }: MoveTableProps) {
   return (
     <div>
       {/* Pill-style segmented tabs */}
-      <div className="mb-3 inline-flex rounded-xl glass border border-border/30 p-0.5" role="tablist" aria-label="Move learn methods">
+      <div className="mb-3 inline-flex rounded-xl glass-light border border-border/30 p-0.5" role="tablist" aria-label="Move learn methods">
         {availableTabs.map((t) => (
           <button
             key={t.key}
