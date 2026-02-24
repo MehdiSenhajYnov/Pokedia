@@ -22,6 +22,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { scalePop } from "@/lib/motion";
 import { useTabStore } from "@/stores/tab-store";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
+import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ROW_HEIGHT = 40;
 
@@ -191,66 +193,69 @@ export default function MoveBrowserPage() {
       transition={{ duration: 0.3 }}
     >
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2">
-        <select
-          value={moveTypeFilter ?? ""}
-          onChange={(e) => setMoveTypeFilter(e.target.value || null)}
-          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
-        >
-          <option value="">All types</option>
-          {ALL_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </option>
-          ))}
-        </select>
+      <GlassToolbar className="rounded-2xl border border-border/30">
+        <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
+          <Select value={moveTypeFilter ?? "__all__"} onValueChange={(v) => setMoveTypeFilter(v === "__all__" ? null : v)}>
+            <SelectTrigger className="w-auto min-w-[120px]" aria-label="Filter by type">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All types</SelectItem>
+              {ALL_TYPES.map((t) => (
+                <SelectItem key={t} value={t}>
+                  {t.charAt(0).toUpperCase() + t.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-        <select
-          value={moveDamageClassFilter ?? ""}
-          onChange={(e) =>
-            setMoveDamageClassFilter(e.target.value || null)
-          }
-          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
-        >
-          <option value="">All classes</option>
-          <option value="physical">Physical</option>
-          <option value="special">Special</option>
-          <option value="status">Status</option>
-        </select>
+          <Select value={moveDamageClassFilter ?? "__all__"} onValueChange={(v) => setMoveDamageClassFilter(v === "__all__" ? null : v)}>
+            <SelectTrigger className="w-auto min-w-[120px]" aria-label="Filter by class">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All classes</SelectItem>
+              <SelectItem value="physical">Physical</SelectItem>
+              <SelectItem value="special">Special</SelectItem>
+              <SelectItem value="status">Status</SelectItem>
+            </SelectContent>
+          </Select>
 
-        <div className="flex items-center gap-1.5">
-          <span className="font-heading text-xs text-muted-foreground">Pow:</span>
-          <input
-            type="number"
-            placeholder="Min"
-            value={movePowerMin ?? ""}
-            onChange={(e) => setMovePowerMin(e.target.value ? Number(e.target.value) : null)}
-            className="h-9 w-16 rounded-xl glass-light border border-border/40 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/20 focus:shadow-warm transition-all"
-            min={0}
-            aria-label="Minimum power"
-          />
-          <span className="text-xs text-muted-foreground">&ndash;</span>
-          <input
-            type="number"
-            placeholder="Max"
-            value={movePowerMax ?? ""}
-            onChange={(e) => setMovePowerMax(e.target.value ? Number(e.target.value) : null)}
-            className="h-9 w-16 rounded-xl glass-light border border-border/40 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/20 focus:shadow-warm transition-all"
-            min={0}
-            aria-label="Maximum power"
-          />
+          <div className="flex items-center gap-1.5">
+            <span className="font-heading text-xs text-muted-foreground">Pow:</span>
+            <input
+              type="number"
+              placeholder="Min"
+              value={movePowerMin ?? ""}
+              onChange={(e) => setMovePowerMin(e.target.value ? Number(e.target.value) : null)}
+              className="h-9 w-16 rounded-xl bg-white/5 border border-white/10 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              min={0}
+              aria-label="Minimum power"
+            />
+            <span className="text-xs text-muted-foreground">&ndash;</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={movePowerMax ?? ""}
+              onChange={(e) => setMovePowerMax(e.target.value ? Number(e.target.value) : null)}
+              className="h-9 w-16 rounded-xl bg-white/5 border border-white/10 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              min={0}
+              aria-label="Maximum power"
+            />
+          </div>
+
+          <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+            <Swords className="h-3.5 w-3.5" />
+            <span>{filtered.length} moves</span>
+          </div>
         </div>
-
-        <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-          <Swords className="h-3.5 w-3.5" />
-          <span>{filtered.length} moves</span>
-        </div>
-      </div>
+      </GlassToolbar>
 
       {/* Table */}
+      <GlassCard className="overflow-hidden rounded-xl border border-border/30">
       <div
         ref={parentRef}
-        className="overflow-y-auto rounded-xl glass border border-border/30"
+        className="overflow-y-auto"
         style={{ height: "calc(100vh - 220px)" }}
       >
         <table className="w-full text-sm">
@@ -353,6 +358,7 @@ export default function MoveBrowserPage() {
         </table>
         {query.length >= 2 && <SearchCrossResults exclude="moves" />}
       </div>
+      </GlassCard>
 
     </motion.div>
   );

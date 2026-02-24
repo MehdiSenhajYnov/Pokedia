@@ -180,7 +180,7 @@ const AbilityCard = memo(function AbilityCard({ ability, name, effect, onClick }
       onClick={() => onClick(ability)}
       className="group flex gap-3 rounded-2xl glass-flat border border-border/30 px-3.5 py-3 cursor-pointer hover:border-primary/30 hover:shadow-warm transition-colors duration-150"
     >
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg glass-light-flat text-primary flex-shrink-0 mt-0.5">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/8 text-primary flex-shrink-0 mt-0.5">
         <Sparkles className="h-5 w-5" />
       </div>
       <div className="min-w-0 flex-1">
@@ -189,7 +189,7 @@ const AbilityCard = memo(function AbilityCard({ ability, name, effect, onClick }
             {name || "Unknown Ability"}
           </span>
           {ability.generation && (
-            <span className="inline-flex items-center rounded-full glass-light-flat px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground flex-shrink-0">
+            <span className="inline-flex items-center rounded-full bg-white/8 px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground flex-shrink-0">
               Gen {ability.generation}
             </span>
           )}

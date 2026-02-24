@@ -62,7 +62,7 @@ export function PokemonSprite({
     return (
       <div
         className={cn(
-          "flex items-center justify-center rounded-lg glass-light text-muted-foreground",
+          "flex items-center justify-center rounded-lg bg-white/8 text-muted-foreground",
           className,
           fallbackClassName,
         )}

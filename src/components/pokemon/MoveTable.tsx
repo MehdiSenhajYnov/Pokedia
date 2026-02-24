@@ -51,7 +51,7 @@ export function MoveTable({ moves }: MoveTableProps) {
   return (
     <div>
       {/* Pill-style segmented tabs */}
-      <div className="mb-3 inline-flex rounded-xl glass-light border border-border/30 p-0.5" role="tablist" aria-label="Move learn methods">
+      <div className="mb-3 inline-flex rounded-xl bg-white/5 border border-white/10 p-0.5" role="tablist" aria-label="Move learn methods">
         {availableTabs.map((t) => (
           <button
             key={t.key}
@@ -64,7 +64,7 @@ export function MoveTable({ moves }: MoveTableProps) {
             {tab === t.key && (
               <motion.div
                 layoutId="move-tab-indicator"
-                className="absolute inset-0 rounded-lg bg-accent"
+                className="absolute inset-0 rounded-lg bg-white/10"
                 transition={{ type: "spring", stiffness: 500, damping: 35 }}
               />
             )}
@@ -76,7 +76,7 @@ export function MoveTable({ moves }: MoveTableProps) {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl glass border border-border/30" role="tabpanel" id="pokemon-move-table">
+      <div className="overflow-x-auto rounded-xl border border-border/30" role="tabpanel" id="pokemon-move-table">
         <table className="w-full text-xs">
           <thead>
             <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">

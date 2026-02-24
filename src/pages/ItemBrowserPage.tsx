@@ -11,6 +11,8 @@ import { useTabStore } from "@/stores/tab-store";
 import { cn } from "@/lib/utils";
 import { springSnappy } from "@/lib/motion";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
+import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { ItemSummary } from "@/types";
 
 const GRID_CARD_MIN_WIDTH = 300;
@@ -75,66 +77,67 @@ export default function ItemBrowserPage() {
   return (
     <div className="flex flex-col gap-4 p-5">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2">
-        <select
-          value={itemCategoryFilter ?? ""}
-          onChange={(e) =>
-            setItemCategoryFilter(e.target.value || null)
-          }
-          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
-        >
-          <option value="">All categories</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+      <GlassToolbar className="rounded-2xl border border-border/30">
+        <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
+          <Select value={itemCategoryFilter ?? "__all__"} onValueChange={(v) => setItemCategoryFilter(v === "__all__" ? null : v)}>
+            <SelectTrigger className="w-auto min-w-[150px]" aria-label="Filter by category">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All categories</SelectItem>
+              {categories.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-        {/* View toggle */}
-        <div className="relative flex rounded-xl glass-light border border-border/40 p-0.5" role="group" aria-label="View mode">
-          <motion.div
-            className="absolute top-0.5 bottom-0.5 rounded-lg bg-accent"
-            layout
-            style={{
-              width: "calc(50% - 2px)",
-              left: itemViewMode === "grid" ? 2 : "calc(50%)",
-            }}
-            transition={{ type: "spring", stiffness: 500, damping: 35 }}
-          />
-          <button
-            onClick={() => setItemViewMode("grid")}
-            className={cn(
-              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
-              itemViewMode === "grid"
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-            aria-label="Grid view"
-            aria-pressed={itemViewMode === "grid"}
-          >
-            <LayoutGrid className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setItemViewMode("list")}
-            className={cn(
-              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
-              itemViewMode === "list"
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-            aria-label="List view"
-            aria-pressed={itemViewMode === "list"}
-          >
-            <List className="h-4 w-4" />
-          </button>
-        </div>
+          {/* View toggle */}
+          <div className="relative flex rounded-xl bg-white/5 border border-white/10 p-0.5" role="group" aria-label="View mode">
+            <motion.div
+              className="absolute top-0.5 bottom-0.5 rounded-lg bg-white/10"
+              layout
+              style={{
+                width: "calc(50% - 2px)",
+                left: itemViewMode === "grid" ? 2 : "calc(50%)",
+              }}
+              transition={{ type: "spring", stiffness: 500, damping: 35 }}
+            />
+            <button
+              onClick={() => setItemViewMode("grid")}
+              className={cn(
+                "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
+                itemViewMode === "grid"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+              aria-label="Grid view"
+              aria-pressed={itemViewMode === "grid"}
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setItemViewMode("list")}
+              className={cn(
+                "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
+                itemViewMode === "list"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+              aria-label="List view"
+              aria-pressed={itemViewMode === "list"}
+            >
+              <List className="h-4 w-4" />
+            </button>
+          </div>
 
-        <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-          <Package className="h-3.5 w-3.5" />
-          <span>{filtered.length} items</span>
+          <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+            <Package className="h-3.5 w-3.5" />
+            <span>{filtered.length} items</span>
+          </div>
         </div>
-      </div>
+      </GlassToolbar>
 
       {/* Empty state */}
       {filtered.length === 0 ? (
@@ -273,7 +276,7 @@ const GridItemCard = memo(function GridItemCard({ item, name, effect, onClick }:
           className="h-10 w-10 object-contain flex-shrink-0 mt-0.5"
         />
       ) : (
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg glass-light-flat text-muted-foreground flex-shrink-0 mt-0.5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/8 text-muted-foreground flex-shrink-0 mt-0.5">
           <Package className="h-5 w-5" />
         </div>
       )}
@@ -283,7 +286,7 @@ const GridItemCard = memo(function GridItemCard({ item, name, effect, onClick }:
             {name || "Unknown Item"}
           </span>
           {item.category && (
-            <span className="inline-flex items-center gap-1 rounded-full glass-light-flat px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground flex-shrink-0">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground flex-shrink-0">
               <Tag className="h-2.5 w-2.5" />
               {item.category}
             </span>
@@ -334,9 +337,10 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
   return (
     <div
       ref={parentRef}
-      className="overflow-y-auto rounded-xl glass border border-border/30"
+      className="overflow-y-auto"
       style={{ height: "calc(100vh - 180px)" }}
     >
+    <GlassCard className="overflow-hidden rounded-xl border border-border/30">
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-10 glass-heavy">
           <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
@@ -370,7 +374,7 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
                       loading="lazy"
                     />
                   ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded glass-light text-muted-foreground">
+                    <div className="flex h-8 w-8 items-center justify-center rounded bg-white/8 text-muted-foreground">
                       <Package className="h-4 w-4" />
                     </div>
                   )}
@@ -382,7 +386,7 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
                 </td>
                 <td className="px-3 py-2">
                   {item.category ? (
-                    <span className="inline-flex items-center gap-1 rounded-full glass-light px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground">
                       <Tag className="h-2.5 w-2.5" />
                       {item.category}
                     </span>
@@ -403,6 +407,7 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
           </tr>
         </tbody>
       </table>
+    </GlassCard>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import type { PokemonSummary } from "@/types";
 import type { PokemonTypeName } from "@/lib/constants";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { GlassCard, GlassModal } from "@/components/ui/liquid-glass";
 
 const STAT_KEYS = ["hp", "atk", "def", "spa", "spd", "spe"] as const;
 const STAT_LABELS: Record<string, string> = {
@@ -73,7 +74,7 @@ export default function ComparisonPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="flex h-16 w-16 items-center justify-center rounded-2xl glass shadow-glass">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10">
           <GitCompareArrows className="h-8 w-8 text-muted-foreground animate-[float_3s_ease-in-out_infinite]" />
         </div>
         <div className="text-center space-y-2">
@@ -121,13 +122,13 @@ export default function ComparisonPage() {
         <div className="flex gap-2">
           <button
             onClick={() => setPickerOpen(true)}
-            className="flex h-8 items-center gap-1.5 rounded-xl glass-light border border-border/40 px-3 text-xs font-medium hover:shadow-warm transition-all"
+            className="flex h-8 items-center gap-1.5 rounded-xl bg-white/5 border border-white/10 px-3 text-xs font-medium hover:shadow-warm transition-all"
           >
             <Plus className="h-3.5 w-3.5" /> Add Pokemon
           </button>
           <button
             onClick={() => setShowClearConfirm(true)}
-            className="flex h-8 items-center gap-1.5 rounded-xl glass-light border border-border/40 px-3 text-xs font-medium text-destructive hover:bg-destructive/10 transition-all"
+            className="flex h-8 items-center gap-1.5 rounded-xl bg-white/5 border border-white/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/10 transition-all"
           >
             <Trash2 className="h-3.5 w-3.5" /> Clear All
           </button>
@@ -135,7 +136,7 @@ export default function ComparisonPage() {
       </div>
 
       {/* Comparison Table */}
-      <div className="overflow-x-auto rounded-2xl glass border border-border/30">
+      <GlassCard className="overflow-x-auto rounded-2xl border border-border/30">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border/30">
@@ -403,7 +404,7 @@ export default function ComparisonPage() {
             </tr>
           </tbody>
         </table>
-      </div>
+      </GlassCard>
 
       {/* Picker dialog */}
       <AnimatePresence>
@@ -418,12 +419,14 @@ export default function ComparisonPage() {
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="mx-4 w-full max-w-sm rounded-2xl glass border border-border/30 p-6 shadow-glass"
+            className="mx-4 w-full max-w-sm"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="clear-compare-title"
             aria-describedby="clear-compare-desc"
           >
+          <GlassModal className="rounded-2xl border border-border/30 shadow-glass">
+            <div className="p-6">
             <div className="flex items-center gap-3 mb-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10">
                 <Trash2 className="h-5 w-5 text-destructive" />
@@ -438,7 +441,7 @@ export default function ComparisonPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="rounded-xl glass-light border border-border/40 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
+                className="rounded-xl bg-white/5 border border-white/10 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
               >
                 Cancel
               </button>
@@ -452,6 +455,8 @@ export default function ComparisonPage() {
                 Clear All
               </button>
             </div>
+            </div>
+          </GlassModal>
           </motion.div>
         </div>
       )}
@@ -505,7 +510,8 @@ function PokemonPicker({ onClose }: { onClose: () => void }) {
         exit="exit"
         transition={{ duration: 0.2 }}
       >
-        <div className="pointer-events-auto w-full max-w-lg rounded-2xl glass border border-border/30 shadow-glass overflow-hidden" role="dialog" aria-modal="true" aria-label="Add Pokemon to comparison">
+        <div className="pointer-events-auto w-full max-w-lg overflow-hidden" role="dialog" aria-modal="true" aria-label="Add Pokemon to comparison">
+        <GlassModal className="rounded-2xl border border-border/30 shadow-glass">
           <div className="flex items-center gap-3 border-b border-border/30 px-4 py-3">
             <Search className="h-4 w-4 text-muted-foreground flex-shrink-0" />
             <input
@@ -517,7 +523,7 @@ function PokemonPicker({ onClose }: { onClose: () => void }) {
             />
             <button
               onClick={onClose}
-              className="flex-shrink-0 rounded-lg glass-light border border-border/40 px-2 py-0.5 text-[10px] text-muted-foreground hover:bg-accent transition-colors"
+              className="flex-shrink-0 rounded-lg bg-white/5 border border-white/10 px-2 py-0.5 text-[10px] text-muted-foreground hover:bg-white/8 transition-colors"
             >
               ESC
             </button>
@@ -538,7 +544,7 @@ function PokemonPicker({ onClose }: { onClose: () => void }) {
                     if (!alreadyAdded) handleAdd(p.id);
                   }}
                   disabled={alreadyAdded}
-                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-accent disabled:opacity-40 transition-colors"
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-white/8 disabled:opacity-40 transition-colors"
                 >
                   <PokemonSprite
                     src={p.sprite_url}
@@ -567,6 +573,7 @@ function PokemonPicker({ onClose }: { onClose: () => void }) {
               );
             })}
           </div>
+        </GlassModal>
         </div>
       </motion.div>
     </>

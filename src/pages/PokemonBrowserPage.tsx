@@ -15,6 +15,8 @@ import { ALL_TYPES, STAT_COLORS, TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { buildNameToIdMap, getBaseId, getFormLabel } from "@/lib/pokemon-utils";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
+import { GlassToolbar } from "@/components/ui/liquid-glass";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { PokemonSummary } from "@/types";
 
 const GENERATIONS = [
@@ -177,114 +179,115 @@ export default function PokemonBrowserPage() {
     <div className="flex flex-col gap-4 p-5 relative overflow-hidden">
       <h1 className="sr-only">Pokédex</h1>
       {/* ── Toolbar ── */}
-      <div className="flex flex-wrap items-center gap-3">
-        {/* Type filter */}
-        <select
-          value={pokemonTypeFilter ?? ""}
-          onChange={(e) => setPokemonTypeFilter(e.target.value || null)}
-          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
-          aria-label="Filter by type"
-        >
-          <option value="">All types</option>
-          {ALL_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </option>
-          ))}
-        </select>
+      <GlassToolbar className="rounded-2xl border border-border/30">
+        <div className="flex flex-wrap items-center gap-3 px-4 py-2.5">
+          {/* Type filter */}
+          <Select value={pokemonTypeFilter ?? "__all__"} onValueChange={(v) => setPokemonTypeFilter(v === "__all__" ? null : v)}>
+            <SelectTrigger className="w-auto min-w-[120px]" aria-label="Filter by type">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All types</SelectItem>
+              {ALL_TYPES.map((t) => (
+                <SelectItem key={t} value={t}>
+                  {t.charAt(0).toUpperCase() + t.slice(1)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-        {/* Generation filter */}
-        <select
-          value={pokemonGenFilter ?? ""}
-          onChange={(e) => setPokemonGenFilter(e.target.value ? Number(e.target.value) : null)}
-          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
-          aria-label="Filter by generation"
-        >
-          <option value="">All gens</option>
-          {GENERATIONS.map((g, i) => (
-            <option key={i} value={i}>{g.label}</option>
-          ))}
-        </select>
+          {/* Generation filter */}
+          <Select value={pokemonGenFilter !== null ? String(pokemonGenFilter) : "__all__"} onValueChange={(v) => setPokemonGenFilter(v === "__all__" ? null : Number(v))}>
+            <SelectTrigger className="w-auto min-w-[110px]" aria-label="Filter by generation">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__all__">All gens</SelectItem>
+              {GENERATIONS.map((g, i) => (
+                <SelectItem key={i} value={String(i)}>{g.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-        {/* Sort */}
-        <select
-          value={pokemonSort}
-          onChange={(e) => setPokemonSort(e.target.value)}
-          className="h-9 rounded-xl glass-light border border-border/40 px-3 text-sm cursor-pointer"
-          aria-label="Sort by"
-        >
-          <option value="id">Sort: #ID</option>
-          <option value="name">Sort: Name</option>
-          <option value="bst">Sort: BST</option>
-          <option value="hp">Sort: HP</option>
-          <option value="atk">Sort: Atk</option>
-          <option value="def">Sort: Def</option>
-          <option value="spa">Sort: SpA</option>
-          <option value="spd">Sort: SpD</option>
-          <option value="spe">Sort: Spe</option>
-        </select>
+          {/* Sort */}
+          <Select value={pokemonSort} onValueChange={setPokemonSort}>
+            <SelectTrigger className="w-auto min-w-[120px]" aria-label="Sort by">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="id">Sort: #ID</SelectItem>
+              <SelectItem value="name">Sort: Name</SelectItem>
+              <SelectItem value="bst">Sort: BST</SelectItem>
+              <SelectItem value="hp">Sort: HP</SelectItem>
+              <SelectItem value="atk">Sort: Atk</SelectItem>
+              <SelectItem value="def">Sort: Def</SelectItem>
+              <SelectItem value="spa">Sort: SpA</SelectItem>
+              <SelectItem value="spd">Sort: SpD</SelectItem>
+              <SelectItem value="spe">Sort: Spe</SelectItem>
+            </SelectContent>
+          </Select>
 
-        {/* Favorites toggle */}
-        <button
-          onClick={() => setPokemonFavoritesOnly(!pokemonFavoritesOnly)}
-          className={cn(
-            "flex h-9 items-center gap-1.5 rounded-xl border px-3 text-sm transition-colors",
-            pokemonFavoritesOnly
-              ? "border-red-500/50 bg-red-500/10 text-red-500"
-              : "border-border/40 glass-light text-muted-foreground hover:text-foreground",
-          )}
-          aria-label="Show favorites only"
-          aria-pressed={pokemonFavoritesOnly}
-        >
-          <Heart className={cn("h-3.5 w-3.5", pokemonFavoritesOnly && "fill-current")} />
-          <span className="hidden sm:inline">Favorites</span>
-        </button>
-
-        {/* View toggle — segmented control */}
-        <div className="relative flex rounded-xl glass-light border border-border/40 p-0.5" role="group" aria-label="View mode">
-          {/* Sliding indicator */}
-          <motion.div
-            className="absolute top-0.5 bottom-0.5 rounded-lg bg-accent"
-            layout
-            style={{
-              width: "calc(50% - 2px)",
-              left: pokemonViewMode === "grid" ? 2 : "calc(50%)",
-            }}
-            transition={{ type: "spring", stiffness: 500, damping: 35 }}
-          />
+          {/* Favorites toggle */}
           <button
-            onClick={() => setPokemonViewMode("grid")}
+            onClick={() => setPokemonFavoritesOnly(!pokemonFavoritesOnly)}
             className={cn(
-              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
-              pokemonViewMode === "grid"
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground",
+              "flex h-9 items-center gap-1.5 rounded-xl border px-3 text-sm transition-colors",
+              pokemonFavoritesOnly
+                ? "border-red-500/50 bg-red-500/10 text-red-500"
+                : "border-white/10 bg-white/5 text-muted-foreground hover:text-foreground hover:bg-white/10",
             )}
-            aria-label="Grid view"
-            aria-pressed={pokemonViewMode === "grid"}
+            aria-label="Show favorites only"
+            aria-pressed={pokemonFavoritesOnly}
           >
-            <LayoutGrid className="h-4 w-4" />
+            <Heart className={cn("h-3.5 w-3.5", pokemonFavoritesOnly && "fill-current")} />
+            <span className="hidden sm:inline">Favorites</span>
           </button>
-          <button
-            onClick={() => setPokemonViewMode("list")}
-            className={cn(
-              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
-              pokemonViewMode === "list"
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground",
-            )}
-            aria-label="List view"
-            aria-pressed={pokemonViewMode === "list"}
-          >
-            <List className="h-4 w-4" />
-          </button>
+
+          {/* View toggle — segmented control */}
+          <div className="relative flex rounded-xl bg-white/5 border border-white/10 p-0.5" role="group" aria-label="View mode">
+            <motion.div
+              className="absolute top-0.5 bottom-0.5 rounded-lg bg-white/10"
+              layout
+              style={{
+                width: "calc(50% - 2px)",
+                left: pokemonViewMode === "grid" ? 2 : "calc(50%)",
+              }}
+              transition={{ type: "spring", stiffness: 500, damping: 35 }}
+            />
+            <button
+              onClick={() => setPokemonViewMode("grid")}
+              className={cn(
+                "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
+                pokemonViewMode === "grid"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+              aria-label="Grid view"
+              aria-pressed={pokemonViewMode === "grid"}
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+            <button
+              onClick={() => setPokemonViewMode("list")}
+              className={cn(
+                "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
+                pokemonViewMode === "list"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+              aria-label="List view"
+              aria-pressed={pokemonViewMode === "list"}
+            >
+              <List className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Count */}
+          <span className="font-mono text-xs text-muted-foreground" aria-live="polite">
+            {filtered.length} Pokemon
+          </span>
         </div>
-
-        {/* Count */}
-        <span className="font-mono text-xs text-muted-foreground" aria-live="polite">
-          {filtered.length} Pokemon
-        </span>
-      </div>
+      </GlassToolbar>
 
       {/* ── Content ── */}
       {pokemonViewMode === "grid" ? (
@@ -668,7 +671,7 @@ function VirtualizedList({ pokemon, nameToIdMap, children }: { pokemon: PokemonS
                       "flex h-7 w-7 items-center justify-center rounded-full border transition-colors",
                       isCompared
                         ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border text-muted-foreground hover:bg-accent",
+                        : "border-white/10 text-muted-foreground hover:bg-white/10",
                     )}
                     aria-label={
                       isCompared

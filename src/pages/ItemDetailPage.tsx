@@ -7,6 +7,7 @@ import { sectionReveal, spriteFloat } from "@/lib/motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Package, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useCallback, useMemo } from "react";
+import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
 
 export default function ItemDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -85,7 +86,7 @@ export default function ItemDetailPage() {
         <h2 className="font-heading text-xl font-semibold">Item not found</h2>
         <button
           onClick={() => navigate("/items")}
-          className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
+          className="flex h-8 items-center gap-1.5 rounded-full bg-white/5 border border-white/10 px-3 text-xs hover:shadow-warm transition-all"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to Items
         </button>
@@ -100,45 +101,49 @@ export default function ItemDetailPage() {
       {/* ── Navigation ── */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <button
-            onClick={() => navigate("/items")}
-            className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
-            aria-label="Back to Items"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Items
-          </button>
+          <GlassPill>
+            <button
+              onClick={() => navigate("/items")}
+              className="flex h-8 items-center gap-1.5 px-3 text-xs hover:text-foreground transition-all"
+              aria-label="Back to Items"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> Items
+            </button>
+          </GlassPill>
 
-          <div className="flex items-center rounded-full glass-light border border-border/40">
-            {prevId !== null ? (
-              <Link
-                to={`/items/${prevId}`}
-                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Previous item"
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
-                <ChevronLeft className="h-3.5 w-3.5" />
+          <GlassPill>
+            <div className="flex items-center">
+              {prevId !== null ? (
+                <Link
+                  to={`/items/${prevId}`}
+                  className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Previous item"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </span>
+              )}
+              <span className="border-x border-white/10 px-2.5 font-mono text-xs text-muted-foreground">
+                #{item.id}
               </span>
-            )}
-            <span className="border-x border-border/30 px-2.5 font-mono text-xs text-muted-foreground">
-              #{item.id}
-            </span>
-            {nextId !== null ? (
-              <Link
-                to={`/items/${nextId}`}
-                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Next item"
-              >
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
-                <ChevronRight className="h-3.5 w-3.5" />
-              </span>
-            )}
-          </div>
+              {nextId !== null ? (
+                <Link
+                  to={`/items/${nextId}`}
+                  className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Next item"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </span>
+              )}
+            </div>
+          </GlassPill>
         </div>
       </div>
 
@@ -154,7 +159,7 @@ export default function ItemDetailPage() {
               animate="animate"
             />
           ) : (
-            <div className="flex h-24 w-24 items-center justify-center rounded-full glass-light border border-border/30">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/5 border border-white/10">
               <Package className="h-10 w-10 text-muted-foreground" />
             </div>
           )}
@@ -164,7 +169,7 @@ export default function ItemDetailPage() {
           <h1 className="font-heading text-3xl font-bold">{name}</h1>
           {item.category && (
             <div className="mt-2 flex items-center justify-center">
-              <span className="inline-flex items-center gap-1.5 rounded-full glass-light border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs text-muted-foreground">
                 <Tag className="h-3 w-3" />
                 {item.category}
               </span>
@@ -184,11 +189,13 @@ export default function ItemDetailPage() {
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Effect</span>
           </h2>
-          <div className="rounded-2xl glass border border-border/30 p-4">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {effectText}
-            </p>
-          </div>
+          <GlassCard className="rounded-2xl border border-border/30">
+            <div className="p-4">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {effectText}
+              </p>
+            </div>
+          </GlassCard>
         </motion.section>
       )}
     </div>

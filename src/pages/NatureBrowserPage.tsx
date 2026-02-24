@@ -6,6 +6,7 @@ import { useAllNatures } from "@/hooks/use-natures";
 import { useSettingsStore } from "@/stores/settings-store";
 import { cn } from "@/lib/utils";
 import { sectionReveal } from "@/lib/motion";
+import { GlassCard } from "@/components/ui/liquid-glass";
 
 const STAT_LABELS: Record<string, string> = {
   attack: "Attack",
@@ -74,12 +75,12 @@ export default function NatureBrowserPage() {
       </div>
 
       <motion.div
-        className="rounded-2xl glass border border-border/30 overflow-hidden"
         variants={sectionReveal}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
       >
+      <GlassCard className="rounded-2xl border border-border/30 overflow-hidden">
         <table className="w-full text-sm">
           <thead className="glass-heavy">
             <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
@@ -178,6 +179,7 @@ export default function NatureBrowserPage() {
             })}
           </tbody>
         </table>
+      </GlassCard>
       </motion.div>
     </motion.div>
   );

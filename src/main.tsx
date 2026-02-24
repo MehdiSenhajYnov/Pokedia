@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import "@tinymomentum/liquid-glass-react/dist/components/LiquidGlassBase.css";
 import "./index.css";
 import App from "./App.tsx";
 

@@ -52,7 +52,7 @@ export function DamageClassIcon({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium glass-light",
+        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium bg-white/8",
         config.color,
         className,
       )}

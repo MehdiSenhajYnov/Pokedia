@@ -160,9 +160,9 @@ export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: P
       </ContextMenu.Trigger>
 
       <ContextMenu.Portal>
-        <ContextMenu.Content className="z-50 min-w-[160px] overflow-hidden rounded-xl glass border border-border/40 p-1 text-popover-foreground shadow-glass animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+        <ContextMenu.Content className="z-50 min-w-[160px] overflow-hidden rounded-xl bg-background/80 backdrop-blur-xl border border-white/10 p-1 shadow-xl animate-in fade-in-80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
           <ContextMenu.Item
-            className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+            className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-white/10 transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
             onSelect={() => navigate(`/pokemon/${pokemon.id}`)}
           >
             <Eye className="h-3.5 w-3.5" />
@@ -170,7 +170,7 @@ export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: P
           </ContextMenu.Item>
 
           <ContextMenu.Item
-            className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+            className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-white/10 transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
             onSelect={() => isCompared ? removePokemon(pokemon.id) : addPokemon(pokemon.id)}
           >
             <GitCompareArrows className="h-3.5 w-3.5" />
@@ -178,7 +178,7 @@ export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: P
           </ContextMenu.Item>
 
           <ContextMenu.Item
-            className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+            className="relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1.5 text-sm outline-none hover:bg-white/10 transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
             onSelect={() => toggleFav(pokemon.id)}
           >
             <Heart className={cn("h-3.5 w-3.5", isFavorite && "fill-red-500 text-red-500")} />

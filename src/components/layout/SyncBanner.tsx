@@ -188,7 +188,7 @@ export function SyncBanner() {
 
               <motion.button
                 onClick={() => cancelSync()}
-                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
                 title="Cancel sync"
                 aria-label="Cancel sync"
                 whileHover={{ scale: 1.1 }}

@@ -144,7 +144,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
         <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/")}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-accent/50 transition-colors group"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
           >
             <img
               src={`${spriteBase}/25.png`}
@@ -154,7 +154,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             <span className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               Pokemon
             </span>
-            <span className="rounded-full glass-light px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+            <span className="rounded-full bg-white/8 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
               {pokemonResults.length}
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
@@ -164,7 +164,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
               <button
                 key={p.id}
                 onClick={() => handlePokemonClick(p)}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent/50"
+                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 <img
                   src={p.sprite_url ?? `${spriteBase}/${p.id}.png`}
@@ -193,13 +193,13 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
         <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/moves")}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-accent/50 transition-colors group"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
           >
             <Swords className="h-3.5 w-3.5 text-muted-foreground/60" />
             <span className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               Moves
             </span>
-            <span className="rounded-full glass-light px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+            <span className="rounded-full bg-white/8 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
               {moveResults.length}
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
@@ -209,7 +209,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
               <button
                 key={m.id}
                 onClick={() => handleMoveClick(m)}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent/50"
+                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 <TypeBadge type={m.type_key} size="sm" />
                 <span className="truncate font-medium text-xs">
@@ -229,13 +229,13 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
         <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/items")}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-accent/50 transition-colors group"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
           >
             <Package className="h-3.5 w-3.5 text-muted-foreground/60" />
             <span className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               Items
             </span>
-            <span className="rounded-full glass-light px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+            <span className="rounded-full bg-white/8 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
               {itemResults.length}
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
@@ -245,7 +245,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
               <button
                 key={i.id}
                 onClick={() => handleItemClick(i)}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent/50"
+                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 {i.sprite_url ? (
                   <img
@@ -255,7 +255,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                     loading="lazy"
                   />
                 ) : (
-                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded glass-light">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-white/8">
                     <Package className="h-3 w-3 text-muted-foreground" />
                   </div>
                 )}
@@ -273,13 +273,13 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
         <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/abilities")}
-            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-accent/50 transition-colors group"
+            className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
           >
             <Sparkles className="h-3.5 w-3.5 text-muted-foreground/60" />
             <span className="font-heading text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
               Abilities
             </span>
-            <span className="rounded-full glass-light px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+            <span className="rounded-full bg-white/8 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
               {abilityResults.length}
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
@@ -289,9 +289,9 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
               <button
                 key={a.id}
                 onClick={() => handleAbilityClick(a)}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-accent/50"
+                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded glass-light">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-white/8">
                   <Sparkles className="h-3 w-3 text-primary" />
                 </div>
                 <span className="truncate font-medium text-xs">

@@ -80,10 +80,10 @@
   /* Custom glow tokens */
   --color-glow-primary: oklch(0.70 0.18 15 / 0.3);
 
-  /* Mesh gradient blobs — dark: deep indigo/violet/blue */
-  --color-mesh-1: oklch(0.25 0.08 280);
-  --color-mesh-2: oklch(0.22 0.07 320);
-  --color-mesh-3: oklch(0.20 0.06 240);
+  /* Mesh gradient blobs — dark: vivid indigo/violet/blue for glass refraction */
+  --color-mesh-1: oklch(0.32 0.14 280);
+  --color-mesh-2: oklch(0.28 0.12 320);
+  --color-mesh-3: oklch(0.26 0.10 240);
 }
 
 /* ─── Light mode overrides ─── */
@@ -137,14 +137,14 @@
 
     --color-glow-primary: oklch(0.62 0.20 15 / 0.2);
 
-    /* Mesh gradient blobs — light: peach/lavender/mint */
-    --color-mesh-1: oklch(0.94 0.04 30);
-    --color-mesh-2: oklch(0.93 0.05 290);
-    --color-mesh-3: oklch(0.95 0.03 170);
+    /* Mesh gradient blobs — light: vivid peach/lavender/mint for glass refraction */
+    --color-mesh-1: oklch(0.92 0.07 30);
+    --color-mesh-2: oklch(0.90 0.08 290);
+    --color-mesh-3: oklch(0.93 0.06 170);
 
-    --glass-highlight: rgba(255,255,255,0.35);
-    --glass-highlight-side: rgba(255,255,255,0.18);
-    --text-glass-shadow: 0 1px 2px rgba(255,255,255,0.6);
+    --glass-highlight: rgba(255,255,255,0.45);
+    --glass-highlight-side: rgba(255,255,255,0.25);
+    --text-glass-shadow: 0 1px 2px rgba(255,255,255,0.7);
   }
 }
 
@@ -155,21 +155,24 @@
   }
 
   :root {
-    --glass-highlight: rgba(255,255,255,0.12);
-    --glass-highlight-side: rgba(255,255,255,0.06);
-    --text-glass-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --glass-highlight: rgba(255,255,255,0.18);
+    --glass-highlight-side: rgba(255,255,255,0.10);
+    --text-glass-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
     margin: 0;
-    background-image: radial-gradient(
-      circle,
-      color-mix(in oklch, var(--color-foreground) 3%, transparent) 1px,
-      transparent 1px
-    );
-    background-size: 24px 24px;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, color-mix(in oklch, var(--color-primary) 6%, transparent) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, color-mix(in oklch, var(--color-secondary-accent) 5%, transparent) 0%, transparent 60%),
+      radial-gradient(
+        circle,
+        color-mix(in oklch, var(--color-foreground) 3%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 100% 100%, 100% 100%, 24px 24px;
   }
 
   /* Smooth color transitions only during theme switching.
@@ -199,39 +202,37 @@
 
 /* ─── Glassmorphism utilities — iOS 26 depth hierarchy ─── */
 @layer utilities {
-  /* Level 1 — fixed chrome: sidebar, header, sticky headers */
+  /* Level 1 — sticky table headers: opaque so content doesn't bleed through */
   .glass-heavy {
-    background: color-mix(in oklch, var(--color-card) 48%, transparent);
-    backdrop-filter: blur(24px) saturate(1.5);
-    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    background: var(--color-background);
     will-change: transform;
     transform: translateZ(0);
   }
   /* Level 2 — cards, panels, dialogs */
   .glass {
-    background: color-mix(in oklch, var(--color-card) 55%, transparent);
-    backdrop-filter: blur(14px) saturate(1.3);
-    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    background: color-mix(in oklch, var(--color-card) 35%, transparent);
+    backdrop-filter: blur(8px) saturate(1.5);
+    -webkit-backdrop-filter: blur(8px) saturate(1.5);
   }
   /* Level 3 — badges, pills, small elements */
   .glass-light {
-    background: color-mix(in oklch, var(--color-card) 72%, transparent);
-    backdrop-filter: blur(8px) saturate(1.2);
-    -webkit-backdrop-filter: blur(8px) saturate(1.2);
+    background: color-mix(in oklch, var(--color-card) 50%, transparent);
+    backdrop-filter: blur(5px) saturate(1.4);
+    -webkit-backdrop-filter: blur(5px) saturate(1.4);
   }
   /* Backward compat alias */
   .glass-subtle {
-    background: color-mix(in oklch, var(--color-card) 72%, transparent);
-    backdrop-filter: blur(8px) saturate(1.2);
-    -webkit-backdrop-filter: blur(8px) saturate(1.2);
+    background: color-mix(in oklch, var(--color-card) 50%, transparent);
+    backdrop-filter: blur(5px) saturate(1.4);
+    -webkit-backdrop-filter: blur(5px) saturate(1.4);
   }
   /* Flat variants — same look as glass but without backdrop-filter.
      Use these when many elements are visible at once (grids, lists). */
   .glass-flat {
-    background: color-mix(in oklch, var(--color-card) 65%, transparent);
+    background: color-mix(in oklch, var(--color-card) 45%, transparent);
   }
   .glass-light-flat {
-    background: color-mix(in oklch, var(--color-card) 80%, transparent);
+    background: color-mix(in oklch, var(--color-card) 60%, transparent);
   }
   /* Luminous glass edge — opt-in on surfaces without conflicting box-shadow */
   .glass-edge {
@@ -268,12 +269,56 @@
   }
 }
 
+/* ─── @tinymomentum/liquid-glass-react integration ─── */
+
+/* The library renders: .liquid-glass-container > .liquid-glass
+   className prop goes on the inner .liquid-glass element.
+   We override the outer container to stretch children instead of centering. */
+
+/* Container: auto-size by default, stretch contents horizontally */
+.liquid-glass-container {
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  height: auto !important;
+}
+
+/* Full-height variant (sidebar, etc.) */
+.liquid-glass-container:has(> .lg-full-height) {
+  height: 100% !important;
+}
+
+/* Glass element: behave as a normal flex column container */
+.liquid-glass.lg-responsive {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+/* Content inside the glass element should inherit font/color and stay above pseudo-elements */
+.liquid-glass.lg-responsive > * {
+  position: relative;
+  z-index: 1;
+  font: inherit;
+  color: inherit;
+}
+
+/* Button variant: inline-flex row for button content alignment */
+.liquid-glass.lg-button {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 /* ─── Mesh gradient — living background ─── */
 .mesh-blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: 0.6;
+  opacity: 0.5;
   will-change: transform;
 }
 .mesh-blob-1 {

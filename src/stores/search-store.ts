@@ -47,7 +47,7 @@ export const useSearchStore = create<SearchState>()(
       movePowerMin: null,
       movePowerMax: null,
       itemCategoryFilter: null,
-      itemViewMode: "grid",
+      itemViewMode: "list",
 
       setQuery: (query) => set({ query, searchActive: query.length > 0 }),
       activateSearch: () => set({ searchActive: true }),

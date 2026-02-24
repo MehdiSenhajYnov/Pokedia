@@ -34,7 +34,8 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { getDefensiveMatchups } from "@/lib/type-chart";
 import { cn } from "@/lib/utils";
 import { staggerContainer, staggerItem, spriteFloat, sectionReveal } from "@/lib/motion";
-import { MeshGradientBg } from "@/components/layout/MeshGradientBg";
+
+import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
 import type { PokemonTypeName } from "@/lib/constants";
 
 export default function PokemonDetailPage() {
@@ -170,82 +171,87 @@ export default function PokemonDetailPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-8 p-6 relative overflow-hidden">
-      {/* Contextual mesh gradient tinted by Pokemon type */}
-      <MeshGradientBg accentColor={`${typeHex}40`} />
-
       {/* ── Navigation ── */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div className="flex gap-2">
-          <button
-            onClick={() => navigate("/")}
-            className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
-            aria-label="Back to Pokédex"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Pokédex
-          </button>
+          <GlassPill>
+            <button
+              onClick={() => navigate("/")}
+              className="flex h-8 items-center gap-1.5 px-3 text-xs hover:text-foreground transition-all"
+              aria-label="Back to Pokédex"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> Pokédex
+            </button>
+          </GlassPill>
 
-          <div className="flex items-center rounded-full glass-light border border-border/40">
-            {prevId !== null ? (
-              <Link
-                to={`/pokemon/${prevId}`}
-                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Previous Pokemon"
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
-                <ChevronLeft className="h-3.5 w-3.5" />
-              </span>
-            )}
-            <span className="border-x border-border/30 px-2.5 font-mono text-xs text-muted-foreground">{idStr}</span>
-            {nextId !== null ? (
-              <Link
-                to={`/pokemon/${nextId}`}
-                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Next Pokemon"
-              >
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
-                <ChevronRight className="h-3.5 w-3.5" />
-              </span>
-            )}
-          </div>
+          <GlassPill>
+            <div className="flex items-center">
+              {prevId !== null ? (
+                <Link
+                  to={`/pokemon/${prevId}`}
+                  className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Previous Pokemon"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </span>
+              )}
+              <span className="border-x border-white/10 px-2.5 font-mono text-xs text-muted-foreground">{idStr}</span>
+              {nextId !== null ? (
+                <Link
+                  to={`/pokemon/${nextId}`}
+                  className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Next Pokemon"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </span>
+              )}
+            </div>
+          </GlassPill>
         </div>
         <div className="flex gap-2">
-          <button
-            onClick={() => toggleFav(pokemon.id)}
-            className={cn(
-              "flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all",
-              isFavorite && "text-red-500",
-            )}
-            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-          >
-            <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
-            {isFavorite ? "Favorited" : "Favorite"}
-          </button>
+          <GlassPill>
+            <button
+              onClick={() => toggleFav(pokemon.id)}
+              className={cn(
+                "flex h-8 items-center gap-1.5 px-3 text-xs transition-all",
+                isFavorite ? "text-red-500" : "text-muted-foreground hover:text-foreground",
+              )}
+              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
+              {isFavorite ? "Favorited" : "Favorite"}
+            </button>
+          </GlassPill>
 
-          <button
-            onClick={() =>
-              isCompared
-                ? removePokemon(pokemon.id)
-                : addPokemon(pokemon.id)
-            }
-            className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
-            aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
-          >
-            {isCompared ? (
-              <>
-                <Check className="h-3 w-3" /> In Comparison
-              </>
-            ) : (
-              <>
-                <Plus className="h-3 w-3" /> Compare
-              </>
-            )}
-          </button>
+          <GlassPill>
+            <button
+              onClick={() =>
+                isCompared
+                  ? removePokemon(pokemon.id)
+                  : addPokemon(pokemon.id)
+              }
+              className="flex h-8 items-center gap-1.5 px-3 text-xs text-muted-foreground hover:text-foreground transition-all"
+              aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
+            >
+              {isCompared ? (
+                <>
+                  <Check className="h-3 w-3" /> In Comparison
+                </>
+              ) : (
+                <>
+                  <Plus className="h-3 w-3" /> Compare
+                </>
+              )}
+            </button>
+          </GlassPill>
         </div>
       </div>
 
@@ -298,10 +304,10 @@ export default function PokemonDetailPage() {
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowShiny((s) => !s)}
               className={cn(
-                "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full glass-light border px-2.5 py-0.5 text-[10px] font-medium transition-all",
+                "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-white/8 border px-2.5 py-0.5 text-[10px] font-medium transition-all",
                 showShiny
                   ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
-                  : "border-border/40 text-muted-foreground hover:bg-accent",
+                  : "border-white/10 text-muted-foreground hover:bg-white/12",
               )}
               aria-label="Toggle shiny sprite"
             >
@@ -342,10 +348,10 @@ export default function PokemonDetailPage() {
           )}
 
           <div className="mt-2.5 flex gap-3 justify-center sm:justify-start">
-            <span className="rounded-full glass-light border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+            <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs text-muted-foreground">
               Height: {heightStr}
             </span>
-            <span className="rounded-full glass-light border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+            <span className="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs text-muted-foreground">
               Weight: {weightStr}
             </span>
           </div>
@@ -363,22 +369,24 @@ export default function PokemonDetailPage() {
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Abilities</span>
           </h2>
-          <div className="flex flex-wrap gap-2">
-            {abilities.map((a) => (
-              <span
-                key={a.slot}
-                className={cn(
-                  "rounded-xl glass-light border px-3 py-1.5 text-xs",
-                  a.is_hidden === 1
-                    ? "border-dashed border-purple-400/40 text-purple-300"
-                    : "border-border/40",
-                )}
-              >
-                {pokemonName(a.ability_en, a.ability_fr)}
-                {a.is_hidden === 1 && " (Hidden)"}
-              </span>
-            ))}
-          </div>
+          <GlassCard className="rounded-2xl border border-border/30">
+            <div className="flex flex-wrap gap-2 p-4">
+              {abilities.map((a) => (
+                <span
+                  key={a.slot}
+                  className={cn(
+                    "rounded-xl bg-white/5 border px-3 py-1.5 text-xs",
+                    a.is_hidden === 1
+                      ? "border-dashed border-purple-400/40 text-purple-300"
+                      : "border-white/10",
+                  )}
+                >
+                  {pokemonName(a.ability_en, a.ability_fr)}
+                  {a.is_hidden === 1 && " (Hidden)"}
+                </span>
+              ))}
+            </div>
+          </GlassCard>
         </motion.section>
       )}
 
@@ -392,7 +400,11 @@ export default function PokemonDetailPage() {
         <h2 className="mb-3 font-heading text-sm font-bold">
           <span className="border-b-2 border-primary pb-0.5">Base Stats</span>
         </h2>
-        <StatsBar stats={stats} />
+        <GlassCard className="rounded-2xl border border-border/30">
+          <div className="p-4">
+            <StatsBar stats={stats} />
+          </div>
+        </GlassCard>
       </motion.section>
 
       {/* ── Type Matchups ── */}
@@ -406,18 +418,20 @@ export default function PokemonDetailPage() {
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Type Matchups</span>
           </h2>
-          <motion.div
-            className="space-y-1.5 text-xs"
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-          >
-            <MatchupRow label="4x" types={matchups[4]} className="text-red-400" glowColor="rgba(239,68,68,0.15)" />
-            <MatchupRow label="2x" types={matchups[2]} className="text-orange-400" />
-            <MatchupRow label="0.5x" types={matchups[0.5]} className="text-green-400" />
-            <MatchupRow label="0.25x" types={matchups[0.25]} className="text-green-600" />
-            <MatchupRow label="0x" types={matchups[0]} className="text-gray-500" glowColor="rgba(156,163,175,0.1)" />
-          </motion.div>
+          <GlassCard className="rounded-2xl border border-border/30">
+            <motion.div
+              className="space-y-1.5 text-xs p-4"
+              variants={staggerContainer}
+              initial="initial"
+              animate="animate"
+            >
+              <MatchupRow label="4x" types={matchups[4]} className="text-red-400" glowColor="rgba(239,68,68,0.15)" />
+              <MatchupRow label="2x" types={matchups[2]} className="text-orange-400" />
+              <MatchupRow label="0.5x" types={matchups[0.5]} className="text-green-400" />
+              <MatchupRow label="0.25x" types={matchups[0.25]} className="text-green-600" />
+              <MatchupRow label="0x" types={matchups[0]} className="text-gray-500" glowColor="rgba(156,163,175,0.1)" />
+            </motion.div>
+          </GlassCard>
         </motion.section>
       )}
 
@@ -432,7 +446,11 @@ export default function PokemonDetailPage() {
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Evolution</span>
           </h2>
-          <EvolutionChain chain={evolutionChain} currentId={pokemon.id} alternateForms={alternateForms} />
+          <GlassCard className="rounded-2xl border border-border/30">
+            <div className="p-4">
+              <EvolutionChain chain={evolutionChain} currentId={pokemon.id} alternateForms={alternateForms} />
+            </div>
+          </GlassCard>
         </motion.section>
       )}
 
@@ -447,7 +465,11 @@ export default function PokemonDetailPage() {
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Moves</span>
           </h2>
-          <MoveTable moves={moves} />
+          <GlassCard className="rounded-2xl border border-border/30">
+            <div className="p-4">
+              <MoveTable moves={moves} />
+            </div>
+          </GlassCard>
         </motion.section>
       )}
 

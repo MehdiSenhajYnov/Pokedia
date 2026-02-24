@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp, Calculator, Grid3X3 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { staggerContainer, staggerItem } from "@/lib/motion";
+import { GlassCard } from "@/components/ui/liquid-glass";
 
 const FACTOR_BG: Record<number, string> = {
   0: "bg-gray-800/80",
@@ -209,12 +210,13 @@ export default function TypeChartPage() {
           {matchups ? (
             <motion.div
               key={`${type1}-${type2}`}
-              className="rounded-2xl glass border border-border/30 p-5 space-y-4 shadow-glass"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
             >
+            <GlassCard className="rounded-2xl border border-border/30 shadow-glass">
+            <div className="p-5 space-y-4">
               <div className="flex items-center gap-2">
                 <span className="font-heading text-sm font-medium text-muted-foreground">
                   Defending:
@@ -263,16 +265,21 @@ export default function TypeChartPage() {
                   );
                 })}
               </motion.div>
+            </div>
+            </GlassCard>
             </motion.div>
           ) : (
             <motion.div
-              className="rounded-2xl glass border border-dashed border-border/30 p-8 text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <p className="text-sm text-muted-foreground">
-                Select a type above to see defensive matchups.
-              </p>
+            <GlassCard className="rounded-2xl border border-dashed border-border/30">
+              <div className="p-8 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Select a type above to see defensive matchups.
+                </p>
+              </div>
+            </GlassCard>
             </motion.div>
           )}
         </AnimatePresence>
@@ -280,9 +287,9 @@ export default function TypeChartPage() {
 
       {/* Full Type Chart (collapsible) */}
       <section className="space-y-3">
+        <GlassCard className="rounded-2xl border border-border/30" onClick={() => setChartExpanded(!chartExpanded)}>
         <button
-          onClick={() => setChartExpanded(!chartExpanded)}
-          className="flex w-full items-center justify-between rounded-2xl glass border border-border/30 px-4 py-3 text-left hover:shadow-warm transition-all"
+          className="flex w-full items-center justify-between px-4 py-3 text-left hover:shadow-warm transition-all"
         >
           <div className="flex items-center gap-2">
             <Grid3X3 className="h-5 w-5 text-muted-foreground" />
@@ -297,16 +304,18 @@ export default function TypeChartPage() {
             <ChevronDown className="h-4 w-4 text-muted-foreground" />
           )}
         </button>
+        </GlassCard>
 
         <AnimatePresence>
           {chartExpanded && (
             <motion.div
-              className="overflow-x-auto rounded-2xl glass border border-border/30"
+              className="overflow-x-auto"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
+            <GlassCard className="rounded-2xl border border-border/30">
               <div className="min-w-[750px] p-2">
                 <div className="flex items-center gap-4 text-[10px] text-muted-foreground mb-2 px-1">
                   <span>Row = Attacking type</span>
@@ -368,6 +377,7 @@ export default function TypeChartPage() {
                   ))}
                 </div>
               </div>
+            </GlassCard>
             </motion.div>
           )}
         </AnimatePresence>

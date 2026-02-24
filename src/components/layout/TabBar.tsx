@@ -134,7 +134,7 @@ export function TabBar() {
         initial="initial"
         animate="animate"
         exit="exit"
-        className="shrink-0 border-b border-border/20 glass-light"
+        className="shrink-0 border-b border-border/20 bg-background/80 backdrop-blur-sm"
       >
         <div
           ref={scrollRef}
@@ -159,7 +159,7 @@ export function TabBar() {
                   <ContextMenu.Trigger asChild>
                     <motion.button
                       layout
-                      layoutTransition={{ type: "spring", stiffness: 500, damping: 35, mass: 0.5 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 35, mass: 0.5 }}
                       data-tab-id={tab.id}
                       variants={tabPillVariants}
                       initial="initial"
@@ -170,8 +170,8 @@ export function TabBar() {
                       className={cn(
                         "group relative flex h-7 max-w-[160px] shrink-0 items-center gap-1.5 rounded-lg border px-2 text-xs transition-all select-none",
                         isActive
-                          ? "glass border-border/50 text-foreground shadow-sm"
-                          : "border-transparent text-muted-foreground hover:bg-accent/40 hover:text-foreground",
+                          ? "bg-white/10 border-white/15 text-foreground shadow-sm"
+                          : "border-transparent text-muted-foreground hover:bg-white/8 hover:text-foreground",
                       )}
                       style={
                         isActive && accentHex
@@ -227,22 +227,22 @@ export function TabBar() {
                   </ContextMenu.Trigger>
 
                   <ContextMenu.Portal>
-                    <ContextMenu.Content className="z-50 min-w-[140px] overflow-hidden rounded-lg glass border border-border/40 p-1 shadow-glass text-sm">
+                    <ContextMenu.Content className="z-50 min-w-[140px] overflow-hidden rounded-xl bg-background/80 backdrop-blur-xl border border-white/10 p-1 shadow-xl text-sm">
                       <ContextMenu.Item
-                        className="cursor-pointer rounded-md px-2.5 py-1.5 text-xs outline-none hover:bg-accent focus:bg-accent transition-colors"
+                        className="cursor-pointer rounded-lg px-2.5 py-1.5 text-xs outline-none hover:bg-white/10 focus:bg-white/10 transition-colors"
                         onSelect={() => handleCloseTab(tab.id)}
                       >
                         Close
                       </ContextMenu.Item>
                       <ContextMenu.Item
-                        className="cursor-pointer rounded-md px-2.5 py-1.5 text-xs outline-none hover:bg-accent focus:bg-accent transition-colors"
+                        className="cursor-pointer rounded-lg px-2.5 py-1.5 text-xs outline-none hover:bg-white/10 focus:bg-white/10 transition-colors"
                         onSelect={() => handleCloseOthers(tab.id)}
                       >
                         Close others
                       </ContextMenu.Item>
-                      <ContextMenu.Separator className="my-1 h-px bg-border/30" />
+                      <ContextMenu.Separator className="my-1 h-px bg-white/10" />
                       <ContextMenu.Item
-                        className="cursor-pointer rounded-md px-2.5 py-1.5 text-xs text-destructive outline-none hover:bg-destructive/10 focus:bg-destructive/10 transition-colors"
+                        className="cursor-pointer rounded-lg px-2.5 py-1.5 text-xs text-destructive outline-none hover:bg-destructive/10 focus:bg-destructive/10 transition-colors"
                         onSelect={() => handleCloseAll()}
                       >
                         Close all

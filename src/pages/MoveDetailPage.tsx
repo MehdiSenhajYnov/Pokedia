@@ -5,13 +5,14 @@ import { useTabStore } from "@/stores/tab-store";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
-import { MeshGradientBg } from "@/components/layout/MeshGradientBg";
+
 import { TYPE_COLORS_HEX } from "@/lib/constants";
 import { sectionReveal } from "@/lib/motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Swords } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useCallback, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
+import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
 import type { MovePokemonEntry } from "@/types";
 
 export default function MoveDetailPage() {
@@ -97,50 +98,52 @@ export default function MoveDetailPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden">
-      <MeshGradientBg accentColor={`${typeHex}40`} />
-
       {/* ── Navigation ── */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <button
-            onClick={() => navigate("/moves")}
-            className="flex h-8 items-center gap-1.5 rounded-full glass-light border border-border/40 px-3 text-xs hover:shadow-warm transition-all"
-            aria-label="Back to Moves"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" /> Moves
-          </button>
+          <GlassPill>
+            <button
+              onClick={() => navigate("/moves")}
+              className="flex h-8 items-center gap-1.5 px-3 text-xs hover:text-foreground transition-all"
+              aria-label="Back to Moves"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> Moves
+            </button>
+          </GlassPill>
 
-          <div className="flex items-center rounded-full glass-light border border-border/40">
-            {prevId !== null ? (
-              <Link
-                to={`/moves/${prevId}`}
-                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Previous move"
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
-                <ChevronLeft className="h-3.5 w-3.5" />
+          <GlassPill>
+            <div className="flex items-center">
+              {prevId !== null ? (
+                <Link
+                  to={`/moves/${prevId}`}
+                  className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Previous move"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </span>
+              )}
+              <span className="border-x border-white/10 px-2.5 font-mono text-xs text-muted-foreground">
+                #{move.id}
               </span>
-            )}
-            <span className="border-x border-border/30 px-2.5 font-mono text-xs text-muted-foreground">
-              #{move.id}
-            </span>
-            {nextId !== null ? (
-              <Link
-                to={`/moves/${nextId}`}
-                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Next move"
-              >
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Link>
-            ) : (
-              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
-                <ChevronRight className="h-3.5 w-3.5" />
-              </span>
-            )}
-          </div>
+              {nextId !== null ? (
+                <Link
+                  to={`/moves/${nextId}`}
+                  className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Next move"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </span>
+              )}
+            </div>
+          </GlassPill>
         </div>
       </div>
 
@@ -153,7 +156,7 @@ export default function MoveDetailPage() {
               background: `radial-gradient(circle, ${typeHex}30 0%, transparent 70%)`,
             }}
           />
-          <div className="relative flex h-16 w-16 items-center justify-center rounded-full glass-light border border-border/30">
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white/5 border border-white/10">
             <Swords className="h-7 w-7" style={{ color: typeHex }} />
           </div>
         </div>
@@ -192,11 +195,13 @@ export default function MoveDetailPage() {
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Effect</span>
           </h2>
-          <div className="rounded-2xl glass border border-border/30 p-4">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {effectText}
-            </p>
-          </div>
+          <GlassCard className="rounded-2xl border border-border/30">
+            <div className="p-4">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {effectText}
+              </p>
+            </div>
+          </GlassCard>
         </motion.section>
       )}
 
@@ -276,7 +281,7 @@ function MovePokemonSection({
               "rounded-full border px-3 py-1 text-xs font-medium transition-all",
               activeTab === t.key
                 ? "border-primary/50 bg-primary/10 text-primary"
-                : "border-border/30 glass-light text-muted-foreground hover:text-foreground",
+                : "border-white/10 bg-white/5 text-muted-foreground hover:text-foreground",
             )}
           >
             {t.label}
@@ -307,7 +312,7 @@ function MovePokemonSection({
                   {pokemonName(p.name_en, p.name_fr)}
                 </span>
                 {activeTab === "level-up" && p.level_learned_at > 0 && (
-                  <span className="inline-flex items-center rounded-full glass-light-flat px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground">
+                  <span className="inline-flex items-center rounded-full bg-white/8 px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground">
                     Lv.{p.level_learned_at}
                   </span>
                 )}
@@ -326,13 +331,15 @@ function MovePokemonSection({
 
 function StatPill({ label, value }: { label: string; value: number | string | null }) {
   return (
-    <div className="flex flex-col items-center rounded-xl glass-light border border-border/30 px-5 py-3 min-w-[90px]">
-      <span className="font-heading text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      <span className="mt-0.5 font-mono text-lg font-semibold">
-        {value ?? "\u2014"}
-      </span>
-    </div>
+    <GlassCard className="rounded-xl border border-border/30" style={{ borderRadius: "12px" }}>
+      <div className="flex flex-col items-center px-5 py-3 min-w-[90px]">
+        <span className="font-heading text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+          {label}
+        </span>
+        <span className="mt-0.5 font-mono text-lg font-semibold">
+          {value ?? "\u2014"}
+        </span>
+      </div>
+    </GlassCard>
   );
 }

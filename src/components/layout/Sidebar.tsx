@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useSyncStatus } from "@/hooks/use-sync";
 import { useComparisonStore } from "@/stores/comparison-store";
 import { navItemVariants, springSnappy } from "@/lib/motion";
+import { GlassSidebar } from "@/components/ui/liquid-glass";
 import {
   BookOpen,
   GitCompareArrows,
@@ -102,12 +103,13 @@ export function Sidebar() {
     <motion.aside
       aria-label="Main navigation"
       className={cn(
-        "flex h-screen flex-col glass-heavy border-r border-border/30",
+        "flex h-screen flex-col border-r border-border/30",
         collapsed ? "rounded-r-2xl" : ""
       )}
       animate={{ width: collapsed ? 52 : 224 }}
       transition={springSnappy}
     >
+    <GlassSidebar className="flex-1" style={{ borderRadius: collapsed ? "0 1rem 1rem 0" : "0" }}>
       {/* ── Logo ── */}
       <div
         className={cn(
@@ -271,6 +273,7 @@ export function Sidebar() {
           </motion.div>
         </button>
       </div>
+    </GlassSidebar>
     </motion.aside>
   );
 }

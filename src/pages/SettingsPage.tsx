@@ -18,6 +18,7 @@ import {
   Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GlassCard, GlassModal } from "@/components/ui/liquid-glass";
 import { motion } from "framer-motion";
 import { springSnappy } from "@/lib/motion";
 import { toast } from "sonner";
@@ -73,41 +74,44 @@ export default function SettingsPage() {
       </div>
 
       {/* Theme */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
-        <div className="flex items-center gap-2">
-          <Palette className="h-4 w-4 text-primary" />
-          <h2 className="font-heading text-sm font-semibold">Appearance</h2>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => setTheme("dark")}
-            className={cn(
-              "relative flex flex-1 items-center justify-center gap-2.5 rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all",
-              theme === "dark"
-                ? "border-primary text-primary ring-2 ring-primary/20 glow-primary"
-                : "border-border/40 hover:border-primary/30 hover:bg-accent text-muted-foreground",
-            )}
-          >
-            <Moon className="h-4.5 w-4.5" />
-            Dark
-          </button>
-          <button
-            onClick={() => setTheme("light")}
-            className={cn(
-              "relative flex flex-1 items-center justify-center gap-2.5 rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all",
-              theme === "light"
-                ? "border-primary text-primary ring-2 ring-primary/20 glow-primary"
-                : "border-border/40 hover:border-primary/30 hover:bg-accent text-muted-foreground",
-            )}
-          >
-            <Sun className="h-4.5 w-4.5" />
-            Light
-          </button>
-        </div>
-      </section>
+      <GlassCard className="rounded-2xl border border-border/30">
+        <section className="space-y-3 p-5">
+          <div className="flex items-center gap-2">
+            <Palette className="h-4 w-4 text-primary" />
+            <h2 className="font-heading text-sm font-semibold">Appearance</h2>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setTheme("dark")}
+              className={cn(
+                "relative flex flex-1 items-center justify-center gap-2.5 rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all",
+                theme === "dark"
+                  ? "border-primary text-primary ring-2 ring-primary/20 glow-primary"
+                  : "border-border/40 hover:border-primary/30 hover:bg-white/8 text-muted-foreground",
+              )}
+            >
+              <Moon className="h-4.5 w-4.5" />
+              Dark
+            </button>
+            <button
+              onClick={() => setTheme("light")}
+              className={cn(
+                "relative flex flex-1 items-center justify-center gap-2.5 rounded-xl border-2 px-4 py-3 text-sm font-medium transition-all",
+                theme === "light"
+                  ? "border-primary text-primary ring-2 ring-primary/20 glow-primary"
+                  : "border-border/40 hover:border-primary/30 hover:bg-white/8 text-muted-foreground",
+              )}
+            >
+              <Sun className="h-4.5 w-4.5" />
+              Light
+            </button>
+          </div>
+        </section>
+      </GlassCard>
 
       {/* Languages */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
+      <GlassCard className="rounded-2xl border border-border/30">
+      <section className="space-y-3 p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4 text-primary" />
@@ -116,13 +120,13 @@ export default function SettingsPage() {
           <div className="flex gap-1.5">
             <button
               onClick={() => setAllLangs("en")}
-              className="rounded-lg glass-light border border-border/40 px-3 py-1 text-xs font-medium hover:shadow-warm transition-all"
+              className="rounded-lg bg-white/5 border border-white/10 px-3 py-1 text-xs font-medium hover:shadow-warm transition-all"
             >
               All EN
             </button>
             <button
               onClick={() => setAllLangs("fr")}
-              className="rounded-lg glass-light border border-border/40 px-3 py-1 text-xs font-medium hover:shadow-warm transition-all"
+              className="rounded-lg bg-white/5 border border-white/10 px-3 py-1 text-xs font-medium hover:shadow-warm transition-all"
             >
               All FR
             </button>
@@ -138,9 +142,11 @@ export default function SettingsPage() {
           <LangRow label="Descriptions" value={langDescriptions} onChange={setLangDescriptions} />
         </div>
       </section>
+      </GlassCard>
 
       {/* Data Cache */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
+      <GlassCard className="rounded-2xl border border-border/30">
+      <section className="space-y-3 p-5">
         <div className="flex items-center gap-2">
           <Database className="h-4 w-4 text-primary" />
           <h2 className="font-heading text-sm font-semibold">Data Cache</h2>
@@ -178,10 +184,10 @@ export default function SettingsPage() {
             onClick={() => startSync()}
             disabled={syncStatus?.is_syncing}
             className={cn(
-              "flex items-center gap-2 rounded-xl glass-light border border-border/40 px-4 py-2.5 text-sm font-medium transition-all",
+              "flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-sm font-medium transition-all",
               syncStatus?.is_syncing
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-accent hover:border-primary/30",
+                : "hover:bg-white/8 hover:border-primary/30",
             )}
             whileHover={syncStatus?.is_syncing ? {} : { scale: 1.02 }}
             whileTap={syncStatus?.is_syncing ? {} : { scale: 0.98 }}
@@ -196,7 +202,7 @@ export default function SettingsPage() {
           </motion.button>
           <motion.button
             onClick={() => setShowClearConfirm(true)}
-            className="flex items-center gap-2 rounded-xl glass-light border border-border/40 px-4 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10 hover:border-destructive/30 transition-all"
+            className="flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-sm font-medium text-destructive hover:bg-destructive/10 hover:border-destructive/30 transition-all"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -205,9 +211,11 @@ export default function SettingsPage() {
           </motion.button>
         </div>
       </section>
+      </GlassCard>
 
       {/* About */}
-      <section className="space-y-3 rounded-2xl glass border border-border/30 p-5 shadow-glass">
+      <GlassCard className="rounded-2xl border border-border/30">
+      <section className="space-y-3 p-5">
         <div className="flex items-center gap-2">
           <Info className="h-4 w-4 text-primary" />
           <h2 className="font-heading text-sm font-semibold">About</h2>
@@ -245,6 +253,7 @@ export default function SettingsPage() {
           </p>
         </div>
       </section>
+      </GlassCard>
 
       {/* Clear Cache Confirmation Dialog */}
       {showClearConfirm && (
@@ -252,12 +261,13 @@ export default function SettingsPage() {
           <motion.div
             initial={{ scale: 0.92, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="mx-4 w-full max-w-sm rounded-2xl glass border border-border/30 p-6 shadow-glass"
+            className="mx-4 w-full max-w-sm"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="clear-confirm-title"
             aria-describedby="clear-confirm-desc"
           >
+          <GlassModal className="rounded-2xl border border-border/30 shadow-glass">
             <div className="flex items-center gap-3 mb-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10">
                 <Trash2 className="h-5 w-5 text-destructive" />
@@ -273,7 +283,7 @@ export default function SettingsPage() {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="rounded-xl glass-light border border-border/40 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
+                className="rounded-xl bg-white/5 border border-white/10 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
               >
                 Cancel
               </button>
@@ -284,6 +294,7 @@ export default function SettingsPage() {
                 Clear Cache
               </button>
             </div>
+          </GlassModal>
           </motion.div>
         </div>
       )}
