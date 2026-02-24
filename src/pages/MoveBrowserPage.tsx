@@ -7,7 +7,7 @@ import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
-import { ALL_TYPES } from "@/lib/constants";
+import { ALL_TYPES, TYPE_COLORS_HEX } from "@/lib/constants";
 import {
   useReactTable,
   getCoreRowModel,
@@ -19,6 +19,7 @@ import {
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { MoveSummary } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
+import { scalePop } from "@/lib/motion";
 
 const ROW_HEIGHT = 40;
 
@@ -43,7 +44,6 @@ export default function MoveBrowserPage() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
-  // Auto-expand move when navigated from global search
   useEffect(() => {
     if (expandedMoveId !== null) {
       setExpandedId(expandedMoveId);
@@ -95,7 +95,7 @@ export default function MoveBrowserPage() {
         header: "Name",
         accessorFn: (row) => moveName(row.name_en, row.name_fr),
         cell: ({ getValue }) => (
-          <span className="font-medium">{getValue() as string}</span>
+          <span className="font-heading font-medium">{getValue() as string}</span>
         ),
         size: 180,
       },
@@ -173,17 +173,16 @@ export default function MoveBrowserPage() {
     overscan: 20,
   });
 
-  // Loading skeleton
   if (isLoading) {
     return (
-      <div className="p-4 space-y-3">
-        <div className="h-9 w-64 animate-pulse rounded-md bg-muted" />
+      <div className="p-5 space-y-3">
+        <div className="h-9 w-64 skeleton-shimmer rounded-full" />
         <div className="space-y-1.5">
           {Array.from({ length: 25 }).map((_, i) => (
             <div
               key={i}
-              className="h-9 animate-pulse rounded bg-muted"
-              style={{ opacity: 1 - i * 0.03 }}
+              className="h-9 skeleton-shimmer rounded-xl"
+              style={{ animationDelay: `${i * 0.04}s` }}
             />
           ))}
         </div>
@@ -193,7 +192,7 @@ export default function MoveBrowserPage() {
 
   return (
     <motion.div
-      className="flex flex-col gap-4 p-4"
+      className="flex flex-col gap-4 p-5"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
@@ -201,20 +200,20 @@ export default function MoveBrowserPage() {
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search moves..."
             value={moveQuery}
             onChange={(e) => setMoveQuery(e.target.value)}
-            className="h-9 w-full rounded-lg border border-input bg-background pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/50 transition-shadow"
+            className="h-9 w-full rounded-full glass border border-border/40 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/50 transition-shadow"
           />
         </div>
 
         <select
           value={moveTypeFilter ?? ""}
           onChange={(e) => setMoveTypeFilter(e.target.value || null)}
-          className="h-9 rounded-lg border border-input bg-background px-3 text-sm cursor-pointer hover:bg-accent transition-colors"
+          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
         >
           <option value="">All types</option>
           {ALL_TYPES.map((t) => (
@@ -229,7 +228,7 @@ export default function MoveBrowserPage() {
           onChange={(e) =>
             setMoveDamageClassFilter(e.target.value || null)
           }
-          className="h-9 rounded-lg border border-input bg-background px-3 text-sm cursor-pointer hover:bg-accent transition-colors"
+          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
         >
           <option value="">All classes</option>
           <option value="physical">Physical</option>
@@ -237,15 +236,14 @@ export default function MoveBrowserPage() {
           <option value="status">Status</option>
         </select>
 
-        {/* Power range */}
         <div className="flex items-center gap-1.5">
-          <span className="text-xs text-muted-foreground">Pow:</span>
+          <span className="font-heading text-xs text-muted-foreground">Pow:</span>
           <input
             type="number"
             placeholder="Min"
             value={movePowerMin ?? ""}
             onChange={(e) => setMovePowerMin(e.target.value ? Number(e.target.value) : null)}
-            className="h-9 w-16 rounded-lg border border-input bg-background px-2 text-sm text-center outline-none focus:ring-2 focus:ring-ring/50"
+            className="h-9 w-16 rounded-xl glass border border-border/40 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-ring/50"
             min={0}
             aria-label="Minimum power"
           />
@@ -255,13 +253,13 @@ export default function MoveBrowserPage() {
             placeholder="Max"
             value={movePowerMax ?? ""}
             onChange={(e) => setMovePowerMax(e.target.value ? Number(e.target.value) : null)}
-            className="h-9 w-16 rounded-lg border border-input bg-background px-2 text-sm text-center outline-none focus:ring-2 focus:ring-ring/50"
+            className="h-9 w-16 rounded-xl glass border border-border/40 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-ring/50"
             min={0}
             aria-label="Maximum power"
           />
         </div>
 
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <div className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
           <Swords className="h-3.5 w-3.5" />
           <span>{filtered.length} moves</span>
         </div>
@@ -270,22 +268,22 @@ export default function MoveBrowserPage() {
       {/* Table */}
       <div
         ref={parentRef}
-        className="overflow-y-auto rounded-lg border border-border"
+        className="overflow-y-auto rounded-xl glass border border-border/30"
         style={{ height: "calc(100vh - 220px)" }}
       >
         <table className="w-full text-sm">
-          <thead className="sticky top-0 z-10 bg-background">
+          <thead className="sticky top-0 z-10 glass">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b border-border bg-muted/30"
+                className="border-b border-border/30"
               >
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     scope="col"
                     onClick={header.column.getToggleSortingHandler()}
-                    className="px-3 py-2.5 text-left text-xs font-medium text-muted-foreground cursor-pointer hover:text-foreground select-none transition-colors"
+                    className="px-3 py-2.5 text-left font-heading text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground cursor-pointer hover:text-foreground select-none transition-colors"
                     style={{ width: header.column.getSize() }}
                     aria-sort={
                       header.column.getIsSorted() === "asc"
@@ -300,16 +298,22 @@ export default function MoveBrowserPage() {
                         header.column.columnDef.header,
                         header.getContext(),
                       )}
-                      <span className="text-primary">
-                        {{
-                          asc: " \u2191",
-                          desc: " \u2193",
-                        }[header.column.getIsSorted() as string] ?? ""}
-                      </span>
+                      <AnimatePresence mode="wait">
+                        {header.column.getIsSorted() && (
+                          <motion.span
+                            className="text-primary"
+                            variants={scalePop}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                          >
+                            {header.column.getIsSorted() === "asc" ? " \u2191" : " \u2193"}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </th>
                 ))}
-                {/* Expand indicator column */}
                 <th className="w-8" />
               </tr>
             ))}
@@ -326,7 +330,6 @@ export default function MoveBrowserPage() {
               </tr>
             ) : (
               <>
-                {/* Top spacer */}
                 <tr style={{ height: virtualizer.getVirtualItems()[0]?.start ?? 0 }}>
                   <td colSpan={columns.length + 1} />
                 </tr>
@@ -339,10 +342,10 @@ export default function MoveBrowserPage() {
                       onClick={() =>
                         setExpandedId(isExpanded ? null : row.original.id)
                       }
-                      className={`border-b border-border/50 cursor-pointer transition-colors ${
+                      className={`border-b border-border/20 cursor-pointer transition-colors ${
                         isExpanded
                           ? "bg-accent/60"
-                          : "hover:bg-accent/30"
+                          : "hover:bg-primary/5"
                       }`}
                       style={{ height: ROW_HEIGHT }}
                     >
@@ -364,7 +367,6 @@ export default function MoveBrowserPage() {
                     </tr>
                   );
                 })}
-                {/* Bottom spacer */}
                 <tr style={{ height: virtualizer.getTotalSize() - (virtualizer.getVirtualItems().at(-1)?.end ?? 0) }}>
                   <td colSpan={columns.length + 1} />
                 </tr>
@@ -374,7 +376,7 @@ export default function MoveBrowserPage() {
         </table>
       </div>
 
-      {/* Expanded detail panel (rendered outside the table for layout) */}
+      {/* Expanded detail panel */}
       <AnimatePresence>
         {expandedId !== null && (
           <MoveDetailPanel moveId={expandedId} />
@@ -384,17 +386,15 @@ export default function MoveBrowserPage() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Move Detail Panel                                                  */
-/* ------------------------------------------------------------------ */
-
 function MoveDetailPanel({ moveId }: { moveId: number }) {
   const { data: detail, isLoading } = useMoveById(moveId);
   const { moveName: getMoveName, description } = useSettingsStore();
+  const typeHex = detail?.type_key ? TYPE_COLORS_HEX[detail.type_key] : undefined;
 
   return (
     <motion.div
-      className="rounded-lg border border-border bg-card p-4 space-y-2"
+      className="rounded-2xl glass border border-border/30 p-4 space-y-2"
+      style={typeHex ? { borderTopColor: `${typeHex}60`, borderTopWidth: 2 } : undefined}
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
@@ -402,13 +402,13 @@ function MoveDetailPanel({ moveId }: { moveId: number }) {
     >
       {isLoading ? (
         <div className="space-y-2">
-          <div className="h-4 w-48 animate-pulse rounded bg-muted" />
-          <div className="h-3 w-full animate-pulse rounded bg-muted" />
+          <div className="h-4 w-48 skeleton-shimmer rounded-xl" />
+          <div className="h-3 w-full skeleton-shimmer rounded-xl" />
         </div>
       ) : detail ? (
         <>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-sm">
+            <span className="font-heading font-semibold text-sm">
               {getMoveName(detail.name_en, detail.name_fr)}
             </span>
             {detail.type_key && <TypeBadge type={detail.type_key} size="md" />}
@@ -443,7 +443,7 @@ function MoveDetailPanel({ moveId }: { moveId: number }) {
           </div>
 
           {(detail.effect_en || detail.effect_fr) && (
-            <p className="text-sm text-muted-foreground leading-relaxed pt-1 border-t border-border">
+            <p className="text-sm text-muted-foreground leading-relaxed pt-1 border-t border-border/30">
               {description(detail.effect_en, detail.effect_fr)}
             </p>
           )}

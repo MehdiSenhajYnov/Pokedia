@@ -23,14 +23,17 @@ const queryClient = new QueryClient({
 
 function PageFallback() {
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="h-9 w-48 animate-pulse rounded-lg bg-muted" />
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-3">
+    <div className="flex flex-col gap-4 p-5">
+      <div className="h-9 w-48 skeleton-shimmer rounded-xl" />
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-5">
         {Array.from({ length: 24 }).map((_, i) => (
           <div
             key={i}
-            className="aspect-square animate-pulse rounded-xl bg-muted"
-            style={{ opacity: 1 - i * 0.03 }}
+            className="aspect-square skeleton-shimmer rounded-xl"
+            style={{
+              opacity: 1 - i * 0.03,
+              animationDelay: `${i * 0.04}s`,
+            }}
           />
         ))}
       </div>

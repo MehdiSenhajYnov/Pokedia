@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, LayoutGrid, List, Plus, Check, DatabaseZap, Heart } from "lucide-react";
+import { motion } from "framer-motion";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAllPokemon } from "@/hooks/use-pokemon";
@@ -10,12 +11,11 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
 import { PokemonCard } from "@/components/pokemon/PokemonCard";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
-import { ALL_TYPES } from "@/lib/constants";
+import { ALL_TYPES, STAT_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { buildNameToIdMap, getBaseId, getFormLabel } from "@/lib/pokemon-utils";
 import type { PokemonSummary } from "@/types";
 
-/** Generation ID ranges (National Dex) */
 const GENERATIONS = [
   { label: "Gen I", min: 1, max: 151 },
   { label: "Gen II", min: 152, max: 251 },
@@ -27,10 +27,6 @@ const GENERATIONS = [
   { label: "Gen VIII", min: 810, max: 905 },
   { label: "Gen IX", min: 906, max: 1025 },
 ] as const;
-
-// ---------------------------------------------------------------------------
-// Main page
-// ---------------------------------------------------------------------------
 
 export default function PokemonBrowserPage() {
   usePageTitle("Pokédex");
@@ -53,17 +49,14 @@ export default function PokemonBrowserPage() {
   const { data: favorites } = useFavorites();
   const favSet = useMemo(() => new Set(favorites ?? []), [favorites]);
 
-  // Build a name_key → id lookup for inferring base form IDs
   const nameToIdMap = useMemo(
     () => buildNameToIdMap(allPokemon ?? []),
     [allPokemon],
   );
 
-  // ------ Client-side filter & sort ------
   const filtered = useMemo(() => {
     let result = allPokemon ?? [];
 
-    // Search by name or ID
     if (pokemonQuery) {
       const q = pokemonQuery.toLowerCase().trim();
       result = result.filter((p) => {
@@ -80,7 +73,6 @@ export default function PokemonBrowserPage() {
       });
     }
 
-    // Type filter
     if (pokemonTypeFilter) {
       result = result.filter(
         (p) =>
@@ -89,12 +81,10 @@ export default function PokemonBrowserPage() {
       );
     }
 
-    // Favorites filter
     if (pokemonFavoritesOnly) {
       result = result.filter((p) => favSet.has(p.id));
     }
 
-    // Generation filter
     if (pokemonGenFilter !== null) {
       const gen = GENERATIONS[pokemonGenFilter];
       if (gen) {
@@ -102,7 +92,6 @@ export default function PokemonBrowserPage() {
       }
     }
 
-    // Sort
     const sorted = [...result];
     switch (pokemonSort) {
       case "name":
@@ -136,13 +125,10 @@ export default function PokemonBrowserPage() {
         sorted.sort((a, b) => (b.spe ?? 0) - (a.spe ?? 0));
         break;
       default:
-        // Sort by base form ID so alternate forms appear next to their base.
-        // Uses species_id if available, otherwise infers from name_key prefix.
         sorted.sort((a, b) => {
           const specA = getBaseId(a, nameToIdMap);
           const specB = getBaseId(b, nameToIdMap);
           if (specA !== specB) return specA - specB;
-          // Base form (lower ID) first, then alternates
           return a.id - b.id;
         });
     }
@@ -150,20 +136,20 @@ export default function PokemonBrowserPage() {
     return sorted;
   }, [allPokemon, pokemonQuery, pokemonTypeFilter, pokemonSort, pokemonName, pokemonFavoritesOnly, favSet, pokemonGenFilter]);
 
-  // ------ Loading skeleton ------
   if (isLoading) {
     return (
       <div className="p-6">
         <div className="mb-4 flex flex-wrap gap-2">
-          <div className="h-9 w-64 animate-pulse rounded-md bg-muted" />
-          <div className="h-9 w-32 animate-pulse rounded-md bg-muted" />
-          <div className="h-9 w-32 animate-pulse rounded-md bg-muted" />
+          <div className="h-9 w-64 skeleton-shimmer rounded-full" />
+          <div className="h-9 w-32 skeleton-shimmer rounded-xl" />
+          <div className="h-9 w-32 skeleton-shimmer rounded-xl" />
         </div>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(170px,1fr))] gap-5">
           {Array.from({ length: 30 }).map((_, i) => (
             <div
               key={i}
-              className="h-36 animate-pulse rounded-lg bg-muted"
+              className="h-40 skeleton-shimmer rounded-xl"
+              style={{ animationDelay: `${i * 0.04}s` }}
             />
           ))}
         </div>
@@ -171,12 +157,11 @@ export default function PokemonBrowserPage() {
     );
   }
 
-  // ------ Empty state (no data synced yet) ------
   if (!allPokemon || allPokemon.length === 0) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
         <DatabaseZap className="h-16 w-16 text-muted-foreground/50" />
-        <h2 className="text-xl font-semibold">No data yet</h2>
+        <h2 className="font-heading text-xl font-semibold">No data yet</h2>
         <p className="max-w-md text-sm text-muted-foreground">
           It looks like the database is empty. Head over to{" "}
           <Link to="/settings" className="font-medium text-primary underline">
@@ -189,19 +174,19 @@ export default function PokemonBrowserPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 p-5 page-glow relative overflow-hidden">
       <h1 className="sr-only">Pokédex</h1>
       {/* ── Toolbar ── */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-3">
         {/* Search */}
         <div className="relative min-w-[200px] flex-1">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search by name or ID..."
             value={pokemonQuery}
             onChange={(e) => setPokemonQuery(e.target.value)}
-            className="h-9 w-full rounded-md border border-input bg-background pl-8 pr-3 text-sm outline-none focus:ring-1 focus:ring-ring"
+            className="h-9 w-full rounded-full glass border border-border/40 pl-9 pr-3 text-sm outline-none focus:ring-1 focus:ring-ring transition-shadow"
             aria-label="Search Pokemon"
           />
         </div>
@@ -210,7 +195,7 @@ export default function PokemonBrowserPage() {
         <select
           value={pokemonTypeFilter ?? ""}
           onChange={(e) => setPokemonTypeFilter(e.target.value || null)}
-          className="h-9 rounded-md border border-input bg-background px-3 text-sm"
+          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
           aria-label="Filter by type"
         >
           <option value="">All types</option>
@@ -225,7 +210,7 @@ export default function PokemonBrowserPage() {
         <select
           value={pokemonGenFilter ?? ""}
           onChange={(e) => setPokemonGenFilter(e.target.value ? Number(e.target.value) : null)}
-          className="h-9 rounded-md border border-input bg-background px-3 text-sm"
+          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
           aria-label="Filter by generation"
         >
           <option value="">All gens</option>
@@ -238,7 +223,7 @@ export default function PokemonBrowserPage() {
         <select
           value={pokemonSort}
           onChange={(e) => setPokemonSort(e.target.value)}
-          className="h-9 rounded-md border border-input bg-background px-3 text-sm"
+          className="h-9 rounded-xl glass border border-border/40 px-3 text-sm cursor-pointer"
           aria-label="Sort by"
         >
           <option value="id">Sort: #ID</option>
@@ -256,10 +241,10 @@ export default function PokemonBrowserPage() {
         <button
           onClick={() => setPokemonFavoritesOnly(!pokemonFavoritesOnly)}
           className={cn(
-            "flex h-9 items-center gap-1.5 rounded-md border px-3 text-sm transition-colors",
+            "flex h-9 items-center gap-1.5 rounded-xl border px-3 text-sm transition-colors",
             pokemonFavoritesOnly
               ? "border-red-500/50 bg-red-500/10 text-red-500"
-              : "border-input text-muted-foreground hover:text-foreground",
+              : "border-border/40 glass text-muted-foreground hover:text-foreground",
           )}
           aria-label="Show favorites only"
           aria-pressed={pokemonFavoritesOnly}
@@ -268,14 +253,24 @@ export default function PokemonBrowserPage() {
           <span className="hidden sm:inline">Favorites</span>
         </button>
 
-        {/* View toggle */}
-        <div className="flex rounded-md border border-input" role="group" aria-label="View mode">
+        {/* View toggle — segmented control */}
+        <div className="relative flex rounded-xl glass border border-border/40 p-0.5" role="group" aria-label="View mode">
+          {/* Sliding indicator */}
+          <motion.div
+            className="absolute top-0.5 bottom-0.5 rounded-lg bg-accent"
+            layout
+            style={{
+              width: "calc(50% - 2px)",
+              left: pokemonViewMode === "grid" ? 2 : "calc(50%)",
+            }}
+            transition={{ type: "spring", stiffness: 500, damping: 35 }}
+          />
           <button
             onClick={() => setPokemonViewMode("grid")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center transition-colors",
+              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
               pokemonViewMode === "grid"
-                ? "bg-accent text-foreground"
+                ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground",
             )}
             aria-label="Grid view"
@@ -286,9 +281,9 @@ export default function PokemonBrowserPage() {
           <button
             onClick={() => setPokemonViewMode("list")}
             className={cn(
-              "flex h-9 w-9 items-center justify-center transition-colors",
+              "relative z-10 flex h-8 w-9 items-center justify-center transition-colors",
               pokemonViewMode === "list"
-                ? "bg-accent text-foreground"
+                ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground",
             )}
             aria-label="List view"
@@ -299,7 +294,7 @@ export default function PokemonBrowserPage() {
         </div>
 
         {/* Count */}
-        <span className="text-xs text-muted-foreground" aria-live="polite">
+        <span className="font-mono text-xs text-muted-foreground" aria-live="polite">
           {filtered.length} Pokemon
         </span>
       </div>
@@ -318,16 +313,14 @@ export default function PokemonBrowserPage() {
 // Virtualized Grid view
 // ---------------------------------------------------------------------------
 
-const CARD_MIN_WIDTH = 132;
-const CARD_HEIGHT = 170;
-const GAP = 12;
+const CARD_MIN_WIDTH = 170;
+const CARD_HEIGHT = 210;
+const GAP = 20;
 
 function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number> }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(5);
 
-  // Track parent width via ResizeObserver so columns update dynamically
-  // and also triggers a re-render once the ref is attached (fixing first-render null)
   useEffect(() => {
     const el = parentRef.current;
     if (!el) return;
@@ -406,6 +399,7 @@ function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
 // ---------------------------------------------------------------------------
 
 const ROW_HEIGHT = 56;
+const STAT_KEYS = ["hp", "atk", "def", "spa", "spd", "spe"] as const;
 
 function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number> }) {
   const { pokemonName } = useSettingsStore();
@@ -437,18 +431,19 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
       style={{ height: "calc(100vh - 180px)" }}
     >
       <table className="w-full text-sm">
-        <thead className="sticky top-0 z-10 bg-background">
-          <tr className="border-b border-border text-xs text-muted-foreground">
+        <thead className="sticky top-0 z-10 glass">
+          <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
             <th className="w-14 px-3 py-2.5 text-left" scope="col">#</th>
             <th className="w-10 px-1 py-2.5" scope="col"><span className="sr-only">Sprite</span></th>
             <th className="px-3 py-2.5 text-left" scope="col">Name</th>
             <th className="px-3 py-2.5 text-left" scope="col">Type</th>
-            <th className="px-3 py-2.5 text-right" scope="col">HP</th>
-            <th className="px-3 py-2.5 text-right" scope="col">Atk</th>
-            <th className="px-3 py-2.5 text-right" scope="col">Def</th>
-            <th className="px-3 py-2.5 text-right" scope="col">SpA</th>
-            <th className="px-3 py-2.5 text-right" scope="col">SpD</th>
-            <th className="px-3 py-2.5 text-right" scope="col">Spe</th>
+            {STAT_KEYS.map((s) => (
+              <th key={s} className="px-3 py-2.5 text-right" scope="col"
+                style={{ color: STAT_COLORS[s] }}
+              >
+                {s === "hp" ? "HP" : s === "atk" ? "Atk" : s === "def" ? "Def" : s === "spa" ? "SpA" : s === "spd" ? "SpD" : "Spe"}
+              </th>
+            ))}
             <th className="px-3 py-2.5 text-right" scope="col">BST</th>
             <th className="w-10 px-3 py-2.5" scope="col"><span className="sr-only">Actions</span></th>
           </tr>
@@ -467,12 +462,12 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
               <tr
                 key={p.id}
                 className={cn(
-                  "border-b border-border/30 transition-colors hover:bg-accent/50",
+                  "border-b border-border/20 transition-colors hover:bg-primary/5",
                   isForm && "bg-muted/30",
                 )}
                 style={{ height: ROW_HEIGHT }}
               >
-                <td className="px-3 py-2 text-muted-foreground tabular-nums">
+                <td className="px-3 py-2 font-mono text-muted-foreground tabular-nums">
                   {String(baseId).padStart(3, "0")}
                 </td>
                 <td className="px-1 py-1">
@@ -488,11 +483,11 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
                 <td className="px-3 py-2">
                   <Link
                     to={`/pokemon/${p.id}`}
-                    className="font-medium hover:underline"
+                    className="font-heading font-medium hover:underline"
                   >
                     {pokemonName(p.name_en, p.name_fr)}
                     {formLabel && (
-                      <span className="ml-1.5 text-xs font-normal text-muted-foreground">
+                      <span className="ml-1.5 text-xs font-body font-normal text-muted-foreground">
                         · {formLabel}
                       </span>
                     )}
@@ -504,24 +499,13 @@ function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; 
                     {p.type2_key && <TypeBadge type={p.type2_key} />}
                   </div>
                 </td>
-                <td className="px-3 py-2 text-right font-mono text-xs">
-                  {p.hp ?? "\u2014"}
-                </td>
-                <td className="px-3 py-2 text-right font-mono text-xs">
-                  {p.atk ?? "\u2014"}
-                </td>
-                <td className="px-3 py-2 text-right font-mono text-xs">
-                  {p.def ?? "\u2014"}
-                </td>
-                <td className="px-3 py-2 text-right font-mono text-xs">
-                  {p.spa ?? "\u2014"}
-                </td>
-                <td className="px-3 py-2 text-right font-mono text-xs">
-                  {p.spd ?? "\u2014"}
-                </td>
-                <td className="px-3 py-2 text-right font-mono text-xs">
-                  {p.spe ?? "\u2014"}
-                </td>
+                {STAT_KEYS.map((s) => (
+                  <td key={s} className="px-3 py-2 text-right font-mono text-xs"
+                    style={{ color: p[s] !== null ? STAT_COLORS[s] : undefined }}
+                  >
+                    {p[s] ?? "\u2014"}
+                  </td>
+                ))}
                 <td className="px-3 py-2 text-right font-mono text-xs font-semibold">
                   {p.base_stat_total ?? "\u2014"}
                 </td>

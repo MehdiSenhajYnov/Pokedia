@@ -24,10 +24,8 @@ export function SyncBanner() {
     (r) => r.status === "pending" && r.total === 0
   );
 
-  // Nothing to show when all data is synced
   if (allDone && !isSyncing) return null;
 
-  // Calculate progress
   const totalItems = syncStatus.resources.reduce((s, r) => s + r.total, 0);
   const completedItems = syncStatus.resources.reduce(
     (s, r) => s + r.completed,
@@ -52,6 +50,7 @@ export function SyncBanner() {
               ? "Sync complete"
               : ""}
       </div>
+
       {/* ── Error state ── */}
       {hasError && !isSyncing && (
         <motion.div
@@ -64,11 +63,13 @@ export function SyncBanner() {
         >
           <div className="border-b border-destructive/20 bg-destructive/10 px-5 py-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-destructive/15">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-destructive/15"
+                style={{ boxShadow: "0 0 16px rgba(239,68,68,0.3)" }}
+              >
                 <AlertCircle className="h-4 w-4 text-destructive" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-foreground">
+                <p className="text-sm font-heading font-medium text-foreground">
                   Sync failed
                 </p>
                 {errorResource?.error && (
@@ -77,13 +78,15 @@ export function SyncBanner() {
                   </p>
                 )}
               </div>
-              <button
+              <motion.button
                 onClick={() => startSync()}
                 className="flex h-8 items-center gap-1.5 rounded-lg bg-destructive px-3 text-xs font-medium text-destructive-foreground transition-colors hover:bg-destructive/90"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
                 Retry
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.div>
@@ -101,11 +104,11 @@ export function SyncBanner() {
         >
           <div className="border-b border-primary/20 bg-primary/5 px-5 py-4">
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/15">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/15 glow-primary">
                 <Sparkles className="h-5 w-5 text-primary" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-foreground">
+                <p className="text-sm font-heading font-semibold text-foreground">
                   Welcome to Pokedia!
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
@@ -113,13 +116,15 @@ export function SyncBanner() {
                   moment.
                 </p>
               </div>
-              <button
+              <motion.button
                 onClick={() => startSync()}
                 className="flex h-9 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <Download className="h-4 w-4" />
                 Download Data
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.div>
@@ -135,50 +140,62 @@ export function SyncBanner() {
           transition={{ duration: 0.25, ease: "easeInOut" }}
           className="overflow-hidden"
         >
-          <div className="border-b border-border bg-muted/40 px-5 py-3">
+          <div className="border-b border-border/30 glass-subtle px-5 py-3">
             <div className="flex items-center gap-3">
               <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-sm font-medium text-foreground">
+                  <span className="text-sm font-heading font-medium text-foreground">
                     Syncing
                     {currentResource ? (
-                      <span className="font-normal text-muted-foreground">
+                      <span className="font-body font-normal text-muted-foreground">
                         {" "}
                         &mdash; {currentResource.resource}
                       </span>
                     ) : (
-                      <span className="font-normal text-muted-foreground">
+                      <span className="font-body font-normal text-muted-foreground">
                         ...
                       </span>
                     )}
                   </span>
-                  <span className="text-xs tabular-nums text-muted-foreground">
+                  <span className="text-xs font-mono tabular-nums text-muted-foreground">
                     {completedItems}
                     {totalItems > 0 && <span> / {totalItems}</span>}
                   </span>
                 </div>
 
-                {/* Progress bar */}
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                {/* Progress bar with coral gradient + shimmer */}
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted/30">
                   <motion.div
-                    className="h-full rounded-full bg-primary"
+                    className="relative h-full rounded-full"
+                    style={{
+                      background: "linear-gradient(90deg, var(--color-primary), oklch(0.72 0.16 40))",
+                    }}
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
-                  />
+                  >
+                    <div
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+                        animation: "shimmer 1.5s ease-in-out infinite",
+                      }}
+                    />
+                  </motion.div>
                 </div>
               </div>
 
-              {/* Cancel button */}
-              <button
+              <motion.button
                 onClick={() => cancelSync()}
                 className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                 title="Cancel sync"
                 aria-label="Cancel sync"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <X className="h-4 w-4" />
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.div>

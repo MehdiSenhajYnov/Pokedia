@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSyncStatus } from "@/hooks/use-sync";
 import { useComparisonStore } from "@/stores/comparison-store";
+import { navItemVariants, springSnappy } from "@/lib/motion";
 import {
   BookOpen,
   GitCompareArrows,
@@ -10,8 +12,7 @@ import {
   Swords,
   Package,
   Settings,
-  PanelLeftClose,
-  PanelLeft,
+  ChevronLeft,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -36,14 +37,14 @@ function SyncDot() {
     syncStatus.resources.length > 0 &&
     syncStatus.resources.every((r) => r.status === "done");
 
-  let color = "bg-muted-foreground/40"; // default / unknown
+  let color = "bg-muted-foreground/40";
   let title = "No sync data";
 
   if (hasError) {
     color = "bg-red-500";
     title = "Sync error";
   } else if (isSyncing) {
-    color = "bg-yellow-500 animate-pulse";
+    color = "bg-yellow-500 animate-[glow-pulse_2s_ease-in-out_infinite]";
     title = "Syncing...";
   } else if (allDone) {
     color = "bg-emerald-500";
@@ -62,7 +63,6 @@ export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const compareCount = useComparisonStore((s) => s.pokemonIds.length);
 
-  // Collapse automatically on narrow viewports
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 860px)");
     const handler = (e: MediaQueryListEvent) => setCollapsed(e.matches);
@@ -72,35 +72,41 @@ export function Sidebar() {
   }, []);
 
   return (
-    <aside
+    <motion.aside
       aria-label="Main navigation"
       className={cn(
-        "flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-in-out",
-        collapsed ? "w-[52px]" : "w-56"
+        "flex h-screen flex-col glass border-r border-border/30",
+        collapsed ? "rounded-r-2xl" : ""
       )}
+      animate={{ width: collapsed ? 52 : 224 }}
+      transition={springSnappy}
     >
       {/* ── Logo ── */}
       <div
         className={cn(
-          "flex h-14 shrink-0 items-center gap-2.5 border-b border-sidebar-border px-3",
+          "flex h-14 shrink-0 items-center gap-2.5 border-b border-border/30 px-3",
           collapsed && "justify-center px-0"
         )}
       >
-        {/* Pokeball-inspired icon */}
-        <div className="relative flex h-7 w-7 shrink-0 items-center justify-center">
-          <div className="h-7 w-7 rounded-full border-[2.5px] border-sidebar-primary bg-sidebar-primary/15" />
-          <div className="absolute h-[2.5px] w-full bg-sidebar-primary" />
-          <div className="absolute h-2.5 w-2.5 rounded-full border-[2px] border-sidebar-primary bg-sidebar" />
-        </div>
+        <motion.div
+          className="relative flex h-7 w-7 shrink-0 items-center justify-center cursor-pointer"
+          whileHover={{ rotate: 180 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          <div className="h-7 w-7 rounded-full border-[2.5px] border-primary bg-primary/15" />
+          <div className="absolute h-[2.5px] w-full bg-primary" />
+          <div className="absolute h-2.5 w-2.5 rounded-full border-[2px] border-primary bg-sidebar" />
+        </motion.div>
         {!collapsed && (
-          <span className="text-base font-bold tracking-tight text-sidebar-foreground">
+          <span className="font-heading text-base font-bold tracking-tight text-sidebar-foreground">
             Pokedia
           </span>
         )}
       </div>
 
       {/* ── Navigation ── */}
-      <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-2 py-3">
+      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-2 py-3">
         {NAV_ITEMS.map(({ to, icon: Icon, label, badge }) => {
           const badgeCount = badge === "compare" ? compareCount : 0;
           return (
@@ -110,25 +116,48 @@ export function Sidebar() {
               end={to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "group relative flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium transition-colors duration-150",
+                  "group relative flex h-10 items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors duration-150",
                   "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                   isActive
-                    ? "bg-sidebar-primary/15 text-sidebar-primary shadow-[inset_3px_0_0_0] shadow-sidebar-primary"
+                    ? "text-primary"
                     : "text-sidebar-foreground/60",
                   collapsed && "justify-center px-0"
                 )
               }
               title={collapsed ? label : undefined}
             >
-              <Icon className="h-[18px] w-[18px] shrink-0" />
-              {!collapsed && <span>{label}</span>}
-              {badgeCount > 0 && (
-                <span className={cn(
-                  "flex h-5 min-w-5 items-center justify-center rounded-full bg-sidebar-primary px-1 text-[10px] font-bold text-sidebar-primary-foreground",
-                  collapsed ? "absolute -right-0.5 -top-0.5" : "ml-auto"
-                )}>
-                  {badgeCount}
-                </span>
+              {({ isActive }) => (
+                <>
+                  {/* Active indicator — vertical bar with glow */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="sidebar-active"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-full bg-primary"
+                      transition={springSnappy}
+                      style={{
+                        marginLeft: collapsed ? -1 : -4,
+                        boxShadow: "0 0 10px var(--color-primary), 0 0 20px var(--color-primary)",
+                      }}
+                    />
+                  )}
+                  <motion.div
+                    className="flex items-center gap-2.5"
+                    variants={navItemVariants}
+                    initial="rest"
+                    whileHover="hover"
+                  >
+                    <Icon className="h-[18px] w-[18px] shrink-0" />
+                    {!collapsed && <span>{label}</span>}
+                  </motion.div>
+                  {badgeCount > 0 && (
+                    <span className={cn(
+                      "flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground",
+                      collapsed ? "absolute -right-0.5 -top-0.5" : "ml-auto"
+                    )}>
+                      {badgeCount}
+                    </span>
+                  )}
+                </>
               )}
             </NavLink>
           );
@@ -136,17 +165,17 @@ export function Sidebar() {
       </nav>
 
       {/* ── Bottom section ── */}
-      <div className="flex flex-col gap-0.5 border-t border-sidebar-border px-2 py-3">
+      <div className="flex flex-col gap-1 border-t border-border/30 px-2 py-3">
         {BOTTOM_ITEMS.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) =>
               cn(
-                "group flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium transition-colors duration-150",
+                "group flex h-10 items-center gap-2.5 rounded-lg px-3 text-sm font-medium transition-colors duration-150",
                 "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 isActive
-                  ? "bg-sidebar-primary/15 text-sidebar-primary shadow-[inset_3px_0_0_0] shadow-sidebar-primary"
+                  ? "text-primary"
                   : "text-sidebar-foreground/60",
                 collapsed && "justify-center px-0"
               )
@@ -178,22 +207,20 @@ export function Sidebar() {
         <button
           onClick={() => setCollapsed((c) => !c)}
           className={cn(
-            "mt-1 flex h-8 items-center gap-2.5 rounded-lg px-2.5 text-sidebar-foreground/50 transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-            collapsed && "justify-center px-0"
+            "mt-1 flex h-8 items-center justify-center rounded-full text-sidebar-foreground/50 transition-colors duration-150 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+            collapsed ? "mx-auto w-8" : "w-8 ml-auto"
           )}
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {collapsed ? (
-            <PanelLeft className="h-[18px] w-[18px] shrink-0" />
-          ) : (
-            <>
-              <PanelLeftClose className="h-[18px] w-[18px] shrink-0" />
-              <span className="text-xs">Collapse</span>
-            </>
-          )}
+          <motion.div
+            animate={{ rotate: collapsed ? 180 : 0 }}
+            transition={springSnappy}
+          >
+            <ChevronLeft className="h-[18px] w-[18px]" />
+          </motion.div>
         </button>
       </div>
-    </aside>
+    </motion.aside>
   );
 }

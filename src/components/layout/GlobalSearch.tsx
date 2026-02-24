@@ -8,6 +8,7 @@ import { useAllItems } from "@/hooks/use-items";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useSearchStore } from "@/stores/search-store";
 import { TYPE_COLORS } from "@/lib/constants";
+import { dialogOverlay, dialogContent, springSnappy } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import type { PokemonSummary, MoveSummary, ItemSummary } from "@/types";
 
@@ -24,7 +25,6 @@ interface SearchResult {
   subtitle?: string;
   spriteUrl?: string | null;
   typeKeys?: (string | null)[];
-  /** For moves/items: the name to pre-fill in the page search */
   searchName?: string;
 }
 
@@ -41,7 +41,6 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   const { pokemonName, moveName, itemName } = useSettingsStore();
   const { setMoveQuery, setExpandedMoveId, setItemQuery } = useSearchStore();
 
-  // ── Ctrl+K / Escape ──
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -56,7 +55,6 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [open, onOpenChange]);
 
-  // Reset query when closing
   useEffect(() => {
     if (!open) {
       setQuery("");
@@ -64,7 +62,6 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     }
   }, [open]);
 
-  // ── Filter results ──
   const results = useMemo<SearchResult[]>(() => {
     if (query.length === 0) return [];
     const q = query.toLowerCase();
@@ -127,18 +124,14 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     return [...pokemonResults, ...moveResults, ...itemResults];
   }, [query, allPokemon, allMoves, allItems, pokemonName, moveName, itemName]);
 
-  // Reset active index when results change
   useEffect(() => {
     setActiveIndex(0);
   }, [results.length]);
 
-  // ── Keyboard navigation ──
   const handleSelect = useCallback(
     (result: SearchResult) => {
-      // Pre-fill the page search when navigating to moves/items
       if (result.kind === "move" && result.searchName) {
         setMoveQuery(result.searchName);
-        // Extract numeric ID from "move-123" to auto-expand the detail panel
         const moveId = parseInt(result.id.replace("move-", ""), 10);
         if (!isNaN(moveId)) setExpandedMoveId(moveId);
       } else if (result.kind === "item" && result.searchName) {
@@ -166,19 +159,16 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     [results, activeIndex, handleSelect]
   );
 
-  // Scroll active item into view
   useEffect(() => {
     if (!listRef.current) return;
     const active = listRef.current.querySelector("[data-active='true']");
     active?.scrollIntoView({ block: "nearest" });
   }, [activeIndex]);
 
-  // ── Group results for rendering ──
   const pokemonGroup = results.filter((r) => r.kind === "pokemon");
   const moveGroup = results.filter((r) => r.kind === "move");
   const itemGroup = results.filter((r) => r.kind === "item");
 
-  // Calculate global index offsets for groups
   const pokemonOffset = 0;
   const moveOffset = pokemonGroup.length;
   const itemOffset = moveOffset + moveGroup.length;
@@ -189,9 +179,10 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
         <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]">
           {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={dialogOverlay}
+            initial="initial"
+            animate="animate"
+            exit="exit"
             transition={{ duration: 0.15 }}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => onOpenChange(false)}
@@ -199,18 +190,19 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
 
           {/* Search panel */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: -8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -8 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative z-50 w-full max-w-xl overflow-hidden rounded-xl border border-border bg-popover shadow-2xl shadow-black/25"
+            variants={dialogContent}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="relative z-50 w-full max-w-xl overflow-hidden rounded-2xl glass border border-border/40 shadow-warm"
             role="dialog"
             aria-modal="true"
             aria-label="Global search"
             onKeyDown={handleKeyDown}
           >
             {/* Search input */}
-            <div className="flex items-center gap-3 border-b border-border px-4">
+            <div className="flex items-center gap-3 border-b border-border/30 px-4">
               <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
               <input
                 ref={inputRef}
@@ -218,7 +210,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search Pokemon, moves, items..."
-                className="h-12 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
+                className="h-12 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground font-body"
               />
               {query.length > 0 && (
                 <button
@@ -233,16 +225,15 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
 
             {/* Results */}
             <div ref={listRef} className="max-h-80 overflow-y-auto overscroll-contain p-1.5">
-              {/* Pokemon group */}
               {pokemonGroup.length > 0 && (
                 <div>
-                  <div className="px-2.5 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <div className="px-2.5 pb-1 pt-2 font-heading text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                     Pokemon
                   </div>
                   {pokemonGroup.map((r, i) => {
                     const globalIdx = pokemonOffset + i;
                     return (
-                      <button
+                      <motion.button
                         key={r.id}
                         data-active={activeIndex === globalIdx}
                         onClick={() => handleSelect(r)}
@@ -253,8 +244,10 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             ? "bg-accent text-accent-foreground"
                             : "text-foreground/80 hover:bg-accent/50"
                         )}
+                        initial={false}
+                        animate={activeIndex === globalIdx ? { x: 4 } : { x: 0 }}
+                        transition={springSnappy}
                       >
-                        {/* Sprite */}
                         {r.spriteUrl ? (
                           <img
                             src={r.spriteUrl}
@@ -263,18 +256,14 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             loading="lazy"
                           />
                         ) : (
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs text-muted-foreground">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full glass-subtle text-xs text-muted-foreground">
                             ?
                           </div>
                         )}
-
-                        {/* Name & ID */}
                         <div className="flex min-w-0 flex-1 flex-col">
                           <span className="truncate font-medium">{r.label}</span>
-                          <span className="text-xs text-muted-foreground">{r.subtitle}</span>
+                          <span className="text-xs font-mono text-muted-foreground">{r.subtitle}</span>
                         </div>
-
-                        {/* Type badges */}
                         <div className="flex shrink-0 items-center gap-1">
                           {r.typeKeys?.map((typeKey) => {
                             if (!typeKey) return null;
@@ -283,7 +272,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                               <span
                                 key={typeKey}
                                 className={cn(
-                                  "rounded-full px-2 py-0.5 text-[10px] font-medium capitalize",
+                                  "rounded-full px-2 py-0.5 text-[10px] font-heading font-medium uppercase",
                                   colors?.bg ?? "bg-gray-500",
                                   colors?.text ?? "text-white"
                                 )}
@@ -293,22 +282,21 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             );
                           })}
                         </div>
-                      </button>
+                      </motion.button>
                     );
                   })}
                 </div>
               )}
 
-              {/* Moves group */}
               {moveGroup.length > 0 && (
                 <div>
-                  <div className="px-2.5 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <div className="px-2.5 pb-1 pt-2 font-heading text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                     Moves
                   </div>
                   {moveGroup.map((r, i) => {
                     const globalIdx = moveOffset + i;
                     return (
-                      <button
+                      <motion.button
                         key={r.id}
                         data-active={activeIndex === globalIdx}
                         onClick={() => handleSelect(r)}
@@ -319,16 +307,14 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             ? "bg-accent text-accent-foreground"
                             : "text-foreground/80 hover:bg-accent/50"
                         )}
+                        initial={false}
+                        animate={activeIndex === globalIdx ? { x: 4 } : { x: 0 }}
+                        transition={springSnappy}
                       >
-                        {/* Move icon placeholder */}
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg glass-subtle">
                           <Swords className="h-4 w-4 text-muted-foreground" />
                         </div>
-
-                        {/* Name */}
                         <span className="min-w-0 flex-1 truncate font-medium">{r.label}</span>
-
-                        {/* Type badge */}
                         <div className="flex shrink-0 items-center gap-1">
                           {r.typeKeys?.map((typeKey) => {
                             if (!typeKey) return null;
@@ -337,7 +323,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                               <span
                                 key={typeKey}
                                 className={cn(
-                                  "rounded-full px-2 py-0.5 text-[10px] font-medium capitalize",
+                                  "rounded-full px-2 py-0.5 text-[10px] font-heading font-medium uppercase",
                                   colors?.bg ?? "bg-gray-500",
                                   colors?.text ?? "text-white"
                                 )}
@@ -347,22 +333,21 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             );
                           })}
                         </div>
-                      </button>
+                      </motion.button>
                     );
                   })}
                 </div>
               )}
 
-              {/* Items group */}
               {itemGroup.length > 0 && (
                 <div>
-                  <div className="px-2.5 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <div className="px-2.5 pb-1 pt-2 font-heading text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                     Items
                   </div>
                   {itemGroup.map((r, i) => {
                     const globalIdx = itemOffset + i;
                     return (
-                      <button
+                      <motion.button
                         key={r.id}
                         data-active={activeIndex === globalIdx}
                         onClick={() => handleSelect(r)}
@@ -373,8 +358,10 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             ? "bg-accent text-accent-foreground"
                             : "text-foreground/80 hover:bg-accent/50"
                         )}
+                        initial={false}
+                        animate={activeIndex === globalIdx ? { x: 4 } : { x: 0 }}
+                        transition={springSnappy}
                       >
-                        {/* Item sprite */}
                         {r.spriteUrl ? (
                           <img
                             src={r.spriteUrl}
@@ -383,20 +370,17 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                             loading="lazy"
                           />
                         ) : (
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg glass-subtle">
                             <Package className="h-4 w-4 text-muted-foreground" />
                           </div>
                         )}
-
-                        {/* Name */}
                         <span className="min-w-0 flex-1 truncate font-medium">{r.label}</span>
-                      </button>
+                      </motion.button>
                     );
                   })}
                 </div>
               )}
 
-              {/* Empty states */}
               {query.length > 0 && results.length === 0 && (
                 <div className="flex flex-col items-center gap-2 px-2 py-10 text-center">
                   <Search className="h-8 w-8 text-muted-foreground/40" />
@@ -408,7 +392,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
 
               {query.length === 0 && (
                 <div className="flex flex-col items-center gap-2 px-2 py-10 text-center">
-                  <Search className="h-8 w-8 text-muted-foreground/40" />
+                  <Search className="h-8 w-8 text-muted-foreground/40 animate-[float_3s_ease-in-out_infinite]" />
                   <p className="text-sm text-muted-foreground">
                     Search for Pokemon, moves, or items...
                   </p>
@@ -418,7 +402,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
 
             {/* Footer hints */}
             {results.length > 0 && (
-              <div className="flex items-center gap-4 border-t border-border px-4 py-2 text-[11px] text-muted-foreground">
+              <div className="flex items-center gap-4 border-t border-border/30 px-4 py-2 text-[11px] text-muted-foreground">
                 <span className="flex items-center gap-1">
                   <ArrowUp className="h-3 w-3" />
                   <ArrowDown className="h-3 w-3" />
@@ -429,7 +413,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                   select
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="rounded border border-border bg-muted px-1 font-mono text-[10px]">esc</kbd>
+                  <kbd className="rounded border border-border/50 bg-muted/50 px-1 font-mono text-[10px]">esc</kbd>
                   close
                 </span>
               </div>

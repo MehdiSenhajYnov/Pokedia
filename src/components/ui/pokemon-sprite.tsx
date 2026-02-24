@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { springSnappy } from "@/lib/motion";
 
 interface PokemonSpriteProps {
   src: string | null;
@@ -12,10 +14,6 @@ interface PokemonSpriteProps {
 const GITHUB_SPRITE_BASE =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
-/**
- * Pokemon sprite with loading skeleton, fallback chain, and error state.
- * Fallback chain: src → GitHub sprite → silhouette placeholder.
- */
 export function PokemonSprite({
   src,
   alt,
@@ -30,7 +28,6 @@ export function PokemonSprite({
     src ?? (pokemonId ? `${GITHUB_SPRITE_BASE}/${pokemonId}.png` : null),
   );
 
-  // Track previous src so we can detect prop changes
   const prevSrc = useRef(src);
   useEffect(() => {
     if (src !== prevSrc.current) {
@@ -50,7 +47,6 @@ export function PokemonSprite({
 
   const handleError = useCallback(() => {
     if (status === "loading" && pokemonId) {
-      // Try GitHub fallback
       setCurrentSrc(`${GITHUB_SPRITE_BASE}/${pokemonId}.png`);
       setStatus("fallback");
     } else {
@@ -66,7 +62,7 @@ export function PokemonSprite({
     return (
       <div
         className={cn(
-          "flex items-center justify-center rounded-lg bg-muted text-muted-foreground",
+          "flex items-center justify-center rounded-lg glass-subtle text-muted-foreground",
           className,
           fallbackClassName,
         )}
@@ -75,7 +71,7 @@ export function PokemonSprite({
       >
         <svg
           viewBox="0 0 100 100"
-          className="h-3/5 w-3/5 opacity-30"
+          className="h-3/5 w-3/5 opacity-30 animate-[float_3s_ease-in-out_infinite]"
           fill="currentColor"
         >
           <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="4" />
@@ -90,18 +86,21 @@ export function PokemonSprite({
   return (
     <div className={cn("relative", className)}>
       {(status === "loading" || status === "fallback") && (
-        <div className="absolute inset-0 animate-pulse rounded-lg bg-muted" />
+        <div className="absolute inset-0 skeleton-shimmer rounded-lg" />
       )}
-      <img
+      <motion.img
         src={currentSrc}
         alt={alt}
         className={cn(
-          "h-full w-full object-contain transition-opacity duration-200",
+          "h-full w-full object-contain",
           status === "loaded" ? "opacity-100" : "opacity-0",
         )}
         onLoad={handleLoad}
         onError={handleError}
         loading="lazy"
+        initial={{ opacity: 0, y: 8, scale: 0.9 }}
+        animate={status === "loaded" ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={springSnappy}
       />
     </div>
   );

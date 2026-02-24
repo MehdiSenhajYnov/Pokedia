@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import { TypeBadge } from "./TypeBadge";
 import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
 import { useSettingsStore } from "@/stores/settings-store";
@@ -49,8 +50,8 @@ export function MoveTable({ moves }: MoveTableProps) {
 
   return (
     <div>
-      {/* Tabs */}
-      <div className="mb-2 flex gap-1 border-b border-border" role="tablist" aria-label="Move learn methods">
+      {/* Pill-style segmented tabs */}
+      <div className="mb-3 inline-flex rounded-xl glass border border-border/30 p-0.5" role="tablist" aria-label="Move learn methods">
         {availableTabs.map((t) => (
           <button
             key={t.key}
@@ -58,45 +59,50 @@ export function MoveTable({ moves }: MoveTableProps) {
             aria-selected={tab === t.key}
             aria-controls="pokemon-move-table"
             onClick={() => setTab(t.key)}
-            className={`border-b-2 px-3 py-1.5 text-xs font-medium transition-colors ${
-              tab === t.key
-                ? "border-primary text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
+            className="relative rounded-lg px-3 py-1.5 text-xs font-heading font-medium transition-colors"
           >
-            {t.label}
+            {tab === t.key && (
+              <motion.div
+                layoutId="move-tab-indicator"
+                className="absolute inset-0 rounded-lg bg-accent"
+                transition={{ type: "spring", stiffness: 500, damping: 35 }}
+              />
+            )}
+            <span className={`relative z-10 ${tab === t.key ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+              {t.label}
+            </span>
           </button>
         ))}
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto" role="tabpanel" id="pokemon-move-table">
+      <div className="overflow-x-auto rounded-xl glass border border-border/30" role="tabpanel" id="pokemon-move-table">
         <table className="w-full text-xs">
           <thead>
-            <tr className="border-b border-border text-muted-foreground">
+            <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
               {tab === "level-up" && (
-                <th scope="col" className="w-12 px-2 py-1.5 text-left">Lv.</th>
+                <th scope="col" className="w-12 px-2 py-2 text-left">Lv.</th>
               )}
-              <th scope="col" className="px-2 py-1.5 text-left">Move</th>
-              <th scope="col" className="w-20 px-2 py-1.5 text-left">Type</th>
-              <th scope="col" className="w-12 px-2 py-1.5 text-center">Cat.</th>
-              <th scope="col" className="w-12 px-2 py-1.5 text-right">Pow</th>
-              <th scope="col" className="w-12 px-2 py-1.5 text-right">Acc</th>
-              <th scope="col" className="w-10 px-2 py-1.5 text-right">PP</th>
+              <th scope="col" className="px-2 py-2 text-left">Move</th>
+              <th scope="col" className="w-20 px-2 py-2 text-left">Type</th>
+              <th scope="col" className="w-12 px-2 py-2 text-center">Cat.</th>
+              <th scope="col" className="w-12 px-2 py-2 text-right">Pow</th>
+              <th scope="col" className="w-12 px-2 py-2 text-right">Acc</th>
+              <th scope="col" className="w-10 px-2 py-2 text-right">PP</th>
             </tr>
           </thead>
           <tbody>
-            {filteredMoves.map((m) => (
+            {filteredMoves.map((m, i) => (
               <tr
                 key={`${m.move_id}-${m.learn_method}-${m.level_learned_at}`}
-                className="border-b border-border/50 hover:bg-accent/50"
+                className={`border-b border-border/20 hover:bg-primary/5 transition-colors ${i % 2 === 1 ? "bg-muted/5" : ""}`}
               >
                 {tab === "level-up" && (
-                  <td className="px-2 py-1.5 text-muted-foreground">
+                  <td className="px-2 py-1.5 font-mono text-muted-foreground">
                     {m.level_learned_at || "\u2014"}
                   </td>
                 )}
-                <td className="px-2 py-1.5 font-medium">
+                <td className="px-2 py-1.5 font-heading font-medium">
                   {moveName(m.name_en, m.name_fr)}
                 </td>
                 <td className="px-2 py-1.5">
@@ -109,13 +115,13 @@ export function MoveTable({ moves }: MoveTableProps) {
                     "\u2014"
                   )}
                 </td>
-                <td className="px-2 py-1.5 text-right">
+                <td className="px-2 py-1.5 text-right font-mono">
                   {m.power ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right">
+                <td className="px-2 py-1.5 text-right font-mono">
                   {m.accuracy !== null ? `${m.accuracy}%` : "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right">
+                <td className="px-2 py-1.5 text-right font-mono">
                   {m.pp ?? "\u2014"}
                 </td>
               </tr>

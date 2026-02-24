@@ -35,17 +35,20 @@ export class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) return this.props.fallback;
 
       return (
-        <div className="flex flex-col items-center justify-center gap-4 p-12">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
+        <div className="flex flex-col items-center justify-center gap-6 p-12">
+          <div
+            className="flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10 animate-[glow-pulse_2s_ease-in-out_infinite]"
+            style={{ boxShadow: "0 0 24px rgba(239,68,68,0.3)" }}
+          >
             <AlertTriangle className="h-8 w-8 text-destructive" />
           </div>
-          <h2 className="text-lg font-semibold">Something went wrong</h2>
-          <p className="max-w-md text-center text-sm text-muted-foreground">
+          <h2 className="font-heading text-lg font-bold">Something went wrong</h2>
+          <p className="max-w-md text-center text-sm text-muted-foreground leading-relaxed">
             {this.state.error?.message || "An unexpected error occurred."}
           </p>
           <button
             onClick={this.handleRetry}
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-heading font-medium text-primary-foreground glow-primary transition-all hover:bg-primary/90 hover:scale-105 active:scale-95"
           >
             <RotateCcw className="h-4 w-4" />
             Try Again

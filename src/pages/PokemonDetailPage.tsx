@@ -18,6 +18,7 @@ import { StatsBar } from "@/components/pokemon/StatsBar";
 import { EvolutionChain } from "@/components/pokemon/EvolutionChain";
 import { MoveTable } from "@/components/pokemon/MoveTable";
 import { PokemonSprite } from "@/components/ui/pokemon-sprite";
+import { TYPE_COLORS_HEX } from "@/lib/constants";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -27,9 +28,11 @@ import {
   Sparkles,
   Heart,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { getDefensiveMatchups } from "@/lib/type-chart";
 import { cn } from "@/lib/utils";
+import { staggerContainer, staggerItem, spriteFloat, sectionReveal } from "@/lib/motion";
 import type { PokemonTypeName } from "@/lib/constants";
 
 export default function PokemonDetailPage() {
@@ -37,7 +40,6 @@ export default function PokemonDetailPage() {
   const navigate = useNavigate();
   const pokemonId = id ? parseInt(id, 10) : null;
 
-  // Separate queries as specified
   const { data: pokemon, isLoading: loadingPokemon } =
     usePokemonById(pokemonId);
   const { data: abilities } = usePokemonAbilities(pokemonId);
@@ -48,7 +50,6 @@ export default function PokemonDetailPage() {
 
   const { pokemonName, description } = useSettingsStore();
 
-  // Compute sorted Pokédex order for Prev/Next navigation
   const { prevId, nextId } = useMemo(() => {
     if (!allPokemon || !pokemonId) return { prevId: null, nextId: null };
     const nameToId = buildNameToIdMap(allPokemon);
@@ -66,7 +67,6 @@ export default function PokemonDetailPage() {
   const [showShiny, setShowShiny] = useState(false);
 
   const name = pokemon ? pokemonName(pokemon.name_en, pokemon.name_fr) : "";
-  // Show base form ID for consistent numbering
   const nameToIdMapDetail = useMemo(
     () => buildNameToIdMap(allPokemon ?? []),
     [allPokemon],
@@ -75,15 +75,12 @@ export default function PokemonDetailPage() {
   const idStr = baseId !== null ? `#${String(baseId).padStart(3, "0")}` : "";
   const formLabelDetail = pokemon && baseId !== pokemon.id ? getFormLabel(pokemon.name_key) : null;
 
-  // Dynamic window title
   usePageTitle(pokemon ? `${name} ${idStr}` : "Loading...");
 
-  // Track recently visited
   useEffect(() => {
     if (pokemonId) addRecent(pokemonId);
   }, [pokemonId, addRecent]);
 
-  // Keyboard navigation: Left/Right arrows for prev/next Pokemon (follows Pokédex sort)
   const handleKeyNav = useCallback(
     (e: KeyboardEvent) => {
       if (!pokemon) return;
@@ -103,11 +100,24 @@ export default function PokemonDetailPage() {
     return () => window.removeEventListener("keydown", handleKeyNav);
   }, [handleKeyNav]);
 
-  // Loading state
   if (loadingPokemon || !pokemon) {
     return (
-      <div className="flex h-full items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      <div className="flex h-full items-center justify-center p-8">
+        <div className="w-full max-w-2xl space-y-6">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-40 w-40 skeleton-shimmer rounded-full" />
+            <div className="h-6 w-48 skeleton-shimmer rounded-xl" />
+            <div className="flex gap-2">
+              <div className="h-5 w-16 skeleton-shimmer rounded-full" />
+              <div className="h-5 w-16 skeleton-shimmer rounded-full" />
+            </div>
+          </div>
+          <div className="space-y-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-4 skeleton-shimmer rounded-xl" style={{ animationDelay: `${i * 0.06}s`, width: `${70 + Math.random() * 30}%` }} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -124,7 +134,6 @@ export default function PokemonDetailPage() {
     spe: pokemon.spe,
   };
 
-  // Type matchups (only compute when type1 is available)
   const matchups = pokemon.type1_key
     ? getDefensiveMatchups(
         pokemon.type1_key as PokemonTypeName,
@@ -132,7 +141,6 @@ export default function PokemonDetailPage() {
       )
     : null;
 
-  // Sprite: prefer sprite_url from DB, fallback to GitHub
   const spriteBase =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
   const defaultSprite = pokemon.sprite_url ?? `${spriteBase}/${pokemon.id}.png`;
@@ -140,63 +148,61 @@ export default function PokemonDetailPage() {
     ? `${spriteBase}/shiny/${pokemon.id}.png`
     : defaultSprite;
 
-  // Height / Weight (stored in decimetres / hectograms)
   const heightStr =
     pokemon.height !== null ? `${(pokemon.height / 10).toFixed(1)} m` : "\u2014";
   const weightStr =
     pokemon.weight !== null ? `${(pokemon.weight / 10).toFixed(1)} kg` : "\u2014";
 
+  const typeHex = TYPE_COLORS_HEX[pokemon.type1_key ?? ""] ?? "#888";
+
   return (
-    <div className="mx-auto max-w-4xl space-y-6 p-4">
+    <div className="mx-auto max-w-4xl space-y-8 p-6 page-glow relative overflow-hidden">
       {/* ── Navigation ── */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          {/* Back to Pokédex */}
           <button
             onClick={() => navigate(-1)}
-            className="flex h-8 items-center gap-1.5 rounded-md border border-input px-2.5 text-xs hover:bg-accent"
+            className="flex h-8 items-center gap-1.5 rounded-full glass border border-border/40 px-3 text-xs hover:bg-accent transition-colors"
             aria-label="Go back"
           >
             <ArrowLeft className="h-3.5 w-3.5" /> Back
           </button>
 
-          {/* Prev / Next in Pokédex (follows sorted order) */}
-          <div className="flex items-center rounded-md border border-input">
+          <div className="flex items-center rounded-full glass border border-border/40">
             {prevId !== null ? (
               <Link
                 to={`/pokemon/${prevId}`}
-                className="flex h-8 items-center px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Previous Pokemon"
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
               </Link>
             ) : (
-              <span className="flex h-8 items-center px-2 text-xs text-muted-foreground/30">
+              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
                 <ChevronLeft className="h-3.5 w-3.5" />
               </span>
             )}
-            <span className="border-x border-input px-2 text-xs text-muted-foreground">{idStr}</span>
+            <span className="border-x border-border/30 px-2.5 font-mono text-xs text-muted-foreground">{idStr}</span>
             {nextId !== null ? (
               <Link
                 to={`/pokemon/${nextId}`}
-                className="flex h-8 items-center px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Next Pokemon"
               >
                 <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             ) : (
-              <span className="flex h-8 items-center px-2 text-xs text-muted-foreground/30">
+              <span className="flex h-8 items-center px-2.5 text-xs text-muted-foreground/30">
                 <ChevronRight className="h-3.5 w-3.5" />
               </span>
             )}
           </div>
         </div>
         <div className="flex gap-2">
-          {/* Favorite button */}
           <button
             onClick={() => toggleFav(pokemon.id)}
             className={cn(
-              "flex h-8 items-center gap-1.5 rounded-md border border-input px-3 text-xs hover:bg-accent",
+              "flex h-8 items-center gap-1.5 rounded-full glass border border-border/40 px-3 text-xs hover:bg-accent transition-colors",
               isFavorite && "text-red-500",
             )}
             aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
@@ -205,14 +211,13 @@ export default function PokemonDetailPage() {
             {isFavorite ? "Favorited" : "Favorite"}
           </button>
 
-          {/* Compare button */}
           <button
             onClick={() =>
               isCompared
                 ? removePokemon(pokemon.id)
                 : addPokemon(pokemon.id)
             }
-            className="flex h-8 items-center gap-1.5 rounded-md border border-input px-3 text-xs hover:bg-accent"
+            className="flex h-8 items-center gap-1.5 rounded-full glass border border-border/40 px-3 text-xs hover:bg-accent transition-colors"
             aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
           >
             {isCompared ? (
@@ -228,37 +233,79 @@ export default function PokemonDetailPage() {
         </div>
       </div>
 
-      {/* ── Header ── */}
-      <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
-        {/* Sprite + shiny toggle */}
-        <div className="relative">
-          <PokemonSprite
-            src={spriteUrl}
-            pokemonId={pokemon.id}
-            alt={name}
-            className="h-32 w-32"
+      {/* ── Hero Section ── */}
+      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+        {/* Sprite + decorative circle */}
+        <div className="relative flex items-center justify-center">
+          {/* Type-colored radial gradient circle */}
+          <div
+            className="absolute h-40 w-40 rounded-full"
+            style={{
+              background: `radial-gradient(circle, ${typeHex}20 0%, transparent 70%)`,
+            }}
           />
-          <button
-            onClick={() => setShowShiny((s) => !s)}
-            className={cn(
-              "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors",
-              showShiny
-                ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
-                : "border-border bg-background text-muted-foreground hover:bg-accent",
-            )}
-            aria-label="Toggle shiny sprite"
-          >
-            <Sparkles className="h-3 w-3" />
-            {showShiny ? "Shiny" : "Normal"}
-          </button>
+          {/* Decorative rotating dashed circle */}
+          <div
+            className="absolute h-44 w-44 rounded-full border-2 border-dashed"
+            style={{
+              borderColor: `${typeHex}25`,
+              animation: "spin 20s linear infinite",
+            }}
+          />
+          {/* Counter-rotating second circle */}
+          <div
+            className="absolute h-48 w-48 rounded-full border border-dashed"
+            style={{
+              borderColor: `${typeHex}15`,
+              animation: "spin 20s linear infinite reverse",
+            }}
+          />
+          {/* ID watermark */}
+          <span className="absolute font-heading text-6xl font-bold text-muted/20 select-none">
+            {baseId !== null ? String(baseId).padStart(3, "0") : ""}
+          </span>
+
+          <div className="relative">
+            <motion.div
+              variants={spriteFloat}
+              animate="animate"
+            >
+              <PokemonSprite
+                src={spriteUrl}
+                pokemonId={pokemon.id}
+                alt={name}
+                className="h-40 w-40"
+              />
+            </motion.div>
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowShiny((s) => !s)}
+              className={cn(
+                "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full glass border px-2.5 py-0.5 text-[10px] font-medium transition-colors",
+                showShiny
+                  ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
+                  : "border-border/40 text-muted-foreground hover:bg-accent",
+              )}
+              aria-label="Toggle shiny sprite"
+            >
+              <motion.div
+                animate={{ rotate: showShiny ? 360 : 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Sparkles className="h-3 w-3" />
+              </motion.div>
+              {showShiny ? "Shiny" : "Normal"}
+            </motion.button>
+          </div>
         </div>
 
         {/* Info */}
         <div className="flex-1 text-center sm:text-left">
-          <div className="text-xs text-muted-foreground">
+          <div className="font-mono text-xs text-muted-foreground">
             {idStr}
           </div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="font-heading text-3xl font-bold">
             {name}
             {formLabelDetail && (
               <span className="ml-2 text-base font-normal text-muted-foreground">
@@ -267,7 +314,7 @@ export default function PokemonDetailPage() {
             )}
           </h1>
 
-          <div className="mt-1 flex gap-1.5 justify-center sm:justify-start">
+          <div className="mt-1.5 flex gap-1.5 justify-center sm:justify-start">
             <TypeBadge type={pokemon.type1_key} size="md" />
             {pokemon.type2_key && (
               <TypeBadge type={pokemon.type2_key} size="md" />
@@ -275,95 +322,145 @@ export default function PokemonDetailPage() {
           </div>
 
           {desc && (
-            <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
+            <p className="mt-2.5 text-sm text-muted-foreground leading-relaxed">{desc}</p>
           )}
 
-          <div className="mt-2 flex gap-4 text-xs text-muted-foreground justify-center sm:justify-start">
-            <span>Height: {heightStr}</span>
-            <span>Weight: {weightStr}</span>
+          <div className="mt-2.5 flex gap-3 justify-center sm:justify-start">
+            <span className="rounded-full glass border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+              Height: {heightStr}
+            </span>
+            <span className="rounded-full glass border border-border/30 px-3 py-1 text-xs text-muted-foreground">
+              Weight: {weightStr}
+            </span>
           </div>
         </div>
       </div>
 
       {/* ── Abilities ── */}
       {abilities && abilities.length > 0 && (
-        <section>
-          <h2 className="mb-2 text-sm font-semibold">Abilities</h2>
+        <motion.section
+          variants={sectionReveal}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <h2 className="mb-3 font-heading text-sm font-bold">
+            <span className="border-b-2 border-primary pb-0.5">Abilities</span>
+          </h2>
           <div className="flex flex-wrap gap-2">
             {abilities.map((a) => (
               <span
                 key={a.slot}
-                className={`rounded-md border px-2 py-1 text-xs ${
+                className={cn(
+                  "rounded-xl glass border px-3 py-1.5 text-xs",
                   a.is_hidden === 1
-                    ? "border-dashed border-muted-foreground/50 text-muted-foreground"
-                    : "border-border"
-                }`}
+                    ? "border-dashed border-purple-400/40 text-purple-300"
+                    : "border-border/40",
+                )}
               >
                 {pokemonName(a.ability_en, a.ability_fr)}
                 {a.is_hidden === 1 && " (Hidden)"}
               </span>
             ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* ── Base Stats ── */}
-      <section>
-        <h2 className="mb-2 text-sm font-semibold">Base Stats</h2>
+      <motion.section
+        variants={sectionReveal}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+      >
+        <h2 className="mb-3 font-heading text-sm font-bold">
+          <span className="border-b-2 border-primary pb-0.5">Base Stats</span>
+        </h2>
         <StatsBar stats={stats} />
-      </section>
+      </motion.section>
 
       {/* ── Type Matchups ── */}
       {matchups && (
-        <section>
-          <h2 className="mb-2 text-sm font-semibold">Type Matchups</h2>
-          <div className="space-y-1.5 text-xs">
-            <MatchupRow label="4x" types={matchups[4]} className="text-red-400" />
+        <motion.section
+          variants={sectionReveal}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <h2 className="mb-3 font-heading text-sm font-bold">
+            <span className="border-b-2 border-primary pb-0.5">Type Matchups</span>
+          </h2>
+          <motion.div
+            className="space-y-1.5 text-xs"
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+          >
+            <MatchupRow label="4x" types={matchups[4]} className="text-red-400" glowColor="rgba(239,68,68,0.15)" />
             <MatchupRow label="2x" types={matchups[2]} className="text-orange-400" />
             <MatchupRow label="0.5x" types={matchups[0.5]} className="text-green-400" />
             <MatchupRow label="0.25x" types={matchups[0.25]} className="text-green-600" />
-            <MatchupRow label="0x" types={matchups[0]} className="text-gray-500" />
-          </div>
-        </section>
+            <MatchupRow label="0x" types={matchups[0]} className="text-gray-500" glowColor="rgba(156,163,175,0.1)" />
+          </motion.div>
+        </motion.section>
       )}
 
       {/* ── Evolution Chain ── */}
       {evolutionChain && (
-        <section>
-          <h2 className="mb-2 text-sm font-semibold">Evolution</h2>
+        <motion.section
+          variants={sectionReveal}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <h2 className="mb-3 font-heading text-sm font-bold">
+            <span className="border-b-2 border-primary pb-0.5">Evolution</span>
+          </h2>
           <EvolutionChain chain={evolutionChain} currentId={pokemon.id} alternateForms={alternateForms} />
-        </section>
+        </motion.section>
       )}
 
       {/* ── Moves ── */}
       {moves && moves.length > 0 && (
-        <section>
-          <h2 className="mb-2 text-sm font-semibold">Moves</h2>
+        <motion.section
+          variants={sectionReveal}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          <h2 className="mb-3 font-heading text-sm font-bold">
+            <span className="border-b-2 border-primary pb-0.5">Moves</span>
+          </h2>
           <MoveTable moves={moves} />
-        </section>
+        </motion.section>
       )}
+
+      {/* Spin animation for decorative circle */}
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Small helper for type matchup rows
-// ---------------------------------------------------------------------------
 
 function MatchupRow({
   label,
   types,
   className,
+  glowColor,
 }: {
   label: string;
   types: string[] | undefined;
   className?: string;
+  glowColor?: string;
 }) {
   if (!types || types.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-2">
-      <span className={`w-12 text-right font-medium ${className ?? ""}`}>
+    <motion.div
+      className="flex items-center gap-2"
+      variants={staggerItem}
+      style={glowColor ? { textShadow: `0 0 8px ${glowColor}` } : undefined}
+    >
+      <span className={`w-12 text-right font-heading font-semibold ${className ?? ""}`}>
         {label}
       </span>
       <div className="flex flex-wrap gap-1">
@@ -371,6 +468,6 @@ function MatchupRow({
           <TypeBadge key={t} type={t} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

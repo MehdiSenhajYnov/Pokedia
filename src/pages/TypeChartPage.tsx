@@ -3,6 +3,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import {
   ALL_TYPES,
   TYPE_COLORS_HEX,
+  TYPE_COLORS,
   type PokemonTypeName,
 } from "@/lib/constants";
 import {
@@ -13,10 +14,7 @@ import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp, Calculator, Grid3X3 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-/* ------------------------------------------------------------------ */
-/*  Factor styling                                                     */
-/* ------------------------------------------------------------------ */
+import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const FACTOR_BG: Record<number, string> = {
   0: "bg-gray-800/80",
@@ -45,7 +43,6 @@ const FACTOR_LABEL: Record<number, string> = {
   4: "4",
 };
 
-/* Section label configuration for the type calculator */
 const MATCHUP_SECTIONS: {
   factor: number;
   label: string;
@@ -68,7 +65,7 @@ const MATCHUP_SECTIONS: {
     factor: 1,
     label: "Normal (1x)",
     colorClass: "text-muted-foreground",
-    bgClass: "bg-muted/30 border-border",
+    bgClass: "bg-muted/30 border-border/30",
   },
   {
     factor: 0.5,
@@ -107,18 +104,16 @@ export default function TypeChartPage() {
 
   return (
     <motion.div
-      className="p-4 space-y-6 max-w-5xl mx-auto"
+      className="p-5 space-y-6 max-w-5xl mx-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* ============================================================ */}
-      {/*  Section 1: Type Calculator                                   */}
-      {/* ============================================================ */}
+      {/* Type Calculator */}
       <section className="space-y-4">
         <div className="flex items-center gap-2">
           <Calculator className="h-5 w-5 text-primary" />
-          <h2 className="text-lg font-semibold">Type Calculator</h2>
+          <h2 className="font-heading text-lg font-semibold">Type Calculator</h2>
         </div>
         <p className="text-sm text-muted-foreground">
           Select one or two defending types to see which attacking types are
@@ -127,12 +122,12 @@ export default function TypeChartPage() {
 
         {/* Type 1 selector */}
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <label className="font-heading text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
             Type 1
           </label>
           <div className="flex flex-wrap gap-1.5">
             {ALL_TYPES.map((t) => (
-              <button
+              <motion.button
                 key={t}
                 onClick={() => {
                   if (type1 === t) {
@@ -144,27 +139,32 @@ export default function TypeChartPage() {
                   }
                 }}
                 className={cn(
-                  "rounded-full px-3 py-1 text-[11px] font-medium capitalize transition-all duration-150",
+                  "rounded-full px-3 py-1 font-heading text-[11px] font-medium uppercase transition-all duration-150",
                   type1 === t
-                    ? "ring-2 ring-white/70 ring-offset-2 ring-offset-background scale-105 shadow-lg"
+                    ? "ring-2 ring-offset-2 ring-offset-background scale-105 shadow-lg"
                     : "opacity-70 hover:opacity-100 hover:scale-105",
                 )}
                 style={{
                   backgroundColor: TYPE_COLORS_HEX[t],
                   color: "white",
+                  ...(type1 === t
+                    ? { boxShadow: `0 0 16px ${TYPE_COLORS[t]?.glow ?? "transparent"}`, ringColor: `${TYPE_COLORS_HEX[t]}` }
+                    : {}),
                 }}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
               >
                 {t}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
 
         {/* Type 2 selector */}
         <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <label className="font-heading text-[11px] font-medium uppercase tracking-[0.15em] text-muted-foreground">
             Type 2{" "}
-            <span className="normal-case tracking-normal font-normal">
+            <span className="normal-case tracking-normal font-body font-normal">
               (optional)
             </span>
           </label>
@@ -172,7 +172,7 @@ export default function TypeChartPage() {
             {ALL_TYPES.map((t) => {
               const isDisabled = t === type1 || type1 === null;
               return (
-                <button
+                <motion.button
                   key={t}
                   onClick={() => {
                     if (!isDisabled) {
@@ -181,19 +181,24 @@ export default function TypeChartPage() {
                   }}
                   disabled={isDisabled}
                   className={cn(
-                    "rounded-full px-3 py-1 text-[11px] font-medium capitalize transition-all duration-150",
+                    "rounded-full px-3 py-1 font-heading text-[11px] font-medium uppercase transition-all duration-150",
                     type2 === t
-                      ? "ring-2 ring-white/70 ring-offset-2 ring-offset-background scale-105 shadow-lg"
+                      ? "ring-2 ring-offset-2 ring-offset-background scale-105 shadow-lg"
                       : "opacity-70 hover:opacity-100 hover:scale-105",
                     isDisabled && "!opacity-20 cursor-not-allowed",
                   )}
                   style={{
                     backgroundColor: TYPE_COLORS_HEX[t],
                     color: "white",
+                    ...(type2 === t
+                      ? { boxShadow: `0 0 16px ${TYPE_COLORS[t]?.glow ?? "transparent"}` }
+                      : {}),
                   }}
+                  whileHover={isDisabled ? {} : { scale: 1.08 }}
+                  whileTap={isDisabled ? {} : { scale: 0.95 }}
                 >
                   {t}
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -204,15 +209,14 @@ export default function TypeChartPage() {
           {matchups ? (
             <motion.div
               key={`${type1}-${type2}`}
-              className="rounded-xl border border-border bg-card p-5 space-y-4"
+              className="rounded-2xl glass border border-border/30 p-5 space-y-4"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
             >
-              {/* Selected types header */}
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="font-heading text-sm font-medium text-muted-foreground">
                   Defending:
                 </span>
                 {type1 && <TypeBadge type={type1} size="md" />}
@@ -224,8 +228,12 @@ export default function TypeChartPage() {
                 )}
               </div>
 
-              {/* Matchup sections */}
-              <div className="space-y-3">
+              <motion.div
+                className="space-y-3"
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
+              >
                 {MATCHUP_SECTIONS.map(({ factor, label, colorClass, bgClass }) => {
                   const types = matchups[factor];
                   if (!types || types.length === 0) return null;
@@ -233,16 +241,14 @@ export default function TypeChartPage() {
                     <motion.div
                       key={factor}
                       className={cn(
-                        "flex items-start gap-3 rounded-lg border p-3",
+                        "flex items-start gap-3 rounded-xl border p-3",
                         bgClass,
                       )}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.15, delay: factor * 0.02 }}
+                      variants={staggerItem}
                     >
                       <span
                         className={cn(
-                          "text-xs font-semibold whitespace-nowrap w-44 pt-0.5",
+                          "font-heading text-xs font-semibold whitespace-nowrap w-44 pt-0.5",
                           colorClass,
                         )}
                       >
@@ -256,11 +262,11 @@ export default function TypeChartPage() {
                     </motion.div>
                   );
                 })}
-              </div>
+              </motion.div>
             </motion.div>
           ) : (
             <motion.div
-              className="rounded-xl border border-dashed border-border p-8 text-center"
+              className="rounded-2xl glass border border-dashed border-border/30 p-8 text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
@@ -272,17 +278,15 @@ export default function TypeChartPage() {
         </AnimatePresence>
       </section>
 
-      {/* ============================================================ */}
-      {/*  Section 2: Full Type Chart (collapsible)                     */}
-      {/* ============================================================ */}
+      {/* Full Type Chart (collapsible) */}
       <section className="space-y-3">
         <button
           onClick={() => setChartExpanded(!chartExpanded)}
-          className="flex w-full items-center justify-between rounded-lg border border-border bg-card px-4 py-3 text-left hover:bg-accent/50 transition-colors"
+          className="flex w-full items-center justify-between rounded-2xl glass border border-border/30 px-4 py-3 text-left hover:bg-accent/50 transition-colors"
         >
           <div className="flex items-center gap-2">
             <Grid3X3 className="h-5 w-5 text-muted-foreground" />
-            <span className="text-sm font-semibold">Full Type Chart</span>
+            <span className="font-heading text-sm font-semibold">Full Type Chart</span>
             <span className="text-xs text-muted-foreground">
               (18 x 18 grid)
             </span>
@@ -297,14 +301,13 @@ export default function TypeChartPage() {
         <AnimatePresence>
           {chartExpanded && (
             <motion.div
-              className="overflow-x-auto rounded-lg border border-border"
+              className="overflow-x-auto rounded-2xl glass border border-border/30"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <div className="min-w-[750px] p-2">
-                {/* Legend */}
                 <div className="flex items-center gap-4 text-[10px] text-muted-foreground mb-2 px-1">
                   <span>Row = Attacking type</span>
                   <span className="text-muted-foreground/40">|</span>
@@ -331,7 +334,7 @@ export default function TypeChartPage() {
                   }}
                 >
                   {/* Column header row */}
-                  <div className="flex items-end justify-center pb-1 text-[8px] text-muted-foreground/50">
+                  <div className="flex items-end justify-center pb-1 font-heading text-[8px] text-muted-foreground/50">
                     ATK\DEF
                   </div>
                   {ALL_TYPES.map((defType) => (
@@ -345,17 +348,16 @@ export default function TypeChartPage() {
                       )}
                     >
                       <span
-                        className="text-[8px] font-semibold text-white px-1 py-0.5 rounded capitalize"
+                        className="rounded-md px-1 py-0.5 font-heading text-[8px] font-semibold text-white uppercase"
                         style={{
                           backgroundColor: TYPE_COLORS_HEX[defType],
                         }}
                       >
-                        {defType.slice(0, 3).toUpperCase()}
+                        {defType.slice(0, 3)}
                       </span>
                     </div>
                   ))}
 
-                  {/* Data rows */}
                   {ALL_TYPES.map((atkType) => (
                     <GridRow
                       key={atkType}
@@ -374,10 +376,6 @@ export default function TypeChartPage() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Grid Row (extracted for readability)                                */
-/* ------------------------------------------------------------------ */
-
 function GridRow({
   atkType,
   hoveredCell,
@@ -391,7 +389,6 @@ function GridRow({
 
   return (
     <>
-      {/* Row label */}
       <div
         className={cn(
           "flex items-center justify-end pr-2 transition-opacity duration-100",
@@ -401,7 +398,7 @@ function GridRow({
         )}
       >
         <span
-          className="text-[8px] font-semibold text-white px-1.5 py-0.5 rounded capitalize"
+          className="rounded-md px-1.5 py-0.5 font-heading text-[8px] font-semibold text-white uppercase"
           style={{
             backgroundColor: TYPE_COLORS_HEX[atkType],
           }}
@@ -410,7 +407,6 @@ function GridRow({
         </span>
       </div>
 
-      {/* Cells */}
       {ALL_TYPES.map((defType) => {
         const factor = getTypeFactor(atkType, defType);
         const isHighlighted =
@@ -419,7 +415,7 @@ function GridRow({
         const isDimmed = hoveredCell && !isHighlighted;
 
         return (
-          <div
+          <motion.div
             key={`${atkType}-${defType}`}
             className={cn(
               "flex items-center justify-center h-6 text-[10px] rounded-sm cursor-default transition-all duration-100",
@@ -431,9 +427,10 @@ function GridRow({
             onMouseEnter={() => onHover({ atk: atkType, def: defType })}
             onMouseLeave={() => onHover(null)}
             title={`${atkType} vs ${defType}: ${factor}x`}
+            whileHover={{ scale: 1.15 }}
           >
             {FACTOR_LABEL[factor] ?? factor}
-          </div>
+          </motion.div>
         );
       })}
     </>

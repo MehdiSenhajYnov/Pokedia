@@ -1,17 +1,12 @@
-import { cn } from "@/lib/utils";
 import { STAT_NAMES, STAT_COLORS } from "@/lib/constants";
 import { motion } from "framer-motion";
+import { springWobbly } from "@/lib/motion";
 
 interface StatsBarProps {
-  /** Record of stat key -> value (nullable values rendered as 0 / dash). */
   stats: Record<string, number | null>;
-  /** Absolute max for bar scaling (default 255). */
   maxValue?: number;
-  /** Whether to display the stat total row. */
   showTotal?: boolean;
-  /** When true, bars scale relative to `maxInGroup` instead of `maxValue`. */
   relative?: boolean;
-  /** Per-stat max when running in relative mode (e.g. from a comparison group). */
   maxInGroup?: Record<string, number>;
 }
 
@@ -23,27 +18,29 @@ export function StatsBar({
   maxInGroup,
 }: StatsBarProps) {
   const entries = Object.entries(stats);
-
   const total = entries.reduce((sum, [, v]) => sum + (v ?? 0), 0);
 
   return (
-    <div className="space-y-1.5">
-      {entries.map(([key, rawValue]) => {
+    <div className="space-y-3">
+      {entries.map(([key, rawValue], i) => {
         const value = rawValue ?? 0;
         const max = relative ? (maxInGroup?.[key] ?? maxValue) : maxValue;
         const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
         const color = STAT_COLORS[key] ?? "#888";
 
         return (
-          <div key={key} className="flex items-center gap-2 text-xs">
-            <span className="w-8 text-right font-medium text-muted-foreground">
+          <div key={key} className="flex items-center gap-3 text-xs">
+            <span
+              className="w-8 text-right font-heading font-semibold"
+              style={{ color }}
+            >
               {STAT_NAMES[key] ?? key}
             </span>
-            <span className="w-8 text-right font-mono">
+            <span className="w-8 text-right font-mono font-medium">
               {rawValue !== null ? value : "\u2014"}
             </span>
             <div
-              className="h-2 flex-1 overflow-hidden rounded-full bg-muted"
+              className="h-3 flex-1 overflow-hidden rounded-full bg-muted/30"
               role="meter"
               aria-label={STAT_NAMES[key] ?? key}
               aria-valuenow={value}
@@ -51,11 +48,15 @@ export function StatsBar({
               aria-valuemax={max}
             >
               <motion.div
-                className={cn("h-full rounded-full")}
-                style={{ backgroundColor: color }}
-                initial={{ width: 0 }}
-                animate={{ width: `${pct}%` }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="h-full rounded-full"
+                style={{
+                  background: `linear-gradient(90deg, ${color}, ${color}b3)`,
+                  transformOrigin: "left",
+                  boxShadow: `0 0 8px ${color}40`,
+                }}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: pct / 100 }}
+                transition={{ ...springWobbly, delay: i * 0.08 }}
               />
             </div>
           </div>
@@ -63,11 +64,11 @@ export function StatsBar({
       })}
 
       {showTotal && (
-        <div className="flex items-center gap-2 border-t border-border pt-1 text-xs">
-          <span className="w-8 text-right font-semibold text-muted-foreground">
+        <div className="flex items-center gap-3 border-t border-border pt-1.5 text-xs">
+          <span className="w-8 text-right font-heading font-bold text-primary">
             TOT
           </span>
-          <span className="w-8 text-right font-mono font-semibold">
+          <span className="w-8 text-right font-mono font-bold text-primary">
             {total}
           </span>
         </div>
