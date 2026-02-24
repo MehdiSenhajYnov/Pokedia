@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Default theme (dark-first design) ─── */
+@theme {
+  /* Background layers — subtle dark blue-gray, never pure black */
+  --color-background: hsl(225 15% 8%);
+  --color-foreground: hsl(220 15% 92%);
+
+  /* Cards sit one step above the background */
+  --color-card: hsl(225 14% 11%);
+  --color-card-foreground: hsl(220 15% 92%);
+
+  /* Popovers / dropdowns */
+  --color-popover: hsl(225 14% 11%);
+  --color-popover-foreground: hsl(220 15% 92%);
+
+  /* Primary accent — soft indigo-blue */
+  --color-primary: hsl(225 65% 62%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  /* Secondary — muted surface for pills, badges, etc. */
+  --color-secondary: hsl(225 12% 15%);
+  --color-secondary-foreground: hsl(220 15% 85%);
+
+  /* Muted — subtle backgrounds, disabled states */
+  --color-muted: hsl(225 12% 14%);
+  --color-muted-foreground: hsl(220 10% 55%);
+
+  /* Accent — hover highlights */
+  --color-accent: hsl(225 14% 16%);
+  --color-accent-foreground: hsl(220 15% 92%);
+
+  /* Destructive */
+  --color-destructive: hsl(0 72% 51%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  /* Success */
+  --color-success: hsl(142 60% 45%);
+  --color-success-foreground: hsl(0 0% 100%);
+
+  /* Warning */
+  --color-warning: hsl(38 92% 50%);
+  --color-warning-foreground: hsl(0 0% 8%);
+
+  /* Borders & inputs — very subtle so cards breathe */
+  --color-border: hsl(225 12% 16%);
+  --color-input: hsl(225 12% 16%);
+  --color-ring: hsl(225 65% 62%);
+
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Sidebar */
+  --color-sidebar: hsl(225 15% 7%);
+  --color-sidebar-foreground: hsl(220 15% 85%);
+  --color-sidebar-primary: hsl(225 65% 62%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(225 14% 14%);
+  --color-sidebar-accent-foreground: hsl(220 15% 92%);
+  --color-sidebar-border: hsl(225 12% 14%);
+  --color-sidebar-ring: hsl(225 65% 62%);
+
+  /* Chart palette — balanced for dark backgrounds */
+  --color-chart-1: hsl(225 65% 62%);
+  --color-chart-2: hsl(160 55% 48%);
+  --color-chart-3: hsl(32 85% 58%);
+  --color-chart-4: hsl(280 60% 62%);
+  --color-chart-5: hsl(345 70% 58%);
+}
+
+/* ─── Light mode overrides ─── */
+@layer base {
+  .light {
+    --color-background: hsl(220 16% 97%);
+    --color-foreground: hsl(225 20% 12%);
+
+    --color-card: hsl(0 0% 100%);
+    --color-card-foreground: hsl(225 20% 12%);
+
+    --color-popover: hsl(0 0% 100%);
+    --color-popover-foreground: hsl(225 20% 12%);
+
+    --color-primary: hsl(225 65% 52%);
+    --color-primary-foreground: hsl(0 0% 100%);
+
+    --color-secondary: hsl(220 14% 93%);
+    --color-secondary-foreground: hsl(225 18% 25%);
+
+    --color-muted: hsl(220 14% 93%);
+    --color-muted-foreground: hsl(220 10% 44%);
+
+    --color-accent: hsl(220 14% 93%);
+    --color-accent-foreground: hsl(225 20% 12%);
+
+    --color-destructive: hsl(0 72% 51%);
+    --color-destructive-foreground: hsl(0 0% 100%);
+
+    --color-border: hsl(220 14% 89%);
+    --color-input: hsl(220 14% 89%);
+    --color-ring: hsl(225 65% 52%);
+
+    --color-sidebar: hsl(220 16% 95%);
+    --color-sidebar-foreground: hsl(225 18% 25%);
+    --color-sidebar-primary: hsl(225 65% 52%);
+    --color-sidebar-primary-foreground: hsl(0 0% 100%);
+    --color-sidebar-accent: hsl(220 14% 93%);
+    --color-sidebar-accent-foreground: hsl(225 20% 12%);
+    --color-sidebar-border: hsl(220 14% 89%);
+    --color-sidebar-ring: hsl(225 65% 52%);
+
+    --color-chart-1: hsl(225 65% 52%);
+    --color-chart-2: hsl(160 55% 40%);
+    --color-chart-3: hsl(32 85% 48%);
+    --color-chart-4: hsl(280 60% 52%);
+    --color-chart-5: hsl(345 70% 48%);
+  }
+}
+
+/* ─── Base styles ─── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+  }
+
+  /* Smooth color transitions when switching themes */
+  *,
+  *::before,
+  *::after {
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.15s ease;
+  }
+
+  /* Disable transition on scroll to avoid jank */
+  *:is(:active, :focus) {
+    transition-duration: 0s;
+  }
+}
+
+/* ─── Scrollbar — themed, minimal ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-muted-foreground) 25%, transparent);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-muted-foreground) 45%, transparent);
+}
+
+/* Hide scrollbar when not hovering (Webkit) */
+::-webkit-scrollbar-thumb:not(:hover) {
+  background: color-mix(in srgb, var(--color-muted-foreground) 15%, transparent);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-muted-foreground) 25%, transparent) transparent;
+}
+
+/* ─── Selection highlight ─── */
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  color: var(--color-foreground);
+}
