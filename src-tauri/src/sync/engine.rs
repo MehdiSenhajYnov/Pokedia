@@ -553,29 +553,43 @@ impl SyncEngine {
     }
 
     /// Retry an async operation up to `max_attempts` times with exponential backoff.
-    async fn retry<F, Fut, T, E>(&self, max_attempts: u32, f: F) -> Result<T, E>
+    /// Returns Result<T, String> — converts any error to String for uniform handling.
+    /// Checks cancellation flag between attempts.
+    async fn retry<F, Fut, T, E>(&self, max_attempts: u32, f: F) -> Result<T, String>
     where
         F: Fn() -> Fut,
         Fut: std::future::Future<Output = Result<T, E>>,
         E: std::fmt::Display,
     {
-        let mut last_err = None;
+        let mut last_err: Option<String> = None;
 
         for attempt in 0..max_attempts {
+            if self.is_cancelled() {
+                return Err("Sync cancelled".to_string());
+            }
+
             if attempt > 0 {
-                let delay = std::time::Duration::from_millis(500 * 2u64.pow(attempt - 1));
-                tokio::time::sleep(delay).await;
+                // Sleep in small increments so cancellation is responsive
+                let total_ms = 500 * 2u64.pow(attempt - 1);
+                let steps = (total_ms / 100).max(1);
+                for _ in 0..steps {
+                    if self.is_cancelled() {
+                        return Err("Sync cancelled".to_string());
+                    }
+                    tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                }
             }
 
             match f().await {
                 Ok(val) => return Ok(val),
                 Err(e) => {
-                    log::warn!("Retry attempt {} failed: {}", attempt + 1, e);
-                    last_err = Some(e);
+                    let msg = e.to_string();
+                    log::warn!("Retry attempt {} failed: {}", attempt + 1, msg);
+                    last_err = Some(msg);
                 }
             }
         }
 
-        Err(last_err.unwrap())
+        Err(last_err.unwrap_or_else(|| "Unknown error".to_string()))
     }
 }

@@ -62,9 +62,19 @@ pub async fn get_sync_status(
 
 /// Cancel the current sync.
 #[tauri::command]
-pub async fn cancel_sync() -> Result<(), String> {
+pub async fn cancel_sync(
+    state: State<'_, AppState>,
+) -> Result<(), String> {
     SYNC_CANCEL_FLAG.store(true, std::sync::atomic::Ordering::SeqCst);
     log::info!("Sync cancellation requested");
+
+    // Immediately mark any "syncing" resources as "cancelled" in the DB
+    // so the frontend sees is_syncing=false right away
+    sqlx::query("UPDATE sync_meta SET status = 'cancelled' WHERE status = 'syncing'")
+        .execute(&state.pool)
+        .await
+        .map_err(|e| e.to_string())?;
+
     Ok(())
 }
 
@@ -74,14 +84,16 @@ pub async fn clear_cache(
     state: State<'_, AppState>,
 ) -> Result<(), String> {
     // Delete from all data tables (but not settings)
+    // Order matters: delete child tables before parents (FK constraints)
     let tables = [
+        "favorites",
         "pokemon_moves",
         "pokemon_abilities",
         "pokemon",
         "moves",
         "items",
-        "types",
         "type_efficacy",
+        "types",
         "evolution_chains",
         "sync_meta",
     ];

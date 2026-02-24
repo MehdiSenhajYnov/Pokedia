@@ -40,32 +40,10 @@ impl PokeApiClient {
         }
     }
 
-    /// Fetch JSON from a URL with retry logic (3 attempts, exponential backoff).
+    /// Fetch JSON from a URL (single attempt, no internal retry).
     pub async fn get_json<T: DeserializeOwned>(&self, url: &str) -> Result<T, reqwest::Error> {
-        let mut last_err = None;
-
-        for attempt in 0..3u32 {
-            if attempt > 0 {
-                let delay = Duration::from_millis(500 * 2u64.pow(attempt - 1));
-                tokio::time::sleep(delay).await;
-            }
-
-            match self.client.get(url).send().await {
-                Ok(resp) => match resp.error_for_status() {
-                    Ok(resp) => return resp.json::<T>().await,
-                    Err(e) => {
-                        log::warn!("HTTP error on attempt {} for {}: {}", attempt + 1, url, e);
-                        last_err = Some(e);
-                    }
-                },
-                Err(e) => {
-                    log::warn!("Request error on attempt {} for {}: {}", attempt + 1, url, e);
-                    last_err = Some(e);
-                }
-            }
-        }
-
-        Err(last_err.unwrap())
+        let resp = self.client.get(url).send().await?.error_for_status()?;
+        resp.json::<T>().await
     }
 
     /// Build a full API URL from a relative path.
@@ -74,25 +52,14 @@ impl PokeApiClient {
     }
 
     /// Fetch the complete list of a resource (handles pagination).
-    /// Returns all NamedApiResource entries for the given endpoint.
+    /// Uses limit=10000 to get everything in one request (PokéAPI supports this).
     pub async fn get_resource_list(
         &self,
         endpoint: &str,
     ) -> Result<Vec<NamedApiResource>, reqwest::Error> {
-        let mut all_results = Vec::new();
-        let mut url = self.url(&format!("{}?limit=100&offset=0", endpoint));
-
-        loop {
-            let page: PaginatedList = self.get_json(&url).await?;
-            all_results.extend(page.results);
-
-            match page.next {
-                Some(next_url) => url = next_url,
-                None => break,
-            }
-        }
-
-        Ok(all_results)
+        let url = self.url(&format!("{}?limit=10000&offset=0", endpoint));
+        let page: PaginatedList = self.get_json(&url).await?;
+        Ok(page.results)
     }
 
     /// Extract the numeric ID from a PokéAPI resource URL.
