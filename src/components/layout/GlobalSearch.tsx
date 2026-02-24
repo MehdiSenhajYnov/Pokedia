@@ -1,13 +1,15 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, ArrowUp, ArrowDown, CornerDownLeft, Swords } from "lucide-react";
+import { Search, X, ArrowUp, ArrowDown, CornerDownLeft, Swords, Package } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAllPokemon } from "@/hooks/use-pokemon";
 import { useAllMoves } from "@/hooks/use-moves";
+import { useAllItems } from "@/hooks/use-items";
 import { useSettingsStore } from "@/stores/settings-store";
+import { useSearchStore } from "@/stores/search-store";
 import { TYPE_COLORS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import type { PokemonSummary, MoveSummary } from "@/types";
+import type { PokemonSummary, MoveSummary, ItemSummary } from "@/types";
 
 interface GlobalSearchProps {
   open: boolean;
@@ -16,12 +18,14 @@ interface GlobalSearchProps {
 
 interface SearchResult {
   id: string;
-  kind: "pokemon" | "move";
+  kind: "pokemon" | "move" | "item";
   path: string;
   label: string;
   subtitle?: string;
   spriteUrl?: string | null;
   typeKeys?: (string | null)[];
+  /** For moves/items: the name to pre-fill in the page search */
+  searchName?: string;
 }
 
 export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
@@ -33,7 +37,9 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
 
   const { data: allPokemon } = useAllPokemon();
   const { data: allMoves } = useAllMoves();
-  const { pokemonName, moveName } = useSettingsStore();
+  const { data: allItems } = useAllItems();
+  const { pokemonName, moveName, itemName } = useSettingsStore();
+  const { setMoveQuery, setItemQuery } = useSearchStore();
 
   // ── Ctrl+K / Escape ──
   useEffect(() => {
@@ -87,16 +93,39 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
         return nameEn.includes(q) || nameFr.includes(q);
       })
       .slice(0, 5)
-      .map((m: MoveSummary) => ({
-        id: `move-${m.id}`,
-        kind: "move" as const,
-        path: "/moves",
-        label: moveName(m.name_en ?? "", m.name_fr ?? ""),
-        typeKeys: m.type_key ? [m.type_key] : [],
-      }));
+      .map((m: MoveSummary) => {
+        const label = moveName(m.name_en ?? "", m.name_fr ?? "");
+        return {
+          id: `move-${m.id}`,
+          kind: "move" as const,
+          path: "/moves",
+          label,
+          searchName: label,
+          typeKeys: m.type_key ? [m.type_key] : [],
+        };
+      });
 
-    return [...pokemonResults, ...moveResults];
-  }, [query, allPokemon, allMoves, pokemonName, moveName]);
+    const itemResults: SearchResult[] = (allItems ?? [])
+      .filter((i: ItemSummary) => {
+        const nameEn = i.name_en?.toLowerCase() ?? "";
+        const nameFr = i.name_fr?.toLowerCase() ?? "";
+        return nameEn.includes(q) || nameFr.includes(q);
+      })
+      .slice(0, 5)
+      .map((i: ItemSummary) => {
+        const label = itemName(i.name_en ?? "", i.name_fr ?? "");
+        return {
+          id: `item-${i.id}`,
+          kind: "item" as const,
+          path: "/items",
+          label,
+          searchName: label,
+          spriteUrl: i.sprite_url,
+        };
+      });
+
+    return [...pokemonResults, ...moveResults, ...itemResults];
+  }, [query, allPokemon, allMoves, allItems, pokemonName, moveName, itemName]);
 
   // Reset active index when results change
   useEffect(() => {
@@ -105,11 +134,17 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
 
   // ── Keyboard navigation ──
   const handleSelect = useCallback(
-    (path: string) => {
-      navigate(path);
+    (result: SearchResult) => {
+      // Pre-fill the page search when navigating to moves/items
+      if (result.kind === "move" && result.searchName) {
+        setMoveQuery(result.searchName);
+      } else if (result.kind === "item" && result.searchName) {
+        setItemQuery(result.searchName);
+      }
+      navigate(result.path);
       onOpenChange(false);
     },
-    [navigate, onOpenChange]
+    [navigate, onOpenChange, setMoveQuery, setItemQuery]
   );
 
   const handleKeyDown = useCallback(
@@ -122,7 +157,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
         setActiveIndex((i) => (i - 1 + results.length) % Math.max(results.length, 1));
       } else if (e.key === "Enter" && results[activeIndex]) {
         e.preventDefault();
-        handleSelect(results[activeIndex].path);
+        handleSelect(results[activeIndex]);
       }
     },
     [results, activeIndex, handleSelect]
@@ -138,10 +173,12 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   // ── Group results for rendering ──
   const pokemonGroup = results.filter((r) => r.kind === "pokemon");
   const moveGroup = results.filter((r) => r.kind === "move");
+  const itemGroup = results.filter((r) => r.kind === "item");
 
   // Calculate global index offsets for groups
   const pokemonOffset = 0;
   const moveOffset = pokemonGroup.length;
+  const itemOffset = moveOffset + moveGroup.length;
 
   return (
     <AnimatePresence>
@@ -177,7 +214,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search Pokemon, moves..."
+                placeholder="Search Pokemon, moves, items..."
                 className="h-12 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
               />
               {query.length > 0 && (
@@ -205,7 +242,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                       <button
                         key={r.id}
                         data-active={activeIndex === globalIdx}
-                        onClick={() => handleSelect(r.path)}
+                        onClick={() => handleSelect(r)}
                         onMouseEnter={() => setActiveIndex(globalIdx)}
                         className={cn(
                           "flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-colors duration-100",
@@ -271,7 +308,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                       <button
                         key={r.id}
                         data-active={activeIndex === globalIdx}
-                        onClick={() => handleSelect(r.path)}
+                        onClick={() => handleSelect(r)}
                         onMouseEnter={() => setActiveIndex(globalIdx)}
                         className={cn(
                           "flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-colors duration-100",
@@ -313,6 +350,49 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 </div>
               )}
 
+              {/* Items group */}
+              {itemGroup.length > 0 && (
+                <div>
+                  <div className="px-2.5 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                    Items
+                  </div>
+                  {itemGroup.map((r, i) => {
+                    const globalIdx = itemOffset + i;
+                    return (
+                      <button
+                        key={r.id}
+                        data-active={activeIndex === globalIdx}
+                        onClick={() => handleSelect(r)}
+                        onMouseEnter={() => setActiveIndex(globalIdx)}
+                        className={cn(
+                          "flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-sm transition-colors duration-100",
+                          activeIndex === globalIdx
+                            ? "bg-accent text-accent-foreground"
+                            : "text-foreground/80 hover:bg-accent/50"
+                        )}
+                      >
+                        {/* Item sprite */}
+                        {r.spriteUrl ? (
+                          <img
+                            src={r.spriteUrl}
+                            alt=""
+                            className="h-8 w-8 shrink-0 object-contain"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+                            <Package className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                        )}
+
+                        {/* Name */}
+                        <span className="min-w-0 flex-1 truncate font-medium">{r.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
               {/* Empty states */}
               {query.length > 0 && results.length === 0 && (
                 <div className="flex flex-col items-center gap-2 px-2 py-10 text-center">
@@ -327,7 +407,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                 <div className="flex flex-col items-center gap-2 px-2 py-10 text-center">
                   <Search className="h-8 w-8 text-muted-foreground/40" />
                   <p className="text-sm text-muted-foreground">
-                    Search for Pokemon or moves...
+                    Search for Pokemon, moves, or items...
                   </p>
                 </div>
               )}

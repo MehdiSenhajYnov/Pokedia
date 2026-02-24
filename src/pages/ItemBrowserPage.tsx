@@ -1,4 +1,4 @@
-import { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Search, Package, Tag } from "lucide-react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { usePageTitle } from "@/hooks/use-page-title";
@@ -122,13 +122,23 @@ export default function ItemBrowserPage() {
 
 function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
   const parentRef = useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = useState(2);
 
-  const getColumns = useCallback(() => {
-    const w = parentRef.current?.clientWidth ?? 800;
-    return Math.max(1, Math.floor((w + GAP) / (CARD_MIN_WIDTH + GAP)));
+  useEffect(() => {
+    const el = parentRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const w = el.clientWidth;
+      setColumns(Math.max(1, Math.floor((w + GAP) / (CARD_MIN_WIDTH + GAP))));
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
-  const columns = getColumns();
   const rowCount = Math.ceil(items.length / columns);
 
   const virtualizer = useVirtualizer({
@@ -142,7 +152,7 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
     <div
       ref={parentRef}
       className="flex-1 overflow-y-auto"
-      style={{ contain: "strict", height: "calc(100vh - 180px)" }}
+      style={{ height: "calc(100vh - 180px)" }}
     >
       <div
         style={{
@@ -164,7 +174,7 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
                 left: 0,
                 right: 0,
                 display: "grid",
-                gridTemplateColumns: `repeat(auto-fill, minmax(${CARD_MIN_WIDTH}px, 1fr))`,
+                gridTemplateColumns: `repeat(${columns}, 1fr)`,
                 gap: `${GAP}px`,
               }}
             >
