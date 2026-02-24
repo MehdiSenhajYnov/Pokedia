@@ -1,4 +1,4 @@
-import { useMemo, useRef, useCallback } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, LayoutGrid, List, Plus, Check, DatabaseZap, Heart } from "lucide-react";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -309,15 +309,25 @@ const GAP = 12;
 
 function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
   const parentRef = useRef<HTMLDivElement>(null);
-  const parentWidth = useRef(0);
+  const [columns, setColumns] = useState(5);
 
-  const getColumns = useCallback(() => {
-    const w = parentRef.current?.clientWidth ?? 800;
-    parentWidth.current = w;
-    return Math.max(1, Math.floor((w + GAP) / (CARD_MIN_WIDTH + GAP)));
+  // Track parent width via ResizeObserver so columns update dynamically
+  // and also triggers a re-render once the ref is attached (fixing first-render null)
+  useEffect(() => {
+    const el = parentRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const w = el.clientWidth;
+      setColumns(Math.max(1, Math.floor((w + GAP) / (CARD_MIN_WIDTH + GAP))));
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
-  const columns = getColumns();
   const rowCount = Math.ceil(pokemon.length / columns);
 
   const virtualizer = useVirtualizer({
@@ -339,7 +349,7 @@ function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
     <div
       ref={parentRef}
       className="flex-1 overflow-y-auto"
-      style={{ contain: "strict", height: "calc(100vh - 180px)" }}
+      style={{ height: "calc(100vh - 180px)" }}
     >
       <div
         style={{
@@ -361,7 +371,7 @@ function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
                 left: 0,
                 right: 0,
                 display: "grid",
-                gridTemplateColumns: `repeat(auto-fill, minmax(${CARD_MIN_WIDTH}px, 1fr))`,
+                gridTemplateColumns: `repeat(${columns}, 1fr)`,
                 gap: `${GAP}px`,
               }}
             >
@@ -380,7 +390,7 @@ function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
 // Virtualized List / table view
 // ---------------------------------------------------------------------------
 
-const ROW_HEIGHT = 36;
+const ROW_HEIGHT = 56;
 
 function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
   const { pokemonName } = useSettingsStore();
@@ -402,6 +412,9 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
     );
   }
 
+  const spriteBase =
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+
   return (
     <div
       ref={parentRef}
@@ -411,22 +424,23 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-10 bg-background">
           <tr className="border-b border-border text-xs text-muted-foreground">
-            <th className="w-10 px-2 py-2 text-left" scope="col">#</th>
-            <th className="px-2 py-2 text-left" scope="col">Name</th>
-            <th className="px-2 py-2 text-left" scope="col">Type</th>
-            <th className="px-2 py-2 text-right" scope="col">HP</th>
-            <th className="px-2 py-2 text-right" scope="col">Atk</th>
-            <th className="px-2 py-2 text-right" scope="col">Def</th>
-            <th className="px-2 py-2 text-right" scope="col">SpA</th>
-            <th className="px-2 py-2 text-right" scope="col">SpD</th>
-            <th className="px-2 py-2 text-right" scope="col">Spe</th>
-            <th className="px-2 py-2 text-right" scope="col">BST</th>
-            <th className="w-8 px-2 py-2" scope="col"><span className="sr-only">Actions</span></th>
+            <th className="w-14 px-3 py-2.5 text-left" scope="col">#</th>
+            <th className="w-10 px-1 py-2.5" scope="col"><span className="sr-only">Sprite</span></th>
+            <th className="px-3 py-2.5 text-left" scope="col">Name</th>
+            <th className="px-3 py-2.5 text-left" scope="col">Type</th>
+            <th className="px-3 py-2.5 text-right" scope="col">HP</th>
+            <th className="px-3 py-2.5 text-right" scope="col">Atk</th>
+            <th className="px-3 py-2.5 text-right" scope="col">Def</th>
+            <th className="px-3 py-2.5 text-right" scope="col">SpA</th>
+            <th className="px-3 py-2.5 text-right" scope="col">SpD</th>
+            <th className="px-3 py-2.5 text-right" scope="col">Spe</th>
+            <th className="px-3 py-2.5 text-right" scope="col">BST</th>
+            <th className="w-10 px-3 py-2.5" scope="col"><span className="sr-only">Actions</span></th>
           </tr>
         </thead>
         <tbody>
           <tr style={{ height: virtualizer.getVirtualItems()[0]?.start ?? 0 }}>
-            <td colSpan={11} />
+            <td colSpan={12} />
           </tr>
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const p = pokemon[virtualRow.index];
@@ -434,11 +448,23 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
             return (
               <tr
                 key={p.id}
-                className="border-b border-border/50 hover:bg-accent/50"
+                className="border-b border-border/30 transition-colors hover:bg-accent/50"
                 style={{ height: ROW_HEIGHT }}
               >
-                <td className="px-2 py-1.5 text-muted-foreground">{p.id}</td>
-                <td className="px-2 py-1.5">
+                <td className="px-3 py-2 text-muted-foreground tabular-nums">
+                  {String(p.id).padStart(3, "0")}
+                </td>
+                <td className="px-1 py-1">
+                  <Link to={`/pokemon/${p.id}`}>
+                    <img
+                      src={p.sprite_url ?? `${spriteBase}/${p.id}.png`}
+                      alt=""
+                      className="h-10 w-10 object-contain"
+                      loading="lazy"
+                    />
+                  </Link>
+                </td>
+                <td className="px-3 py-2">
                   <Link
                     to={`/pokemon/${p.id}`}
                     className="font-medium hover:underline"
@@ -446,34 +472,34 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
                     {pokemonName(p.name_en, p.name_fr)}
                   </Link>
                 </td>
-                <td className="px-2 py-1.5">
+                <td className="px-3 py-2">
                   <div className="flex gap-1">
                     <TypeBadge type={p.type1_key} />
                     {p.type2_key && <TypeBadge type={p.type2_key} />}
                   </div>
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs">
+                <td className="px-3 py-2 text-right font-mono text-xs">
                   {p.hp ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs">
+                <td className="px-3 py-2 text-right font-mono text-xs">
                   {p.atk ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs">
+                <td className="px-3 py-2 text-right font-mono text-xs">
                   {p.def ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs">
+                <td className="px-3 py-2 text-right font-mono text-xs">
                   {p.spa ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs">
+                <td className="px-3 py-2 text-right font-mono text-xs">
                   {p.spd ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs">
+                <td className="px-3 py-2 text-right font-mono text-xs">
                   {p.spe ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5 text-right font-mono text-xs font-semibold">
+                <td className="px-3 py-2 text-right font-mono text-xs font-semibold">
                   {p.base_stat_total ?? "\u2014"}
                 </td>
-                <td className="px-2 py-1.5">
+                <td className="px-3 py-2">
                   <button
                     onClick={() =>
                       isCompared
@@ -481,7 +507,7 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
                         : addPokemon(p.id)
                     }
                     className={cn(
-                      "flex h-6 w-6 items-center justify-center rounded-full border transition-colors",
+                      "flex h-7 w-7 items-center justify-center rounded-full border transition-colors",
                       isCompared
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground hover:bg-accent",
@@ -503,7 +529,7 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
             );
           })}
           <tr style={{ height: virtualizer.getTotalSize() - (virtualizer.getVirtualItems().at(-1)?.end ?? 0) }}>
-            <td colSpan={11} />
+            <td colSpan={12} />
           </tr>
         </tbody>
       </table>

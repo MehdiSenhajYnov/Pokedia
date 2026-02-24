@@ -121,9 +121,6 @@ export default function PokemonDetailPage() {
   const weightStr =
     pokemon.weight !== null ? `${(pokemon.weight / 10).toFixed(1)} kg` : "\u2014";
 
-  // Abilities helper for name display
-  const { pokemonName: abilityName } = useSettingsStore();
-
   return (
     <div className="mx-auto max-w-4xl space-y-6 p-4">
       {/* ── Navigation ── */}
@@ -244,7 +241,7 @@ export default function PokemonDetailPage() {
                     : "border-border"
                 }`}
               >
-                {abilityName(a.ability_en, a.ability_fr)}
+                {pokemonName(a.ability_en, a.ability_fr)}
                 {a.is_hidden === 1 && " (Hidden)"}
               </span>
             ))}

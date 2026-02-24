@@ -31,7 +31,7 @@ export function AppLayout() {
         <Header />
         <SyncBanner />
         <main id="main-content" ref={mainRef} className="flex-1 overflow-y-auto">
-          <ErrorBoundary>
+          <ErrorBoundary key={location.pathname}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}
