@@ -20,8 +20,10 @@ pub struct PaginatedList {
 }
 
 /// A reference to a named API resource.
+/// Note: some endpoints (e.g. evolution-chain) return items without a `name` field.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct NamedApiResource {
+    #[serde(default)]
     pub name: String,
     pub url: String,
 }
