@@ -35,6 +35,8 @@ export const getPokemonAbilities = (pokemonId: number) =>
   invoke<PokemonAbility[]>("get_pokemon_abilities", { pokemonId });
 export const getPokemonEvolutionChain = (pokemonId: number) =>
   invoke<EvolutionNode | null>("get_pokemon_evolution_chain", { pokemonId });
+export const getAlternateForms = (chainId: number) =>
+  invoke<PokemonSummary[]>("get_alternate_forms", { chainId });
 
 // Moves
 export const getAllMoves = () => invoke<MoveSummary[]>("get_all_moves");

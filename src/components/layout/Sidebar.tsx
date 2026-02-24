@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useSyncStatus } from "@/hooks/use-sync";
+import { useComparisonStore } from "@/stores/comparison-store";
 import {
   BookOpen,
   GitCompareArrows,
@@ -14,11 +15,11 @@ import {
 } from "lucide-react";
 
 const NAV_ITEMS = [
-  { to: "/", icon: BookOpen, label: "Pokédex" },
-  { to: "/compare", icon: GitCompareArrows, label: "Compare" },
-  { to: "/types", icon: Grid3X3, label: "Types" },
-  { to: "/moves", icon: Swords, label: "Moves" },
-  { to: "/items", icon: Package, label: "Items" },
+  { to: "/", icon: BookOpen, label: "Pokédex", badge: null as string | null },
+  { to: "/compare", icon: GitCompareArrows, label: "Compare", badge: "compare" },
+  { to: "/types", icon: Grid3X3, label: "Types", badge: null },
+  { to: "/moves", icon: Swords, label: "Moves", badge: null },
+  { to: "/items", icon: Package, label: "Items", badge: null },
 ];
 
 const BOTTOM_ITEMS = [
@@ -59,6 +60,7 @@ function SyncDot() {
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const compareCount = useComparisonStore((s) => s.pokemonIds.length);
 
   // Collapse automatically on narrow viewports
   useEffect(() => {
@@ -99,27 +101,38 @@ export function Sidebar() {
 
       {/* ── Navigation ── */}
       <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-2 py-3">
-        {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === "/"}
-            className={({ isActive }) =>
-              cn(
-                "group flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium transition-colors duration-150",
-                "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                isActive
-                  ? "bg-sidebar-primary/15 text-sidebar-primary shadow-[inset_3px_0_0_0] shadow-sidebar-primary"
-                  : "text-sidebar-foreground/60",
-                collapsed && "justify-center px-0"
-              )
-            }
-            title={collapsed ? label : undefined}
-          >
-            <Icon className="h-[18px] w-[18px] shrink-0" />
-            {!collapsed && <span>{label}</span>}
-          </NavLink>
-        ))}
+        {NAV_ITEMS.map(({ to, icon: Icon, label, badge }) => {
+          const badgeCount = badge === "compare" ? compareCount : 0;
+          return (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/"}
+              className={({ isActive }) =>
+                cn(
+                  "group relative flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-sm font-medium transition-colors duration-150",
+                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  isActive
+                    ? "bg-sidebar-primary/15 text-sidebar-primary shadow-[inset_3px_0_0_0] shadow-sidebar-primary"
+                    : "text-sidebar-foreground/60",
+                  collapsed && "justify-center px-0"
+                )
+              }
+              title={collapsed ? label : undefined}
+            >
+              <Icon className="h-[18px] w-[18px] shrink-0" />
+              {!collapsed && <span>{label}</span>}
+              {badgeCount > 0 && (
+                <span className={cn(
+                  "flex h-5 min-w-5 items-center justify-center rounded-full bg-sidebar-primary px-1 text-[10px] font-bold text-sidebar-primary-foreground",
+                  collapsed ? "absolute -right-0.5 -top-0.5" : "ml-auto"
+                )}>
+                  {badgeCount}
+                </span>
+              )}
+            </NavLink>
+          );
+        })}
       </nav>
 
       {/* ── Bottom section ── */}

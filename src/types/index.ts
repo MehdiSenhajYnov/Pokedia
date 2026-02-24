@@ -15,6 +15,7 @@ export interface PokemonSummary {
   spe: number | null;
   base_stat_total: number | null;
   sprite_url: string | null;
+  species_id: number | null;
 }
 
 export interface PokemonDetail {
@@ -37,6 +38,7 @@ export interface PokemonDetail {
   description_fr: string | null;
   height: number | null;
   weight: number | null;
+  species_id: number | null;
 }
 
 export interface PokemonAbility {

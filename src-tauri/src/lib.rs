@@ -49,6 +49,7 @@ pub fn run() {
             commands::pokemon::search_pokemon,
             commands::pokemon::get_pokemon_abilities,
             commands::pokemon::get_pokemon_evolution_chain,
+            commands::pokemon::get_alternate_forms,
             // Moves
             commands::moves::get_all_moves,
             commands::moves::get_move_by_id,

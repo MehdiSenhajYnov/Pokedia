@@ -39,7 +39,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   const { data: allMoves } = useAllMoves();
   const { data: allItems } = useAllItems();
   const { pokemonName, moveName, itemName } = useSettingsStore();
-  const { setMoveQuery, setItemQuery } = useSearchStore();
+  const { setMoveQuery, setExpandedMoveId, setItemQuery } = useSearchStore();
 
   // ── Ctrl+K / Escape ──
   useEffect(() => {
@@ -138,13 +138,16 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
       // Pre-fill the page search when navigating to moves/items
       if (result.kind === "move" && result.searchName) {
         setMoveQuery(result.searchName);
+        // Extract numeric ID from "move-123" to auto-expand the detail panel
+        const moveId = parseInt(result.id.replace("move-", ""), 10);
+        if (!isNaN(moveId)) setExpandedMoveId(moveId);
       } else if (result.kind === "item" && result.searchName) {
         setItemQuery(result.searchName);
       }
       navigate(result.path);
       onOpenChange(false);
     },
-    [navigate, onOpenChange, setMoveQuery, setItemQuery]
+    [navigate, onOpenChange, setMoveQuery, setExpandedMoveId, setItemQuery]
   );
 
   const handleKeyDown = useCallback(

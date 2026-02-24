@@ -58,14 +58,16 @@ pub async fn update_pokemon_species(
            name_fr = ?2,
            description_en = ?3,
            description_fr = ?4,
-           evolution_chain_id = ?5
-         WHERE id = ?6"
+           evolution_chain_id = ?5,
+           species_id = ?6
+         WHERE id = ?7"
     )
     .bind(&species.name_en)
     .bind(&species.name_fr)
     .bind(&species.description_en)
     .bind(&species.description_fr)
     .bind(species.evolution_chain_id)
+    .bind(species.id)
     .bind(pokemon_id)
     .execute(pool)
     .await?;

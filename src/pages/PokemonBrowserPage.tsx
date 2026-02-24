@@ -12,6 +12,7 @@ import { PokemonCard } from "@/components/pokemon/PokemonCard";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { ALL_TYPES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { buildNameToIdMap, getBaseId, getFormLabel } from "@/lib/pokemon-utils";
 import type { PokemonSummary } from "@/types";
 
 /** Generation ID ranges (National Dex) */
@@ -51,6 +52,12 @@ export default function PokemonBrowserPage() {
   const { pokemonName } = useSettingsStore();
   const { data: favorites } = useFavorites();
   const favSet = useMemo(() => new Set(favorites ?? []), [favorites]);
+
+  // Build a name_key → id lookup for inferring base form IDs
+  const nameToIdMap = useMemo(
+    () => buildNameToIdMap(allPokemon ?? []),
+    [allPokemon],
+  );
 
   // ------ Client-side filter & sort ------
   const filtered = useMemo(() => {
@@ -129,7 +136,15 @@ export default function PokemonBrowserPage() {
         sorted.sort((a, b) => (b.spe ?? 0) - (a.spe ?? 0));
         break;
       default:
-        sorted.sort((a, b) => a.id - b.id);
+        // Sort by base form ID so alternate forms appear next to their base.
+        // Uses species_id if available, otherwise infers from name_key prefix.
+        sorted.sort((a, b) => {
+          const specA = getBaseId(a, nameToIdMap);
+          const specB = getBaseId(b, nameToIdMap);
+          if (specA !== specB) return specA - specB;
+          // Base form (lower ID) first, then alternates
+          return a.id - b.id;
+        });
     }
 
     return sorted;
@@ -291,9 +306,9 @@ export default function PokemonBrowserPage() {
 
       {/* ── Content ── */}
       {pokemonViewMode === "grid" ? (
-        <VirtualizedGrid pokemon={filtered} />
+        <VirtualizedGrid pokemon={filtered} nameToIdMap={nameToIdMap} />
       ) : (
-        <VirtualizedList pokemon={filtered} />
+        <VirtualizedList pokemon={filtered} nameToIdMap={nameToIdMap} />
       )}
     </div>
   );
@@ -307,7 +322,7 @@ const CARD_MIN_WIDTH = 132;
 const CARD_HEIGHT = 170;
 const GAP = 12;
 
-function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
+function VirtualizedGrid({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number> }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(5);
 
@@ -376,7 +391,7 @@ function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
               }}
             >
               {rowPokemon.map((p) => (
-                <PokemonCard key={p.id} pokemon={p} />
+                <PokemonCard key={p.id} pokemon={p} nameToIdMap={nameToIdMap} />
               ))}
             </div>
           );
@@ -392,7 +407,7 @@ function VirtualizedGrid({ pokemon }: { pokemon: PokemonSummary[] }) {
 
 const ROW_HEIGHT = 56;
 
-function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
+function VirtualizedList({ pokemon, nameToIdMap }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number> }) {
   const { pokemonName } = useSettingsStore();
   const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
   const parentRef = useRef<HTMLDivElement>(null);
@@ -445,14 +460,20 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const p = pokemon[virtualRow.index];
             const isCompared = hasPokemon(p.id);
+            const baseId = getBaseId(p, nameToIdMap);
+            const isForm = baseId !== p.id;
+            const formLabel = isForm ? getFormLabel(p.name_key) : null;
             return (
               <tr
                 key={p.id}
-                className="border-b border-border/30 transition-colors hover:bg-accent/50"
+                className={cn(
+                  "border-b border-border/30 transition-colors hover:bg-accent/50",
+                  isForm && "bg-muted/30",
+                )}
                 style={{ height: ROW_HEIGHT }}
               >
                 <td className="px-3 py-2 text-muted-foreground tabular-nums">
-                  {String(p.id).padStart(3, "0")}
+                  {String(baseId).padStart(3, "0")}
                 </td>
                 <td className="px-1 py-1">
                   <Link to={`/pokemon/${p.id}`}>
@@ -470,6 +491,11 @@ function VirtualizedList({ pokemon }: { pokemon: PokemonSummary[] }) {
                     className="font-medium hover:underline"
                   >
                     {pokemonName(p.name_en, p.name_fr)}
+                    {formLabel && (
+                      <span className="ml-1.5 text-xs font-normal text-muted-foreground">
+                        · {formLabel}
+                      </span>
+                    )}
                   </Link>
                 </td>
                 <td className="px-3 py-2">

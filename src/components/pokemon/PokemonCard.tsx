@@ -9,13 +9,15 @@ import { PokemonSprite } from "@/components/ui/pokemon-sprite";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
 import { useIsFavorite, useToggleFavorite } from "@/hooks/use-favorites";
+import { getBaseId, getFormLabel } from "@/lib/pokemon-utils";
 import type { PokemonSummary } from "@/types";
 
 interface PokemonCardProps {
   pokemon: PokemonSummary;
+  nameToIdMap?: Map<string, number>;
 }
 
-export function PokemonCard({ pokemon }: PokemonCardProps) {
+export function PokemonCard({ pokemon, nameToIdMap }: PokemonCardProps) {
   const navigate = useNavigate();
   const { pokemonName } = useSettingsStore();
   const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
@@ -23,6 +25,8 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
   const isFavorite = useIsFavorite(pokemon.id);
   const { mutate: toggleFav } = useToggleFavorite();
   const name = pokemonName(pokemon.name_en, pokemon.name_fr);
+  const baseId = nameToIdMap ? getBaseId(pokemon, nameToIdMap) : pokemon.id;
+  const formLabel = nameToIdMap && baseId !== pokemon.id ? getFormLabel(pokemon.name_key) : null;
 
   return (
     <ContextMenu.Root>
@@ -80,7 +84,7 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
 
             {/* ID */}
             <span className="text-[10px] text-muted-foreground">
-              #{String(pokemon.id).padStart(3, "0")}
+              #{String(baseId).padStart(3, "0")}
             </span>
 
             {/* Sprite */}
@@ -91,8 +95,11 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
               className="h-16 w-16"
             />
 
-            {/* Name */}
+            {/* Name + form label */}
             <span className="mt-1 truncate text-xs font-medium">{name}</span>
+            {formLabel && (
+              <span className="truncate text-[10px] text-muted-foreground">{formLabel}</span>
+            )}
 
             {/* Type badges */}
             <div className="mt-1 flex gap-1">

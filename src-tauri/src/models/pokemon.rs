@@ -17,6 +17,7 @@ pub struct PokemonSummary {
     pub spe: Option<i64>,
     pub base_stat_total: Option<i64>,
     pub sprite_url: Option<String>,
+    pub species_id: Option<i64>,
 }
 
 /// Full pokemon detail including stats, abilities, description.
@@ -41,6 +42,7 @@ pub struct PokemonDetail {
     pub description_fr: Option<String>,
     pub height: Option<i64>,
     pub weight: Option<i64>,
+    pub species_id: Option<i64>,
 }
 
 /// A pokemon's ability.

@@ -33,23 +33,33 @@ pub async fn init_db(app_handle: &tauri::AppHandle) -> Result<SqlitePool, Box<dy
     Ok(pool)
 }
 
-/// Run the initial schema migration.
+/// Run all schema migrations in order.
 async fn run_migrations(pool: &SqlitePool) -> Result<(), Box<dyn std::error::Error>> {
-    let migration_sql = include_str!("../migrations/001_initial_schema.sql");
+    let migrations = [
+        include_str!("../migrations/001_initial_schema.sql"),
+        include_str!("../migrations/002_add_species_id.sql"),
+    ];
 
-    // Execute each statement separately (sqlx doesn't natively batch raw SQL)
-    for statement in migration_sql.split(';') {
-        // Strip comment-only lines before checking if the statement is empty
-        let cleaned: String = statement
-            .lines()
-            .filter(|line| !line.trim_start().starts_with("--"))
-            .collect::<Vec<_>>()
-            .join("\n");
-        let trimmed = cleaned.trim();
-        if trimmed.is_empty() {
-            continue;
+    for migration_sql in migrations {
+        for statement in migration_sql.split(';') {
+            let cleaned: String = statement
+                .lines()
+                .filter(|line| !line.trim_start().starts_with("--"))
+                .collect::<Vec<_>>()
+                .join("\n");
+            let trimmed = cleaned.trim();
+            if trimmed.is_empty() {
+                continue;
+            }
+            if let Err(e) = sqlx::query(trimmed).execute(pool).await {
+                // ALTER TABLE ADD COLUMN fails if column already exists — safe to skip
+                if trimmed.to_uppercase().contains("ALTER TABLE") {
+                    log::info!("Migration skipped (already applied): {}", e);
+                } else {
+                    return Err(e.into());
+                }
+            }
         }
-        sqlx::query(trimmed).execute(pool).await?;
     }
 
     log::info!("Database migrations completed successfully");

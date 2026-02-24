@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, ChevronDown, ChevronUp, Swords } from "lucide-react";
 import { useAllMoves } from "@/hooks/use-moves";
 import { useMoveById } from "@/hooks/use-moves";
@@ -31,7 +31,9 @@ export default function MoveBrowserPage() {
     moveDamageClassFilter,
     movePowerMin,
     movePowerMax,
+    expandedMoveId,
     setMoveQuery,
+    setExpandedMoveId,
     setMoveTypeFilter,
     setMoveDamageClassFilter,
     setMovePowerMin,
@@ -40,6 +42,14 @@ export default function MoveBrowserPage() {
   const { moveName } = useSettingsStore();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  // Auto-expand move when navigated from global search
+  useEffect(() => {
+    if (expandedMoveId !== null) {
+      setExpandedId(expandedMoveId);
+      setExpandedMoveId(null);
+    }
+  }, [expandedMoveId, setExpandedMoveId]);
 
   const filtered = useMemo(() => {
     let result = allMoves ?? [];

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface PokemonSpriteProps {
@@ -29,6 +29,24 @@ export function PokemonSprite({
   const [currentSrc, setCurrentSrc] = useState(
     src ?? (pokemonId ? `${GITHUB_SPRITE_BASE}/${pokemonId}.png` : null),
   );
+
+  // Track previous src so we can detect prop changes
+  const prevSrc = useRef(src);
+  useEffect(() => {
+    if (src !== prevSrc.current) {
+      prevSrc.current = src;
+      if (src) {
+        setCurrentSrc(src);
+        setStatus("loading");
+      } else if (pokemonId) {
+        setCurrentSrc(`${GITHUB_SPRITE_BASE}/${pokemonId}.png`);
+        setStatus("fallback");
+      } else {
+        setCurrentSrc(null);
+        setStatus("error");
+      }
+    }
+  }, [src, pokemonId]);
 
   const handleError = useCallback(() => {
     if (status === "loading" && pokemonId) {

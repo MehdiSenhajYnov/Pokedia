@@ -5,6 +5,7 @@ import {
   getPokemonAbilities,
   getPokemonEvolutionChain,
   getPokemonMoves,
+  getAlternateForms,
 } from "@/lib/tauri";
 
 export function useAllPokemon() {
@@ -38,6 +39,15 @@ export function usePokemonEvolutionChain(pokemonId: number | null) {
     queryKey: ["pokemon-evolution", pokemonId],
     queryFn: () => getPokemonEvolutionChain(pokemonId!),
     enabled: pokemonId !== null,
+    staleTime: Infinity,
+  });
+}
+
+export function useAlternateForms(chainId: number | null) {
+  return useQuery({
+    queryKey: ["pokemon-forms", chainId],
+    queryFn: () => getAlternateForms(chainId!),
+    enabled: chainId !== null,
     staleTime: Infinity,
   });
 }

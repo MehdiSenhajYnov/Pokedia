@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface SearchState {
   pokemonQuery: string;
@@ -12,6 +13,7 @@ interface SearchState {
   moveDamageClassFilter: string | null;
   movePowerMin: number | null;
   movePowerMax: number | null;
+  expandedMoveId: number | null;
   itemQuery: string;
   itemCategoryFilter: string | null;
 
@@ -22,6 +24,7 @@ interface SearchState {
   setPokemonFavoritesOnly: (v: boolean) => void;
   setPokemonGenFilter: (g: number | null) => void;
   setMoveQuery: (q: string) => void;
+  setExpandedMoveId: (id: number | null) => void;
   setMoveTypeFilter: (t: string | null) => void;
   setMoveDamageClassFilter: (c: string | null) => void;
   setMovePowerMin: (v: number | null) => void;
@@ -30,33 +33,44 @@ interface SearchState {
   setItemCategoryFilter: (c: string | null) => void;
 }
 
-export const useSearchStore = create<SearchState>()((set) => ({
-  pokemonQuery: "",
-  pokemonTypeFilter: null,
-  pokemonSort: "id",
-  pokemonViewMode: "grid",
-  pokemonFavoritesOnly: false,
-  pokemonGenFilter: null,
-  moveQuery: "",
-  moveTypeFilter: null,
-  moveDamageClassFilter: null,
-  movePowerMin: null,
-  movePowerMax: null,
-  itemQuery: "",
-  itemCategoryFilter: null,
+export const useSearchStore = create<SearchState>()(
+  persist(
+    (set) => ({
+      pokemonQuery: "",
+      pokemonTypeFilter: null,
+      pokemonSort: "id",
+      pokemonViewMode: "list",
+      pokemonFavoritesOnly: false,
+      pokemonGenFilter: null,
+      moveQuery: "",
+      expandedMoveId: null,
+      moveTypeFilter: null,
+      moveDamageClassFilter: null,
+      movePowerMin: null,
+      movePowerMax: null,
+      itemQuery: "",
+      itemCategoryFilter: null,
 
-  setPokemonQuery: (pokemonQuery) => set({ pokemonQuery }),
-  setPokemonTypeFilter: (pokemonTypeFilter) => set({ pokemonTypeFilter }),
-  setPokemonSort: (pokemonSort) => set({ pokemonSort }),
-  setPokemonViewMode: (pokemonViewMode) => set({ pokemonViewMode }),
-  setPokemonFavoritesOnly: (pokemonFavoritesOnly) => set({ pokemonFavoritesOnly }),
-  setPokemonGenFilter: (pokemonGenFilter) => set({ pokemonGenFilter }),
-  setMoveQuery: (moveQuery) => set({ moveQuery }),
-  setMoveTypeFilter: (moveTypeFilter) => set({ moveTypeFilter }),
-  setMoveDamageClassFilter: (moveDamageClassFilter) =>
-    set({ moveDamageClassFilter }),
-  setMovePowerMin: (movePowerMin) => set({ movePowerMin }),
-  setMovePowerMax: (movePowerMax) => set({ movePowerMax }),
-  setItemQuery: (itemQuery) => set({ itemQuery }),
-  setItemCategoryFilter: (itemCategoryFilter) => set({ itemCategoryFilter }),
-}));
+      setPokemonQuery: (pokemonQuery) => set({ pokemonQuery }),
+      setPokemonTypeFilter: (pokemonTypeFilter) => set({ pokemonTypeFilter }),
+      setPokemonSort: (pokemonSort) => set({ pokemonSort }),
+      setPokemonViewMode: (pokemonViewMode) => set({ pokemonViewMode }),
+      setPokemonFavoritesOnly: (pokemonFavoritesOnly) => set({ pokemonFavoritesOnly }),
+      setPokemonGenFilter: (pokemonGenFilter) => set({ pokemonGenFilter }),
+      setMoveQuery: (moveQuery) => set({ moveQuery }),
+      setExpandedMoveId: (expandedMoveId) => set({ expandedMoveId }),
+      setMoveTypeFilter: (moveTypeFilter) => set({ moveTypeFilter }),
+      setMoveDamageClassFilter: (moveDamageClassFilter) =>
+        set({ moveDamageClassFilter }),
+      setMovePowerMin: (movePowerMin) => set({ movePowerMin }),
+      setMovePowerMax: (movePowerMax) => set({ movePowerMax }),
+      setItemQuery: (itemQuery) => set({ itemQuery }),
+      setItemCategoryFilter: (itemCategoryFilter) => set({ itemCategoryFilter }),
+    }),
+    {
+      name: "pokedia-search",
+      // Only persist the view mode preference, not transient search queries
+      partialize: (state) => ({ pokemonViewMode: state.pokemonViewMode }),
+    }
+  )
+);

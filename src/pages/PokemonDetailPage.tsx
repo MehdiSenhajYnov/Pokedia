@@ -1,10 +1,13 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
+  useAllPokemon,
   usePokemonById,
   usePokemonAbilities,
   usePokemonEvolutionChain,
   usePokemonMovesList,
+  useAlternateForms,
 } from "@/hooks/use-pokemon";
+import { buildNameToIdMap, sortByPokedex, getBaseId, getFormLabel } from "@/lib/pokemon-utils";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
 import { useRecentStore } from "@/stores/recent-store";
@@ -16,6 +19,7 @@ import { EvolutionChain } from "@/components/pokemon/EvolutionChain";
 import { MoveTable } from "@/components/pokemon/MoveTable";
 import { PokemonSprite } from "@/components/ui/pokemon-sprite";
 import {
+  ArrowLeft,
   ChevronLeft,
   ChevronRight,
   Plus,
@@ -23,7 +27,7 @@ import {
   Sparkles,
   Heart,
 } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { getDefensiveMatchups } from "@/lib/type-chart";
 import { cn } from "@/lib/utils";
 import type { PokemonTypeName } from "@/lib/constants";
@@ -39,8 +43,22 @@ export default function PokemonDetailPage() {
   const { data: abilities } = usePokemonAbilities(pokemonId);
   const { data: evolutionChain } = usePokemonEvolutionChain(pokemonId);
   const { data: moves } = usePokemonMovesList(pokemonId);
+  const { data: alternateForms } = useAlternateForms(pokemon?.evolution_chain_id ?? null);
+  const { data: allPokemon } = useAllPokemon();
 
   const { pokemonName, description } = useSettingsStore();
+
+  // Compute sorted Pokédex order for Prev/Next navigation
+  const { prevId, nextId } = useMemo(() => {
+    if (!allPokemon || !pokemonId) return { prevId: null, nextId: null };
+    const nameToId = buildNameToIdMap(allPokemon);
+    const sorted = sortByPokedex(allPokemon, nameToId);
+    const idx = sorted.findIndex((p) => p.id === pokemonId);
+    return {
+      prevId: idx > 0 ? sorted[idx - 1].id : null,
+      nextId: idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1].id : null,
+    };
+  }, [allPokemon, pokemonId]);
   const { addPokemon, removePokemon, hasPokemon } = useComparisonStore();
   const { addRecent } = useRecentStore();
   const isFavorite = useIsFavorite(pokemonId ?? 0);
@@ -48,7 +66,14 @@ export default function PokemonDetailPage() {
   const [showShiny, setShowShiny] = useState(false);
 
   const name = pokemon ? pokemonName(pokemon.name_en, pokemon.name_fr) : "";
-  const idStr = pokemon ? `#${String(pokemon.id).padStart(3, "0")}` : "";
+  // Show base form ID for consistent numbering
+  const nameToIdMapDetail = useMemo(
+    () => buildNameToIdMap(allPokemon ?? []),
+    [allPokemon],
+  );
+  const baseId = pokemon ? getBaseId(pokemon, nameToIdMapDetail) : null;
+  const idStr = baseId !== null ? `#${String(baseId).padStart(3, "0")}` : "";
+  const formLabelDetail = pokemon && baseId !== pokemon.id ? getFormLabel(pokemon.name_key) : null;
 
   // Dynamic window title
   usePageTitle(pokemon ? `${name} ${idStr}` : "Loading...");
@@ -58,19 +83,19 @@ export default function PokemonDetailPage() {
     if (pokemonId) addRecent(pokemonId);
   }, [pokemonId, addRecent]);
 
-  // Keyboard navigation: Left/Right arrows for prev/next Pokemon
+  // Keyboard navigation: Left/Right arrows for prev/next Pokemon (follows Pokédex sort)
   const handleKeyNav = useCallback(
     (e: KeyboardEvent) => {
       if (!pokemon) return;
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-      if (e.key === "ArrowLeft" && pokemon.id > 1) {
-        navigate(`/pokemon/${pokemon.id - 1}`);
-      } else if (e.key === "ArrowRight") {
-        navigate(`/pokemon/${pokemon.id + 1}`);
+      if (e.key === "ArrowLeft" && prevId !== null) {
+        navigate(`/pokemon/${prevId}`);
+      } else if (e.key === "ArrowRight" && nextId !== null) {
+        navigate(`/pokemon/${nextId}`);
       }
     },
-    [pokemon, navigate],
+    [pokemon, navigate, prevId, nextId],
   );
 
   useEffect(() => {
@@ -126,15 +151,45 @@ export default function PokemonDetailPage() {
       {/* ── Navigation ── */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          {pokemon.id > 1 && (
-            <Link
-              to={`/pokemon/${pokemon.id - 1}`}
-              className="flex h-8 items-center gap-1 rounded-md border border-input px-2 text-xs hover:bg-accent"
-              aria-label="Previous Pokemon"
-            >
-              <ChevronLeft className="h-3 w-3" /> Prev
-            </Link>
-          )}
+          {/* Back to Pokédex */}
+          <button
+            onClick={() => navigate(-1)}
+            className="flex h-8 items-center gap-1.5 rounded-md border border-input px-2.5 text-xs hover:bg-accent"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Back
+          </button>
+
+          {/* Prev / Next in Pokédex (follows sorted order) */}
+          <div className="flex items-center rounded-md border border-input">
+            {prevId !== null ? (
+              <Link
+                to={`/pokemon/${prevId}`}
+                className="flex h-8 items-center px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                aria-label="Previous Pokemon"
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </Link>
+            ) : (
+              <span className="flex h-8 items-center px-2 text-xs text-muted-foreground/30">
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </span>
+            )}
+            <span className="border-x border-input px-2 text-xs text-muted-foreground">{idStr}</span>
+            {nextId !== null ? (
+              <Link
+                to={`/pokemon/${nextId}`}
+                className="flex h-8 items-center px-2 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
+                aria-label="Next Pokemon"
+              >
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            ) : (
+              <span className="flex h-8 items-center px-2 text-xs text-muted-foreground/30">
+                <ChevronRight className="h-3.5 w-3.5" />
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex gap-2">
           {/* Favorite button */}
@@ -170,13 +225,6 @@ export default function PokemonDetailPage() {
               </>
             )}
           </button>
-          <Link
-            to={`/pokemon/${pokemon.id + 1}`}
-            className="flex h-8 items-center gap-1 rounded-md border border-input px-2 text-xs hover:bg-accent"
-            aria-label="Next Pokemon"
-          >
-            Next <ChevronRight className="h-3 w-3" />
-          </Link>
         </div>
       </div>
 
@@ -193,12 +241,15 @@ export default function PokemonDetailPage() {
           <button
             onClick={() => setShowShiny((s) => !s)}
             className={cn(
-              "absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full border border-border bg-background hover:bg-accent",
-              showShiny && "text-yellow-500",
+              "absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium transition-colors",
+              showShiny
+                ? "border-yellow-500/50 bg-yellow-500/10 text-yellow-500"
+                : "border-border bg-background text-muted-foreground hover:bg-accent",
             )}
             aria-label="Toggle shiny sprite"
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <Sparkles className="h-3 w-3" />
+            {showShiny ? "Shiny" : "Normal"}
           </button>
         </div>
 
@@ -207,7 +258,14 @@ export default function PokemonDetailPage() {
           <div className="text-xs text-muted-foreground">
             {idStr}
           </div>
-          <h1 className="text-2xl font-bold">{name}</h1>
+          <h1 className="text-2xl font-bold">
+            {name}
+            {formLabelDetail && (
+              <span className="ml-2 text-base font-normal text-muted-foreground">
+                · {formLabelDetail}
+              </span>
+            )}
+          </h1>
 
           <div className="mt-1 flex gap-1.5 justify-center sm:justify-start">
             <TypeBadge type={pokemon.type1_key} size="md" />
@@ -273,7 +331,7 @@ export default function PokemonDetailPage() {
       {evolutionChain && (
         <section>
           <h2 className="mb-2 text-sm font-semibold">Evolution</h2>
-          <EvolutionChain chain={evolutionChain} currentId={pokemon.id} />
+          <EvolutionChain chain={evolutionChain} currentId={pokemon.id} alternateForms={alternateForms} />
         </section>
       )}
 
