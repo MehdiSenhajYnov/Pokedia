@@ -9,7 +9,6 @@ import {
 } from "@/hooks/use-pokemon";
 import {
   useSelectedGame,
-  useGameCoverage,
   useGamePokemonMoves,
   useGamePokemonAbilities,
   useGamePokemonLocations,
@@ -69,7 +68,6 @@ export default function PokemonDetailPage() {
   const { pokemonName, abilityName, description } = useSettingsStore();
   const selectedGameId = useSettingsStore((s) => s.selectedGameId);
   const selectedGame = useSelectedGame();
-  const { data: gameCoverage } = useGameCoverage();
 
   // Game-specific data (only fetched when a game is selected)
   const { data: gameMoves } = useGamePokemonMoves(pokemon?.name_key);
@@ -79,13 +77,6 @@ export default function PokemonDetailPage() {
   // Resolve: game data > base data
   const moves = (selectedGameId && gameMoves && gameMoves.length > 0) ? gameMoves : baseMoves;
   const abilities = (selectedGameId && gameAbilities && gameAbilities.length > 0) ? gameAbilities : baseAbilities;
-
-  // Check if pokemon is unavailable in selected game (full coverage + no game data)
-  const isUnavailableInGame = selectedGameId
-    && gameCoverage != null && gameCoverage === "full"
-    && (!gameMoves || gameMoves.length === 0)
-    && (!gameAbilities || gameAbilities.length === 0)
-    && (!gameLocations || gameLocations.length === 0);
 
   const { prevId, nextId } = useMemo(() => {
     if (!allPokemon || !pokemonId) return { prevId: null, nextId: null };

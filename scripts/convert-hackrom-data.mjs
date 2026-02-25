@@ -12,6 +12,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import XLSX from "xlsx";
+import { PDFParse } from "pdf-parse";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -267,61 +268,91 @@ function parseRadicalRedEncounters(filePath) {
   return result;
 }
 
+// ── Helper: add an item location to the accumulator ─────────────────
+function addItemLocation(itemLocations, nameKey, location) {
+  if (!nameKey || nameKey.length < 2 || !location || location.length < 3) return;
+  // Normalize newlines
+  const loc = location.replace(/\r?\n/g, " ").replace(/\s+/g, " ").trim();
+  const existing = itemLocations.find((il) => il.name_key === nameKey);
+  if (existing) {
+    if (!existing.locations.includes(loc)) {
+      existing.locations.push(loc);
+    }
+  } else {
+    itemLocations.push({ name_key: nameKey, locations: [loc] });
+  }
+}
+
+// ── Extract item name_key from a display string ─────────────────────
+function itemNameKey(itemStr) {
+  let name = itemStr.trim();
+  // "TM 120 - Ice Spinner" or "TM001 - Close Combat" or "HM01 - Cut" → move name
+  const tmMatch = name.match(/^(?:TM|HM)\s*\d+\s*[-–]\s*(.+)/i);
+  if (tmMatch) name = tmMatch[1];
+  // "Potion [x1]" → "Potion"
+  name = name.replace(/\s*\[x?\d+\]\s*/gi, "");
+  return toNameKey(name);
+}
+
 // ── Parse TM/Item locations from Radical Red xlsx ───────────────────
 function parseRadicalRedItems(filePath) {
   const workbook = XLSX.readFile(filePath);
   const itemLocations = [];
 
-  for (const sheetName of workbook.SheetNames) {
-    if (sheetName === "Main" || sheetName === "Source") continue;
-
-    const sheet = workbook.Sheets[sheetName];
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
-
-    // Find header row with "LOCATION" or "Location"
-    let headerIdx = -1;
-    let nameCol = -1;
-    let locationCol = -1;
-    for (let r = 0; r < Math.min(rows.length, 5); r++) {
-      const row = rows[r];
-      for (let c = 0; c < (row?.length || 0); c++) {
-        const s = String(row[c]).trim().toUpperCase();
-        if (s === "LOCATION") locationCol = c;
-        if (s === "TM" || s === "MOVE" || s === "ITEM" || s === "MEGA STONE" || s === "TM ## - NAME" || s.includes("NAME")) {
-          nameCol = c;
-        }
-      }
-      if (locationCol >= 0) { headerIdx = r; break; }
+  // ── TMs & HMs: col 0=TM#, col 2=Move name, col 4=Location ──
+  {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["TMs & HMs"], { header: 1, defval: "" });
+    for (let r = 1; r < rows.length; r++) {
+      const moveName = String(rows[r][2] || "").trim();
+      const location = String(rows[r][4] || "").trim();
+      if (!moveName || !location) continue;
+      const tmNum = String(rows[r][0] || "").trim();
+      const prefix = parseInt(tmNum, 10) > 100 ? "" : `TM${tmNum.padStart(3, "0")} - `;
+      addItemLocation(itemLocations, toMoveKey(moveName), `${prefix}${moveName}: ${location}`);
     }
+  }
 
-    if (headerIdx < 0 || locationCol < 0) continue;
+  // ── Overworld Items: col 3=Item name, col 5=Location ──
+  {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["Overworld Items"], { header: 1, defval: "" });
+    for (let r = 1; r < rows.length; r++) {
+      const itemStr = String(rows[r][3] || "").trim();
+      const location = String(rows[r][5] || "").trim();
+      if (!itemStr || !location) continue;
+      const nameKey = itemNameKey(itemStr);
+      addItemLocation(itemLocations, nameKey, location);
+    }
+  }
 
-    // If no name col found, use col before location
-    if (nameCol < 0) nameCol = Math.max(0, locationCol - 1);
+  // ── Mega Stones: name at col 4 row N, location at col 3 row N+1 ──
+  {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["Mega Stones"], { header: 1, defval: "" });
+    for (let r = 0; r < rows.length - 1; r++) {
+      const row = (rows[r] || []).map((c) => String(c).trim());
+      const name = row[4];
+      if (!name || name.length < 3) continue;
+      // Next row has location in col 3
+      const nextRow = (rows[r + 1] || []).map((c) => String(c).trim());
+      const location = nextRow[3];
+      if (!location) continue;
+      addItemLocation(itemLocations, toNameKey(name), location);
+    }
+  }
 
-    for (let r = headerIdx + 1; r < rows.length; r++) {
-      const row = rows[r];
-      const itemStr = String(row[nameCol] || "").trim();
-      const locStr = String(row[locationCol] || "").trim();
-
-      if (!itemStr || !locStr || locStr.length < 3) continue;
-
-      // Extract item name: "TM001 - Close Combat" → "close-combat", or just "Venusaurite"
-      let itemName = itemStr;
-      const tmMatch = itemStr.match(/^(?:TM|HM)\d+\s*[-–]\s*(.+)/i);
-      if (tmMatch) itemName = tmMatch[1];
-
-      const nameKey = toNameKey(itemName);
-      if (!nameKey || nameKey.length < 2) continue;
-
-      const existing = itemLocations.find((il) => il.name_key === nameKey);
-      if (existing) {
-        if (!existing.locations.includes(locStr)) {
-          existing.locations.push(locStr);
-        }
-      } else {
-        itemLocations.push({ name_key: nameKey, locations: [locStr] });
+  // ── Z-Crystals: col 3=Crystal name, col 5=Location ──
+  if (workbook.Sheets["Z-Crystals"]) {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["Z-Crystals"], { header: 1, defval: "" });
+    for (let r = 1; r < rows.length; r++) {
+      const name = String(rows[r][3] || "").trim();
+      const location = String(rows[r][5] || "").trim();
+      if (!name || !location) continue;
+      // Z-crystal names: "Bugium" → "buginium-z" (PokeAPI format)
+      let nameKey = toNameKey(name);
+      // Append "-z" if not already there and it looks like a Z-crystal
+      if (!nameKey.endsWith("-z") && /ium$/.test(nameKey)) {
+        nameKey += "-z";
       }
+      addItemLocation(itemLocations, nameKey, location);
     }
   }
 
@@ -333,49 +364,137 @@ function parseEmeraldImperiumItems(filePath) {
   const workbook = XLSX.readFile(filePath);
   const itemLocations = [];
 
-  for (const sheetName of workbook.SheetNames) {
-    const sheet = workbook.Sheets[sheetName];
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
-
-    // Find header row
-    let headerIdx = -1;
-    let nameCol = -1;
-    let locationCol = -1;
-    for (let r = 0; r < Math.min(rows.length, 5); r++) {
-      const row = rows[r];
-      for (let c = 0; c < (row?.length || 0); c++) {
-        const s = String(row[c]).trim().toUpperCase();
-        if (s === "LOCATION" || s.includes("LOCATION")) locationCol = c;
-        if (s.includes("TM") || s.includes("NAME") || s.includes("MOVE") || s.includes("ITEM") || s.includes("MEGA")) {
-          nameCol = c;
-        }
+  // ── TM & HM Locations: col 0/1 for TMs, col 5/6 for HMs ──
+  {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["TM & HM Locations"], { header: 1, defval: "" });
+    for (let r = 1; r < rows.length; r++) {
+      // Left side: TMs (col 0 = "TM001 - Focus Punch", col 1 = location)
+      const tmStr = String(rows[r][0] || "").trim();
+      const tmLoc = String(rows[r][1] || "").trim();
+      if (tmStr && tmLoc) {
+        const nameKey = itemNameKey(tmStr);
+        // Include the TM label in the location text for context
+        addItemLocation(itemLocations, nameKey, `${tmStr}: ${tmLoc}`);
       }
-      if (locationCol >= 0 && nameCol >= 0) { headerIdx = r; break; }
+      // Right side: HMs (col 5 = "HM01 - Cut", col 6 = location)
+      const hmStr = String(rows[r][5] || "").trim();
+      const hmLoc = String(rows[r][6] || "").trim();
+      if (hmStr && hmLoc) {
+        const nameKey = itemNameKey(hmStr);
+        addItemLocation(itemLocations, nameKey, `${hmStr}: ${hmLoc}`);
+      }
+    }
+  }
+
+  // ── Mega Stones: dual columns (col 0/1 left, col 4/5 right) ──
+  {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["Mega Stones"], { header: 1, defval: "" });
+    for (let r = 1; r < rows.length; r++) {
+      // Left side
+      const leftName = String(rows[r][0] || "").trim();
+      const leftLoc = String(rows[r][1] || "").trim();
+      if (leftName && leftLoc) {
+        addItemLocation(itemLocations, toNameKey(leftName), leftLoc);
+      }
+      // Right side
+      const rightName = String(rows[r][4] || "").trim();
+      const rightLoc = String(rows[r][5] || "").trim();
+      if (rightName && rightLoc) {
+        addItemLocation(itemLocations, toNameKey(rightName), rightLoc);
+      }
+    }
+  }
+
+  // ── Battle Item Rewards: col 0=Item, col 1=Battle ──
+  if (workbook.Sheets["Battle Item Rewards"]) {
+    const rows = XLSX.utils.sheet_to_json(workbook.Sheets["Battle Item Rewards"], { header: 1, defval: "" });
+    for (let r = 1; r < rows.length; r++) {
+      const itemStr = String(rows[r][0] || "").trim();
+      const battle = String(rows[r][1] || "").trim();
+      if (!itemStr || !battle) continue;
+      const nameKey = toNameKey(itemStr);
+      addItemLocation(itemLocations, nameKey, battle);
+    }
+  }
+
+  return itemLocations;
+}
+
+// ── Parse RunBun item locations from PDF ─────────────────────────────
+async function parseRunBunItemsPdf(filePath) {
+  const buf = fs.readFileSync(filePath);
+  const uint8 = new Uint8Array(buf);
+  const parser = new PDFParse(uint8);
+  const result = await parser.getText();
+
+  const itemLocations = [];
+
+  // Collect all lines across pages
+  const allLines = [];
+  for (const page of result.pages) {
+    const lines = page.text.split("\n").map((l) => l.trim()).filter(Boolean);
+    allLines.push(...lines);
+  }
+
+  // Track current section item key for "Xxx Location" headers (pages 1-3)
+  let currentSectionKey = null;
+
+  for (let i = 0; i < allLines.length; i++) {
+    const line = allLines[i];
+
+    // Skip header/notice lines (e.g. "Item \tLocation" or "Item \tLocation \tBerry \tLocation \tBerry Yield")
+    if (/^Item\s*\t/i.test(line) && /Location/i.test(line)) { currentSectionKey = null; continue; }
+    if (/^All items except/i.test(line)) { currentSectionKey = null; continue; }
+
+    // Section header: "Heart Scale Location", "Rare Candy Location"
+    if (/^[A-Z][\w\s]+ Location$/i.test(line) && !line.includes("\t")) {
+      const itemName = line.replace(/\s+Location$/i, "").trim();
+      currentSectionKey = toNameKey(itemName);
+      continue;
     }
 
-    if (headerIdx < 0) continue;
+    // Lines without tabs: not data, end current section
+    if (!line.includes("\t")) {
+      currentSectionKey = null;
+      continue;
+    }
 
-    for (let r = headerIdx + 1; r < rows.length; r++) {
-      const row = rows[r];
-      const itemStr = String(row[nameCol] || "").trim();
-      const locStr = String(row[locationCol] || "").trim();
+    const parts = line.split("\t").map((p) => p.trim());
 
-      if (!itemStr || !locStr || locStr.length < 3) continue;
+    // If we're in a named section (Heart Scale / Rare Candy): Route\tDescription
+    if (currentSectionKey && parts.length >= 2) {
+      const route = parts[0];
+      const desc = parts[1];
+      addItemLocation(itemLocations, currentSectionKey, `${route}: ${desc}`);
+      continue;
+    }
 
-      let itemName = itemStr;
-      const tmMatch = itemStr.match(/^(?:TM|HM)\d+\s*[-–]\s*(.+)/i);
-      if (tmMatch) itemName = tmMatch[1];
+    // TM/HM line: "TM01 Struggle Bug\tLocation" or "HM01 Cut\tLocation"
+    const tmMatch = parts[0].match(/^(TM|HM)\s*(\d+)\s+(.+)/i);
+    if (tmMatch) {
+      const moveName = tmMatch[3];
+      const nameKey = toMoveKey(moveName);
+      const location = parts[1] || "";
+      addItemLocation(itemLocations, nameKey, location);
+      // Right-side columns: Move Tutors (col 2=Move, col 3=Location)
+      if (parts.length >= 4 && parts[2] && parts[3]) {
+        addItemLocation(itemLocations, toMoveKey(parts[2]), parts[3]);
+      }
+      continue;
+    }
 
-      const nameKey = toNameKey(itemName);
-      if (!nameKey || nameKey.length < 2) continue;
-
-      const existing = itemLocations.find((il) => il.name_key === nameKey);
-      if (existing) {
-        if (!existing.locations.includes(locStr)) {
-          existing.locations.push(locStr);
+    // Regular Item\tLocation (possibly with Berry\tLocation\tYield on the right)
+    if (parts.length >= 2 && parts[0] && parts[1]) {
+      const nameKey = toNameKey(parts[0]);
+      if (nameKey && nameKey.length >= 2) {
+        addItemLocation(itemLocations, nameKey, parts[1]);
+      }
+      // Berry column (col 2=Berry, col 3=Location)
+      if (parts.length >= 4 && parts[2] && parts[3]) {
+        const berryKey = toNameKey(parts[2]);
+        if (berryKey && berryKey.length >= 2) {
+          addItemLocation(itemLocations, berryKey, parts[3]);
         }
-      } else {
-        itemLocations.push({ name_key: nameKey, locations: [locStr] });
       }
     }
   }
@@ -384,7 +503,7 @@ function parseEmeraldImperiumItems(filePath) {
 }
 
 // ── Build RunBun JSON ───────────────────────────────────────────────
-function buildRunBun() {
+async function buildRunBun() {
   console.log("Building RunBun data...");
 
   const learnsetPath = path.join(HACKROM_DIR, "RunBunDoc", "Learnset, Evolution Methods and Abilities.txt");
@@ -417,6 +536,14 @@ function buildRunBun() {
     }
   }
 
+  // Parse item locations from PDF
+  let itemLocations = [];
+  const itemPdfPath = path.join(HACKROM_DIR, "RunBunDoc", "Item Locations.pdf");
+  if (fs.existsSync(itemPdfPath)) {
+    itemLocations = await parseRunBunItemsPdf(itemPdfPath);
+    console.log(`  ${itemLocations.length} item location entries from PDF`);
+  }
+
   const output = {
     game: {
       id: "runbun",
@@ -431,10 +558,10 @@ function buildRunBun() {
     },
     pokemon_overrides: pokemonOverrides,
     move_overrides: [],
-    item_locations: [],
+    item_locations: itemLocations,
   };
 
-  console.log(`  Total: ${pokemonOverrides.length} pokemon overrides`);
+  console.log(`  Total: ${pokemonOverrides.length} pokemon, ${itemLocations.length} items`);
   return output;
 }
 
@@ -539,10 +666,10 @@ function buildEmeraldImperium() {
 }
 
 // ── Main ────────────────────────────────────────────────────────────
-function main() {
+async function main() {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  const runbun = buildRunBun();
+  const runbun = await buildRunBun();
   fs.writeFileSync(path.join(OUTPUT_DIR, "runbun.json"), JSON.stringify(runbun, null, 2));
   console.log(`  -> runbun.json written\n`);
 

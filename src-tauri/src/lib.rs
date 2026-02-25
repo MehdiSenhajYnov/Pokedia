@@ -25,8 +25,9 @@ const BUNDLED_GAMES: &[&str] = &[
     include_str!("../data/games/emerald-imperium.json"),
 ];
 
-/// Auto-import bundled hackrom data if not already present in the database.
-/// Emits `game-import-progress` events so the frontend can show feedback.
+/// Auto-import bundled hackrom data on every startup (delete + re-insert).
+/// This ensures updates shipped with new app versions are always applied.
+/// Runs in a background task, emits `game-import-progress` events.
 async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle) {
     let total = BUNDLED_GAMES.len();
     let mut imported = 0u32;
@@ -39,20 +40,6 @@ async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle)
                 continue;
             }
         };
-
-        // Check if this game is already imported
-        let exists: bool = sqlx::query_scalar::<_, i64>(
-            "SELECT COUNT(*) FROM games WHERE id = ?1"
-        )
-        .bind(&data.game.id)
-        .fetch_one(pool)
-        .await
-        .unwrap_or(0) > 0;
-
-        if exists {
-            log::info!("Game '{}' already imported, skipping", data.game.id);
-            continue;
-        }
 
         let game_name = data.game.name_en.clone();
         let _ = handle.emit("game-import-progress", serde_json::json!({

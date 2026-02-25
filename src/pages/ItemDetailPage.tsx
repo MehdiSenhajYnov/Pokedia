@@ -18,7 +18,6 @@ export default function ItemDetailPage() {
   const { data: item, isLoading } = useItemDetail(itemId);
   const { data: allItems } = useAllItems();
   const { itemName, description } = useSettingsStore();
-  const selectedGameId = useSettingsStore((s) => s.selectedGameId);
   const selectedGame = useSelectedGame();
   const { data: gameItemLocations } = useGameItemLocations(item?.name_key);
   const { openTab } = useTabStore();

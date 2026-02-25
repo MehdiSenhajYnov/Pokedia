@@ -9433,51 +9433,1101 @@
   "move_overrides": [],
   "item_locations": [
     {
+      "name_key": "focus-punch",
+      "locations": [
+        "TM001 - Focus Punch: Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
       "name_key": "cut",
       "locations": [
-        "Rustboro City, from the manin the house next to the Poke Center after defeating Roxanne"
+        "HM01 - Cut: Rustboro City, from the manin the house next to the Poke Center after defeating Roxanne"
+      ]
+    },
+    {
+      "name_key": "dragon-claw",
+      "locations": [
+        "TM002 - Dragon Claw: Fallarbor Town, from the former Move Tutor after defeating Flannery"
       ]
     },
     {
       "name_key": "fly",
       "locations": [
-        "Route 110, from your Rival after defeating them"
+        "HM02 - Fly: Route 110, from your Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "flip-turn",
+      "locations": [
+        "TM003 - Flip Turn: Slateport City, from the Aqua grunt nearest the entrace inside"
       ]
     },
     {
       "name_key": "surf",
       "locations": [
-        "Route 111, very south past the 3 boss batles"
+        "HM03 - Surf: Route 111, very south past the 3 boss batles"
+      ]
+    },
+    {
+      "name_key": "calm-mind",
+      "locations": [
+        "TM004 - Calm Mind: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
       ]
     },
     {
       "name_key": "strength",
       "locations": [
-        "Rusturf Tunnel, after smashing the rock separating the couple"
+        "HM04 - Strength: Rusturf Tunnel, after smashing the rock separating the couple"
+      ]
+    },
+    {
+      "name_key": "roar",
+      "locations": [
+        "TM005 - Roar: Route 114, from the man next to his Poochyena"
       ]
     },
     {
       "name_key": "flash",
       "locations": [
-        "Granite Cave, from a hiker at the entrance"
+        "HM05 - Flash: Granite Cave, from a hiker at the entrance"
+      ]
+    },
+    {
+      "name_key": "toxic",
+      "locations": [
+        "TM006 - Toxic: Mauville City's Game Corner"
       ]
     },
     {
       "name_key": "rock-smash",
       "locations": [
-        "Mauville City, from the Rock Smash Dude in his house"
+        "HM06 - Rock Smash: Mauville City, from the Rock Smash Dude in his house"
+      ]
+    },
+    {
+      "name_key": "snowscape",
+      "locations": [
+        "TM007 - Snowscape: Route 114, on the cliffs past a smashable rock"
       ]
     },
     {
       "name_key": "waterfall",
       "locations": [
-        "Sootopolis City, from Wallace in front of the Gym"
+        "HM07 - Waterfall: Sootopolis City, from Wallace in front of the Gym"
+      ]
+    },
+    {
+      "name_key": "bulk-up",
+      "locations": [
+        "TM008 - Bulk Up: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
       ]
     },
     {
       "name_key": "dive",
       "locations": [
-        "Mossdeep City in Steven's House after you beat Tate and Liza"
+        "HM08 - Dive: Mossdeep City in Steven's House after you beat Tate and Liza"
+      ]
+    },
+    {
+      "name_key": "bullet-seed",
+      "locations": [
+        "TM009 - Bullet Seed: Route 103, West of the Trick House and past the trees that need to be Cut"
+      ]
+    },
+    {
+      "name_key": "hidden-power",
+      "locations": [
+        "TM010 - Hidden Power: Route 117, from the Ninja Kid hidden below the flower field"
+      ]
+    },
+    {
+      "name_key": "sunny-day",
+      "locations": [
+        "TM011 - Sunny Day: Route 124, on the ground, requires Surf"
+      ]
+    },
+    {
+      "name_key": "taunt",
+      "locations": [
+        "TM012 - Taunt: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "ice-beam",
+      "locations": [
+        "TM013 - Ice Beam: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "blizzard",
+      "locations": [
+        "TM014 - Blizzard: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "electroweb",
+      "locations": [
+        "TM015 - Electroweb: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "light-screen",
+      "locations": [
+        "TM016 - Light Screen: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "protect",
+      "locations": [
+        "TM017 - Protect: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "rain-dance",
+      "locations": [
+        "TM018 - Rain Dance: Route 121, on the ground South of the entrance to the Safari Zone"
+      ]
+    },
+    {
+      "name_key": "giga-drain",
+      "locations": [
+        "TM019 - Giga Drain: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "hyper-voice",
+      "locations": [
+        "TM020 - Hyper Voice: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "icy-wind",
+      "locations": [
+        "TM021 - Icy Wind: Route 116, from Candice after defeating her"
+      ]
+    },
+    {
+      "name_key": "solar-beam",
+      "locations": [
+        "TM022 - Solar Beam: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "iron-tail",
+      "locations": [
+        "TM023 - Iron Tail: Meteor Falls, on the ground near the Southern exit"
+      ]
+    },
+    {
+      "name_key": "thunderbolt",
+      "locations": [
+        "TM024 - Thunderbolt: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "thunder",
+      "locations": [
+        "TM025 - Thunder: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "earthquake",
+      "locations": [
+        "TM026 - Earthquake: Fortree City, from creator Xavier after defeating him"
+      ]
+    },
+    {
+      "name_key": "return",
+      "locations": [
+        "TM027 - Return: Petalburg City, from Norman after defeating him"
+      ]
+    },
+    {
+      "name_key": "dig",
+      "locations": [
+        "TM028 - Dig: Fallarbor Town, from kid brother of the Fossil Maniac"
+      ]
+    },
+    {
+      "name_key": "psychic",
+      "locations": [
+        "TM029 - Psychic: Route 117, from Fantina after defeating her in the flower field"
+      ]
+    },
+    {
+      "name_key": "shadow-ball",
+      "locations": [
+        "TM030 - Shadow Ball: Route 117, from Fantina after defeating her in the flower field"
+      ]
+    },
+    {
+      "name_key": "brick-break",
+      "locations": [
+        "TM031 - Brick Break: Route 117, from Fantina after defeating her in the flower field"
+      ]
+    },
+    {
+      "name_key": "solar-blade",
+      "locations": [
+        "TM032 - Solar Blade: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "reflect",
+      "locations": [
+        "TM033 - Reflect: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "teleport",
+      "locations": [
+        "TM034 - Teleport: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "flamethrower",
+      "locations": [
+        "TM035 - Flamethrower: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "sludge-bomb",
+      "locations": [
+        "TM036 - Sludge Bomb: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "sandstorm",
+      "locations": [
+        "TM037 - Sandstorm: Route 111, on the ground near the Southern entrance to the desert"
+      ]
+    },
+    {
+      "name_key": "fire-blast",
+      "locations": [
+        "TM038 - Fire Blast: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "rock-tomb",
+      "locations": [
+        "TM039 - Rock Tomb: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "aerial-ace",
+      "locations": [
+        "TM040 - Aerial Ace: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "dragon-dance",
+      "locations": [
+        "TM041 - Dragon Dance: Fortree City, from creator Justin after defeating him"
+      ]
+    },
+    {
+      "name_key": "facade",
+      "locations": [
+        "TM042 - Facade: Petalburg City, from Norman after defeating him"
+      ]
+    },
+    {
+      "name_key": "defog",
+      "locations": [
+        "TM043 - Defog: Route 111, from the kid staring at a tree past Fiery Path"
+      ]
+    },
+    {
+      "name_key": "rest",
+      "locations": [
+        "TM044 - Rest: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "drain-kiss",
+      "locations": [
+        "TM045 - Drain Kiss: Verdanturf Town, in the lobby of the Battle Tent"
+      ]
+    },
+    {
+      "name_key": "thief",
+      "locations": [
+        "TM046 - Thief: Slateport City, in the lobby of the Battle Tent"
+      ]
+    },
+    {
+      "name_key": "steel-wing",
+      "locations": [
+        "TM047 - Steel Wing: Granite Cave, from Steven after delivering the letter to him"
+      ]
+    },
+    {
+      "name_key": "meteor-beam",
+      "locations": [
+        "TM048 - Meteor Beam: Petalburg City, from Wally's dad after defeating Norman"
+      ]
+    },
+    {
+      "name_key": "leech-life",
+      "locations": [
+        "TM049 - Leech Life: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "overheat",
+      "locations": [
+        "TM050 - Overheat: Lavaridge Town, fromFlannery after defeating her"
+      ]
+    },
+    {
+      "name_key": "roost",
+      "locations": [
+        "TM051 - Roost: Route 111, from Dawn after defeating her"
+      ]
+    },
+    {
+      "name_key": "focus-blast",
+      "locations": [
+        "TM052 - Focus Blast: Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
+      "name_key": "energy-ball",
+      "locations": [
+        "TM053 - Energy Ball: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "grassy-glide",
+      "locations": [
+        "TM054 - Grassy Glide: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "expanding-force",
+      "locations": [
+        "TM055 - Expanding Force: Mossdeep City, from Tate and Liza after defeating them"
+      ]
+    },
+    {
+      "name_key": "power-up-punch",
+      "locations": [
+        "TM056 - Power up Punch: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
+      ]
+    },
+    {
+      "name_key": "charge-beam",
+      "locations": [
+        "TM057 - Charge Beam: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
+      ]
+    },
+    {
+      "name_key": "rising-voltage",
+      "locations": [
+        "TM058 - Rising Voltage: Evergrande City, from Volkner after defeating him"
+      ]
+    },
+    {
+      "name_key": "dragon-pulse",
+      "locations": [
+        "TM059 - Dragon Pulse: Petalburg City, from Wally's dad after defeating Norman"
+      ]
+    },
+    {
+      "name_key": "drain-punch",
+      "locations": [
+        "TM060 - Drain Punch: Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
+      "name_key": "will-o-wisp",
+      "locations": [
+        "TM061 - Will-O-Wisp: Lavaridge Town, fromFlannery after defeating her"
+      ]
+    },
+    {
+      "name_key": "silver-wind",
+      "locations": [
+        "TM062 - Silver Wind: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "venoshock",
+      "locations": [
+        "TM063 - Venoshock: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "explosion",
+      "locations": [
+        "TM064 - Explosion: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "shadow-claw",
+      "locations": [
+        "TM065 - Shadow Claw: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "dazzling-gleam",
+      "locations": [
+        "TM066 - Dazzling Gleam: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "poltergeist",
+      "locations": [
+        "TM067 - Poltergeist: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "dual-chop",
+      "locations": [
+        "TM068 - Dual Chop: Petalburg City, from Wally's dad after defeating Norman"
+      ]
+    },
+    {
+      "name_key": "rock-polish",
+      "locations": [
+        "TM069 - Rock Polish: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
+      ]
+    },
+    {
+      "name_key": "triple-axel",
+      "locations": [
+        "TM070 - Triple Axel: Shoal Cave, on the ground in the Ice Room"
+      ]
+    },
+    {
+      "name_key": "stone-edge",
+      "locations": [
+        "TM071 - Stone Edge: Route 125, from Roark after defeating him"
+      ]
+    },
+    {
+      "name_key": "psyshock",
+      "locations": [
+        "TM072 - Psyshock: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "thunder-wave",
+      "locations": [
+        "TM073 - Thunder Wave: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "gyro-ball",
+      "locations": [
+        "TM074 - Gyro Ball: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "swords-dance",
+      "locations": [
+        "TM075 - Swords Dance: Petalburg City, from Norman after defeating him"
+      ]
+    },
+    {
+      "name_key": "stealth-rock",
+      "locations": [
+        "TM076 - Stealth Rock: Route 120, from Byron after defeating him"
+      ]
+    },
+    {
+      "name_key": "flame-charge",
+      "locations": [
+        "TM077 - Flame Charge: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
+      ]
+    },
+    {
+      "name_key": "low-sweep",
+      "locations": [
+        "TM078 - Low Sweep: Dewford Gym, from Brawly after defeating him"
+      ]
+    },
+    {
+      "name_key": "dark-pulse",
+      "locations": [
+        "TM079 - Dark Pulse: Lavaridge Town's outdoor Mart worker"
+      ]
+    },
+    {
+      "name_key": "rock-slide",
+      "locations": [
+        "TM080 - Rock Slide: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "x-scissor",
+      "locations": [
+        "TM081 - X-Scissor: Route 113, Northeast of the Twins"
+      ]
+    },
+    {
+      "name_key": "sleep-talk",
+      "locations": [
+        "TM082 - Sleep Talk: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "scald",
+      "locations": [
+        "TM083 - Scald: Route 111, from Dawn after defeating her"
+      ]
+    },
+    {
+      "name_key": "poison-jab",
+      "locations": [
+        "TM084 - Poison Jab: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "future-sight",
+      "locations": [
+        "TM085 - Future Sight: Petalburg City, from Wally's dad after defeating Norman"
+      ]
+    },
+    {
+      "name_key": "grass-knot",
+      "locations": [
+        "TM086 - Grass Knot: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "low-kick",
+      "locations": [
+        "TM087 - Low Kick: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "pluck",
+      "locations": [
+        "TM088 - Pluck: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "u-turn",
+      "locations": [
+        "TM089 - U-Turn: Petalburg Woods, from Gardenia after defeating her"
+      ]
+    },
+    {
+      "name_key": "substitute",
+      "locations": [
+        "TM090 - Substitute: Fortree City, from creator iriv24 after defeating him"
+      ]
+    },
+    {
+      "name_key": "flash-cannon",
+      "locations": [
+        "TM091 - Flash Cannon: Route 111, from Dawn after defeating her"
+      ]
+    },
+    {
+      "name_key": "volt-switch",
+      "locations": [
+        "TM092 - Volt Switch: Mauville City's gym, from Wattson after defeating him"
+      ]
+    },
+    {
+      "name_key": "dragon-tail",
+      "locations": [
+        "TM093 - Dragon Tail: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "trailblaze",
+      "locations": [
+        "TM094 - Trailblaze: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
+      ]
+    },
+    {
+      "name_key": "acrobatics",
+      "locations": [
+        "TM095 - Acrobatics: Fortree City, from Winona after defeating her"
+      ]
+    },
+    {
+      "name_key": "bulldoze",
+      "locations": [
+        "TM096 - Bulldoze: Rustboro gym, from Roxanne after defeating her"
+      ]
+    },
+    {
+      "name_key": "snarl",
+      "locations": [
+        "TM097 - Snarl: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "work-up",
+      "locations": [
+        "TM098 - Work Up: Verdanturf Town, from Ursula after defeating her in a \"dance battle\""
+      ]
+    },
+    {
+      "name_key": "wild-charge",
+      "locations": [
+        "TM099 - Wild Charge: New Mauville, on the ground"
+      ]
+    },
+    {
+      "name_key": "dual-wingbeat",
+      "locations": [
+        "TM100 - Dual Wingbeat: Petalburg City, from Wally's dad after defeating Norman"
+      ]
+    },
+    {
+      "name_key": "superpower",
+      "locations": [
+        "TM101 - Superpower: New Mauville, on the ground"
+      ]
+    },
+    {
+      "name_key": "scorching-sands",
+      "locations": [
+        "TM102 - Scorching Sands: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "smack-down",
+      "locations": [
+        "TM103 - Smack Down: Dewford Town's outdoor Mart workers"
+      ]
+    },
+    {
+      "name_key": "heat-crash",
+      "locations": [
+        "TM104 - Heat Crash: Lavaridge Town, fromFlannery after defeating her"
+      ]
+    },
+    {
+      "name_key": "body-press",
+      "locations": [
+        "TM105 - Body Press: Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
+      "name_key": "trick-room",
+      "locations": [
+        "TM106 - Trick Room: Mossdeep City, from Tate and Liza after defeating them"
+      ]
+    },
+    {
+      "name_key": "brave-bird",
+      "locations": [
+        "TM107 - Brave Bird: Fortree City, from Winona after defeating her"
+      ]
+    },
+    {
+      "name_key": "ice-spinner",
+      "locations": [
+        "TM108 - Ice Spinner: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "bug-bite",
+      "locations": [
+        "TM109 - Bug Bite: Route 104, from the man close to the northern exit of Petalburg Woods"
+      ]
+    },
+    {
+      "name_key": "stomping-tantrum",
+      "locations": [
+        "TM110 - Stomping Tantrum: Route 104, past the tree that needs Cut North of the Woods"
+      ]
+    },
+    {
+      "name_key": "fire-punch",
+      "locations": [
+        "TM111 - Fire Punch: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "ice-punch",
+      "locations": [
+        "TM112 - Ice Punch: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "thunder-punch",
+      "locations": [
+        "TM113 - Thunder Punch: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "fire-fang",
+      "locations": [
+        "TM114 - Fire Fang: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "ice-fang",
+      "locations": [
+        "TM115 - Ice Fang: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "thunder-fang",
+      "locations": [
+        "TM116 - Thunder Fang: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "psychic-fangs",
+      "locations": [
+        "TM117 - Psychic Fangs: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "poison-fang",
+      "locations": [
+        "TM118 - Poison Fang: Route 110, from Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "iron-head",
+      "locations": [
+        "TM119 - Iron Head: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "liquidation",
+      "locations": [
+        "TM120 - Liquidation: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "hydro-pump",
+      "locations": [
+        "TM121 - Hydro Pump: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "drill-run",
+      "locations": [
+        "TM122 - Drill Run: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "blaze-kick",
+      "locations": [
+        "TM123 - Blaze Kick: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "pain-split",
+      "locations": [
+        "TM124 - Pain Split: Route 120, central part of the route, requires Surf"
+      ]
+    },
+    {
+      "name_key": "zen-headbutt",
+      "locations": [
+        "TM125 - Zen Headbutt: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "weather-ball",
+      "locations": [
+        "TM126 - Weather Ball: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "air-slash",
+      "locations": [
+        "TM127 - Air Slash: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "hex",
+      "locations": [
+        "TM128 - Hex: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "mystical-fire",
+      "locations": [
+        "TM129 - Mystical Fire: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "seed-bomb",
+      "locations": [
+        "TM130 - Seed Bomb: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "leaf-blade",
+      "locations": [
+        "TM131 - Leaf Blade: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "knock-off",
+      "locations": [
+        "TM132 - Knock Off: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "power-gem",
+      "locations": [
+        "TM133 - Power Gem: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "rock-blast",
+      "locations": [
+        "TM134 - Rock Blast: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "pin-missile",
+      "locations": [
+        "TM135 - Pin Missile: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "icicle-spear",
+      "locations": [
+        "TM136 - Icicle Spear: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "tail-slap",
+      "locations": [
+        "TM137 - Tail Slap: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "arm-thrust",
+      "locations": [
+        "TM138 - Arm Thrust: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "foul-play",
+      "locations": [
+        "TM139 - Foul Play: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "iron-defense",
+      "locations": [
+        "TM140 - Iron Defense: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "nasty-plot",
+      "locations": [
+        "TM141 - Nasty Plot: Petalburg City, from Norman after defeating him"
+      ]
+    },
+    {
+      "name_key": "earth-power",
+      "locations": [
+        "TM142 - Earth Power: Jagged Pass, on the ground along the East side"
+      ]
+    },
+    {
+      "name_key": "aura-sphere",
+      "locations": [
+        "TM143 - Aura Sphere: Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
+      "name_key": "heat-wave",
+      "locations": [
+        "TM144 - Heat Wave: Lavaridge Town, fromFlannery after defeating her"
+      ]
+    },
+    {
+      "name_key": "hurricane",
+      "locations": [
+        "TM145 - Hurricane: Fortree City, from Winona after defeating her"
+      ]
+    },
+    {
+      "name_key": "power-whip",
+      "locations": [
+        "TM146 -Power Whip: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "high-horsepower",
+      "locations": [
+        "TM147 - High Horsepower: Route 120, from Byron after defeating him"
+      ]
+    },
+    {
+      "name_key": "bug-buzz",
+      "locations": [
+        "TM148 - Bug Buzz: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "phantom-force",
+      "locations": [
+        "TM149 - Phantom Force: Route 115, on the ground, requires Surf"
+      ]
+    },
+    {
+      "name_key": "flare-blitz",
+      "locations": [
+        "TM150 - Flare Blitz: Lavaridge Town, fromFlannery after defeating her"
+      ]
+    },
+    {
+      "name_key": "stored-power",
+      "locations": [
+        "TM151 - Stored Power: Fortree City, from the old woman after completing her puzzle"
+      ]
+    },
+    {
+      "name_key": "gunk-shot",
+      "locations": [
+        "TM152 - Gunk Shot: Trick House, reward for completing first puzzle"
+      ]
+    },
+    {
+      "name_key": "tailwind",
+      "locations": [
+        "TM153 - Tailwind: Fortree City, from Winona after defeating her"
+      ]
+    },
+    {
+      "name_key": "megahorn",
+      "locations": [
+        "TM154 - Megahorn: Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "draco-meteor",
+      "locations": [
+        "TM155 - Draco Meteor: Evergrande City, from Dawn after defeating her and Rival"
+      ]
+    },
+    {
+      "name_key": "close-combat",
+      "locations": [
+        "TM156 - Close Combat: Mauville City, from Wattson after shutting down the generator in New Mauville"
+      ]
+    },
+    {
+      "name_key": "moonblast",
+      "locations": [
+        "TM157 - Moonblast: Sootopolis City, from Juan after defeating him"
+      ]
+    },
+    {
+      "name_key": "body-slam",
+      "locations": [
+        "TM158 - Body Slam: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "play-rough",
+      "locations": [
+        "TM157 - Play rough: Fallarbor Town, from the former Move Tutor after defeating Flannery"
+      ]
+    },
+    {
+      "name_key": "water-pulse",
+      "locations": [
+        "TM160 - Water Pulse: Route 118, on the ground, past two trainers"
+      ]
+    },
+    {
+      "name_key": "dark-hole",
+      "locations": [
+        "TM161 - Dark Hole: Post game Meteor Falls Steven's Room on the ground"
+      ]
+    },
+    {
+      "name_key": "sludge-wave",
+      "locations": [
+        "TM162 - Sludge Wave: Mt. Pyre, outside on a rocky ledge"
+      ]
+    },
+    {
+      "name_key": "supercell-slam",
+      "locations": [
+        "TM163 - Supercell Slam: Evergrande City, from Volkner after defeating him"
+      ]
+    },
+    {
+      "name_key": "temper-flare",
+      "locations": [
+        "TM164 - Temper Flare: Fiery Path, on the ground in the northwest corner, requires Strength"
+      ]
+    },
+    {
+      "name_key": "scale-shot",
+      "locations": [
+        "TM165 - Scale Shot: Victory Road, floor B2F on the ground, must fight Expert to reach"
+      ]
+    },
+    {
+      "name_key": "psychic-noise",
+      "locations": [
+        "TM166 - Psychic Noise: Granite Cave, floor B2F on the ground, requires Mach Bike"
+      ]
+    },
+    {
+      "name_key": "alluring-voice",
+      "locations": [
+        "TM167 - Alluring Voice: Rusturf Tunnel, on the ground near the Verdanturf Town entrance"
+      ]
+    },
+    {
+      "name_key": "vacuum-wave",
+      "locations": [
+        "TM168 - Vacuum Wave: Route 110, on the ground below Cycling Road"
+      ]
+    },
+    {
+      "name_key": "spikes",
+      "locations": [
+        "TM169 - Spikes: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "steel-beam",
+      "locations": [
+        "TM170 - Steel Beam: Post game Mart at the Battle Frontier"
+      ]
+    },
+    {
+      "name_key": "draco-barrage",
+      "locations": [
+        "TM171 - Draco Barrage: Post game Mart at the Battle Frontier"
+      ]
+    },
+    {
+      "name_key": "heavy-slam",
+      "locations": [
+        "TM172 - Heavy Slam: Route 125, from Roark after defeating him"
+      ]
+    },
+    {
+      "name_key": "gravity",
+      "locations": [
+        "TM173 - Gravity: Mauville City's Game Corner"
+      ]
+    },
+    {
+      "name_key": "misty-explosion",
+      "locations": [
+        "TM174 - Misty Explosion: Sootopolis City, from Juan after defeating him; Post game Mart at the Battle Frontier"
+      ]
+    },
+    {
+      "name_key": "venusaurite",
+      "locations": [
+        "Fortree City, from creator X after defeating him"
       ]
     },
     {
@@ -9487,7 +10537,19 @@
       ]
     },
     {
+      "name_key": "charizardite-x",
+      "locations": [
+        "Fortree City, from creator Cap after defeating him"
+      ]
+    },
+    {
       "name_key": "empoleoniteo",
+      "locations": [
+        "Fortree City, from creator iriv24 after defeating him"
+      ]
+    },
+    {
+      "name_key": "blastoisinite",
       "locations": [
         "Fortree City, from creator iriv24 after defeating him"
       ]
@@ -9499,9 +10561,21 @@
       ]
     },
     {
+      "name_key": "sceptilite",
+      "locations": [
+        "Fortree City, from creator X after defeating him"
+      ]
+    },
+    {
       "name_key": "infernapite",
       "locations": [
         "Fortree City, from creator Cap after defeating him"
+      ]
+    },
+    {
+      "name_key": "blazikenite",
+      "locations": [
+        "Lavaridge Town, from Flannery after defeating her"
       ]
     },
     {
@@ -9511,15 +10585,593 @@
       ]
     },
     {
+      "name_key": "swampertite",
+      "locations": [
+        "Fortree City, from creator iriv24 after defeating him"
+      ]
+    },
+    {
       "name_key": "roseradite",
       "locations": [
         "Trick House, reward for completing second puzzle"
       ]
     },
     {
+      "name_key": "lucarionite",
+      "locations": [
+        "Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
       "name_key": "dusknoirite",
       "locations": [
         "Route 117, from Fantina after defeating her"
+      ]
+    },
+    {
+      "name_key": "alakazite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "sablenite",
+      "locations": [
+        "Route 117, from Fantina after defeating her"
+      ]
+    },
+    {
+      "name_key": "kangaskhanite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "audinite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "garbodorite",
+      "locations": [
+        "Trick House, reward for completing first puzzle"
+      ]
+    },
+    {
+      "name_key": "gardevoirite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "absolite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "kinglerite",
+      "locations": [
+        "Trick House, reward for completing third puzzle"
+      ]
+    },
+    {
+      "name_key": "altarianite",
+      "locations": [
+        "Fortree City, from Winona after defeating her"
+      ]
+    },
+    {
+      "name_key": "drednawite",
+      "locations": [
+        "Route 118, from Wake after defeating him"
+      ]
+    },
+    {
+      "name_key": "sharpedonite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "toxtricitite",
+      "locations": [
+        "Trick House, reward for completing first puzzle"
+      ]
+    },
+    {
+      "name_key": "heracronite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "lopunnite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "pidgeotite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "beedrilite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "glalitite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "abomasite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "laprasite",
+      "locations": [
+        "Route 118, from Wake after defeating him"
+      ]
+    },
+    {
+      "name_key": "medichamite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "sandacondite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "applite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "aggronite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "steelixite",
+      "locations": [
+        "Trick House, reward for completing third puzzle"
+      ]
+    },
+    {
+      "name_key": "cameruptite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "charizardite-y",
+      "locations": [
+        "Fortree City, from creator Cap after defeating him"
+      ]
+    },
+    {
+      "name_key": "tyranitarite",
+      "locations": [
+        "Victory Road, from Wally after defeating him"
+      ]
+    },
+    {
+      "name_key": "mawilite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "houndoominite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "banettite",
+      "locations": [
+        "Route 117, from Fantina after defeating her"
+      ]
+    },
+    {
+      "name_key": "pinsirite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "ampharosite",
+      "locations": [
+        "Mauville City, from Wattson after defeating him"
+      ]
+    },
+    {
+      "name_key": "machampite",
+      "locations": [
+        "Jagged Pass, from Maylene after defeating her"
+      ]
+    },
+    {
+      "name_key": "coalossite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "slowbronite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "salamencite",
+      "locations": [
+        "Victory Road, from Wally after defeating him"
+      ]
+    },
+    {
+      "name_key": "slakite",
+      "locations": [
+        "Victory Road, from Wally after defeating him"
+      ]
+    },
+    {
+      "name_key": "butterfrite",
+      "locations": [
+        "Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "orbeetlite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "scizorite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "snorlaxite",
+      "locations": [
+        "Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "garchompite",
+      "locations": [
+        "Victory Road, from Wally after defeating him"
+      ]
+    },
+    {
+      "name_key": "metagrossite",
+      "locations": [
+        "Victory Road, from Wally after defeating him"
+      ]
+    },
+    {
+      "name_key": "aerodactylite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "gyaradosite",
+      "locations": [
+        "Route 118, from Wake after defeating him"
+      ]
+    },
+    {
+      "name_key": "manectite",
+      "locations": [
+        "Mauville City, from Wattson after defeating him"
+      ]
+    },
+    {
+      "name_key": "galladite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "gengarite",
+      "locations": [
+        "Route 117, from Fantina after defeating her"
+      ]
+    },
+    {
+      "name_key": "copperajite",
+      "locations": [
+        "Route 120, from Byron after defeating him"
+      ]
+    },
+    {
+      "name_key": "centiskite",
+      "locations": [
+        "Route 111, after defeating the Winstrate family"
+      ]
+    },
+    {
+      "name_key": "grimmite",
+      "locations": [
+        "Sootopolis City, from Juan after defeating him"
+      ]
+    },
+    {
+      "name_key": "latiasite",
+      "locations": [
+        "Southern Island"
+      ]
+    },
+    {
+      "name_key": "latiosite",
+      "locations": [
+        "Southern Island"
+      ]
+    },
+    {
+      "name_key": "diancite",
+      "locations": [
+        "Navel Rock, post game"
+      ]
+    },
+    {
+      "name_key": "mewtwonite-x",
+      "locations": [
+        "Meteor Falls Steven's Cave, post game"
+      ]
+    },
+    {
+      "name_key": "mewtwonite-y",
+      "locations": [
+        "Meteor Falls Steven's Cave, post game"
+      ]
+    },
+    {
+      "name_key": "wise-glasses",
+      "locations": [
+        "Defeat Dawn on Route 104"
+      ]
+    },
+    {
+      "name_key": "muscle-band",
+      "locations": [
+        "Defeat Candice on Route 116"
+      ]
+    },
+    {
+      "name_key": "leaf-stones",
+      "locations": [
+        "Defeat Gardenia in Petalburg woods"
+      ]
+    },
+    {
+      "name_key": "eviolite",
+      "locations": [
+        "Defeat Gardenia in Petalburg woods"
+      ]
+    },
+    {
+      "name_key": "black-sludge",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "toxic-orb",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "flame-orb",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "smoke-ball",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "thick-club",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "weakness-policy",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "shiny-stone",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "ice-stone",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "grassy-seed",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "electric-seed",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "psychic-seed",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "misty-seed",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "terrain-extender",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "shed-shell",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "light-clay",
+      "locations": [
+        "Defeat Rival on Route 110"
+      ]
+    },
+    {
+      "name_key": "metronome",
+      "locations": [
+        "Defeat Fantina on Route 117"
+      ]
+    },
+    {
+      "name_key": "leftovers",
+      "locations": [
+        "Defeat Fantina on Route 117",
+        "Defeat Rival on Route 119",
+        "Defeat Byron on Route 121"
+      ]
+    },
+    {
+      "name_key": "kicking-shoes",
+      "locations": [
+        "Defeat Black Belt Daisuke on Route 111"
+      ]
+    },
+    {
+      "name_key": "protective-pads",
+      "locations": [
+        "Defeat Black Belt Daisuke on Route 111"
+      ]
+    },
+    {
+      "name_key": "punching-glove",
+      "locations": [
+        "Defeat Black Belt Daisuke on Route 111"
+      ]
+    },
+    {
+      "name_key": "loaded-dice",
+      "locations": [
+        "Defeat Black Belt Daisuke on Route 111"
+      ]
+    },
+    {
+      "name_key": "expert-belt",
+      "locations": [
+        "Defeat Maylene in Jagged Pass"
+      ]
+    },
+    {
+      "name_key": "booster-energy",
+      "locations": [
+        "Defeat Trick House"
+      ]
+    },
+    {
+      "name_key": "focus-sash",
+      "locations": [
+        "Defeat Crasher Wake on Route 118"
+      ]
+    },
+    {
+      "name_key": "life-orb",
+      "locations": [
+        "Defeat Rival on Route 119"
+      ]
+    },
+    {
+      "name_key": "heavy-duty-boots",
+      "locations": [
+        "Defeat Rival on Route 119"
+      ]
+    },
+    {
+      "name_key": "pp-max",
+      "locations": [
+        "Defeat Rival on Route 119"
+      ]
+    },
+    {
+      "name_key": "choice-band",
+      "locations": [
+        "Defeat X in Fortree city"
+      ]
+    },
+    {
+      "name_key": "choice-scarf",
+      "locations": [
+        "Defeat Iriv in Fortree City"
+      ]
+    },
+    {
+      "name_key": "choice-specs",
+      "locations": [
+        "Defeat Cap in Fortree City"
+      ]
+    },
+    {
+      "name_key": "rocky-helmet",
+      "locations": [
+        "Defeat Byron on Route 121"
+      ]
+    },
+    {
+      "name_key": "air-balloon",
+      "locations": [
+        "Defeat Dawn in Lilycove"
+      ]
+    },
+    {
+      "name_key": "assault-vest",
+      "locations": [
+        "Defeat Dawn in Lilycove"
+      ]
+    },
+    {
+      "name_key": "eject-button",
+      "locations": [
+        "Defeat Volkner in Evergrande City"
       ]
     }
   ]

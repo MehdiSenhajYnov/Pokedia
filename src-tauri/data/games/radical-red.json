@@ -762,64 +762,2487 @@
   "move_overrides": [],
   "item_locations": [
     {
-      "name_key": "bug-catcher",
+      "name_key": "close-combat",
       "locations": [
-        "Viridian Forest",
-        "Fuchsia City\nNear the Kangaskhan"
+        "TM001 - Close Combat: Cerulean Cave, 2F, in the south east part of the floor.",
+        "2F, in the south east part of the floor."
       ]
     },
     {
-      "name_key": "old-man",
+      "name_key": "dragon-claw",
       "locations": [
-        "Cerulean City \nHouse next to Nugget Bridge",
-        "Fuchsia City\nHouse next to Pkmn Center"
+        "TM002 - Dragon Claw: Route 14, in the small patch of grass above the Bikers.",
+        "In the grassy area."
       ]
     },
     {
-      "name_key": "tamer",
+      "name_key": "flip-turn",
       "locations": [
-        "Vermilion City's Fanclub",
-        "Fuchsia City\nHouse next to Pkmn Center"
+        "TM003 - Flip Turn: Cerulean City's gym, from Misty after defeating her.",
+        "From Misty after defeating her."
       ]
     },
     {
-      "name_key": "scientist",
+      "name_key": "seed-bomb",
       "locations": [
-        "Pewter City's Museum\n (Requires Cut HM)"
+        "TM004 - Seed Bomb: Route 12, in the grassy area below Fisherman's house.",
+        "In the grassy area's south western corner."
       ]
     },
     {
-      "name_key": "ace-trainer",
+      "name_key": "roar",
       "locations": [
-        "Saffron City \nHouse left of Silph Co.",
-        "Victory Road \nBy Raid Den, near exit",
-        "Two Island\nJoyful Game Corner"
+        "TM005 - Roar: Route 4, after Mt. Moon, right of the two Black Belts, in between the multiple ledges.",
+        "Right from the two Black Belts, in between the multiple ledges."
       ]
     },
     {
-      "name_key": "super-nerd",
+      "name_key": "toxic",
       "locations": [
-        "Fuchsia City's \nEastern Gate",
-        "Cinnabar Island's \nPokémon Lab\nR&D Room",
-        "Cinnabar Island's \nPokémon Lab\nTesting Room"
+        "TM006 - Toxic: Celadon City's Game Corner for $17 500."
       ]
     },
     {
-      "name_key": "mom",
+      "name_key": "heat-wave",
       "locations": [
-        "Pallet Town\nPlayer's house"
+        "TM007 - Heat Wave: Cinnabar Island's Pokémon Mansion 3F.",
+        "3F, just south of the Nerd near a table and a staircase."
       ]
     },
     {
-      "name_key": "rachel",
+      "name_key": "zen-headbutt",
       "locations": [
-        "Two Island\nCape Brink"
+        "TM008 - Zen Headbutt: Saffron City's Silph Co. 7F, in the middle-right room. (Keycard required)",
+        "7F, in the middle-right room. (Keycard required)"
       ]
     },
     {
-      "name_key": "pokemaniac",
+      "name_key": "bullet-seed",
       "locations": [
-        "Cerulean City \nHouse next to Pokémart"
+        "TM009 - Bullet Seed: Mt. Moon 1F, west from the entrance.",
+        "1F, Bottom left area, left from the entrance."
+      ]
+    },
+    {
+      "name_key": "hidden-power",
+      "locations": [
+        "TM010 - Hidden Power: Saffron City's Silph Co. 1F, on the upper right corner of the room behind a plant.",
+        "1F, in the upper right corner behind a plant."
+      ]
+    },
+    {
+      "name_key": "supercell-slam",
+      "locations": [
+        "TM011 - Supercell Slam: Indigo Plateau, before entering the building, from soupercell after defeating him.",
+        "From Dumbass Creator after defeating him in front of the league entrance."
+      ]
+    },
+    {
+      "name_key": "taunt",
+      "locations": [
+        "TM012 - Taunt: Celadon City's Rocket Hideout B2F inside the warp maze.",
+        "B2F, within warp maze, south-east of previous Moon Stone."
+      ]
+    },
+    {
+      "name_key": "ice-beam",
+      "locations": [
+        "TM013 - Ice Beam: Celadon City's Game Corner for $30 000."
+      ]
+    },
+    {
+      "name_key": "blizzard",
+      "locations": [
+        "TM014 - Blizzard: Cinnabar Island's Pokémon Mansion B1F.",
+        "B1F, in small room in north, requires pressing Mewtwo statue in south."
+      ]
+    },
+    {
+      "name_key": "electroweb",
+      "locations": [
+        "TM015 - Electroweb: Viridian Forest, follow the accessible path around the forest's end without rock break.",
+        "Follow the small path at the end of the forest."
+      ]
+    },
+    {
+      "name_key": "light-screen",
+      "locations": [
+        "TM016 - Light Screen: Celadon City's Game Corner for $17 500."
+      ]
+    },
+    {
+      "name_key": "protect",
+      "locations": [
+        "TM017 - Protect: Celadon City's Game Corner for $15 000."
+      ]
+    },
+    {
+      "name_key": "hydro-pump",
+      "locations": [
+        "TM018 - Hydro Pump: Route 15, above the ledge near the Raid Den.",
+        "Near the gate leading to Fuchsia City, above the ledge."
+      ]
+    },
+    {
+      "name_key": "giga-drain",
+      "locations": [
+        "TM019 - Giga Drain: Celadon City's gym, from Erika after defeating her.",
+        "From Erika after defeating her."
+      ]
+    },
+    {
+      "name_key": "hyper-voice",
+      "locations": [
+        "TM020 - Hyper Voice: Celadon City's Game Corner for $15 000."
+      ]
+    },
+    {
+      "name_key": "icy-wind",
+      "locations": [
+        "TM021 - Icy Wind: Cerulean City's Pokémart for $5000."
+      ]
+    },
+    {
+      "name_key": "weather-ball",
+      "locations": [
+        "TM022 - Weather Ball: Cinnabar Island's Pokémon Mansion B1F.",
+        "B1F, in a small room with palm trees, just below the Secret Key."
+      ]
+    },
+    {
+      "name_key": "iron-head",
+      "locations": [
+        "TM023 - Iron Head: Rock Tunnel 1F, from Lavender Town's side.",
+        "1F, Lavender Town side room, dead-end path between one Picnicker left, two right."
+      ]
+    },
+    {
+      "name_key": "thunderbolt",
+      "locations": [
+        "TM024 - Thunderbolt: Celadon City's Game Corner for $30 000."
+      ]
+    },
+    {
+      "name_key": "thunder",
+      "locations": [
+        "TM025 - Thunder: Power Plant, south east corner.",
+        "In the south east corner."
+      ]
+    },
+    {
+      "name_key": "earthquake",
+      "locations": [
+        "TM026 - Earthquake: Saffron City, from the Dumbass Mudkip Kid after defeating him for the first time.",
+        "From the Dumbass Mudkip Kid in the north-western house after battling him."
+      ]
+    },
+    {
+      "name_key": "return",
+      "locations": [
+        "TM027 - Return: Route 12, from a Lass in the northern gate upstairs.",
+        "In the northern gate, received from a girl upstairs."
+      ]
+    },
+    {
+      "name_key": "dig",
+      "locations": [
+        "TM028 - Dig: Cerulean City, from Team Rocket Grunt.",
+        "From a Team Rocket Grunt behind the north eastern house."
+      ]
+    },
+    {
+      "name_key": "psychic",
+      "locations": [
+        "TM029 - Psychic: Saffron City, in Mr. Psychic's house in the south east.",
+        "From Mr. Psychic in his house in the south east part of the city."
+      ]
+    },
+    {
+      "name_key": "shadow-ball",
+      "locations": [
+        "TM030 - Shadow Ball: Lavender Town, from Morty after defeating him in Fuji's house.",
+        "From Morty in Fuji's house after defeating him."
+      ]
+    },
+    {
+      "name_key": "brick-break",
+      "locations": [
+        "TM031 - Brick Break: S.S. Anne, 1F, second room starting from the left.",
+        "First floor's second room from the left with 2 people inside."
+      ]
+    },
+    {
+      "name_key": "aura-sphere",
+      "locations": [
+        "TM032 - Aura Sphere: Safari Zone - Western Area.",
+        "West Area, northwest part, between northern Rest House and pond."
+      ]
+    },
+    {
+      "name_key": "reflect",
+      "locations": [
+        "TM033 - Reflect: Celadon City's Game Corner for $15 000."
+      ]
+    },
+    {
+      "name_key": "teleport",
+      "locations": [
+        "TM034 - Teleport: Route 3, in the large grassy patch with a Lass around.",
+        "In the south eastern corner of the Route, near the Raid Den."
+      ]
+    },
+    {
+      "name_key": "flamethrower",
+      "locations": [
+        "TM035 - Flamethrower: Celadon City's Game Corner for $30 000."
+      ]
+    },
+    {
+      "name_key": "sludge-bomb",
+      "locations": [
+        "TM036 - Sludge Bomb: Fuchsia City's gym, from Koga after defeating him.",
+        "From Koga after defeating him."
+      ]
+    },
+    {
+      "name_key": "high-horsepower",
+      "locations": [
+        "TM037 - High Horsepower: Victory Road 2F, in the central-south part of the floor, below the heightened platform.",
+        "2F, in the central-south part of the floor, right below the heightened platform."
+      ]
+    },
+    {
+      "name_key": "fire-blast",
+      "locations": [
+        "TM038 - Fire Blast: Cinnabar Island's gym, from Blaine after defeating him.",
+        "From Blaine after defeating him."
+      ]
+    },
+    {
+      "name_key": "rock-tomb",
+      "locations": [
+        "TM039 - Rock Tomb: Pewter City's gym, from Brock after defeating him.",
+        "From Brock after defeating him."
+      ]
+    },
+    {
+      "name_key": "low-kick",
+      "locations": [
+        "TM040 - Low Kick: Route 4's eastern side, from the left Black Belt.",
+        "From the left Black Belt."
+      ]
+    },
+    {
+      "name_key": "liquidation",
+      "locations": [
+        "TM041 - Liquidation: Saffron City's Silph Co. 4F, on a table.",
+        "4F, on a table in the right room with a single grunt."
+      ]
+    },
+    {
+      "name_key": "facade",
+      "locations": [
+        "TM042 - Facade: Route 10, east of the exit near Lavender Town.",
+        "On the Route's south side, to the right from the entrance of the Rock Tunnel."
+      ]
+    },
+    {
+      "name_key": "defog",
+      "locations": [
+        "TM043 - Defog: Route 25, in the grassy maze.",
+        "Hidden in grass maze near Camper & Hiker. (Cut HM required)"
+      ]
+    },
+    {
+      "name_key": "rest",
+      "locations": [
+        "TM044 - Rest: Diglett's Cave - Entrance from Route 11.",
+        "On the northern side, close to the raid den."
+      ]
+    },
+    {
+      "name_key": "draining-kiss",
+      "locations": [
+        "TM045 - Draining Kiss: Route 24, on the heightened platform."
+      ]
+    },
+    {
+      "name_key": "thief",
+      "locations": [
+        "TM046 - Thief: Diglett's Cave - Entrance below Pewter City.",
+        "Inside the cave."
+      ]
+    },
+    {
+      "name_key": "steel-wing",
+      "locations": [
+        "TM047 - Steel Wing: Cerulean City's Pokémart for $10 000."
+      ]
+    },
+    {
+      "name_key": "hurricane",
+      "locations": [
+        "TM048 - Hurricane: Route 12, on a small islet right below the gate. (Surf HM required)",
+        "On a small islet between some bridges. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "leech-life",
+      "locations": [
+        "TM049 - Leech Life: Celadon City's Rocket Hideout B4F.",
+        "B4F, above the previous Max Ether, near a single Rocket Grunt, accessed from B3F."
+      ]
+    },
+    {
+      "name_key": "overheat",
+      "locations": [
+        "TM050 - Overheat: Victory Road 3F, northwest, by a rock on a narrow path west of the raised platform.",
+        "3F, northwest, in front of rock on narrow path west of heightened platform."
+      ]
+    },
+    {
+      "name_key": "roost",
+      "locations": [
+        "TM051 - Roost: From Falkner after defeating him in Pewter City's Museum.",
+        "From Falkner in the museum after defeating him."
+      ]
+    },
+    {
+      "name_key": "focus-blast",
+      "locations": [
+        "TM052 - Focus Blast: Route 20, on an islet in the middle of the Route.",
+        "On the islet in the middle of the Route, a male Swimmer is swimming below it."
+      ]
+    },
+    {
+      "name_key": "energy-ball",
+      "locations": [
+        "TM053 - Energy Ball: Celadon City's Game Corner for $25 000."
+      ]
+    },
+    {
+      "name_key": "grassy-glide",
+      "locations": [
+        "TM054 - Grassy Glide: Safari Zone - Center Area, on a small islet to the north of the entrance.",
+        "Center Area, on the small islet in the pond. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "expanding-force",
+      "locations": [
+        "TM055 - Expanding Force: Safari Zone - West Area, on the south-side elevated platform.",
+        "West Area, on the heightened platform at the south side of the area."
+      ]
+    },
+    {
+      "name_key": "air-slash",
+      "locations": [
+        "TM056 - Air Slash: Celadon City's Game Corner for $17 500."
+      ]
+    },
+    {
+      "name_key": "temper-flare",
+      "locations": [
+        "TM057 - Temper Flare: Route 2's eastern side. (Cut HM required)",
+        "Eastern side to the south. (Cut HM required)"
+      ]
+    },
+    {
+      "name_key": "rising-voltage",
+      "locations": [
+        "TM058 - Rising Voltage: Safari Zone - Eastern Area.",
+        "East Area, north east part, right above the exit to North Area."
+      ]
+    },
+    {
+      "name_key": "dragon-pulse",
+      "locations": [
+        "TM059 - Dragon Pulse: Safari Zone - North Area.",
+        "North Area, near Rest House in north part."
+      ]
+    },
+    {
+      "name_key": "drain-punch",
+      "locations": [
+        "TM060 - Drain Punch: Saffron City's Dojo, from Chuck after defeating him.",
+        "From Chuck after defeating him in the Dojo."
+      ]
+    },
+    {
+      "name_key": "will-o-wisp",
+      "locations": [
+        "TM061 - Will-O-Wisp: Lavender Town's Pokémon Tower, 6F.",
+        "6F, in the bottom right of the room."
+      ]
+    },
+    {
+      "name_key": "iron-tail",
+      "locations": [
+        "TM062 - Iron Tail: Route 7's grass patch.",
+        "In the grass patch's north eastern corner"
+      ]
+    },
+    {
+      "name_key": "venoshock",
+      "locations": [
+        "TM063 - Venoshock: Route 6, in the north western corner.",
+        "In the north western corner."
+      ]
+    },
+    {
+      "name_key": "explosion",
+      "locations": [
+        "TM064 - Explosion: Celadon City's Game Corner for $15 000."
+      ]
+    },
+    {
+      "name_key": "shadow-claw",
+      "locations": [
+        "TM065 - Shadow Claw: Celadon City's Game Corner for $25 000."
+      ]
+    },
+    {
+      "name_key": "steel-beam",
+      "locations": [
+        "TM066 - Steel Beam: (POST-GAME) Two Island, close to the Game Corner.",
+        "Hidden behind a cut tree near the Joyful Game Corner."
+      ]
+    },
+    {
+      "name_key": "poltergeist",
+      "locations": [
+        "TM067 - Poltergeist: Victory Road 1F, northwest, north item of the boulder 'puzzle'.",
+        "1F, in the north west part of the floor, the northern item of the boulder puzzle."
+      ]
+    },
+    {
+      "name_key": "dual-chop",
+      "locations": [
+        "TM068 - Dual Chop: Silph. Co 11F, from Brendan after defeating the Rocket Admins.",
+        "From Brendan after defeating the Rocket Admins."
+      ]
+    },
+    {
+      "name_key": "stomping-tantrum",
+      "locations": [
+        "TM069 - Stomping Tantrum: S.S. Anne 2F, in the third room from the right.",
+        "Second floor's third room from the right with Gentleman and Lass inside."
+      ]
+    },
+    {
+      "name_key": "triple-axel",
+      "locations": [
+        "TM070 - Triple Axel: Seafoam Islands B1F, heightened platform in the middle of the floor.",
+        "B1F, on a heightened platform in the middle of the floor."
+      ]
+    },
+    {
+      "name_key": "stone-edge",
+      "locations": [
+        "TM071 - Stone Edge: Pewter City's gym, from Brock after defeating him in a rematch.",
+        "Requires Mega Ring - From Brock after defeating him in a rematch."
+      ]
+    },
+    {
+      "name_key": "draco-barrage",
+      "locations": [
+        "TM072 - Draco Barrage: (POST-GAME) Viridian City, from Claire after defeating her in a rematch.",
+        "(POST-GAME) From Clair after a rematch battle."
+      ]
+    },
+    {
+      "name_key": "thunder-wave",
+      "locations": [
+        "TM073 - Thunder Wave: Saffron City's Silph Co. 2F, from a lady near some cardboard boxes.",
+        "2F, from girl in top left room; key card or warp tile near 3F stairs."
+      ]
+    },
+    {
+      "name_key": "gyro-ball",
+      "locations": [
+        "TM074 - Gyro Ball: Celadon City's Game Corner for $20 000."
+      ]
+    },
+    {
+      "name_key": "knock-off",
+      "locations": [
+        "TM075 - Knock Off: Celadon City's Game Corner for $20 000."
+      ]
+    },
+    {
+      "name_key": "earth-power",
+      "locations": [
+        "TM076 - Earth Power: Safari Zone - Eastern Area.",
+        "East Area, near the pond in the middle of the area."
+      ]
+    },
+    {
+      "name_key": "thunder-punch",
+      "locations": [
+        "TM077 - Thunder Punch: Route 24, right of the Nugget Bridge, accessed from Route 25.",
+        "Right of the Nugget Bridge, accessed from Route 25."
+      ]
+    },
+    {
+      "name_key": "low-sweep",
+      "locations": [
+        "TM078 - Low Sweep: Mt. Moon B2F, accessed from the third ladder on the first floor.",
+        "B2F (3rd Ladder), Right from the 2nd Team Rocket Grunt."
+      ]
+    },
+    {
+      "name_key": "dark-pulse",
+      "locations": [
+        "TM079 - Dark Pulse: Celadon City's Game Corner for $30 000."
+      ]
+    },
+    {
+      "name_key": "rock-slide",
+      "locations": [
+        "TM080 - Rock Slide: Rock Tunnel B1F, from a youngster in the room with multiple crossroads.",
+        "B1F, from a youngster in the room with multiple crossroads."
+      ]
+    },
+    {
+      "name_key": "x-scissor",
+      "locations": [
+        "TM081 - X-Scissor: Viridian Forest. (Rock Smash HM required)",
+        "Follow the small path at the end of the forest. (Rock Smash HM required)"
+      ]
+    },
+    {
+      "name_key": "sleep-talk",
+      "locations": [
+        "TM082 - Sleep Talk: Celadon City's Game Corner for $15 000."
+      ]
+    },
+    {
+      "name_key": "scald",
+      "locations": [
+        "TM083 - Scald: Celadon City's Game Corner for $25 000."
+      ]
+    },
+    {
+      "name_key": "poison-jab",
+      "locations": [
+        "TM084 - Poison Jab: Celadon City's Game Corner for $25 000."
+      ]
+    },
+    {
+      "name_key": "future-sight",
+      "locations": [
+        "TM085 - Future Sight: Route 13, in front of a Picnicker.",
+        "At bottom of fence maze, near tile missing a fence by Picnicker Gwen."
+      ]
+    },
+    {
+      "name_key": "grass-knot",
+      "locations": [
+        "TM086 - Grass Knot: Celadon City's gym, from Erika after defeating her in a rematch.",
+        "Requires Mega Ring - Erika rematch reward after aiding her Gloom in Fuchsia City."
+      ]
+    },
+    {
+      "name_key": "aerial-ace",
+      "locations": [
+        "TM087 - Aerial Ace: Cerulean City's Pokémart for $5000."
+      ]
+    },
+    {
+      "name_key": "pluck",
+      "locations": [
+        "TM088 - Pluck: Cerulean City's Pokémart for $5000."
+      ]
+    },
+    {
+      "name_key": "u-turn",
+      "locations": [
+        "TM089 - U-Turn: Route 25's east end, from Bugsy after defeating him.",
+        "From Bugsy after defeating him."
+      ]
+    },
+    {
+      "name_key": "gunk-shot",
+      "locations": [
+        "TM090 - Gunk Shot: Cinnabar Mansion 1F, locked behind a door near the stairs at the entrance.",
+        "1F, south of escape rope, after pressing Mewtwo statue to unlock gate."
+      ]
+    },
+    {
+      "name_key": "flash-cannon",
+      "locations": [
+        "TM091 - Flash Cannon: Celadon City's Game Corner for $25 000."
+      ]
+    },
+    {
+      "name_key": "volt-switch",
+      "locations": [
+        "TM092 - Volt Switch: Vermilion City's gym, from Lt. Surge after defeating him.",
+        "From Lt. Surge after defeating him once."
+      ]
+    },
+    {
+      "name_key": "dragon-tail",
+      "locations": [
+        "TM093 - Dragon Tail: Celadon City's Game Corner for $15 000."
+      ]
+    },
+    {
+      "name_key": "scale-shot",
+      "locations": [
+        "TM094 - Scale Shot: (POST-GAME) One Island - Mt. Ember, northeast after moving boulders.",
+        "Northeast of the mountain, after pushing some boulders."
+      ]
+    },
+    {
+      "name_key": "cosmic-power",
+      "locations": [
+        "TM095 - Cosmic Power: (POST-GAME) Three Island, Berry Forest, by Surfing in the part at the end of the forest.",
+        "In the bottom left corner of the forest, near trainer Sharon."
+      ]
+    },
+    {
+      "name_key": "bulldoze",
+      "locations": [
+        "TM096 - Bulldoze: Route 5, in the middle fenced area.",
+        "In the middle fenced area."
+      ]
+    },
+    {
+      "name_key": "frost-breath",
+      "locations": [
+        "TM097 - Frost Breath: (POST-GAME) Seafoam Islands, in the Sandshrew race area.",
+        "(POST-GAME) Beat Sandshrew race on B3F, near starting point. (Z-Ring required)"
+      ]
+    },
+    {
+      "name_key": "fire-punch",
+      "locations": [
+        "TM098 - Fire Punch: Route 11, on the bottom right side in a narrow path, near the old man below the gate.",
+        "On the bottom right side in a narrow path, near the old man below the gate."
+      ]
+    },
+    {
+      "name_key": "wild-charge",
+      "locations": [
+        "TM099 - Wild Charge: Route 10, right of Power Plant's entrance.",
+        "Hidden in front of the Power Plant's south eastern-most tile. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "dual-wingbeat",
+      "locations": [
+        "TM100 - Dual Wingbeat: Route 16, north-western part of the Route.",
+        "In the north western corner of the Route, left of the house with HM 02."
+      ]
+    },
+    {
+      "name_key": "ice-punch",
+      "locations": [
+        "Ice Punch: Route 9, in the bottom left corner, near the Hiker.",
+        "In the bottom left corner, near the Hiker."
+      ]
+    },
+    {
+      "name_key": "dazzling-gleam",
+      "locations": [
+        "Dazzling Gleam: Celadon City's Game Corner for $30 000."
+      ]
+    },
+    {
+      "name_key": "sludge-wave",
+      "locations": [
+        "Sludge Wave: (POST-GAME) Rock Tunnel's entrance near Power Plant.",
+        "(POST-GAME) Rock Tunnel near Power Plant entrance, east after first switch."
+      ]
+    },
+    {
+      "name_key": "psyshock",
+      "locations": [
+        "Psyshock: Route 7/8 Underground Path, near the western staircase.",
+        "(DEFAULT MODE ONLY) On the left side, near the stairs.",
+        "(HARDCORE MODE) From Sabrina after defeating her."
+      ]
+    },
+    {
+      "name_key": "psychic-noise",
+      "locations": [
+        "Psychic Noise: Celadon City's Rocket Hideout B3F.",
+        "B3F, near a generator just below the stairs, near a single grunt."
+      ]
+    },
+    {
+      "name_key": "acrobatics",
+      "locations": [
+        "Acrobatics: Route 8, near the Underground Path, between the two ledges below the old man.",
+        "Western side of the Route, between the two ledges below the old man."
+      ]
+    },
+    {
+      "name_key": "terrain-pulse",
+      "locations": [
+        "Terrain Pulse: CANNOT BE FOUND."
+      ]
+    },
+    {
+      "name_key": "snarl",
+      "locations": [
+        "Snarl: Cerulean City's Pokémart for $5000."
+      ]
+    },
+    {
+      "name_key": "superpower",
+      "locations": [
+        "Superpower: Power Plant, next to Dumbass Jojo Fan in the central room.",
+        "In the central room, right next to the Dumbass trainer."
+      ]
+    },
+    {
+      "name_key": "scorching-sands",
+      "locations": [
+        "Scorching Sands: Celadon City's Game Corner for $12 500."
+      ]
+    },
+    {
+      "name_key": "vacuum-wave",
+      "locations": [
+        "Vacuum Wave: Cerulean City's Pokémart for $5000."
+      ]
+    },
+    {
+      "name_key": "misty-explosion",
+      "locations": [
+        "Misty Explosion: (POST-GAME) One Island, Mt. Ember, from a Hiker.",
+        "From a Hiker at the entrance."
+      ]
+    },
+    {
+      "name_key": "play-rough",
+      "locations": [
+        "Play Rough: Celadon Dept. Store 3F, from the clerk, for $15 000."
+      ]
+    },
+    {
+      "name_key": "heat-crash",
+      "locations": [
+        "Heat Crash: Route 17, south of the gate, right above the grass patch.",
+        "South of the gate, right above the grass patch."
+      ]
+    },
+    {
+      "name_key": "body-press",
+      "locations": [
+        "Body Press: Saffron City's Silph Co. 5F, in the south room on the west side. (Keycard required)",
+        "5F, in the south room on the west side. (Keycard required)"
+      ]
+    },
+    {
+      "name_key": "trick-room",
+      "locations": [
+        "Trick Room: Saffron City's gym, from Sabrina after defeating her.",
+        "(REGULAR MODE) From Sabrina after defeating her."
+      ]
+    },
+    {
+      "name_key": "brave-bird",
+      "locations": [
+        "Brave Bird: Celadon City's hotel, after getting the Mega Ring and defeating the two Beauties there.",
+        "In the hotel, after getting Mega Ring and defeating some folks in there."
+      ]
+    },
+    {
+      "name_key": "steel-roller",
+      "locations": [
+        "Steel Roller: CANNOT BE FOUND."
+      ]
+    },
+    {
+      "name_key": "draco-meteor",
+      "locations": [
+        "Draco Meteor: Viridian City's gym, from Clair after defeating her.",
+        "Viridian City's gym, from Clair after defeating her."
+      ]
+    },
+    {
+      "name_key": "ice-spinner",
+      "locations": [
+        "Ice Spinner: Viridian City, on the other side of the small pond (Surf HM required).",
+        "At the other side of the small pond. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "potion",
+      "locations": [
+        "Computer in player's house.",
+        "From the guy below the trees by the first ledge.",
+        "In the bottom right corner of the forest.",
+        "In the east part near a Bug Catcher, a bit further than where Brendan was.",
+        "Hidden in grass near northern exit, where last Bug Catcher is looking.",
+        "1F, Bottom right area, near the Super Nerd."
+      ]
+    },
+    {
+      "name_key": "time-changer",
+      "locations": [
+        "At Oak's Lab, left Aide rewards correct quiz answers."
+      ]
+    },
+    {
+      "name_key": "pokedex",
+      "locations": [
+        "From Professor Oak after bringing him the Parcel from Viridian City's Poké Mart."
+      ]
+    },
+    {
+      "name_key": "poke-ball",
+      "locations": [
+        "From Professor Oak after bringing him the Parcel from Viridian City's Poké Mart."
+      ]
+    },
+    {
+      "name_key": "town-map",
+      "locations": [
+        "From Daisy in Rival's house after getting PokéDex from Oak."
+      ]
+    },
+    {
+      "name_key": "eevium-z",
+      "locations": [
+        "(POST-GAME) From Professor Oak after both battles. (Requires Z-Ring)",
+        "Pallet Town, Oak's Lab, from Prof. Oak after a battle."
+      ]
+    },
+    {
+      "name_key": "repel",
+      "locations": [
+        "In the narrow path on the north western side, behind a cut tree.",
+        "To the right from the northern entrance."
+      ]
+    },
+    {
+      "name_key": "oaks-parcel",
+      "locations": [
+        "In the Poké Mart, given to you by the clerk."
+      ]
+    },
+    {
+      "name_key": "wise-glasses",
+      "locations": [
+        "From the girl in the trainers school."
+      ]
+    },
+    {
+      "name_key": "old-rod",
+      "locations": [
+        "From a fisherman near a pond in the south west part of the city."
+      ]
+    },
+    {
+      "name_key": "teachy-tv",
+      "locations": [
+        "From the old man north of the city after receiving PokéDex from Oak."
+      ]
+    },
+    {
+      "name_key": "poke-vial",
+      "locations": [
+        "From the Teacher in Trainers School after solving a puzzle battle."
+      ]
+    },
+    {
+      "name_key": "scizorite",
+      "locations": [
+        "In the middle of the Route in between the pond and a ledge. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "dexnav",
+      "locations": [
+        "From Prof. Oak's Scientist upon entering the route."
+      ]
+    },
+    {
+      "name_key": "ability-pill",
+      "locations": [
+        "(HARDCORE) From Prof. Oak's Scientist upon entering the route."
+      ]
+    },
+    {
+      "name_key": "oran-berry",
+      "locations": [
+        "From Prof. Oak's Scientist upon entering the route.",
+        "Hidden near the Youngster in-between two ledges. (a darkened tile)",
+        "Hidden on a darker grass tile between a Hiker and a walking youngster."
+      ]
+    },
+    {
+      "name_key": "flash",
+      "locations": [
+        "From Professor Oak's Aide in the south-eastern gate. (accessed later from Viridian City or Cut HM required)"
+      ]
+    },
+    {
+      "name_key": "orbeetlite",
+      "locations": [
+        "Above Diglett's Cave. (Rock Smash HM required)",
+        "Route 2, above Diglett's Cave. (Rock Smash HM required)"
+      ]
+    },
+    {
+      "name_key": "antidote",
+      "locations": [
+        "Hidden just north of the western entrance.",
+        "In the top right area, near a Bug Catcher and a sign post.",
+        "B2F (3rd Ladder), On the left side, near the exit ladder."
+      ]
+    },
+    {
+      "name_key": "exp-share",
+      "locations": [
+        "From Brendan, after defeating him in front of the southern gate.",
+        "From the dude near the Pokémon Center, if you don't have that item in your Bag."
+      ]
+    },
+    {
+      "name_key": "stat-scanner",
+      "locations": [
+        "From Brendan, after defeating him in front of the southern gate.",
+        "From the dude near the Pokémon Center, if you don't have that item in your Bag."
+      ]
+    },
+    {
+      "name_key": "infinite-repel",
+      "locations": [
+        "From Lass Anne, after defeating her."
+      ]
+    },
+    {
+      "name_key": "butterfrite",
+      "locations": [
+        "Follow the small path at the end of the forest. (Rock Smash HM required)"
+      ]
+    },
+    {
+      "name_key": "nugget",
+      "locations": [
+        "Hidden at top left corner of the city, on light green platform.",
+        "B3F, hidden under a generator in the top left side.",
+        "5F, in the bottom left of the room.",
+        "Hidden near the PC in the Copycat's room, in the north-western house.",
+        "8F, hidden on the top flower in the right room with a single Scientist.",
+        "B3F, hidden atop rock in trio near ladder to B2F in west Route.",
+        "1F, on a heightened platform on the north part of the floor.",
+        "Hidden in a rock right below the stairs, on the right."
+      ]
+    },
+    {
+      "name_key": "dynamax-band",
+      "locations": [
+        "From Prof. Oak's Scientist upon exiting the city eastward towards Route 3."
+      ]
+    },
+    {
+      "name_key": "wishing-piece",
+      "locations": [
+        "From Prof. Oak's Scientist upon exiting the city eastward towards Route 3.",
+        "From a girl in the Pokémon Fan Club if a Yamper is following you."
+      ]
+    },
+    {
+      "name_key": "old-amber",
+      "locations": [
+        "From a Scientist in the museum behind the reception desk. (Cut HM required)"
+      ]
+    },
+    {
+      "name_key": "aerodactylite",
+      "locations": [
+        "Requires Mega Ring - From Brock after defeating him in a rematch."
+      ]
+    },
+    {
+      "name_key": "thunder-stone",
+      "locations": [
+        "In the grassy patch.",
+        "Hidden in the north west area, where Zapdos is, just in front of the big generator."
+      ]
+    },
+    {
+      "name_key": "persim-berry",
+      "locations": [
+        "Hidden in the top right area, left from Pokémon Center.",
+        "In the bottom right corner of the fence."
+      ]
+    },
+    {
+      "name_key": "water-stone",
+      "locations": [
+        "In the north western corner, left from Pokémon Center.",
+        "B4F, hidden on left rock of trio on middle platform near ladder to B3F."
+      ]
+    },
+    {
+      "name_key": "paralyze-heal",
+      "locations": [
+        "1F, Bottom left area, near the Bug Catcher."
+      ]
+    },
+    {
+      "name_key": "rare-candy",
+      "locations": [
+        "1F, Bottom right corner.",
+        "Hidden in the groomer's garden, right side below 3rd flower.",
+        "Hidden in the north eastern area, right below the fence between the two ledges.",
+        "Basement floor's second room from the left with the singler sailor inside.",
+        "Hidden in northeast corner of the Route, 2 tiles above the northeastern ledge.",
+        "B3F, on the right side of the warp maze.",
+        "6F, in the bottom left of the room.",
+        "10F, bottom item in the bottom left room.",
+        "Hidden on right bicycle path, one step right of 3rd signpost on middle path.",
+        "Hidden in grass, south of Heart Scale (2nd tile from left, 5th from top).",
+        "In the Warden's house. (Strength HM required)",
+        "3F, hidden in the central east part of the floor, just above the staircase in the south east, requires you to press Mewtwo statue.",
+        "1F, in the north west part of the floor, the eastern item of the boulder puzzle.",
+        "Hidden behind Rachel's house."
+      ]
+    },
+    {
+      "name_key": "escape-rope",
+      "locations": [
+        "1F, Near the right side's wall, in the center.",
+        "Hidden in the top right side in a stone.",
+        "1F, in the room with 3 Hikers.",
+        "1F, north side between the 4 pillars."
+      ]
+    },
+    {
+      "name_key": "muscle-band",
+      "locations": [
+        "1F, From a guy in the top right corner, near the rocks."
+      ]
+    },
+    {
+      "name_key": "moon-stone",
+      "locations": [
+        "1F, Top left corner, near the Hiker.",
+        "B2F (3rd Ladder), Hidden in the rock right above TM 078 - Low Sweep.",
+        "B2F, inside the warp maze, in the north west area.",
+        "1F, hidden among the pile of rocks in the corridor at the entrance on the left."
+      ]
+    },
+    {
+      "name_key": "star-piece",
+      "locations": [
+        "B2F (1st Ladder), On the heightened platform."
+      ]
+    },
+    {
+      "name_key": "scope-lens",
+      "locations": [
+        "B2F (2nd Ladder), Northwest of tunnel ladder. (Rock Smash HM needed)"
+      ]
+    },
+    {
+      "name_key": "ether",
+      "locations": [
+        "B2F (2nd Ladder), Hidden on rock east of tunnel ladder. (Rock Smash HM needed).",
+        "Hidden to the right of Bill's cottage, 4 tiles from the door.",
+        "Basement floor's third room from the left with the single sailor inside.",
+        "Hidden on a rock in the top west corner, directly next to the top ledge."
+      ]
+    },
+    {
+      "name_key": "revive",
+      "locations": [
+        "B2F (3rd Ladder), Top from the ladder you enter this basement from.",
+        "B1F, in the dead-end path left of the Pokémaniac.",
+        "11F, hidden in the middle palm tree in front of President's room, accessed by a warp tile from 7F, which is accessed from 3F. (Keycard required)",
+        "West Area, hidden in northwest part, 3 steps down from northern Rest House entrance, facing right."
+      ]
+    },
+    {
+      "name_key": "helix-fossil-/-dome-fossil",
+      "locations": [
+        "B2F (3rd Ladder), In the top left area, after defeating Super Nerd. (Can only pick one)"
+      ]
+    },
+    {
+      "name_key": "great-ball",
+      "locations": [
+        "Hidden in-between the upper-left ledge and the wall facing it.",
+        "In the kitchen, bottom left corner.",
+        "4F, in the bottom of the room."
+      ]
+    },
+    {
+      "name_key": "macho-brace",
+      "locations": [
+        "From the right Black Belt. (you'll get 4 PP Ups if playing on MGM/HC mode)"
+      ]
+    },
+    {
+      "name_key": "sun-stone",
+      "locations": [
+        "Below the 3 ledges."
+      ]
+    },
+    {
+      "name_key": "razz-berry",
+      "locations": [
+        "Hidden next to the previous Sun Stone. (a darkened tile)"
+      ]
+    },
+    {
+      "name_key": "mewtwonite-y",
+      "locations": [
+        "From Giovanni after defeating him in Cerulean Cave."
+      ]
+    },
+    {
+      "name_key": "salamencite",
+      "locations": [
+        "From Lance after defeating Giovanni in Cerulean Cave."
+      ]
+    },
+    {
+      "name_key": "bicycle",
+      "locations": [
+        "In exchange for Bike Voucher. (Obtainable in Vermilion City)"
+      ]
+    },
+    {
+      "name_key": "punching-glove",
+      "locations": [
+        "In the groomer's garden, in the 3rd flower."
+      ]
+    },
+    {
+      "name_key": "poke-rider",
+      "locations": [
+        "From your rival, after defeating him near the Nugget Bridge."
+      ]
+    },
+    {
+      "name_key": "gyaradosite",
+      "locations": [
+        "Requires Mega Ring - From Misty after defeating her in a rematch.",
+        "Cerulean City, from Misty after defeating her in a rematch."
+      ]
+    },
+    {
+      "name_key": "big-nugget",
+      "locations": [
+        "Reward from defeating Team Rocket Grunt at end of Nugget Bridge.",
+        "From guy in restaurant, top left behind table.",
+        "2F, from Black Belt Ketchup after you defeat him a third time. (Or more)",
+        "On small islet by first male Swimmer, near Bugsy."
+      ]
+    },
+    {
+      "name_key": "drain-kiss",
+      "locations": [
+        "Above the Nugget Bridge."
+      ]
+    },
+    {
+      "name_key": "tyranitarite",
+      "locations": [
+        "On a small islet to the left of the Nugget Bridge. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "pecha-berry",
+      "locations": [
+        "On the north eastern heightened platform, accessed from Route 25.",
+        "In the kitchen, hidden in the top trash can on the right."
+      ]
+    },
+    {
+      "name_key": "leaf-stone",
+      "locations": [
+        "On the heightened platform, in the grass patch.",
+        "East Area, on the heightened platform in the bottom right corner.",
+        "Center Area, hidden on the small islet in the pond. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "bluk-berry",
+      "locations": [
+        "Hidden on a darker grass tile above the Lass near the left pond."
+      ]
+    },
+    {
+      "name_key": "ss-ticket",
+      "locations": [
+        "From Bill inside his cottage when you help him."
+      ]
+    },
+    {
+      "name_key": "nest-ball",
+      "locations": [
+        "From Bugsy after defeating him",
+        "B4F, hidden in between flowers in Giovanni's Room on the right side."
+      ]
+    },
+    {
+      "name_key": "elixir",
+      "locations": [
+        "Hidden at the start between Hiker & Youngster, 1 tile left from beside Youngster.",
+        "4F, directly left of the stair case you came from 3F.",
+        "5F, hidden in palm tree in small room connected to east room (Keycard needed).",
+        "B1F, hidden in the upper right corner of the floor, near the Mewtwo statue.",
+        "In the central room's west side."
+      ]
+    },
+    {
+      "name_key": "sitrus-berry",
+      "locations": [
+        "Hidden on a darkened tile in the north western area.",
+        "Hidden on darkened tile in northwest corner, just below leftmost side of Victory Road."
+      ]
+    },
+    {
+      "name_key": "pinsirite",
+      "locations": [
+        "South of the pond. (Rock Smash HM or Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "good-rod",
+      "locations": [
+        "From a Fisherman in the house left of Pokémon Center."
+      ]
+    },
+    {
+      "name_key": "max-ether",
+      "locations": [
+        "Hidden in corner: Going 4 steps down from Pokémon Center door, then turn left.",
+        "Hidden in front of Power Plant's southeast corner, with TM 099 (Surf HM required).",
+        "B1F, above a Picnicker in the room with multiple crossroads",
+        "B4F, on a table near the stair case accessed from B3F.",
+        "Hidden on islet in pond between Soul and Marsh Badge checks.",
+        "Obtained by breaking a rock near the first male Swimmer.",
+        "North of the forest, next to trainer Janny."
+      ]
+    },
+    {
+      "name_key": "bike-voucher",
+      "locations": [
+        "From the Fan Club Chairman after listening to his story."
+      ]
+    },
+    {
+      "name_key": "manectite",
+      "locations": [
+        "Requires Mega Ring - From Lt. Surge after defeating him in a rematch."
+      ]
+    },
+    {
+      "name_key": "copperajite",
+      "locations": [
+        "On islet below the Gym. (Surf HM required)",
+        "On islet below Vermilion City Gym. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "soft-sand",
+      "locations": [
+        "In middle of the Route, in grass patch near old man and engineer."
+      ]
+    },
+    {
+      "name_key": "fire-stone",
+      "locations": [
+        "Below the Soft Sand item in the middle of the Route, in a grass patch.",
+        "Hidden in a rock at the northwest of the mountain."
+      ]
+    },
+    {
+      "name_key": "eviolite",
+      "locations": [
+        "From Whitney after defeating her."
+      ]
+    },
+    {
+      "name_key": "normal-gem",
+      "locations": [
+        "From Whitney after defeating her."
+      ]
+    },
+    {
+      "name_key": "itemfinder",
+      "locations": [
+        "From a Scientist in the gate upstairs."
+      ]
+    },
+    {
+      "name_key": "hyper-potion",
+      "locations": [
+        "Basement floor's hallway, hidden in the trash can just under the stairs.",
+        "Hidden on a wooden platform near the 3rd Fisherman starting from north.",
+        "B1F, in the top left corner of the room accessed from the B3F warp maze stair case.",
+        "3F, in the western-most room with a single Scientist (Keycard required, warp tile from 9F also requires Keycard)"
+      ]
+    },
+    {
+      "name_key": "super-potion",
+      "locations": [
+        "Basement floor's first room from the right with the guy and a Chesnaught inside.",
+        "Hidden one tile left of Pokémon Center, southeast corner of Rock Tunnel.",
+        "B2F, inside the warp maze, on the far left side of it."
+      ]
+    },
+    {
+      "name_key": "chesto-berry",
+      "locations": [
+        "In the kitchen, hidden in the bottom trash can on the right.",
+        "Hidden in the top right area on a darkened spot near the Hiker and Bug Catcher."
+      ]
+    },
+    {
+      "name_key": "cheri-berry",
+      "locations": [
+        "In the kitchen, hidden in the middle trash can on the right.",
+        "In a darkened tile 3 steps away from the Picnicker."
+      ]
+    },
+    {
+      "name_key": "stardust",
+      "locations": [
+        "Second floor's second room from the left with the Fisherman inside.",
+        "Hidden the same islet in the middle of the Route as listed above."
+      ]
+    },
+    {
+      "name_key": "lucky-egg",
+      "locations": [
+        "From Brendan, after defeating him near the Captain's room."
+      ]
+    },
+    {
+      "name_key": "shiny-stone",
+      "locations": [
+        "From Brendan, after defeating him near the Captain's room."
+      ]
+    },
+    {
+      "name_key": "cut",
+      "locations": [
+        "Captain's room, given to you by the Captain himself."
+      ]
+    },
+    {
+      "name_key": "burn-heal",
+      "locations": [
+        "In the bottom right corner, near another Hiker."
+      ]
+    },
+    {
+      "name_key": "everstone",
+      "locations": [
+        "From Professor Oak's Scientist."
+      ]
+    },
+    {
+      "name_key": "nanab-berry",
+      "locations": [
+        "Hidden on south side of Route, left from TM 042 - Facade, in darkened grass."
+      ]
+    },
+    {
+      "name_key": "coalossite",
+      "locations": [
+        "B1F, in room with northeast crossroads. (Rock Smash HM needed)",
+        "Rock Tunnel 1F. (Rock Smash HM needed)"
+      ]
+    },
+    {
+      "name_key": "safety-goggles",
+      "locations": [
+        "Obtainable from follower Pokémon: rock, ground, or steel type, upon interaction."
+      ]
+    },
+    {
+      "name_key": "flyinium-z",
+      "locations": [
+        "(POST-GAME) Access Rock Tunnel near Power Plant; rewarded by Falkner after rematch.",
+        "Rock Tunnel area near the Power Plant."
+      ]
+    },
+    {
+      "name_key": "steel-gem",
+      "locations": [
+        "(POST-GAME) Access Rock Tunnel from Power Plant entrance; north room, push boulder."
+      ]
+    },
+    {
+      "name_key": "soothe-bell",
+      "locations": [
+        "From Morty in Fuji's house after defeating him"
+      ]
+    },
+    {
+      "name_key": "shed-shell",
+      "locations": [
+        "From Morty in Fuji's house after defeating him."
+      ]
+    },
+    {
+      "name_key": "poke-flute",
+      "locations": [
+        "From Fuji in his house after defeating all Pokémon Tower grunts and saving him."
+      ]
+    },
+    {
+      "name_key": "gengarite",
+      "locations": [
+        "From Morty in Fuji's house after showing a Pokémon with max happiness post Mega Ring."
+      ]
+    },
+    {
+      "name_key": "rawst-berry",
+      "locations": [
+        "Hidden in the fenced area in the middle, on a darkened tile in the top right."
+      ]
+    },
+    {
+      "name_key": "lum-berry",
+      "locations": [
+        "Hidden in the fenced area in the middle, on a darkened tile in the top left.",
+        "Hidden on a dark tile on the north side of the Route, above Victory Road."
+      ]
+    },
+    {
+      "name_key": "leppa-berry",
+      "locations": [
+        "Hidden in the fenced area in the middle, on a darkened tile in the bottom right.",
+        "Hidden on darkened tile left of gate between Thunder and Rainbow Badge checks."
+      ]
+    },
+    {
+      "name_key": "rocky-helmet",
+      "locations": [
+        "From an Ace Trainer, after defeating him. (Requires Mega Ring)"
+      ]
+    },
+    {
+      "name_key": "centiskite",
+      "locations": [
+        "From an Ace Trainer, after defeating him. (Requires Mega Ring)"
+      ]
+    },
+    {
+      "name_key": "wepear-berry",
+      "locations": [
+        "Hidden on a darkened tile just south of the gate/east of the underground path."
+      ]
+    },
+    {
+      "name_key": "lucarionite",
+      "locations": [
+        "From Lucario owner at Pokémon Center with Lucario follower (Soul Badge required).",
+        "In Celadon City, from the guy close to the Pokémon Center having a Lucario if you have a Lucario follower. (Soul Badge needed)"
+      ]
+    },
+    {
+      "name_key": "loaded-dice",
+      "locations": [
+        "In top left corner, behind Department Store via narrow path left of Pokémon Center."
+      ]
+    },
+    {
+      "name_key": "tea",
+      "locations": [
+        "Celadon Mansion, from the granny sitting behind the table on the 1st floor."
+      ]
+    },
+    {
+      "name_key": "amulet-coin",
+      "locations": [
+        "Celadon Mansion, from the tamer on the 2nd floor, sitting on a bench with camper."
+      ]
+    },
+    {
+      "name_key": "pp-up",
+      "locations": [
+        "Hidden in narrow pathway east of Game Corner, between trees.",
+        "B1F, hidden in the bottom right palm tree in the middle of the floor.",
+        "5F, hidden in east room, top right corner palm tree.",
+        "Hidden on left bicycle path, 7 steps down from 3rd biker at top.",
+        "Hidden at bottom of fence maze on missing fence tile near Picnicker Gwen.",
+        "2F, in the south west area of the floor, accesed by going up the south west ladder on a heightened platform on 1F. (Rock Smash HM required)",
+        "Hidden on the last tile of the small path, hidden by a cut tree in Bond Bridge."
+      ]
+    },
+    {
+      "name_key": "light-clay",
+      "locations": [
+        "(DEFAULT MODE ONLY) Across pond in front (Surf HM needed)."
+      ]
+    },
+    {
+      "name_key": "alakazite",
+      "locations": [
+        "Department Store's rooftop, from a little girl sitting behind the desk."
+      ]
+    },
+    {
+      "name_key": "applite",
+      "locations": [
+        "In the hotel, after getting Mega Ring and defeating some folks in there"
+      ]
+    },
+    {
+      "name_key": "red-card",
+      "locations": [
+        "In Erika's gym, obtainable from follower Pokémon: fire and/or flying type, upon interaction."
+      ]
+    },
+    {
+      "name_key": "dream-patch",
+      "locations": [
+        "B1F, on the table in the room on the left side of the floor under a single grunt."
+      ]
+    },
+    {
+      "name_key": "black-glasses",
+      "locations": [
+        "B3F, in the south east part of the room, near a stair case."
+      ]
+    },
+    {
+      "name_key": "lift-key",
+      "locations": [
+        "B4F, dropped by lone Rocket Grunt near TM 049, accessed from B3F."
+      ]
+    },
+    {
+      "name_key": "wide-lens",
+      "locations": [
+        "B2F, northeast of warp maze, left of staircase from previous floor."
+      ]
+    },
+    {
+      "name_key": "calcium",
+      "locations": [
+        "B4F, on a table left of the elevator.",
+        "2F, in the north east part of the floor."
+      ]
+    },
+    {
+      "name_key": "net-ball",
+      "locations": [
+        "B4F, hidden in between flowers in Giovanni's Room on the left side.",
+        "From Fisherman in southeast city house, right side, by showing specific Magikarp."
+      ]
+    },
+    {
+      "name_key": "silph-scope",
+      "locations": [
+        "B4F, dropped by Giovanni in his room after defeating him."
+      ]
+    },
+    {
+      "name_key": "sablenite",
+      "locations": [
+        "3F, north east area.",
+        "Lavender Town's Pokémon Tower in the 3rd floor, north side of the room."
+      ]
+    },
+    {
+      "name_key": "awakening",
+      "locations": [
+        "4F, in the middle of the room, left of the previous Elixir."
+      ]
+    },
+    {
+      "name_key": "cleanse-tag",
+      "locations": [
+        "5F, in the middle of the room on the healing platform."
+      ]
+    },
+    {
+      "name_key": "big-mushroom",
+      "locations": [
+        "5F, hidden in the top left corner."
+      ]
+    },
+    {
+      "name_key": "reaper-cloth",
+      "locations": [
+        "6F, in the north western part of the room. (Rock Smash HM Required)"
+      ]
+    },
+    {
+      "name_key": "thick-club",
+      "locations": [
+        "Requires Silph Scope - 6F, dropped from the Marowak boss after defeating it."
+      ]
+    },
+    {
+      "name_key": "ghost-gem",
+      "locations": [
+        "(POST-GAME) Southwest of Gengar puzzle room atop Tower. (Z-Ring required)"
+      ]
+    },
+    {
+      "name_key": "mimikium-z",
+      "locations": [
+        "(POST-GAME) South of Gengar puzzle room atop Tower. (Z-Ring required)",
+        "Pokémon Tower, south of the Gengar puzzle room at the top of the Tower."
+      ]
+    },
+    {
+      "name_key": "ghostium-z",
+      "locations": [
+        "(POST-GAME) From Morty atop Tower after trial defeat. (Z-Ring required)",
+        "From Morty in the Pokémon Tower, post-trial defeat at the top."
+      ]
+    },
+    {
+      "name_key": "marshadium-z",
+      "locations": [
+        "(POST-GAME) Dropped by Marshadow after Tower battle. (Z-Ring required)",
+        "In the Pokémon Tower, Dropped by Marshadow after top tower battle."
+      ]
+    },
+    {
+      "name_key": "expert-belt",
+      "locations": [
+        "From Chuck after defeating him in the Dojo."
+      ]
+    },
+    {
+      "name_key": "mega-ring",
+      "locations": [
+        "From President's assistant after defeating Giovanni in Silph Co., near gym."
+      ]
+    },
+    {
+      "name_key": "shiny-charm",
+      "locations": [
+        "From Sabrina after defeating her and showing her a Pokémon with 31 IVs in all stats. (MGM/HARDCORE MODE) A Shiny Pokemon."
+      ]
+    },
+    {
+      "name_key": "galladite",
+      "locations": [
+        "Requires Mega Ring - From Chuck after defeating him and showing him a Pokémon with at least 150 EVs in Attack. (MGM/HARDCORE MODE) 125 Base Attack.",
+        "From Chuck after defeating him, and showing him a Pokémon with at least 150 EVs in Atk. (125 Base Atk in MGM/Hardcore)"
+      ]
+    },
+    {
+      "name_key": "focus-sash",
+      "locations": [
+        "Requires Mega Ring - From Chuck after defeating him and showing him a Pokémon with at least 150 EVs in Attack. (MGM/HARDCORE MODE) 125 Base Attack."
+      ]
+    },
+    {
+      "name_key": "alcremite",
+      "locations": [
+        "From a woman in the western house, after getting her ingredients for a cake. [x1 Rawst Berry, x1 Aspear Berry, x2 Moomoo Milk]",
+        "From a woman in a Saffron City house, after bring to her the ingredients for a cake. (x1 Rawst Berry, x1 Aspear Berry, x2 Moomoo Milk)"
+      ]
+    },
+    {
+      "name_key": "metronome",
+      "locations": [
+        "From a woman in the western house, after getting her ingredients for a cake. [x1 Rawst Berry, x1 Aspear Berry, x2 Moomoo Milk]"
+      ]
+    },
+    {
+      "name_key": "swampertite",
+      "locations": [
+        "From the Dumbass Mudkip Kid in the north-western house after battling him then showing him a Swampert follower."
+      ]
+    },
+    {
+      "name_key": "waterium-z",
+      "locations": [
+        "(POST-GAME) From the Dumbass Mudkip Kid in the north-western house after a rematch battle (Requires Z-Ring)",
+        "Saffron City, from Gian (Mudkip Fan) after defeating him in a rematch."
+      ]
+    },
+    {
+      "name_key": "protective-pads",
+      "locations": [
+        "In Fighting Dojo, obtainable from follower Pokémon if it's Fighting type upon interaction."
+      ]
+    },
+    {
+      "name_key": "ultra-ball",
+      "locations": [
+        "2F, hidden in the bottom palm tree of the bottom left room with a single Scientist (Keycard required or warp tile from 6F)",
+        "10F, left item in the bottom left room.",
+        "B4F, on the heightened platform in the south part of the floor.",
+        "Hidden between two statues wall, between Marsh and Volcano badges checks.",
+        "1F, hidden on rock in narrow dead-end path from northwest heightened platform descent."
+      ]
+    },
+    {
+      "name_key": "protein",
+      "locations": [
+        "3F, hidden in the middle palm tree at the bottom right of the floor.",
+        "5F, in the top room on the left side with a single Scientist. (Keycard required)"
+      ]
+    },
+    {
+      "name_key": "iron",
+      "locations": [
+        "4F, hidden in the bottom flower in the right room with a single grunt.",
+        "8F, in the right room with a single Scientist.",
+        "Just south of the Fisherman's house.",
+        "3F, in the north east part of the floor, accessed by pressing a Mewtwo statue on 2F and going up through the northern staircase on 2F."
+      ]
+    },
+    {
+      "name_key": "full-heal",
+      "locations": [
+        "4F, in the room on the far left side. (Keycard required)",
+        "2F, in the central-east part of the floor, near a walking Tamer."
+      ]
+    },
+    {
+      "name_key": "max-revive",
+      "locations": [
+        "4F, in the room on the far left side. (Keycard required)",
+        "Hidden on left bicycle path near bottom, between ponds by signpost.",
+        "Hidden behind Fisherman's house by pond, under middle flower.",
+        "West Area, in the south-eastern part of the area under a heightened platform.",
+        "3F, in the north eastern part of the floor, near an Ace Trainer."
+      ]
+    },
+    {
+      "name_key": "garbodorite",
+      "locations": [
+        "4F, in the room on the far left side. (Keycard required)"
+      ]
+    },
+    {
+      "name_key": "card-key",
+      "locations": [
+        "5F, in the bottom of the room in a narrow hallway."
+      ]
+    },
+    {
+      "name_key": "carbos",
+      "locations": [
+        "6F, hidden in the bottom left palm tree in the top left room.",
+        "10F, right item in the bottom left room."
+      ]
+    },
+    {
+      "name_key": "hp-up",
+      "locations": [
+        "6F, top item in the bottom left room. (Keycard required)",
+        "10F, hidden in the palm tree in the upper right room.",
+        "2F, central east section, accessible via staircase mentioned above."
+      ]
+    },
+    {
+      "name_key": "audinite",
+      "locations": [
+        "6F, bottom item in the bottom left room. (Keycard required)",
+        "Saffron City's Silph Co. 6th floor, at the south west part of the floor, near a Scientist."
+      ]
+    },
+    {
+      "name_key": "zinc",
+      "locations": [
+        "7F, hidden in the bottom palm tree in the middle-right room. (Keycard required)",
+        "11F, in the bottom right part of the floor, below a grunt.",
+        "Hidden in the grassy area, above the bikers. (3rd grass tile from left, 2nd from top)",
+        "2F, in the narrow hallway starting at the bottom of the floor."
+      ]
+    },
+    {
+      "name_key": "kangaskhanite",
+      "locations": [
+        "7F, in the bottom left area of the floor, near a Scientist."
+      ]
+    },
+    {
+      "name_key": "max-potion",
+      "locations": [
+        "9F, hidden in the left part of the floor, to the east of the woman that heals you, at the spot of a \"missing\" shelve. (Keycard required)",
+        "East Area, north west of TM 076."
+      ]
+    },
+    {
+      "name_key": "calcium-x1",
+      "locations": [
+        "9F, hidden on right palm tree, left floor near healing woman. (Keycard needed)"
+      ]
+    },
+    {
+      "name_key": "master-ball",
+      "locations": [
+        "11F, from the President in his room after defeating Giovanni."
+      ]
+    },
+    {
+      "name_key": "up-grade",
+      "locations": [
+        "Needs Silph Scope upgrade - Secret Area, northwest corner of spinny puzzle room."
+      ]
+    },
+    {
+      "name_key": "fly",
+      "locations": [
+        "From girl in top left house, accessed via northern gate from Celadon City exit."
+      ]
+    },
+    {
+      "name_key": "leftovers",
+      "locations": [
+        "Use Itemfinder Key Item on the exact spot Snorlax was on."
+      ]
+    },
+    {
+      "name_key": "venusaurite",
+      "locations": [
+        "Upstairs in northern gate on Route 16, from Scientist upon showing Venusaur."
+      ]
+    },
+    {
+      "name_key": "charizardite-x/y",
+      "locations": [
+        "Upstairs in northern gate on Route 16, from Scientist upon showing Charizard. (Y if in Hardcore mode, else X)"
+      ]
+    },
+    {
+      "name_key": "blastoisinite",
+      "locations": [
+        "Upstairs in northern gate on Route 16, from Scientist upon showing Blastoise."
+      ]
+    },
+    {
+      "name_key": "tri-pass",
+      "locations": [
+        "(POST-GAME) From girl in small house, accessed from northern gate; given after defeating all trainers she suggests and obtaining Gengarite from Morty."
+      ]
+    },
+    {
+      "name_key": "absolite",
+      "locations": [
+        "At bottom of Route, middle, beside signpost between ponds."
+      ]
+    },
+    {
+      "name_key": "full-restore",
+      "locations": [
+        "Hidden on middle bicycle path, two steps left of first signpost.",
+        "1F, in the south east area of the floor near the pond.",
+        "Hidden on a rock 2 tiles to the left of the Snorlaxite.",
+        "1F, hidden northwest, on boulder 2 tiles east from TM 067."
+      ]
+    },
+    {
+      "name_key": "max-elixir",
+      "locations": [
+        "Hidden 3 steps to the right from the last sign post on the south part of the Route.",
+        "1F, on the heightened platform in the middle of the floor.",
+        "Hidden in the lowest north-central room, just under the generator.",
+        "Hidden on north side of Route, dead-end path maze in front of Pokémon League."
+      ]
+    },
+    {
+      "name_key": "altarianite",
+      "locations": [
+        "Below the gate, in the bottom left corner of the grass patch."
+      ]
+    },
+    {
+      "name_key": "slowbronite",
+      "locations": [
+        "On a small islet to the south west from the Snorlax. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "sharpedonite",
+      "locations": [
+        "In the fisherman's house, if you show him a Sharpedo follower."
+      ]
+    },
+    {
+      "name_key": "burnt-seed",
+      "locations": [
+        "Near the Raid Den, in the patch of grass."
+      ]
+    },
+    {
+      "name_key": "pinap-berry",
+      "locations": [
+        "Hidden in the bottom right corner, on a darkened tile near the Twins."
+      ]
+    },
+    {
+      "name_key": "toxic-orb",
+      "locations": [
+        "Upstairs in the gate from the Scientist."
+      ]
+    },
+    {
+      "name_key": "flame-orb",
+      "locations": [
+        "Upstairs in the gate from the Scientist"
+      ]
+    },
+    {
+      "name_key": "sandacondite",
+      "locations": [
+        "From a Female Ace Trainer after defeating her in the western part of the Route.",
+        "Route 15, from Ace Trainer Haley after defeating her."
+      ]
+    },
+    {
+      "name_key": "power-herb",
+      "locations": [
+        "From a Female Ace Trainer after defeating her in the western part of the Route."
+      ]
+    },
+    {
+      "name_key": "super-rod",
+      "locations": [
+        "From Fisherman in southeast city house, right side."
+      ]
+    },
+    {
+      "name_key": "life-orb",
+      "locations": [
+        "From Koga after showing him a Pokémon with at least 150 EV in speed. (MGM/HARDCORE MODE) 125 Base Speed."
+      ]
+    },
+    {
+      "name_key": "toxtricitite",
+      "locations": [
+        "From Koga after showing him a Pokémon with at least 150 EV in speed. (MGM/HARDCORE MODE) 125 Base Speed.",
+        "From Koga after defeating him and showing him a Pokémon with at least 150 EVs in Spe. (or 125 Base Spe in MGM/Hardcore)"
+      ]
+    },
+    {
+      "name_key": "rock-smash",
+      "locations": [
+        "From Brendan after defeating him in front of Safari Zone's entrance."
+      ]
+    },
+    {
+      "name_key": "strength",
+      "locations": [
+        "From Warden in house next to Fisherman's, post-Gold Teeth exchange."
+      ]
+    },
+    {
+      "name_key": "medicine",
+      "locations": [
+        "From Nurse Joy at Safari Zone after Erika rematch request in Celadon City."
+      ]
+    },
+    {
+      "name_key": "heracronite",
+      "locations": [
+        "East Area, left of the Rest House in the north eastern part of the area."
+      ]
+    },
+    {
+      "name_key": "beedrilite",
+      "locations": [
+        "North Area, eastern part, via heightened platform with dead end."
+      ]
+    },
+    {
+      "name_key": "pidgeotite",
+      "locations": [
+        "North Area, in the north-central part of the area, just above the TM 059."
+      ]
+    },
+    {
+      "name_key": "gold-teeth",
+      "locations": [
+        "West Area, northeast part, south of sign post, right of northern Rest House."
+      ]
+    },
+    {
+      "name_key": "surf",
+      "locations": [
+        "West Area From the guy in the northern Rest House."
+      ]
+    },
+    {
+      "name_key": "lopunnite",
+      "locations": [
+        "West Area, southwest part, in grass below heightened platform.",
+        "Safari Zone Western Area, at the south."
+      ]
+    },
+    {
+      "name_key": "magmarizer",
+      "locations": [
+        "Far-Western Area, right side of the pond. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "drednawite",
+      "locations": [
+        "On a small islet on the south part of the Route. (Surf HM required)",
+        "Route 19, on a small islet on the south side of the Route. (Surf HM required)"
+      ]
+    },
+    {
+      "name_key": "glalitite",
+      "locations": [
+        "From Pryce after defeating him in front of Seafom Islands."
+      ]
+    },
+    {
+      "name_key": "choice-scarf",
+      "locations": [
+        "From Pryce after defeating him in front of Seafom Islands."
+      ]
+    },
+    {
+      "name_key": "wellspring-mask",
+      "locations": [
+        "1F, on the heightened platform just north of the entrance from Fuchsia City side."
+      ]
+    },
+    {
+      "name_key": "laprasite",
+      "locations": [
+        "B1F, in the north western part of the floor."
+      ]
+    },
+    {
+      "name_key": "abomasite",
+      "locations": [
+        "B2F, in the south western part of the floor.",
+        "Seafoam Islands B2F, southern part of the floor."
+      ]
+    },
+    {
+      "name_key": "icium-z",
+      "locations": [
+        "(POST-GAME) Beat Sandshrew race on B3F; from Pryce post-rematch. (Z-Ring required)",
+        "Seafoam Island secret area, from Pryce after defeating him in a rematch."
+      ]
+    },
+    {
+      "name_key": "blue-orb",
+      "locations": [
+        "(POST-GAME) Beat Sandshrew race on B3F; dropped by Kyogre (Z-Ring required)."
+      ]
+    },
+    {
+      "name_key": "medichamite",
+      "locations": [
+        "On small islet in middle of Route, below stationary female Swimmer.",
+        "Route 20 (Cinnabar Island side), on a small islet below a stationary female Swimmer."
+      ]
+    },
+    {
+      "name_key": "latiosite",
+      "locations": [
+        "In Pokémon Lab's rightmost room, from Scientist at left table when showing Latios.",
+        "In Pokémon Lab's rightmost room, from Scientist at left table when showing Latios or Latias."
+      ]
+    },
+    {
+      "name_key": "latiasite",
+      "locations": [
+        "In Pokémon Lab's rightmost room, from Scientist at left table when showing Latias."
+      ]
+    },
+    {
+      "name_key": "soul-dew",
+      "locations": [
+        "In Pokémon Lab's rightmost room, from Scientist at left table when showing both Latis."
+      ]
+    },
+    {
+      "name_key": "reveal-glass",
+      "locations": [
+        "In Pokémon Lab's rightmost room, from Scientist at bottom left table when showing a Force of Nature member."
+      ]
+    },
+    {
+      "name_key": "dna-splicers",
+      "locations": [
+        "In Pokémon Lab's rightmost room, from Scientist at bottom left table showing a Tao Trio member."
+      ]
+    },
+    {
+      "name_key": "prison-bottle",
+      "locations": [
+        "In Pokémon Lab's rightmost room, from Scientist at bottom left table when showing Hoopa."
+      ]
+    },
+    {
+      "name_key": "aggronite",
+      "locations": [
+        "From Jasmine after defeating her in Pokémon Lab."
+      ]
+    },
+    {
+      "name_key": "choice-band",
+      "locations": [
+        "From Jasmine after defeating her in Pokémon Lab."
+      ]
+    },
+    {
+      "name_key": "assault-vest",
+      "locations": [
+        "From Jasmine after defeating her in Pokémon Lab and showing her a Pokémon with 150 EVs in defense. (MGM/HARDCORE MODE) 125 Base Defense."
+      ]
+    },
+    {
+      "name_key": "steelixite",
+      "locations": [
+        "From Jasmine after defeating her in Pokémon Lab and showing her a Pokémon with 150 EVs in defense. (MGM/HARDCORE MODE) 125 Base Defense.",
+        "From Jasmine after defeating her and showing her a Pokémon with 150 EVs in Def. (125 Base Def in MGM/Hardcore)"
+      ]
+    },
+    {
+      "name_key": "blazikenite",
+      "locations": [
+        "From May after you defeat her in front of the Pokémon Mansion.",
+        "From May after defeating her on Cinnabar Island, in front of the Pokémon Mansion."
+      ]
+    },
+    {
+      "name_key": "charizardite-y/x",
+      "locations": [
+        "From Blaine after defeating him and showing him a Pokémon with at least 150 EVs in Special Attack (MGM/HARDCORE MODE) 125 Base Special Attack & X."
+      ]
+    },
+    {
+      "name_key": "choice-specs",
+      "locations": [
+        "From Blaine after defeating him and showing him a Pokémon with at least 150 EVs in Special Attack (MGM/HARDCORE MODE) 125 Base Special Attack."
+      ]
+    },
+    {
+      "name_key": "gardevoirite-cameruptite",
+      "locations": [
+        "1F, in the south east part of the floor with lots of palm trees and a Scientist, accessed by falling through the bigger hole on 3F. (HARDCORE MODE) Gardevoirite."
+      ]
+    },
+    {
+      "name_key": "banettite",
+      "locations": [
+        "B1F, in the south west part of the floor."
+      ]
+    },
+    {
+      "name_key": "secret-key",
+      "locations": [
+        "B1F, table in northwest, after pressing Mewtwo statue in northeast room."
+      ]
+    },
+    {
+      "name_key": "hearthflame-mask",
+      "locations": [
+        "Requires Silph Scope upgrade - 4F"
+      ]
+    },
+    {
+      "name_key": "hidden-costume",
+      "locations": [
+        "Requires Silph Scope upgrade - 4F"
+      ]
+    },
+    {
+      "name_key": "kinglerite",
+      "locations": [
+        "On an islet in the upper part of the Route, below 2 stationary girls.",
+        "Route 21, on an islet."
+      ]
+    },
+    {
+      "name_key": "pearl",
+      "locations": [
+        "Hidden on an islet in the upper part of the Route, below 2 stationary girls."
+      ]
+    },
+    {
+      "name_key": "diancite",
+      "locations": [
+        "2F, northeast area, reached by climbing northeast ladder on 1F.",
+        "Cerulean Cave 2F, in the north east area of the floor, accessed by going up the north east ladder on 1F."
+      ]
+    },
+    {
+      "name_key": "mawilite",
+      "locations": [
+        "1F, from Ariana after defeating her in battle.",
+        "Cerulean Cave 1F, from Ariana after defeating her in battle."
+      ]
+    },
+    {
+      "name_key": "houndoominite",
+      "locations": [
+        "1F, from Archer after defeating him in battle."
+      ]
+    },
+    {
+      "name_key": "garchompite",
+      "locations": [
+        "B1F, in the north east area of the floor."
+      ]
+    },
+    {
+      "name_key": "booster-energy",
+      "locations": [
+        "(DEFAULT MODES) B1F, on heightened platform in central-west."
+      ]
+    },
+    {
+      "name_key": "electirizer",
+      "locations": [
+        "Just north of the entrance."
+      ]
+    },
+    {
+      "name_key": "machampite",
+      "locations": [
+        "From Dumbass trainer after defeating him in the central room."
+      ]
+    },
+    {
+      "name_key": "cornerstone-mask",
+      "locations": [
+        "From Dumbass trainer after defeating him in the central room."
+      ]
+    },
+    {
+      "name_key": "ampharosite",
+      "locations": [
+        "In the north east corner.",
+        "Power Plant, in the north east corner."
+      ]
+    },
+    {
+      "name_key": "eject-button",
+      "locations": [
+        "(DEFAULT MODES) From follower Pokémon if electric type, upon interaction."
+      ]
+    },
+    {
+      "name_key": "aspear-berry",
+      "locations": [
+        "Hidden on darkened tile below Volcano badge gate, left side of boulder maze."
+      ]
+    },
+    {
+      "name_key": "snorlaxite",
+      "locations": [
+        "In the north east corner of the Volcano badge check gate.",
+        "Route 23, to the north of the Route, above the Volcano badge check gate."
+      ]
+    },
+    {
+      "name_key": "sceptilite",
+      "locations": [
+        "From Brendan after defeating him in front of Victory Road's entrance."
+      ]
+    },
+    {
+      "name_key": "heavy-duty-boots",
+      "locations": [
+        "2F, western side of the floor, near a boulder."
+      ]
+    },
+    {
+      "name_key": "metagrossite",
+      "locations": [
+        "2F, in the north east part of the floor, near a Juggler.",
+        "Victory Road 2F, near a Juggler at the northeast part of the floor."
+      ]
+    },
+    {
+      "name_key": "rock-gem",
+      "locations": [
+        "South of Treasure Beach."
+      ]
+    },
+    {
+      "name_key": "mewtwonite-x",
+      "locations": [
+        "From Red after defeating him on beach (Requires 4+ Battle Simulator win streak)."
+      ]
+    },
+    {
+      "name_key": "bugium-z",
+      "locations": [
+        "On the right of the grass patches, from Bugsy after defeating him in a rematch.",
+        "One Island, Kindle Road, from Bugsy after defeating him in a rematch."
+      ]
+    },
+    {
+      "name_key": "bug-gem",
+      "locations": [
+        "At the south of where Bugsy's standing."
+      ]
+    },
+    {
+      "name_key": "waterfall",
+      "locations": [
+        "From the old man close to the waterfalls."
+      ]
+    },
+    {
+      "name_key": "fairium-z",
+      "locations": [
+        "East of the mountain, in a narrow path.",
+        "One Island, Mt. Ember, northeast of the mountain."
+      ]
+    },
+    {
+      "name_key": "dusk-ball",
+      "locations": [
+        "Northwest of the mountain."
+      ]
+    },
+    {
+      "name_key": "normalium-z",
+      "locations": [
+        "From Whitney post-rematch victory.",
+        "Two Island, near Joyful Game Corner, from Whitney post-rematch victory."
+      ]
+    },
+    {
+      "name_key": "groundium-z",
+      "locations": [
+        "From the Digger.",
+        "Three Island Port, in the tunnel, from the digger."
+      ]
+    },
+    {
+      "name_key": "steelium-z",
+      "locations": [
+        "From one of two NPCs left of Pokémon Center after defeating Bikers.",
+        "Three Island, from a guy outside after defeating the Bikers."
+      ]
+    },
+    {
+      "name_key": "grass-gem",
+      "locations": [
+        "In a small path hidden by a cut tree, in the upper right corner."
+      ]
+    },
+    {
+      "name_key": "max-repel",
+      "locations": [
+        "Hidden in a stone."
+      ]
+    },
+    {
+      "name_key": "ground-gem",
+      "locations": [
+        "Near the pond, next to trainer Barry."
+      ]
+    },
+    {
+      "name_key": "psychium-z",
+      "locations": [
+        "From Lostelle after saving her from Mew.",
+        "Three Island, Berry Forest, from Lostelle after defeating Mew."
+      ]
+    },
+    {
+      "name_key": "mewium-z",
+      "locations": [
+        "Dropped by Mew after defeating Owen.",
+        "Berry Forest, from Gatekeeper Owen after the hidden Mew event's battle."
+      ]
+    },
+    {
+      "name_key": "gardevoirite",
+      "locations": [
+        "(Swapped with Cameruptite in Hardcore) From Sabrina after defeating her and showing a Pokémon with 31 IVs in all stats. (or a shiny in MGM/Hardcore)"
+      ]
+    },
+    {
+      "name_key": "beedrillite",
+      "locations": [
+        "Safari Zone North Area, in the eastern part of the area."
+      ]
+    },
+    {
+      "name_key": "charizardite-y",
+      "locations": [
+        "(Swapped with Charizardite X in Hardcore) From Blaine after defeating him and showing a Pokémon with 150 EVs in SpA. (125 Base SpA in MGM/Hardcore)"
+      ]
+    },
+    {
+      "name_key": "fightinium-z",
+      "locations": [
+        "One Island, from Dumbass Jojo Fan after defeating him in rematch."
+      ]
+    },
+    {
+      "name_key": "tapunium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (3 BP)"
+      ]
+    },
+    {
+      "name_key": "snorlium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (3 BP)"
+      ]
+    },
+    {
+      "name_key": "pikanium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (3 BP)"
+      ]
+    },
+    {
+      "name_key": "pikashunium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (5 BP)"
+      ]
+    },
+    {
+      "name_key": "aloraichium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (5 BP)"
+      ]
+    },
+    {
+      "name_key": "incinium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (5 BP)"
+      ]
+    },
+    {
+      "name_key": "decidium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (5 BP)"
+      ]
+    },
+    {
+      "name_key": "primarium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (5 BP)"
+      ]
+    },
+    {
+      "name_key": "lycanium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (25 BP)"
+      ]
+    },
+    {
+      "name_key": "kommonium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (25 BP)"
+      ]
+    },
+    {
+      "name_key": "ultranecrozium-z",
+      "locations": [
+        "One Island's Pokémon Center, from the Battle Simulator BP Exchange. (50 BP)"
       ]
     }
   ]

@@ -56034,5 +56034,1650 @@
     }
   ],
   "move_overrides": [],
-  "item_locations": []
+  "item_locations": [
+    {
+      "name_key": "heart-scale",
+      "locations": [
+        "Route 104: North-west corner of the beach (hidden).",
+        "Route 106: Rock furthest north-west at the beach connected to Dewford (hidden).",
+        "Route 118: Rock at the south-west corner of the beach connected to Mauville (hidden).",
+        "Route 115: South-west corner of the beach connected to the Meteor Falls exit (hidden).",
+        "Petalburg City: Surf past the northern pond.",
+        "Route 105: Furthest south-west island (hidden).",
+        "Route 109: Island with no NPCs (hidden).",
+        "Route 118: Rock at the south-west corner of the beach connected to Route 119 (hidden).",
+        "Route 119: South of the bridge past the Weather Institute.",
+        "Route 119: At the small piece of land just before the Waterfall, right side (hidden).",
+        "Route 120: End of the north-west corridor at the tall grass maze (hidden).",
+        "Lilycove City: Rock at the south-west corner of the beach (hidden).",
+        "Aqua Hideout: Generator room alongside a static Electrode-H encounter.",
+        "Route 124: Dive and ressurface at the north-west area of the route.",
+        "Route 124: Dive and ressurface at the west area of the route.",
+        "Route 124: Underwater (hidden).",
+        "Route 126: Underwater (hidden).",
+        "Route 127: North-west corner of the route.",
+        "Route 127: Underwater (hidden).",
+        "Route 128: One tile to the east of CoolTrainer Ruben (hidden).",
+        "Route 128: Furthest south-west island (hidden).",
+        "Route 128: Furthest east of the smaller islands, by the L-shaped rock (hidden).",
+        "Route 132: Second island in the southern area of the route.",
+        "Route 134: Long island in the middle of the route.",
+        "Route 114: Up the Waterfall northwest of the route.",
+        "Route 119: Up the Waterfall north of the route (requires Acro Bike).",
+        "Victory Road: Ice floor, eastern corner, highest elevation (hidden).",
+        "Victory Road: Ice floor, western corner, highest elevation (hidden)."
+      ]
+    },
+    {
+      "name_key": "rare-candy",
+      "locations": [
+        "Route 110: By Cycling Road's south gate, guarded by Camper Gavi.",
+        "Route 116: Behind Rich Boy Dawson. Possible to permanently miss.",
+        "Mauville City: Given by an NPC inside one of the houses.",
+        "Route 111: Rock at the north-east area of the desert (hidden, requires Go-Goggles).",
+        "Lavaridge Town: South-west corner inside the hot spring (hidden).",
+        "Petalburg City: Surf accross the southern pond, right side (hidden, requires Surf).",
+        "Route 108: Rock at the island directly south-east of the Abandoned Ship (hidden, requires Surf).",
+        "Route 121: Alongside the path between Safari Zone and Lilycove City.",
+        "Lilycove City: Given by an NPC inside one of the houses.",
+        "Route 123: South-east corner, past the Cut trees (hidden).",
+        "Mt. Pyre: Second Floor. Accessible by dropping down the holes from the top.",
+        "Mt. Pyre: North-east corner of the Summit, between two gravestones (hidden).",
+        "Shoal Cave: Only accesible during high tide.",
+        "Route 132: First island in the northern area of the route."
+      ]
+    },
+    {
+      "name_key": "everstone",
+      "locations": [
+        "Granite Cave, ice floor, at the 'L' shaped rock formation before the stairs (hidden)."
+      ]
+    },
+    {
+      "name_key": "moon-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart. Given 1x from NPC Cutter in Rustboro City."
+      ]
+    },
+    {
+      "name_key": "fire-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "water-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "thunder-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "leaf-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "ice-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "sun-stone",
+      "locations": [
+        "Sold at Mauville City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "shiny-stone",
+      "locations": [
+        "Sold at Mauville City and Fallarbor Town Pokémon Marts."
+      ]
+    },
+    {
+      "name_key": "razor-claw",
+      "locations": [
+        "Sold at Petalburg City (requires 3 badges)."
+      ]
+    },
+    {
+      "name_key": "razor-fang",
+      "locations": [
+        "Sold at Petalburg City (requires 3 badges)."
+      ]
+    },
+    {
+      "name_key": "dragon-scale",
+      "locations": [
+        "Sold at Petalburg City (requires 3 badges) and Fortree City Pokémon Marts."
+      ]
+    },
+    {
+      "name_key": "upgrade",
+      "locations": [
+        "Sold at Petalburg City (requires 3 badges) and Fortree City Pokémon Marts."
+      ]
+    },
+    {
+      "name_key": "electirizer",
+      "locations": [
+        "Sold at Petalburg City (requires 3 badges) and Fortree City Pokémon Marts."
+      ]
+    },
+    {
+      "name_key": "magmarizer",
+      "locations": [
+        "Sold at Petalburg City (requires 3 badges) and Fortree City Pokémon Marts."
+      ]
+    },
+    {
+      "name_key": "dusk-stone",
+      "locations": [
+        "Sold at Fallarbor Town Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "kings-rock",
+      "locations": [
+        "Sold at Fallarbor Town Pokémon Mart.",
+        "Fallarbor Town, sold at the mart."
+      ]
+    },
+    {
+      "name_key": "metal-coat",
+      "locations": [
+        "Sold at Fallarbor Town Pokémon Mart.",
+        "Fallarbor Town or Lilycove City, sold at the mart/department store."
+      ]
+    },
+    {
+      "name_key": "protector",
+      "locations": [
+        "Sold at Fallarbor Town and Fortree City Pokémon Marts."
+      ]
+    },
+    {
+      "name_key": "dubious-disc",
+      "locations": [
+        "Sold at Fortree City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "prism-scale",
+      "locations": [
+        "Sold at Fortree City Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "dawn-stone",
+      "locations": [
+        "Sold at Lilycove City Deparment Store."
+      ]
+    },
+    {
+      "name_key": "honey",
+      "locations": [
+        "Sold at Lavaridge Town Pokémon Mart."
+      ]
+    },
+    {
+      "name_key": "silk-scarf",
+      "locations": [
+        "Dewford Town, given by an NPC inside one of the houses."
+      ]
+    },
+    {
+      "name_key": "oran-berry",
+      "locations": [
+        "Berry Trees at Routes 102, 104 and 111."
+      ]
+    },
+    {
+      "name_key": "nevermelt-ice",
+      "locations": [
+        "Granite Cave."
+      ]
+    },
+    {
+      "name_key": "pecha-berry",
+      "locations": [
+        "Berry Trees at Routes 102, 104 and 114."
+      ]
+    },
+    {
+      "name_key": "soft-sand",
+      "locations": [
+        "Route 109, given by an NPC by the beach."
+      ]
+    },
+    {
+      "name_key": "cheri-berry",
+      "locations": [
+        "Berry Trees at Routes 104 and 114."
+      ]
+    },
+    {
+      "name_key": "black-glasses",
+      "locations": [
+        "Slateport City, given by an NPC inside the Battle Tent."
+      ]
+    },
+    {
+      "name_key": "chesto-berry",
+      "locations": [
+        "Berry Trees at Routes 114, 116. Given 10x from an NPC at Route 104."
+      ]
+    },
+    {
+      "name_key": "poison-barb",
+      "locations": [
+        "Route 104, in the area only accessible through Petalburg Woods."
+      ]
+    },
+    {
+      "name_key": "leppa-berry",
+      "locations": [
+        "Berry Trees at Routes 103 and 104."
+      ]
+    },
+    {
+      "name_key": "miracle-seed",
+      "locations": [
+        "Petalburg Woods, given by an NPC past the Cut tree."
+      ]
+    },
+    {
+      "name_key": "rawst-berry",
+      "locations": [
+        "Berry Trees at Routes 112 and 116."
+      ]
+    },
+    {
+      "name_key": "silver-powder",
+      "locations": [
+        "Petalburg Woods, past the Cut tree."
+      ]
+    },
+    {
+      "name_key": "persim-berry",
+      "locations": [
+        "Berry Trees at Routes 112 and 117."
+      ]
+    },
+    {
+      "name_key": "hard-stone",
+      "locations": [
+        "Rusturf Tunnel, north-west corner."
+      ]
+    },
+    {
+      "name_key": "aspear-berry",
+      "locations": [
+        "Berry Trees at Routes 110 and 112."
+      ]
+    },
+    {
+      "name_key": "sharp-beak",
+      "locations": [
+        "Route 111, past the desert (requires Mach Bike)."
+      ]
+    },
+    {
+      "name_key": "sitrus-berry",
+      "locations": [
+        "Berry Trees at Routes 110, 111, 112, 115, 117, 118 and 121."
+      ]
+    },
+    {
+      "name_key": "pixie-plate",
+      "locations": [
+        "Meteor Falls, first floor, north-east corner."
+      ]
+    },
+    {
+      "name_key": "lum-berry",
+      "locations": [
+        "Berry Trees at Routes 111, 115, 118 and 121."
+      ]
+    },
+    {
+      "name_key": "black-belt",
+      "locations": [
+        "Route 115, by the Meteor Falls southern exit."
+      ]
+    },
+    {
+      "name_key": "lansat-berry",
+      "locations": [
+        "Berry Trees at Route 103."
+      ]
+    },
+    {
+      "name_key": "starf-berry",
+      "locations": [
+        "Berry Tree at Route 121."
+      ]
+    },
+    {
+      "name_key": "dragon-fang",
+      "locations": [
+        "Jagged Pass, dropping down by eastern side."
+      ]
+    },
+    {
+      "name_key": "custap-berry",
+      "locations": [
+        "Berry Tree at Route 121."
+      ]
+    },
+    {
+      "name_key": "charcoal",
+      "locations": [
+        "Lavaridge Town, given by an NPC inside one of the houses."
+      ]
+    },
+    {
+      "name_key": "liechi-berry",
+      "locations": [
+        "Berry Tree at Route 115."
+      ]
+    },
+    {
+      "name_key": "magnet",
+      "locations": [
+        "New Mauville."
+      ]
+    },
+    {
+      "name_key": "salac-berry",
+      "locations": [
+        "Berry Tree at Route 115."
+      ]
+    },
+    {
+      "name_key": "mystic-water",
+      "locations": [
+        "Abandoned Ship."
+      ]
+    },
+    {
+      "name_key": "petaya-berry",
+      "locations": [
+        "Berry Tree at Route 115."
+      ]
+    },
+    {
+      "name_key": "twisted-spoon",
+      "locations": [
+        "Abandoned Ship."
+      ]
+    },
+    {
+      "name_key": "mago-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "spell-tag",
+      "locations": [
+        "Mt. Pyre, third floor."
+      ]
+    },
+    {
+      "name_key": "aguav-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "iapapa-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "rock-gem",
+      "locations": [
+        "Route 111, south corner of the desert (requires Go-Goggles)"
+      ]
+    },
+    {
+      "name_key": "ganlon-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "dark-gem",
+      "locations": [
+        "Route 113."
+      ]
+    },
+    {
+      "name_key": "apicot-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "poison-gem",
+      "locations": [
+        "Route 113."
+      ]
+    },
+    {
+      "name_key": "rowap-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "ground-gem",
+      "locations": [
+        "Route 114, at the rock straight south after dropping down the ledge (hidden)."
+      ]
+    },
+    {
+      "name_key": "jaboca-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "steel-gem",
+      "locations": [
+        "Meteor Falls, first floor, north-west corner."
+      ]
+    },
+    {
+      "name_key": "figy-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "electric-gem",
+      "locations": [
+        "New Mauville."
+      ]
+    },
+    {
+      "name_key": "wiki-berry",
+      "locations": [
+        "Berry Tree at Route 119."
+      ]
+    },
+    {
+      "name_key": "grass-gem",
+      "locations": [
+        "Route 119, on the non grass tile to the east of the cycling NPC (hidden)."
+      ]
+    },
+    {
+      "name_key": "watmel-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "flying-gem",
+      "locations": [
+        "Route 119, surfing south past the bridge, in the tall grass (hidden)."
+      ]
+    },
+    {
+      "name_key": "belue-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "fire-gem",
+      "locations": [
+        "Scorched Slab."
+      ]
+    },
+    {
+      "name_key": "pomeg-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "psychic-gem",
+      "locations": [
+        "Route 120."
+      ]
+    },
+    {
+      "name_key": "kelpsy-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "bug-gem",
+      "locations": [
+        "Route 120, at the tall grass maze."
+      ]
+    },
+    {
+      "name_key": "qualot-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "normal-gem",
+      "locations": [
+        "Safari Zone, north-west zone."
+      ]
+    },
+    {
+      "name_key": "hondew-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "ghost-gem",
+      "locations": [
+        "Mt. Pyre, fourth floor, accessible by dropping down the holes."
+      ]
+    },
+    {
+      "name_key": "micle-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "ice-gem",
+      "locations": [
+        "Shoal Cave."
+      ]
+    },
+    {
+      "name_key": "cornn-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "fighting-gem",
+      "locations": [
+        "Shoal Cave, given by an NPC."
+      ]
+    },
+    {
+      "name_key": "durin-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "water-gem",
+      "locations": [
+        "Abandoned Ship (requires Dive)."
+      ]
+    },
+    {
+      "name_key": "pinap-berry",
+      "locations": [
+        "Berry Tree at Route 120."
+      ]
+    },
+    {
+      "name_key": "fairy-gem",
+      "locations": [
+        "Seafloor Cavern."
+      ]
+    },
+    {
+      "name_key": "chilan-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "dragon-gem",
+      "locations": [
+        "Meteor Falls (requires Surf and Waterfall)."
+      ]
+    },
+    {
+      "name_key": "occa-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "passho-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "wide-lens",
+      "locations": [
+        "Rustboro City, given by an NPC at the Pokémon Trainer's School."
+      ]
+    },
+    {
+      "name_key": "wacan-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "muscle-band",
+      "locations": [
+        "Rusturf Tunnel, north-east corner, past the smashable rocks."
+      ]
+    },
+    {
+      "name_key": "rindo-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "wise-glasses",
+      "locations": [
+        "Route 116, in the separate area only accesible through Rusturf Tunnel (hidden)."
+      ]
+    },
+    {
+      "name_key": "yache-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "protective-pads",
+      "locations": [
+        "Verdanturf Town, given by an NPC at the Battle Tent."
+      ]
+    },
+    {
+      "name_key": "chople-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "zoom-lens",
+      "locations": [
+        "New Mauville."
+      ]
+    },
+    {
+      "name_key": "kebia-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "shuca-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "coba-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "payapa-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "life-orb",
+      "locations": [
+        "Held by the gifted Castform from Weather Institute."
+      ]
+    },
+    {
+      "name_key": "tanga-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "metronome",
+      "locations": [
+        "Safari Zone, south-east area."
+      ]
+    },
+    {
+      "name_key": "charti-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "shell-bell",
+      "locations": [
+        "Shoal Cave, ice room."
+      ]
+    },
+    {
+      "name_key": "kasib-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "expert-belt",
+      "locations": [
+        "Sootopolis City, given by an NPC inside one of the houses."
+      ]
+    },
+    {
+      "name_key": "haban-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "assault-vest",
+      "locations": [
+        "Slateport Harbor, swap a Scanner, Leftovers, Choice Band, Scarf or Specs for it."
+      ]
+    },
+    {
+      "name_key": "colbur-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "leftovers",
+      "locations": [
+        "Slateport Harbor, swap a Scanner, Assault Vest, Choice Band, Scarf, Specs for it."
+      ]
+    },
+    {
+      "name_key": "babiri-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "choice-band",
+      "locations": [
+        "Slateport Harbor, swap a Scanner, Assault Vest, Leftovers, Choice Scarf or Specs for it."
+      ]
+    },
+    {
+      "name_key": "roseli-berry",
+      "locations": [
+        "Berry Tree at Route 123."
+      ]
+    },
+    {
+      "name_key": "choice-scarf",
+      "locations": [
+        "Slateport Harbor, swap a Scanner, Assault Vest, Leftovers, Choice Band or Specs for it."
+      ]
+    },
+    {
+      "name_key": "choice-specs",
+      "locations": [
+        "Slateport Harbor, swap a Scanner, Assault Vest, Leftovers, Choice Band or Scarf for it."
+      ]
+    },
+    {
+      "name_key": "rocky-helmet",
+      "locations": [
+        "Meteor Falls (requires Surf and Waterfall)."
+      ]
+    },
+    {
+      "name_key": "heavy-duty-boots",
+      "locations": [
+        "Victory Road."
+      ]
+    },
+    {
+      "name_key": "white-herb",
+      "locations": [
+        "Route 104, given by an NPC outside of the Flower Shop after obtaining 3 badges."
+      ]
+    },
+    {
+      "name_key": "shed-shell",
+      "locations": [
+        "Route 113, behind Parasol Lady Madeline. Possible to permanently miss."
+      ]
+    },
+    {
+      "name_key": "electric-seed",
+      "locations": [
+        "Route 119, eastern side of the first tall grass area."
+      ]
+    },
+    {
+      "name_key": "grassy-seed",
+      "locations": [
+        "Route 119, western side of the first tall grass area."
+      ]
+    },
+    {
+      "name_key": "misty-seed",
+      "locations": [
+        "Route 119, east past the stairs leading to Psychic Dayton & Ninja Boy Takashi."
+      ]
+    },
+    {
+      "name_key": "psychic-seed",
+      "locations": [
+        "Route 119, at the dead end heading north-west past the first bridge."
+      ]
+    },
+    {
+      "name_key": "power-herb",
+      "locations": [
+        "Safari Zone, north-east area."
+      ]
+    },
+    {
+      "name_key": "mental-herb",
+      "locations": [
+        "Safari Zone, south-west area."
+      ]
+    },
+    {
+      "name_key": "room-service",
+      "locations": [
+        "Fortree City, given by an NPC after meeting his Wingull in Mossdeep City."
+      ]
+    },
+    {
+      "name_key": "eject-button",
+      "locations": [
+        "Route 123 (requires Waterfall)."
+      ]
+    },
+    {
+      "name_key": "eject-pack",
+      "locations": [
+        "Route 123 (requires Waterfall)."
+      ]
+    },
+    {
+      "name_key": "red-card",
+      "locations": [
+        "Route 123 (requires Waterfall)."
+      ]
+    },
+    {
+      "name_key": "focus-sash",
+      "locations": [
+        "Route 115, from the Meteor Falls northern exit (requires Surf and Waterfall)."
+      ]
+    },
+    {
+      "name_key": "struggle-bug",
+      "locations": [
+        "Route 120."
+      ]
+    },
+    {
+      "name_key": "hidden-power",
+      "locations": [
+        "Slateport City, NPC in the open market."
+      ]
+    },
+    {
+      "name_key": "x-scissor",
+      "locations": [
+        "Route 112."
+      ]
+    },
+    {
+      "name_key": "secret-power",
+      "locations": [
+        "Slateport City, NPC in the open market."
+      ]
+    },
+    {
+      "name_key": "dark-pulse",
+      "locations": [
+        "Mt. Pyre."
+      ]
+    },
+    {
+      "name_key": "bug-bite",
+      "locations": [
+        "Petalburg Woods, by the south-east exit."
+      ]
+    },
+    {
+      "name_key": "feint-attack",
+      "locations": [
+        "Route 104, given by an NPC near Floral Shop. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "poison-jab",
+      "locations": [
+        "Route 118, Black Belt NPC on the beach, access by the Mauville side."
+      ]
+    },
+    {
+      "name_key": "flatter",
+      "locations": [
+        "Pacifidlog Town, given by an NPC inside one of the houses."
+      ]
+    },
+    {
+      "name_key": "brick-break",
+      "locations": [
+        "Route 118, Black Belt NPC on the beach, access by the Mauville side."
+      ]
+    },
+    {
+      "name_key": "breaking-swipe",
+      "locations": [
+        "Shoal Cave, ice room."
+      ]
+    },
+    {
+      "name_key": "fire-punch",
+      "locations": [
+        "Route 118, Black Belt NPC on the beach, access by the Mauville side."
+      ]
+    },
+    {
+      "name_key": "dragon-tail",
+      "locations": [
+        "Route 114, given by the NPC with a Poochyena."
+      ]
+    },
+    {
+      "name_key": "ice-punch",
+      "locations": [
+        "Route 118, Black Belt NPC on the beach, access by the Mauville side."
+      ]
+    },
+    {
+      "name_key": "electroweb",
+      "locations": [
+        "Route 117. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "thunder-punch",
+      "locations": [
+        "Route 118, Black Belt NPC on the beach, access by the Mauville side."
+      ]
+    },
+    {
+      "name_key": "shock-wave",
+      "locations": [
+        "Given by Leader Wattson after you defeat him. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "shadow-punch",
+      "locations": [
+        "Route 118, Black Belt NPC on the beach, access by the Mauville side."
+      ]
+    },
+    {
+      "name_key": "thunderbolt",
+      "locations": [
+        "Given by Leader Wattson after you fix the generator at New Mauville."
+      ]
+    },
+    {
+      "name_key": "embargo",
+      "locations": [
+        "Route 112, NPC inside the Old Lady's Rest Stop."
+      ]
+    },
+    {
+      "name_key": "draining-kiss",
+      "locations": [
+        "Abandoned Ship."
+      ]
+    },
+    {
+      "name_key": "blizzard",
+      "locations": [
+        "Weather Institute, NPC near the entrance after driving Team Aqua away."
+      ]
+    },
+    {
+      "name_key": "misty-explosion",
+      "locations": [
+        "Abandoned Ship (requires Dive)."
+      ]
+    },
+    {
+      "name_key": "hydro-pump",
+      "locations": [
+        "Weather Institute, NPC near the entrance after driving Team Aqua away."
+      ]
+    },
+    {
+      "name_key": "play-rough",
+      "locations": [
+        "Magma Hideout."
+      ]
+    },
+    {
+      "name_key": "fire-blast",
+      "locations": [
+        "Weather Institute, NPC near the entrance after driving Team Aqua away."
+      ]
+    },
+    {
+      "name_key": "aura-sphere",
+      "locations": [
+        "Route 120."
+      ]
+    },
+    {
+      "name_key": "thunder",
+      "locations": [
+        "Weather Institute, NPC near the entrance after driving Team Aqua away."
+      ]
+    },
+    {
+      "name_key": "body-press",
+      "locations": [
+        "Route 115 by the Meteor Falls entrance (requires Surf and Waterfall)."
+      ]
+    },
+    {
+      "name_key": "hurricane",
+      "locations": [
+        "Fortree City, NPC in front of the Pokémon Center."
+      ]
+    },
+    {
+      "name_key": "seismic-toss",
+      "locations": [
+        "Given by Leader Brawly after you defeat him. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "natural-gift",
+      "locations": [
+        "Route 120, NPC in the far south-west area of the route."
+      ]
+    },
+    {
+      "name_key": "flamethrower",
+      "locations": [
+        "Given by Leader Flannery after you defeat her."
+      ]
+    },
+    {
+      "name_key": "fake-tears",
+      "locations": [
+        "Mt. Pyre, first floor, NPC in the north-east corner."
+      ]
+    },
+    {
+      "name_key": "will-o-wisp",
+      "locations": [
+        "Mt. Pyre."
+      ]
+    },
+    {
+      "name_key": "frost-breath",
+      "locations": [
+        "Shoal Cave, NPC in the ice room."
+      ]
+    },
+    {
+      "name_key": "aerial-ace",
+      "locations": [
+        "Route 111. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "avalanche",
+      "locations": [
+        "Shoal Cave, NPC in the ice room."
+      ]
+    },
+    {
+      "name_key": "defog",
+      "locations": [
+        "Given by Steven at Granite Cave."
+      ]
+    },
+    {
+      "name_key": "psycho-shift",
+      "locations": [
+        "Sootopolis City, NPC by the garden on the south-west corner."
+      ]
+    },
+    {
+      "name_key": "dual-wingbeat",
+      "locations": [
+        "Given by an NPC past the desert at Route 111 (requires Mach Bike)."
+      ]
+    },
+    {
+      "name_key": "roost",
+      "locations": [
+        "Given by Leader Winona after you defeat her."
+      ]
+    },
+    {
+      "name_key": "tailwind",
+      "locations": [
+        "Mt. Pyre."
+      ]
+    },
+    {
+      "name_key": "curse",
+      "locations": [
+        "Route 121."
+      ]
+    },
+    {
+      "name_key": "night-shade",
+      "locations": [
+        "Route 110 (requires a Bike). Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "shadow-ball",
+      "locations": [
+        "Mt. Pyre."
+      ]
+    },
+    {
+      "name_key": "magical-leaf",
+      "locations": [
+        "Petalburg Woods (requires Cut). Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "solar-blade",
+      "locations": [
+        "Fiery Path."
+      ]
+    },
+    {
+      "name_key": "solar-beam",
+      "locations": [
+        "Fiery Path."
+      ]
+    },
+    {
+      "name_key": "earth-power",
+      "locations": [
+        "Given by an NPC at Fossil Maniac's house."
+      ]
+    },
+    {
+      "name_key": "earthquake",
+      "locations": [
+        "Victory Road."
+      ]
+    },
+    {
+      "name_key": "ice-beam",
+      "locations": [
+        "Given by Leader Juan after you defeat him."
+      ]
+    },
+    {
+      "name_key": "icy-wind",
+      "locations": [
+        "Granite Cave (requires Mach Bike). Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "explosion",
+      "locations": [
+        "Magma Hideout."
+      ]
+    },
+    {
+      "name_key": "facade",
+      "locations": [
+        "Given by Leader Norman after you defeat him."
+      ]
+    },
+    {
+      "name_key": "hyper-voice",
+      "locations": [
+        "Route 103 (requires a Bike)."
+      ]
+    },
+    {
+      "name_key": "swagger",
+      "locations": [
+        "Given by Grunt NPC inside Slateport Museum."
+      ]
+    },
+    {
+      "name_key": "me-first",
+      "locations": [
+        "Aqua Hideout."
+      ]
+    },
+    {
+      "name_key": "weather-ball",
+      "locations": [
+        "Route 119 (requires Surf)."
+      ]
+    },
+    {
+      "name_key": "sludge-bomb",
+      "locations": [
+        "Given by an NPC inside Dewford Town Hall."
+      ]
+    },
+    {
+      "name_key": "heal-pulse",
+      "locations": [
+        "Shoal Cave."
+      ]
+    },
+    {
+      "name_key": "psychic",
+      "locations": [
+        "Given by Leaders Tate & Liza after you defeat them."
+      ]
+    },
+    {
+      "name_key": "psychic-fangs",
+      "locations": [
+        "Route 124 (requires Dive)."
+      ]
+    },
+    {
+      "name_key": "skill-swap",
+      "locations": [
+        "Abandoned Ship (requires Dive)."
+      ]
+    },
+    {
+      "name_key": "rock-blast",
+      "locations": [
+        "Granite Cave."
+      ]
+    },
+    {
+      "name_key": "rock-tomb",
+      "locations": [
+        "Given by an NPC in Rusturf Tunnel. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "flash-cannon",
+      "locations": [
+        "Trade with NPC in Fallarbor Town for a Meteorite."
+      ]
+    },
+    {
+      "name_key": "heavy-slam",
+      "locations": [
+        "Petalburg City (requires Surf)."
+      ]
+    },
+    {
+      "name_key": "smart-strike",
+      "locations": [
+        "Mauville City. Sold at Lilycove Department Store."
+      ]
+    },
+    {
+      "name_key": "life-dew",
+      "locations": [
+        "Route 118 (requires Surf)."
+      ]
+    },
+    {
+      "name_key": "cut",
+      "locations": [
+        "Given by an NPC in Rustboro City."
+      ]
+    },
+    {
+      "name_key": "fly",
+      "locations": [
+        "Given by Rival Brendan/May after you defeat them at Route 119."
+      ]
+    },
+    {
+      "name_key": "surf",
+      "locations": [
+        "Given at Seashore House by Mr. Sea after defeating all trainers inside."
+      ]
+    },
+    {
+      "name_key": "strength",
+      "locations": [
+        "Given by Wally's father after defeating Leader Norman."
+      ]
+    },
+    {
+      "name_key": "flash",
+      "locations": [
+        "Given by an NPC in Granite Cave."
+      ]
+    },
+    {
+      "name_key": "rock-smash",
+      "locations": [
+        "Given by Leader Roxanne after you defeat her."
+      ]
+    },
+    {
+      "name_key": "waterfall",
+      "locations": [
+        "Given by Wallace at Sootopolis."
+      ]
+    },
+    {
+      "name_key": "dive",
+      "locations": [
+        "Given by Steven after the events at the Mossdeep Space Center."
+      ]
+    },
+    {
+      "name_key": "absolite",
+      "locations": [
+        "Route 121."
+      ]
+    },
+    {
+      "name_key": "aerodactylite",
+      "locations": [
+        "Route 126, guarded by Triathlete Pablo (requires Dive)."
+      ]
+    },
+    {
+      "name_key": "aggronite",
+      "locations": [
+        "Meteor Falls (requires Surf)."
+      ]
+    },
+    {
+      "name_key": "alakazite",
+      "locations": [
+        "Given by Winstrate Vito by the end of Victory Road after you defeat him."
+      ]
+    },
+    {
+      "name_key": "altarianite",
+      "locations": [
+        "Route 120."
+      ]
+    },
+    {
+      "name_key": "ampharosite",
+      "locations": [
+        "New Mauville."
+      ]
+    },
+    {
+      "name_key": "audinite",
+      "locations": [
+        "Abandoned Ship, guarded by Ruin Maniac Garrison & Tuber Jani."
+      ]
+    },
+    {
+      "name_key": "banettite",
+      "locations": [
+        "Route 127, guarded by Fisherman Roger & Black Belt Koji."
+      ]
+    },
+    {
+      "name_key": "beedrillite",
+      "locations": [
+        "Route 105, guarded by Bird Keeper Josue & Ruin Maniac Andres (requires Surf)."
+      ]
+    },
+    {
+      "name_key": "blastoisinite",
+      "locations": [
+        "Lilycove City."
+      ]
+    },
+    {
+      "name_key": "cameruptitte",
+      "locations": [
+        "Magma Hideout."
+      ]
+    },
+    {
+      "name_key": "charizardite-x",
+      "locations": [
+        "Victory Road."
+      ]
+    },
+    {
+      "name_key": "galladite",
+      "locations": [
+        "Route 115, from the Meteor Falls northern exit (requires Surf and Waterfall)."
+      ]
+    },
+    {
+      "name_key": "garchompite",
+      "locations": [
+        "Safari Zone, north area."
+      ]
+    },
+    {
+      "name_key": "gardevoirite",
+      "locations": [
+        "Route 115, from the Meteor Falls northern exit (requires Surf and Waterfall)."
+      ]
+    },
+    {
+      "name_key": "gengarite",
+      "locations": [
+        "Victory Road."
+      ]
+    },
+    {
+      "name_key": "glalitite",
+      "locations": [
+        "Victory Road, ice room, north-west exit of the sliding puzzle."
+      ]
+    },
+    {
+      "name_key": "gyaradosite",
+      "locations": [
+        "Route 133, guarded by Expert Mollie & Expert Conor."
+      ]
+    },
+    {
+      "name_key": "heracronite",
+      "locations": [
+        "Lilycove City, given by an NPC at the north-east area of the city."
+      ]
+    },
+    {
+      "name_key": "houndoominite",
+      "locations": [
+        "Magma Hideout."
+      ]
+    },
+    {
+      "name_key": "lopunnite",
+      "locations": [
+        "Route 108, guarded by Sailor Cory & CoolTrainer Carolina (requires Surf)"
+      ]
+    },
+    {
+      "name_key": "manectite",
+      "locations": [
+        "Route 125, guarded by Bird Keeper Presley & Expert Auron."
+      ]
+    },
+    {
+      "name_key": "mawilite",
+      "locations": [
+        "Cave of Origin."
+      ]
+    },
+    {
+      "name_key": "medichamite",
+      "locations": [
+        "Mossdeep City."
+      ]
+    },
+    {
+      "name_key": "pidgeotite",
+      "locations": [
+        "Route 104, (requires Surf)."
+      ]
+    },
+    {
+      "name_key": "pinsirite",
+      "locations": [
+        "Route 127, guarded by CoolTrainer Athena & Bird Keeper Aidan."
+      ]
+    },
+    {
+      "name_key": "scizorite",
+      "locations": [
+        "Route 123, guarded by Bug Catcher Davis (requires Waterfall)."
+      ]
+    },
+    {
+      "name_key": "sharpedonite",
+      "locations": [
+        "Aqua Hideout."
+      ]
+    },
+    {
+      "name_key": "slowbronite",
+      "locations": [
+        "Route 123 (requires Waterfall)."
+      ]
+    },
+    {
+      "name_key": "steelixite",
+      "locations": [
+        "Given by Steven after the events at the Mossdeep Space Center."
+      ]
+    },
+    {
+      "name_key": "swampertite",
+      "locations": [
+        "Route 119 (requires Waterfall and the Acro Bike)."
+      ]
+    },
+    {
+      "name_key": "venusaurite",
+      "locations": [
+        "Victory Road."
+      ]
+    },
+    {
+      "name_key": "abomasite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "blazikenite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "charizardite-y",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "diancite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "kangaskhanite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "latiasite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "latiosite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "lucarionite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "metagrossite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "mewtwonite-x",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "mewtwonite-y",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "sablenite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "salamencite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "sceptilite",
+      "locations": [
+        "Unavailable."
+      ]
+    },
+    {
+      "name_key": "tyranitarite",
+      "locations": [
+        "Unavailable."
+      ]
+    }
+  ]
 }

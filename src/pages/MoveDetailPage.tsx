@@ -25,7 +25,6 @@ export default function MoveDetailPage() {
   const { data: allMoves } = useAllMoves();
   const { data: movePokemon } = useMovePokemon(moveId);
   const { moveName, pokemonName, description } = useSettingsStore();
-  const selectedGameId = useSettingsStore((s) => s.selectedGameId);
   const selectedGame = useSelectedGame();
   const { data: moveOverride } = useGameMoveOverride(move?.name_key);
   const { openTab } = useTabStore();
