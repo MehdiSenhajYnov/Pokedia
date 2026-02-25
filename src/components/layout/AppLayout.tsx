@@ -6,6 +6,7 @@ import { TabBar } from "./TabBar";
 import { MeshGradientBg } from "./MeshGradientBg";
 import { SearchCrossResults } from "./SearchCrossResults";
 import { useSyncInvalidation } from "@/hooks/use-sync-invalidation";
+import { useGameImport } from "@/hooks/use-game-import";
 import { usePrefetch } from "@/hooks/use-prefetch";
 import { useSearchStore } from "@/stores/search-store";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -15,6 +16,7 @@ import { useEffect, useRef } from "react";
 
 export function AppLayout() {
   useSyncInvalidation();
+  useGameImport();
   usePrefetch();
   const location = useLocation();
   const { query, searchActive, dismissSearch } = useSearchStore();
@@ -77,11 +79,12 @@ export function AppLayout() {
         <SyncBanner />
         <TabBar />
         <div className="relative flex-1 overflow-hidden">
-          <main id="main-content" ref={mainRef} className="h-full overflow-y-auto">
+          <main id="main-content" ref={mainRef} className="h-full overflow-y-auto flex flex-col">
             <ErrorBoundary key={location.pathname}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={location.pathname}
+                  className="flex flex-1 flex-col"
                   variants={pageVariants}
                   initial="initial"
                   animate="animate"

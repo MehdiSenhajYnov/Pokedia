@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, useEffect, useCallback, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAllAbilities } from "@/hooks/use-abilities";
@@ -95,12 +96,17 @@ export default function AbilityBrowserPage() {
       </GlassToolbar>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 gap-3">
+        <motion.div
+          className="flex flex-col items-center justify-center py-16 gap-3"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
           <Sparkles className="h-10 w-10 text-muted-foreground/40 animate-[float_3s_ease-in-out_infinite]" />
           <p className="text-sm text-muted-foreground">
             No abilities found matching your search.
           </p>
-        </div>
+        </motion.div>
       ) : (
         <VirtualizedAbilityGrid items={filtered} />
       )}

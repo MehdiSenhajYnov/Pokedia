@@ -13,6 +13,7 @@ interface SettingsState {
   langNatureNames: Lang;
   langDescriptions: Lang;
   theme: Theme;
+  selectedGameId: string | null;
 
   // --- Setters ---
   setLangPokemonNames: (lang: Lang) => void;
@@ -24,6 +25,7 @@ interface SettingsState {
   setAllLangs: (lang: Lang) => void;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  setSelectedGameId: (id: string | null) => void;
 
   // --- Getters (handle nullable strings from Rust Option<String>) ---
   pokemonName: (nameEn: string | null, nameFr: string | null) => string;
@@ -71,6 +73,7 @@ export const useSettingsStore = create<SettingsState>()(
       langNatureNames: "en",
       langDescriptions: "fr",
       theme: "dark",
+      selectedGameId: null,
 
       // --- Individual setters ---
       setLangPokemonNames: (lang) => set({ langPokemonNames: lang }),
@@ -100,6 +103,8 @@ export const useSettingsStore = create<SettingsState>()(
         set({ theme: next });
         applyTheme(next, true);
       },
+
+      setSelectedGameId: (id) => set({ selectedGameId: id }),
 
       // --- Language-aware getters ---
       pokemonName: (nameEn, nameFr) =>

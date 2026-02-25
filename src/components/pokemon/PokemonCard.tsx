@@ -40,7 +40,7 @@ export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: P
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    el.style.transform = `perspective(600px) rotateY(${x * 16}deg) rotateX(${-y * 16}deg) scale(1.02)`;
+    el.style.transform = `perspective(600px) rotateY(${x * 16}deg) rotateX(${-y * 16}deg) scale(1.03)`;
   }, []);
   const handleMouseLeave = useCallback(() => {
     const el = cardRef.current;
@@ -70,7 +70,7 @@ export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: P
           onMouseLeave={handleMouseLeave}
           onMouseDown={handleMiddleClick}
           style={{
-            transition: "transform 0.15s ease-out, box-shadow 0.2s ease",
+            transition: "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease",
           }}
           className="group active:scale-[0.97]"
         >

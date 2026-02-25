@@ -32,7 +32,7 @@ export function TypeBadge({ type, size = "sm", className }: TypeBadgeProps) {
         boxShadow: baseShadow,
       }}
       whileHover={{
-        scale: 1.1,
+        scale: 1.06,
         boxShadow: hoverShadow,
       }}
       transition={{ type: "spring", stiffness: 400, damping: 20 }}

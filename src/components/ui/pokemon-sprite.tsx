@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { springSnappy } from "@/lib/motion";
 
@@ -9,6 +9,7 @@ interface PokemonSpriteProps {
   pokemonId?: number | null;
   className?: string;
   fallbackClassName?: string;
+  crossFade?: boolean;
 }
 
 const GITHUB_SPRITE_BASE =
@@ -20,6 +21,7 @@ export function PokemonSprite({
   pokemonId,
   className,
   fallbackClassName,
+  crossFade,
 }: PokemonSpriteProps) {
   const [status, setStatus] = useState<"loading" | "loaded" | "fallback" | "error">(
     src ? "loading" : pokemonId ? "fallback" : "error",
@@ -79,6 +81,28 @@ export function PokemonSprite({
           <circle cx="50" cy="50" r="12" fill="none" stroke="currentColor" strokeWidth="4" />
           <circle cx="50" cy="50" r="6" />
         </svg>
+      </div>
+    );
+  }
+
+  if (crossFade) {
+    return (
+      <div className={cn("relative", className)}>
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentSrc}
+            src={currentSrc}
+            alt={alt}
+            className="h-full w-full object-contain"
+            onLoad={handleLoad}
+            onError={handleError}
+            loading="lazy"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.2 }}
+          />
+        </AnimatePresence>
       </div>
     );
   }

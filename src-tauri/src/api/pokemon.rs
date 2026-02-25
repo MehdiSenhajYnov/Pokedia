@@ -49,6 +49,7 @@ pub struct ApiPokemonMoveEntry {
 pub struct ApiVersionGroupDetail {
     pub level_learned_at: i64,
     pub move_learn_method: ApiResourceRef,
+    pub version_group: ApiResourceRef,
 }
 
 #[derive(Debug, Deserialize)]
@@ -94,6 +95,7 @@ pub struct ParsedPokemon {
     pub species_url: String,
     pub abilities: Vec<ParsedAbility>,
     pub moves: Vec<ParsedPokemonMove>,
+    pub version_group_moves: Vec<ParsedVersionGroupMove>,
 }
 
 #[derive(Debug, Clone)]
@@ -107,6 +109,15 @@ pub struct ParsedAbility {
 pub struct ParsedPokemonMove {
     pub move_name: String,
     pub move_id: Option<i64>,
+    pub learn_method: String,
+    pub level_learned_at: i64,
+}
+
+/// A move entry associated with a specific version group (for game-specific learnsets).
+#[derive(Debug, Clone)]
+pub struct ParsedVersionGroupMove {
+    pub version_group: String,
+    pub move_name: String,
     pub learn_method: String,
     pub level_learned_at: i64,
 }
@@ -175,6 +186,20 @@ fn parse_pokemon(api: ApiPokemon) -> ParsedPokemon {
         })
         .collect();
 
+    // Collect all version group details for game-specific learnsets
+    let version_group_moves = api
+        .moves
+        .iter()
+        .flat_map(|m| {
+            m.version_group_details.iter().map(|vgd| ParsedVersionGroupMove {
+                version_group: vgd.version_group.name.clone(),
+                move_name: m.move_info.name.clone(),
+                learn_method: vgd.move_learn_method.name.clone(),
+                level_learned_at: vgd.level_learned_at,
+            })
+        })
+        .collect();
+
     ParsedPokemon {
         id: api.id,
         name_key: api.name,
@@ -193,5 +218,6 @@ fn parse_pokemon(api: ApiPokemon) -> ParsedPokemon {
         species_url: api.species.url,
         abilities,
         moves,
+        version_group_moves,
     }
 }

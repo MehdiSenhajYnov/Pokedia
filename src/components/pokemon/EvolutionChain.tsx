@@ -51,6 +51,7 @@ export function EvolutionChain({ chain, currentId, alternateForms }: EvolutionCh
   return (
     <div className="overflow-x-auto">
       <motion.div
+        key={alternateForms?.length ?? 0}
         className="inline-flex items-start gap-2"
         variants={staggerContainer}
         initial="initial"

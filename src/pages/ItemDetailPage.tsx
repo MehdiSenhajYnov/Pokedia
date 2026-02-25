@@ -1,10 +1,11 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useItemDetail, useAllItems } from "@/hooks/use-items";
+import { useGameItemLocations, useSelectedGame } from "@/hooks/use-games";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { detailStagger, detailSection, spriteFloat } from "@/lib/motion";
-import { ArrowLeft, ChevronLeft, ChevronRight, Package, Tag } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Package, Tag, MapPin, Gamepad2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useCallback, useMemo } from "react";
 import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
@@ -17,6 +18,9 @@ export default function ItemDetailPage() {
   const { data: item, isLoading } = useItemDetail(itemId);
   const { data: allItems } = useAllItems();
   const { itemName, description } = useSettingsStore();
+  const selectedGameId = useSettingsStore((s) => s.selectedGameId);
+  const selectedGame = useSelectedGame();
+  const { data: gameItemLocations } = useGameItemLocations(item?.name_key);
   const { openTab } = useTabStore();
 
   const { prevId, nextId } = useMemo(() => {
@@ -98,7 +102,7 @@ export default function ItemDetailPage() {
 
   return (
     <motion.div
-      className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden"
+      className="mx-auto max-w-3xl space-y-8 p-6 relative"
       variants={detailStagger}
       initial="initial"
       animate="animate"
@@ -195,6 +199,18 @@ export default function ItemDetailPage() {
         </div>
       </motion.div>
 
+      {/* ── Game indicator ── */}
+      {selectedGame && (
+        <motion.div variants={detailSection}>
+          <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 text-xs text-muted-foreground">
+            <Gamepad2 className="h-3.5 w-3.5 text-primary" />
+            <span>
+              Viewing with <strong className="text-foreground">{selectedGame.name_en}</strong> selected
+            </span>
+          </div>
+        </motion.div>
+      )}
+
       {/* ── Effect ── */}
       {effectText && (
         <motion.section variants={detailSection}>
@@ -206,6 +222,31 @@ export default function ItemDetailPage() {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {effectText}
               </p>
+            </div>
+          </GlassCard>
+        </motion.section>
+      )}
+
+      {/* ── Game Locations ── */}
+      {selectedGame && gameItemLocations && gameItemLocations.length > 0 && (
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2 className="mb-3 font-heading text-sm font-bold">
+            <span className="border-b-2 border-primary pb-0.5">
+              Locations in {selectedGame.name_en}
+            </span>
+          </h2>
+          <GlassCard className="rounded-2xl border border-border/30">
+            <div className="space-y-1.5 p-4">
+              {gameItemLocations.map((loc, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <MapPin className="h-3 w-3 shrink-0 text-primary" />
+                  <span>{loc}</span>
+                </div>
+              ))}
             </div>
           </GlassCard>
         </motion.section>

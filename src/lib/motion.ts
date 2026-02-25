@@ -11,12 +11,12 @@ export const springWobbly: Transition = { type: "spring", stiffness: 350, dampin
 export const pageVariants: Variants = {
   initial: { opacity: 0, y: 20, scale: 0.98 },
   animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: -12, scale: 0.98 },
+  exit: { opacity: 0, y: 12, scale: 0.97 },
 };
 
 export const pageTransition: Transition = {
   duration: 0.25,
-  ease: [0.25, 0.1, 0.25, 1],
+  ease: [0.22, 1, 0.36, 1],
 };
 
 // ─── Stagger containers ─────────────────────────────────────────────
@@ -27,7 +27,7 @@ export const staggerContainer: Variants = {
 };
 
 export const staggerItem: Variants = {
-  initial: { opacity: 0, y: 16, scale: 0.95 },
+  initial: { opacity: 0, y: 10, scale: 0.97 },
   animate: { opacity: 1, y: 0, scale: 1, transition: springGentle },
 };
 
@@ -50,7 +50,7 @@ export const dialogOverlay: Variants = {
 export const dialogContent: Variants = {
   initial: { opacity: 0, scale: 0.92, y: 10 },
   animate: { opacity: 1, scale: 1, y: 0 },
-  exit: { opacity: 0, scale: 0.92, y: 10 },
+  exit: { opacity: 0, scale: 0.92, y: 10, transition: { duration: 0.15 } },
 };
 
 // ─── Micro-interactions ─────────────────────────────────────────────
@@ -116,12 +116,12 @@ export const noResultsShake: Variants = {
 export const detailStagger: Variants = {
   initial: {},
   animate: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.08 },
   },
 };
 
 export const detailSection: Variants = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 16 },
   animate: {
     opacity: 1,
     y: 0,

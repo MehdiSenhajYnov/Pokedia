@@ -6,6 +6,7 @@ pub mod settings;
 pub mod sync;
 pub mod natures;
 pub mod abilities;
+pub mod games;
 
 pub use pokemon::*;
 pub use moves::*;
@@ -15,3 +16,4 @@ pub use settings::*;
 pub use sync::*;
 pub use natures::*;
 pub use abilities::*;
+pub use games::*;

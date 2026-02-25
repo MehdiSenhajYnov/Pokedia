@@ -74,7 +74,7 @@ export default function ItemBrowserPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-5">
+    <div className="flex flex-col gap-4 p-5 flex-1 min-h-0 overflow-hidden">
       {/* Toolbar */}
       <GlassToolbar className="rounded-2xl border border-border/30">
         <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
@@ -140,12 +140,17 @@ export default function ItemBrowserPage() {
 
       {/* Empty state */}
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 gap-3">
+        <motion.div
+          className="flex flex-col items-center justify-center py-16 gap-3"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
           <Package className="h-10 w-10 text-muted-foreground/40 animate-[float_3s_ease-in-out_infinite]" />
           <p className="text-sm text-muted-foreground">
             No items found matching your search.
           </p>
-        </div>
+        </motion.div>
       ) : itemViewMode === "grid" ? (
         <VirtualizedItemGrid items={filtered} />
       ) : (
@@ -224,8 +229,7 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
   return (
     <div
       ref={parentRef}
-      className="flex-1 overflow-y-auto"
-      style={{ height: "calc(100vh - 180px)" }}
+      className="flex-1 min-h-0 overflow-y-auto"
     >
       <div
         style={{
@@ -353,8 +357,7 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
   return (
     <div
       ref={parentRef}
-      className="overflow-y-auto"
-      style={{ height: "calc(100vh - 180px)" }}
+      className="flex-1 min-h-0 overflow-y-auto"
     >
     <GlassCard className="overflow-hidden rounded-xl border border-border/30">
       <table className="w-full text-sm">

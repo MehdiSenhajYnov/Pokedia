@@ -5,3 +5,4 @@ pub mod types;
 pub mod evolution;
 pub mod natures;
 pub mod abilities;
+pub mod games;

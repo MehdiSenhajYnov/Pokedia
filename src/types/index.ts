@@ -222,6 +222,31 @@ export interface AbilityPokemonEntry {
   is_hidden: number;
 }
 
+// ── Games ────────────────────────────────────────────────────────
+
+export interface GameSummary {
+  id: string;
+  name_en: string;
+  name_fr: string | null;
+  base_rom: string | null;
+  version: string | null;
+  author: string | null;
+  is_hackrom: number; // 0 or 1
+  sort_order: number;
+  coverage: string; // "full" | "changes_only"
+}
+
+export interface GameMoveOverride {
+  game_id: string;
+  move_name_key: string;
+  power: number | null;
+  accuracy: number | null;
+  type_key: string | null;
+  pp: number | null;
+  damage_class: string | null;
+  effect_en: string | null;
+}
+
 // ── Settings ─────────────────────────────────────────────────────
 
 export interface AppSettings {

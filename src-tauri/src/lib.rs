@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use sqlx::SqlitePool;
-use tauri::Manager;
+use tauri::{Emitter, Manager};
 
 use api::PokeApiClient;
 
@@ -16,6 +16,68 @@ mod sync;
 pub struct AppState {
     pub pool: SqlitePool,
     pub api_client: Arc<PokeApiClient>,
+}
+
+/// Bundled hackrom JSON data files (included at compile time).
+const BUNDLED_GAMES: &[&str] = &[
+    include_str!("../data/games/runbun.json"),
+    include_str!("../data/games/radical-red.json"),
+    include_str!("../data/games/emerald-imperium.json"),
+];
+
+/// Auto-import bundled hackrom data if not already present in the database.
+/// Emits `game-import-progress` events so the frontend can show feedback.
+async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle) {
+    let total = BUNDLED_GAMES.len();
+    let mut imported = 0u32;
+
+    for json_str in BUNDLED_GAMES {
+        let data: models::GameDataFile = match serde_json::from_str(json_str) {
+            Ok(d) => d,
+            Err(e) => {
+                log::warn!("Failed to parse bundled game JSON: {}", e);
+                continue;
+            }
+        };
+
+        // Check if this game is already imported
+        let exists: bool = sqlx::query_scalar::<_, i64>(
+            "SELECT COUNT(*) FROM games WHERE id = ?1"
+        )
+        .bind(&data.game.id)
+        .fetch_one(pool)
+        .await
+        .unwrap_or(0) > 0;
+
+        if exists {
+            log::info!("Game '{}' already imported, skipping", data.game.id);
+            continue;
+        }
+
+        let game_name = data.game.name_en.clone();
+        let _ = handle.emit("game-import-progress", serde_json::json!({
+            "status": "importing",
+            "game": game_name,
+            "current": imported + 1,
+            "total": total,
+        }));
+
+        log::info!("Auto-importing bundled game: {}", data.game.id);
+        match cache::games::import_game_data(pool, &data).await {
+            Ok(_) => {
+                imported += 1;
+                log::info!("Successfully imported game: {}", data.game.id);
+            }
+            Err(e) => log::error!("Failed to import game '{}': {}", data.game.id, e),
+        }
+    }
+
+    if imported > 0 {
+        let _ = handle.emit("game-import-progress", serde_json::json!({
+            "status": "done",
+            "imported": imported,
+        }));
+    }
 }
 
 /// Entry point for the Tauri application.
@@ -34,7 +96,13 @@ pub fn run() {
 
             let api_client = Arc::new(PokeApiClient::new());
 
-            app.manage(AppState { pool, api_client });
+            app.manage(AppState { pool: pool.clone(), api_client });
+
+            // Auto-import bundled hackrom data in background (non-blocking)
+            let import_handle = handle.clone();
+            tauri::async_runtime::spawn(async move {
+                auto_import_bundled_games(&pool, &import_handle).await;
+            });
 
             log::info!("Pokedia application initialized successfully");
             Ok(())
@@ -78,6 +146,15 @@ pub fn run() {
             // Favorites
             commands::favorites::toggle_favorite,
             commands::favorites::get_favorites,
+            // Games
+            commands::games::get_all_games,
+            commands::games::get_game_coverage,
+            commands::games::get_game_pokemon_moves,
+            commands::games::get_game_pokemon_abilities,
+            commands::games::get_game_pokemon_locations,
+            commands::games::get_game_move_override,
+            commands::games::get_game_item_locations,
+            commands::games::import_game_data,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Pokedia");

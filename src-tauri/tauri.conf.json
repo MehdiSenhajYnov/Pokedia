@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Pokedia",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "identifier": "com.pokedia.app",
   "build": {
     "frontendDist": "../dist",
@@ -40,6 +40,7 @@
     "copyright": "© 2025 Pokedia",
     "windows": {
       "nsis": {
+        "installerIcon": "icons/icon.ico",
         "languages": ["French", "English"],
         "displayLanguageSelector": true
       }

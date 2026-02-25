@@ -369,9 +369,21 @@ impl SyncEngine {
                         let _ = cache::pokemon::upsert_pokemon_ability(&self.pool, parsed.id, ability).await;
                     }
 
-                    // Upsert pokemon-move references
+                    // Upsert pokemon-move references (latest version group only)
                     for pm in &parsed.moves {
                         let _ = cache::moves::upsert_pokemon_move(&self.pool, parsed.id, pm).await;
+                    }
+
+                    // Store per-version-group moves in game_pokemon_moves
+                    for vgm in &parsed.version_group_moves {
+                        let _ = cache::games::upsert_game_pokemon_move(
+                            &self.pool,
+                            &vgm.version_group,
+                            &parsed.name_key,
+                            &vgm.move_name,
+                            &vgm.learn_method,
+                            vgm.level_learned_at,
+                        ).await;
                     }
 
                     // Fetch species data for names and descriptions
@@ -400,8 +412,57 @@ impl SyncEngine {
             }
         }
 
+        // Register official version groups as games
+        self.register_official_games().await;
+
         self.update_sync_meta(resource, total, completed, "done", None).await;
         Ok(())
+    }
+
+    /// Register known official version groups as games in the games table.
+    async fn register_official_games(&self) {
+        let official_games = [
+            ("red-blue", "Red / Blue", 100),
+            ("gold-silver", "Gold / Silver", 101),
+            ("ruby-sapphire", "Ruby / Sapphire", 102),
+            ("firered-leafgreen", "FireRed / LeafGreen", 103),
+            ("diamond-pearl", "Diamond / Pearl", 104),
+            ("platinum", "Platinum", 105),
+            ("heartgold-soulsilver", "HeartGold / SoulSilver", 106),
+            ("black-white", "Black / White", 107),
+            ("black-2-white-2", "Black 2 / White 2", 108),
+            ("x-y", "X / Y", 109),
+            ("omega-ruby-alpha-sapphire", "OR / AS", 110),
+            ("sun-moon", "Sun / Moon", 111),
+            ("ultra-sun-ultra-moon", "Ultra Sun / Ultra Moon", 112),
+            ("sword-shield", "Sword / Shield", 113),
+            ("scarlet-violet", "Scarlet / Violet", 114),
+        ];
+
+        for (id, name, sort_order) in &official_games {
+            // Only register if we actually have data for this version group
+            let has_data: bool = sqlx::query_scalar::<_, i64>(
+                "SELECT COUNT(*) FROM game_pokemon_moves WHERE game_id = ?1 LIMIT 1"
+            )
+            .bind(id)
+            .fetch_one(&self.pool)
+            .await
+            .unwrap_or(0) > 0;
+
+            if !has_data {
+                continue;
+            }
+
+            let _ = sqlx::query(
+                "INSERT OR IGNORE INTO games (id, name_en, name_fr, is_hackrom, sort_order, coverage)
+                 VALUES (?1, ?2, ?2, 0, ?3, 'full')"
+            )
+            .bind(id)
+            .bind(name)
+            .bind(sort_order)
+            .execute(&self.pool)
+            .await;
+        }
     }
 
     // ── Items ────────────────────────────────────────────────────────

@@ -18,6 +18,8 @@ import type {
   AbilitySummary,
   AbilityDetail,
   AbilityPokemonEntry,
+  GameSummary,
+  GameMoveOverride,
 } from "@/types";
 
 // Settings
@@ -82,3 +84,20 @@ export const getAbilityPokemon = (abilityId: number) =>
 export const toggleFavorite = (pokemonId: number) =>
   invoke<boolean>("toggle_favorite", { pokemonId });
 export const getFavorites = () => invoke<number[]>("get_favorites");
+
+// Games
+export const getAllGames = () => invoke<GameSummary[]>("get_all_games");
+export const getGameCoverage = (gameId: string) =>
+  invoke<string>("get_game_coverage", { gameId });
+export const getGamePokemonMoves = (gameId: string, pokemonNameKey: string) =>
+  invoke<PokemonMoveEntry[]>("get_game_pokemon_moves", { gameId, pokemonNameKey });
+export const getGamePokemonAbilities = (gameId: string, pokemonNameKey: string) =>
+  invoke<PokemonAbility[]>("get_game_pokemon_abilities", { gameId, pokemonNameKey });
+export const getGamePokemonLocations = (gameId: string, pokemonNameKey: string) =>
+  invoke<string[]>("get_game_pokemon_locations", { gameId, pokemonNameKey });
+export const getGameMoveOverride = (gameId: string, moveNameKey: string) =>
+  invoke<GameMoveOverride | null>("get_game_move_override", { gameId, moveNameKey });
+export const getGameItemLocations = (gameId: string, itemNameKey: string) =>
+  invoke<string[]>("get_game_item_locations", { gameId, itemNameKey });
+export const importGameData = (jsonData: string) =>
+  invoke<string>("import_game_data", { jsonData });

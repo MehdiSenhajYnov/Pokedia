@@ -1,5 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useMoveById, useAllMoves, useMovePokemon } from "@/hooks/use-moves";
+import { useGameMoveOverride, useSelectedGame } from "@/hooks/use-games";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { usePageTitle } from "@/hooks/use-page-title";
@@ -8,8 +9,8 @@ import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
 
 import { TYPE_COLORS_HEX } from "@/lib/constants";
 import { detailStagger, detailSection } from "@/lib/motion";
-import { ArrowLeft, ChevronLeft, ChevronRight, Swords } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowLeft, ChevronLeft, ChevronRight, Swords, Gamepad2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useCallback, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
@@ -24,6 +25,9 @@ export default function MoveDetailPage() {
   const { data: allMoves } = useAllMoves();
   const { data: movePokemon } = useMovePokemon(moveId);
   const { moveName, pokemonName, description } = useSettingsStore();
+  const selectedGameId = useSettingsStore((s) => s.selectedGameId);
+  const selectedGame = useSelectedGame();
+  const { data: moveOverride } = useGameMoveOverride(move?.name_key);
   const { openTab } = useTabStore();
 
   const { prevId, nextId } = useMemo(() => {
@@ -98,7 +102,7 @@ export default function MoveDetailPage() {
 
   return (
     <motion.div
-      className="mx-auto max-w-3xl space-y-10 p-6 relative overflow-hidden"
+      className="mx-auto max-w-3xl space-y-10 p-6 relative"
       variants={detailStagger}
       initial="initial"
       animate="animate"
@@ -187,14 +191,44 @@ export default function MoveDetailPage() {
         </div>
       </motion.div>
 
+      {/* ── Game indicator ── */}
+      {selectedGame && (
+        <motion.div variants={detailSection}>
+          <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 text-xs text-muted-foreground">
+            <Gamepad2 className="h-3.5 w-3.5 text-primary" />
+            <span>
+              {moveOverride
+                ? <>Stats modified in <strong className="text-foreground">{selectedGame.name_en}</strong></>
+                : <>Viewing with <strong className="text-foreground">{selectedGame.name_en}</strong> selected</>
+              }
+            </span>
+          </div>
+        </motion.div>
+      )}
+
       {/* ── Stats Pills ── */}
       <motion.div
         className="flex flex-wrap justify-center gap-3"
         variants={detailSection}
       >
-        <StatPill label="Power" value={move.power} />
-        <StatPill label="Accuracy" value={move.accuracy !== null ? `${move.accuracy}%` : null} />
-        <StatPill label="PP" value={move.pp} />
+        <StatPill
+          label="Power"
+          value={moveOverride?.power ?? move.power}
+          isOverridden={!!moveOverride?.power && moveOverride.power !== move.power}
+          originalValue={moveOverride?.power && moveOverride.power !== move.power ? move.power : undefined}
+        />
+        <StatPill
+          label="Accuracy"
+          value={(moveOverride?.accuracy ?? move.accuracy) !== null ? `${moveOverride?.accuracy ?? move.accuracy}%` : null}
+          isOverridden={!!moveOverride?.accuracy && moveOverride.accuracy !== move.accuracy}
+          originalValue={moveOverride?.accuracy && moveOverride.accuracy !== move.accuracy ? (move.accuracy !== null ? `${move.accuracy}%` : undefined) : undefined}
+        />
+        <StatPill
+          label="PP"
+          value={moveOverride?.pp ?? move.pp}
+          isOverridden={!!moveOverride?.pp && moveOverride.pp !== move.pp}
+          originalValue={moveOverride?.pp && moveOverride.pp !== move.pp ? move.pp : undefined}
+        />
         <StatPill label="Priority" value={move.priority ?? 0} />
       </motion.div>
 
@@ -298,57 +332,90 @@ function MovePokemonSection({
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3">
-        {currentList.map((p) => (
-          <Link
-            key={`${p.pokemon_id}-${p.learn_method}`}
-            to={`/pokemon/${p.pokemon_id}`}
-            onMouseDown={(e) => {
-              if (e.button !== 1) return;
-              e.preventDefault();
-              openTab({ kind: "pokemon", entityId: p.pokemon_id, nameEn: p.name_en ?? "", nameFr: p.name_fr ?? "", typeKey: p.type1_key, spriteUrl: p.sprite_url }, true);
-            }}
-            className="flex items-center gap-2.5 rounded-xl glass-flat border border-border/30 px-3 py-2.5 hover:border-primary/30 hover:shadow-warm transition-all"
-          >
-            <img
-              src={p.sprite_url ?? `${spriteBase}/${p.pokemon_id}.png`}
-              alt=""
-              className="h-8 w-8 shrink-0 object-contain"
-              loading="lazy"
-            />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <span className="truncate font-heading text-xs font-semibold">
-                  {pokemonName(p.name_en, p.name_fr)}
-                </span>
-                {activeTab === "level-up" && p.level_learned_at > 0 && (
-                  <span className="inline-flex items-center rounded-full bg-white/8 px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground">
-                    Lv.{p.level_learned_at}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.15 }}
+        >
+          {currentList.map((p) => (
+            <Link
+              key={`${p.pokemon_id}-${p.learn_method}`}
+              to={`/pokemon/${p.pokemon_id}`}
+              onMouseDown={(e) => {
+                if (e.button !== 1) return;
+                e.preventDefault();
+                openTab({ kind: "pokemon", entityId: p.pokemon_id, nameEn: p.name_en ?? "", nameFr: p.name_fr ?? "", typeKey: p.type1_key, spriteUrl: p.sprite_url }, true);
+              }}
+              className="flex items-center gap-2.5 rounded-xl glass-flat border border-border/30 px-3 py-2.5 hover:border-primary/30 hover:shadow-warm transition-all"
+            >
+              <img
+                src={p.sprite_url ?? `${spriteBase}/${p.pokemon_id}.png`}
+                alt=""
+                className="h-8 w-8 shrink-0 object-contain"
+                loading="lazy"
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="truncate font-heading text-xs font-semibold">
+                    {pokemonName(p.name_en, p.name_fr)}
                   </span>
-                )}
+                  {activeTab === "level-up" && p.level_learned_at > 0 && (
+                    <span className="inline-flex items-center rounded-full bg-white/8 px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground">
+                      Lv.{p.level_learned_at}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <TypeBadge type={p.type1_key} size="sm" />
+                  {p.type2_key && <TypeBadge type={p.type2_key} size="sm" />}
+                </div>
               </div>
-              <div className="flex items-center gap-1 mt-0.5">
-                <TypeBadge type={p.type1_key} size="sm" />
-                {p.type2_key && <TypeBadge type={p.type2_key} size="sm" />}
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+            </Link>
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </motion.section>
   );
 }
 
-function StatPill({ label, value }: { label: string; value: number | string | null }) {
+function StatPill({
+  label,
+  value,
+  isOverridden,
+  originalValue,
+}: {
+  label: string;
+  value: number | string | null;
+  isOverridden?: boolean;
+  originalValue?: number | string | null;
+}) {
   return (
-    <GlassCard className="rounded-xl border border-border/30" style={{ borderRadius: "12px" }}>
+    <GlassCard
+      className={cn(
+        "rounded-xl border",
+        isOverridden ? "border-primary/40" : "border-border/30",
+      )}
+      style={{ borderRadius: "12px" }}
+    >
       <div className="flex flex-col items-center px-5 py-3 min-w-[90px]">
         <span className="font-heading text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
-        <span className="mt-0.5 font-mono text-lg font-semibold">
+        <span className={cn(
+          "mt-0.5 font-mono text-lg font-semibold",
+          isOverridden && "text-primary",
+        )}>
           {value ?? "\u2014"}
         </span>
+        {isOverridden && originalValue !== undefined && (
+          <span className="text-[10px] text-muted-foreground line-through">
+            {originalValue ?? "\u2014"}
+          </span>
+        )}
       </div>
     </GlassCard>
   );

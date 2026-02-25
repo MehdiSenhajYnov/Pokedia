@@ -1,0 +1,826 @@
+{
+  "game": {
+    "id": "radical-red",
+    "name_en": "Radical Red",
+    "name_fr": "Radical Red",
+    "base_rom": "firered",
+    "version": "4.1",
+    "author": "sPokemon",
+    "is_hackrom": true,
+    "sort_order": 1,
+    "coverage": "changes_only"
+  },
+  "pokemon_overrides": [
+    {
+      "name_key": "route-1",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 1 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "viridian-city",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "VIRIDIAN CITY [Grass & Caves]",
+        "VIRIDIAN CITY [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-22",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 22 [Grass & Caves]",
+        "ROUTE 22 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-21a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 21A [Grass & Caves]",
+        "ROUTE 21A [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-2",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 2 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "viridian-forest",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "VIRIDIAN FOREST [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "forest-expansion",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "FOREST EXPANSION [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "diglett-cave",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "DIGLETT CAVE [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pewter-city",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PEWTER CITY [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-3",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 3 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mt-moon-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MT MOON 1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mt-moon-b1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MT MOON B1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mt-moon-b2f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MT MOON B2F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-4",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 4 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-24",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 24 [Grass & Caves]",
+        "ROUTE 24 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-25",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 25 [Grass & Caves]",
+        "ROUTE 25 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-5",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 5 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-6",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 6 [Grass & Caves]",
+        "ROUTE 6 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-11",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 11 [Grass & Caves]",
+        "ROUTE 11 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "diglett-cave-b1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "DIGLETT CAVE B1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-9",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 9 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-10",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 10 [Grass & Caves]",
+        "ROUTE 10 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "rock-tunnel-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROCK TUNNEL 1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "rock-tunnel-b1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROCK TUNNEL B1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-7",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 7 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-8",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 8 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pkmn-tower-3&5f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PKMN TOWER 3&5F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pkmn-tower-4f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PKMN TOWER 4F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pkmn-tower-6f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PKMN TOWER 6F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pkmn-tower-7f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PKMN TOWER 7F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-16",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 16 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-17",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 17 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-18",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 18 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-12",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 12 [Grass & Caves]",
+        "ROUTE 12 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-13",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 13 [Grass & Caves]",
+        "ROUTE 13 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-14",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 14 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-15",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 15 [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "route-23",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 23 [Grass & Caves]",
+        "ROUTE 23 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "seafoam-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "SEAFOAM 1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "seafoam-b1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "SEAFOAM B1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "seafoam-b2f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "SEAFOAM B2F [Grass & Caves]",
+        "SEAFOAM B2F [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "seafoam-b3f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "SEAFOAM B3F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "seafoam-b4f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "SEAFOAM B4F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mansion-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MANSION 1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mansion-2f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MANSION 2F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mansion-3f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MANSION 3F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mansion-b1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MANSION B1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "power-plant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "POWER PLANT [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "cerulean-cave-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CERULEAN CAVE 1F [Grass & Caves]",
+        "CERULEAN CAVE 1F [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "cerulean-cave-2f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CERULEAN CAVE 2F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "cerulean-cave-b1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CERULEAN CAVE B1F [Grass & Caves]",
+        "CERULEAN CAVE B1F [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "mansion-4f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MANSION 4F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "gougings-room",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "GOUGING'S ROOM [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "victory-road-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "VICTORY ROAD 1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "victory-road-2f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "VICTORY ROAD 2F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "victory-road-3f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "VICTORY ROAD 3F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "kindle-road",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "KINDLE ROAD [Grass & Caves]",
+        "KINDLE ROAD [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "mt-ember-exterior",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MT. EMBER EXTERIOR [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "mt-ember-1f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "MT. EMBER 1F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "treasure-beach",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "TREASURE BEACH [Grass & Caves]",
+        "TREASURE BEACH [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "rock-tunnel-secret",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROCK TUNNEL (SECRET) [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "cape-brink",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CAPE BRINK [Grass & Caves]",
+        "CAPE BRINK [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "bond-bridge",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "BOND BRIDGE [Grass & Caves]",
+        "BOND BRIDGE [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "berry-forest",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "BERRY FOREST [Grass & Caves]",
+        "BERRY FOREST [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "pkmn-tower-8f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PKMN TOWER 8F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pkmn-tower-9f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PKMN TOWER 9F [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "three-island",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "THREE ISLAND [Grass & Caves]"
+      ]
+    },
+    {
+      "name_key": "pokemon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 1 [Grass & Caves]",
+        "VIRIDIAN CITY [Grass & Caves]",
+        "ROUTE 22 [Grass & Caves]",
+        "ROUTE 21A [Grass & Caves]",
+        "ROUTE 2 [Grass & Caves]",
+        "VIRIDIAN FOREST [Grass & Caves]",
+        "FOREST EXPANSION [Grass & Caves]",
+        "DIGLETT CAVE [Grass & Caves]",
+        "PEWTER CITY [Grass & Caves]",
+        "ROUTE 3 [Grass & Caves]",
+        "MT MOON 1F [Grass & Caves]",
+        "MT MOON B1F [Grass & Caves]",
+        "MT MOON B2F [Grass & Caves]",
+        "ROUTE 4 [Grass & Caves]",
+        "ROUTE 24 [Grass & Caves]",
+        "ROUTE 25 [Grass & Caves]",
+        "ROUTE 5 [Grass & Caves]",
+        "ROUTE 6 [Grass & Caves]",
+        "ROUTE 11 [Grass & Caves]",
+        "DIGLETT CAVE B1F [Grass & Caves]",
+        "ROUTE 9 [Grass & Caves]",
+        "ROUTE 10 [Grass & Caves]",
+        "ROCK TUNNEL 1F [Grass & Caves]",
+        "ROCK TUNNEL B1F [Grass & Caves]",
+        "ROUTE 7 [Grass & Caves]",
+        "ROUTE 8 [Grass & Caves]",
+        "PKMN TOWER 3&5F [Grass & Caves]",
+        "PKMN TOWER 4F [Grass & Caves]",
+        "PKMN TOWER 6F [Grass & Caves]",
+        "PKMN TOWER 7F [Grass & Caves]",
+        "ROUTE 16 [Grass & Caves]",
+        "ROUTE 17 [Grass & Caves]",
+        "ROUTE 18 [Grass & Caves]",
+        "ROUTE 12 [Grass & Caves]",
+        "ROUTE 13 [Grass & Caves]",
+        "ROUTE 14 [Grass & Caves]",
+        "ROUTE 15 [Grass & Caves]",
+        "ROUTE 23 [Grass & Caves]",
+        "SEAFOAM 1F [Grass & Caves]",
+        "SEAFOAM B1F [Grass & Caves]",
+        "SEAFOAM B2F [Grass & Caves]",
+        "SEAFOAM B3F [Grass & Caves]",
+        "SEAFOAM B4F [Grass & Caves]",
+        "MANSION 1F [Grass & Caves]",
+        "MANSION 2F [Grass & Caves]",
+        "MANSION 3F [Grass & Caves]",
+        "MANSION B1F [Grass & Caves]",
+        "POWER PLANT [Grass & Caves]",
+        "CERULEAN CAVE 1F [Grass & Caves]",
+        "CERULEAN CAVE 2F [Grass & Caves]",
+        "CERULEAN CAVE B1F [Grass & Caves]",
+        "MANSION 4F [Grass & Caves]",
+        "GOUGING'S ROOM [Grass & Caves]",
+        "VICTORY ROAD 1F [Grass & Caves]",
+        "VICTORY ROAD 2F [Grass & Caves]",
+        "VICTORY ROAD 3F [Grass & Caves]",
+        "KINDLE ROAD [Grass & Caves]",
+        "MT. EMBER EXTERIOR [Grass & Caves]",
+        "MT. EMBER 1F [Grass & Caves]",
+        "TREASURE BEACH [Grass & Caves]",
+        "ROCK TUNNEL (SECRET) [Grass & Caves]",
+        "CAPE BRINK [Grass & Caves]",
+        "BOND BRIDGE [Grass & Caves]",
+        "BERRY FOREST [Grass & Caves]",
+        "PKMN TOWER 8F [Grass & Caves]",
+        "PKMN TOWER 9F [Grass & Caves]",
+        "THREE ISLAND [Grass & Caves]",
+        "PALLET TOWN [Fishing & Surfing]",
+        "VIRIDIAN CITY [Fishing & Surfing]",
+        "ROUTE 22 [Fishing & Surfing]",
+        "ROUTE 21A [Fishing & Surfing]",
+        "CERULEAN CITY [Fishing & Surfing]",
+        "ROUTE 24 [Fishing & Surfing]",
+        "ROUTE 25 [Fishing & Surfing]",
+        "ROUTE 6 [Fishing & Surfing]",
+        "VERMILLION CITY [Fishing & Surfing]",
+        "ROUTE 11 [Fishing & Surfing]",
+        "S.S. ANNE [Fishing & Surfing]",
+        "ROUTE 10 [Fishing & Surfing]",
+        "ROUTE 12 [Fishing & Surfing]",
+        "CELADON CITY [Fishing & Surfing]",
+        "ROUTE 13 [Fishing & Surfing]",
+        "FUCHSIA CITY [Fishing & Surfing]",
+        "ROUTE 19 [Fishing & Surfing]",
+        "ROUTE 20 [Fishing & Surfing]",
+        "ROUTE 21B [Fishing & Surfing]",
+        "SEAFOAM B2F [Fishing & Surfing]",
+        "SEAFOAM B3F-B4F [Fishing & Surfing]",
+        "CINNABAR ISLAND [Fishing & Surfing]",
+        "CERULEAN CAVE 1F [Fishing & Surfing]",
+        "CERULEAN CAVE B1F [Fishing & Surfing]",
+        "ROUTE 23 [Fishing & Surfing]",
+        "KINDLE ROAD [Fishing & Surfing]",
+        "TREASURE BEACH [Fishing & Surfing]",
+        "BOND BRIDGE [Fishing & Surfing]",
+        "BERRY FOREST [Fishing & Surfing]",
+        "CAPE BRINK [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "pallet-town",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "PALLET TOWN [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "cerulean-city",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CERULEAN CITY [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "vermillion-city",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "VERMILLION CITY [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "ss-anne",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "S.S. ANNE [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "celadon-city",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CELADON CITY [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "fuchsia-city",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "FUCHSIA CITY [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-19",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 19 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-20",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 20 [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "route-21b",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "ROUTE 21B [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "seafoam-b3f-b4f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "SEAFOAM B3F-B4F [Fishing & Surfing]"
+      ]
+    },
+    {
+      "name_key": "cinnabar-island",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "CINNABAR ISLAND [Fishing & Surfing]"
+      ]
+    }
+  ],
+  "move_overrides": [],
+  "item_locations": [
+    {
+      "name_key": "bug-catcher",
+      "locations": [
+        "Viridian Forest",
+        "Fuchsia City\nNear the Kangaskhan"
+      ]
+    },
+    {
+      "name_key": "old-man",
+      "locations": [
+        "Cerulean City \nHouse next to Nugget Bridge",
+        "Fuchsia City\nHouse next to Pkmn Center"
+      ]
+    },
+    {
+      "name_key": "tamer",
+      "locations": [
+        "Vermilion City's Fanclub",
+        "Fuchsia City\nHouse next to Pkmn Center"
+      ]
+    },
+    {
+      "name_key": "scientist",
+      "locations": [
+        "Pewter City's Museum\n (Requires Cut HM)"
+      ]
+    },
+    {
+      "name_key": "ace-trainer",
+      "locations": [
+        "Saffron City \nHouse left of Silph Co.",
+        "Victory Road \nBy Raid Den, near exit",
+        "Two Island\nJoyful Game Corner"
+      ]
+    },
+    {
+      "name_key": "super-nerd",
+      "locations": [
+        "Fuchsia City's \nEastern Gate",
+        "Cinnabar Island's \nPokémon Lab\nR&D Room",
+        "Cinnabar Island's \nPokémon Lab\nTesting Room"
+      ]
+    },
+    {
+      "name_key": "mom",
+      "locations": [
+        "Pallet Town\nPlayer's house"
+      ]
+    },
+    {
+      "name_key": "rachel",
+      "locations": [
+        "Two Island\nCape Brink"
+      ]
+    },
+    {
+      "name_key": "pokemaniac",
+      "locations": [
+        "Cerulean City \nHouse next to Pokémart"
+      ]
+    }
+  ]
+}

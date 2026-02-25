@@ -1,11 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAbilityById, useAllAbilities, useAbilityPokemon } from "@/hooks/use-abilities";
+import { useSelectedGame } from "@/hooks/use-games";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { detailStagger, detailSection } from "@/lib/motion";
-import { ArrowLeft, ChevronLeft, ChevronRight, Sparkles, Eye } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Sparkles, Eye, Gamepad2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ export default function AbilityDetailPage() {
   const { data: allAbilities } = useAllAbilities();
   const { data: abilityPokemon } = useAbilityPokemon(abilityId);
   const { abilityName, pokemonName, description } = useSettingsStore();
+  const selectedGame = useSelectedGame();
   const { openTab } = useTabStore();
 
   const { prevId, nextId } = useMemo(() => {
@@ -104,7 +106,7 @@ export default function AbilityDetailPage() {
 
   return (
     <motion.div
-      className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden"
+      className="mx-auto max-w-3xl space-y-8 p-6 relative"
       variants={detailStagger}
       initial="initial"
       animate="animate"
@@ -220,6 +222,18 @@ export default function AbilityDetailPage() {
             </div>
           </GlassCard>
         </motion.section>
+      )}
+
+      {/* Game indicator */}
+      {selectedGame && (
+        <motion.div variants={detailSection}>
+          <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 text-xs text-muted-foreground">
+            <Gamepad2 className="h-3.5 w-3.5 text-primary" />
+            <span>
+              Viewing with <strong className="text-foreground">{selectedGame.name_en}</strong> selected
+            </span>
+          </div>
+        </motion.div>
       )}
 
       {/* Pokemon with this ability */}

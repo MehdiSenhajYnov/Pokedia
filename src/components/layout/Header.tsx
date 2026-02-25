@@ -6,6 +6,7 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { useSearchStore } from "@/stores/search-store";
 import { springSnappy } from "@/lib/motion";
 import { GlassNavbar, GlassPill } from "@/components/ui/liquid-glass";
+import { GameSelector } from "@/components/layout/GameSelector";
 
 type ActiveCategory = "pokemon" | "moves" | "items" | null;
 
@@ -79,6 +80,9 @@ export function Header({ title }: { title?: string }) {
             {title || "Pokedia"}
           </h1>
         </div>
+
+        {/* Game selector */}
+        <GameSelector />
 
         {/* Center: search bar */}
         <GlassPill className="flex-1 max-w-lg" style={{ width: "100%" }}>

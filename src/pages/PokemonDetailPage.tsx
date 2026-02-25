@@ -7,6 +7,13 @@ import {
   usePokemonMovesList,
   useAlternateForms,
 } from "@/hooks/use-pokemon";
+import {
+  useSelectedGame,
+  useGameCoverage,
+  useGamePokemonMoves,
+  useGamePokemonAbilities,
+  useGamePokemonLocations,
+} from "@/hooks/use-games";
 import { buildNameToIdMap, sortByPokedex, getBaseId, getFormLabel, getRegionalSuffix, buildRegionalChain } from "@/lib/pokemon-utils";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
@@ -29,6 +36,8 @@ import {
   Sparkles,
   Heart,
   Shield,
+  Gamepad2,
+  MapPin,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -51,13 +60,32 @@ export default function PokemonDetailPage() {
 
   const { data: pokemon, isLoading: loadingPokemon } =
     usePokemonById(pokemonId);
-  const { data: abilities } = usePokemonAbilities(pokemonId);
+  const { data: baseAbilities } = usePokemonAbilities(pokemonId);
   const { data: evolutionChain } = usePokemonEvolutionChain(pokemonId);
-  const { data: moves } = usePokemonMovesList(pokemonId);
+  const { data: baseMoves } = usePokemonMovesList(pokemonId);
   const { data: alternateForms } = useAlternateForms(pokemon?.evolution_chain_id ?? null);
   const { data: allPokemon } = useAllPokemon();
 
   const { pokemonName, abilityName, description } = useSettingsStore();
+  const selectedGameId = useSettingsStore((s) => s.selectedGameId);
+  const selectedGame = useSelectedGame();
+  const { data: gameCoverage } = useGameCoverage();
+
+  // Game-specific data (only fetched when a game is selected)
+  const { data: gameMoves } = useGamePokemonMoves(pokemon?.name_key);
+  const { data: gameAbilities } = useGamePokemonAbilities(pokemon?.name_key);
+  const { data: gameLocations } = useGamePokemonLocations(pokemon?.name_key);
+
+  // Resolve: game data > base data
+  const moves = (selectedGameId && gameMoves && gameMoves.length > 0) ? gameMoves : baseMoves;
+  const abilities = (selectedGameId && gameAbilities && gameAbilities.length > 0) ? gameAbilities : baseAbilities;
+
+  // Check if pokemon is unavailable in selected game (full coverage + no game data)
+  const isUnavailableInGame = selectedGameId
+    && gameCoverage != null && gameCoverage === "full"
+    && (!gameMoves || gameMoves.length === 0)
+    && (!gameAbilities || gameAbilities.length === 0)
+    && (!gameLocations || gameLocations.length === 0);
 
   const { prevId, nextId } = useMemo(() => {
     if (!allPokemon || !pokemonId) return { prevId: null, nextId: null };
@@ -207,7 +235,7 @@ export default function PokemonDetailPage() {
 
   return (
     <motion.div
-      className="mx-auto max-w-4xl space-y-10 p-6 relative overflow-hidden"
+      className="mx-auto max-w-4xl space-y-10 p-6 relative"
       variants={detailStagger}
       initial="initial"
       animate="animate"
@@ -353,6 +381,7 @@ export default function PokemonDetailPage() {
                 pokemonId={pokemon.id}
                 alt={name}
                 className="h-40 w-40"
+                crossFade
               />
             </motion.div>
             <motion.button
@@ -413,6 +442,49 @@ export default function PokemonDetailPage() {
           </div>
         </div>
       </motion.div>
+
+      {/* ── Game indicator ── */}
+      {selectedGame && (
+        <motion.div variants={detailSection}>
+          <div className="flex items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 text-xs text-muted-foreground">
+            <Gamepad2 className="h-3.5 w-3.5 text-primary" />
+            <span>
+              Data for <strong className="text-foreground">{selectedGame.name_en}</strong>
+              {selectedGame.version && <span className="text-muted-foreground"> v{selectedGame.version}</span>}
+            </span>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── Locations (game-specific) ── */}
+      {selectedGameId && (
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h2 className="mb-4 font-heading text-base font-bold">
+            <span className="border-b-2 border-primary pb-0.5">Locations</span>
+          </h2>
+          <GlassCard className="rounded-2xl border border-border/30">
+            {gameLocations && gameLocations.length > 0 ? (
+              <div className="space-y-1.5 p-5">
+                {gameLocations.map((loc, i) => (
+                  <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <MapPin className="h-3 w-3 shrink-0 text-primary" />
+                    <span>{loc}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 p-5 text-sm text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5 shrink-0" />
+                <span>Not catchable — obtainable via evolution or trade</span>
+              </div>
+            )}
+          </GlassCard>
+        </motion.section>
+      )}
 
       {/* ── Abilities ── */}
       {abilities && abilities.length > 0 && (

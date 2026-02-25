@@ -7,3 +7,4 @@ pub mod sync;
 pub mod favorites;
 pub mod natures;
 pub mod abilities;
+pub mod games;

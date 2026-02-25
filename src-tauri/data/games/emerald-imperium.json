@@ -1,0 +1,9526 @@
+{
+  "game": {
+    "id": "emerald-imperium",
+    "name_en": "Emerald Imperium",
+    "name_fr": "Emerald Imperium",
+    "base_rom": "emerald",
+    "version": "1.3",
+    "author": "Emerald Imperium Team",
+    "is_hackrom": true,
+    "sort_order": 2,
+    "coverage": "changes_only"
+  },
+  "pokemon_overrides": [
+    {
+      "name_key": "level",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pokemon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "caught",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bulbasaur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shinx",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "no-encounters-here-recommended-to-hatch-the-early-game-egg-that-is-obtained-from-oldale-here",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rattata",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "croagunk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "4-6",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "starly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "caterpie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shroomish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hatenna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "petilil",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "whismur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "30-40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "scyther",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "diglett",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "scraggy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mankey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pikachu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "grafaiai",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "rewards-here-change-based-on-how-many-badges-you-have-be-warned-the-more-badges-the-harder-the-fights",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "19-23",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ponyta",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "20-24",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "trapinch",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mudbray",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "deerling",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "no-encounters-here-recommended-to-hatch-a-starter-egg-that-is-obtained-from-fallarbor-here",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "22-24",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "numel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slugma",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "24-28",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spinda",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "23-25",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "swablu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "25-27",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "solrock",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "50-55",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cyclizar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dragonair",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "beldum",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "doduo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "no-encounters-here-recommended-to-hatch-the-mid-game-egg-that-is-obtained-from-lavaridge-here",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "27‒30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "delibird",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wynaut",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mime-jr",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "30-35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "meowth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lickitung",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rhydon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kangaskhan",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "30‒32",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "omanyte",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "capsakid",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "25-28",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "toedscool",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "no-encounters-here-recommended-to-hatch-the-psuedo-egg-that-is-obtained-from-pacificlog-here",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "35-40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "growlithe",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "25‒30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bergmite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "varoom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rhyhorn",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "voltorb",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "38-42",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tandemaus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "40-42",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sandshrew-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dreepy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "yamask",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "duosion",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "swoobat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sinistcha",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "marowak",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "drifblim",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kirlia",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "40-45",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "heatmor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "donphan",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ambipom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gliscor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "42‒47",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "palossand",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "38‒42",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "munchlax",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "50‒60",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "great-tusk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "50‒53",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "arctibax",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "iron-treads",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nihilego",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "drapion",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "45‒50",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pangoro",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "breloom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "naclstack",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "these-two-routes-count-as-one-encounter",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "40‒50",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "graveler",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "darmanitan",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "houndoom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "crobat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "malamar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "drednaw",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flamigo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "60‒65",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "unown",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "skuntank",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "spiritomb",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "electivire",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "aggron",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "steelix",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "revavroom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "charmander",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "poochyena",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wooloo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lotad",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pikipek",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nymble",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "skorupi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "geodude",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "heracross",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "makuhita",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bronzor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "natu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sawk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cherrim",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "blitzle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cacnea",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ekans",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tailow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bellsprout",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "darumaka",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tarountula",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zangoose",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lunatone",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "aerodactyl",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pupitar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "applin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zorua",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pumpkaboo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mr-rime",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "drilbur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "qwilfish-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kabuto",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "growlithe-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "skiddo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "voltorb-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shroodle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dhelmise",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "deino",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "yamask-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sneasel-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "noivern",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "smeargle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tauros",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "morgrem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "fidough",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sneasel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "scream-tail",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-bundle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "guzzlord",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gallade",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gardevoir",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kilowattrel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tsareena",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "graveler-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "magmortar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "squirtle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pidgey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lillipup",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wingull",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "teddiursa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zigzagoon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "meditite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nidoran-f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gastly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pinsir",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "patrat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gligar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mawile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "throh",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bouffalant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "plusle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rockruff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "machop",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "flabebe",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spearow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ponyta-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "drifloon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "seviper",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pineco",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bombirdier",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shelgon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chatot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zorua-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chingling",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "absol",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pachirisu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "klink",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cranidos",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hawlucha",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "turtonator",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "maschiff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "yamper",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bramblin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gogoat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "shuppet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cofagrigus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gimmighoul",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "scrafty",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "misdreavus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "polteageist",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "golurk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grimer-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nosepass",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "beartic",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "darmanitan-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mr-mime-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tauros-pc",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hakamo-o",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "larvesta",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "brute-bonnet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "froslass",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "iron-hands",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "xurkitree",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "alakazam",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "orbeetle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "magmar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "krookodile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "arcanine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "klawf",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mamoswine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "glimmora",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "poliwhirl",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "altaria",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "appletun",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lokix",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "machamp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "conkeldurr",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "primeape",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chikorita",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "blipbug",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "timburr",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "snubbull",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "seedot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "exeggcute",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slakoth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nidoran-m",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dwebble",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cetitan",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dunsparce",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zubat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stufful",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hippowdon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "minun",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "greavard",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "maractus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "murkrow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sizzlipede",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "snorunt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tinkatink",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shuckle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "aromatisse",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gabite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "electabuzz",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "girafarig",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "elgyem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "litwick",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cryogonal",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shieldon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "durant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "parasect",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "buneary",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "19‒20",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "axew",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "togedemaru",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "flittle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "banette",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "runerigus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "duskull",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mienshao",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "avalugg",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mr-mime",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tauros-pa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "fraxure",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "snom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "flutter-mane",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-jugulis",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "buzzwole",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "clefairy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "jigglypuff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "doublade",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gothitelle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "galvantula",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "arcanine-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flapple",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cyndaquil",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "meowth-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rookidee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wattrel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "farfetchd-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hoothoot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "impidimp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "magby",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "aron",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "skarmory",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "yungoos",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "woobat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "kricketot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spoink",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zoroark",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "2-badges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pawmi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stunfisk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "magnemite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "houndour",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "salandit",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cetoddle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "carbink",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sliggoo-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "21-42",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "metang",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "audino",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "minior",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ditto",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stunfisk-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "furfrou",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "inkay",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "espurr",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tirtouga",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "combee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "arboliva",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dedenne",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "weezing",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "persian-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "haunter",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "noctowl",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mabosstiff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "piloswine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "shiinotic",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "avalugg-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tauros-pb",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kadabra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sunflora",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "koffing",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slither-wing",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lapras",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-moth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "blacephalon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dugtrio-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lopunny",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "coalossal",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chandelure",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ninetales",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "granbull",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "steenee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "houndstone",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "crawdaunt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "porygon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hatterene",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hydreigon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "braviary",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "farigiraf",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "totodile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bunnelby",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "phanpy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tangela",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nickit",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "weedle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sandile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bidoof",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cubone",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "grubbin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "munna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zoroark-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "golett",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pawniard",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "litleo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stantler",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pancham",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "darumaka-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spritzee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "phantump",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "klefki",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "archen",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stonjourner",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tangrowth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cherubi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "minccino",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "flaaffy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "persian",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ursaring",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toedscruel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lairon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "igglybuff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sandy-shocks",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-thorns",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stakataka",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "arbok",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wobbuffet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "vileplume",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "bewear",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "orthworm",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "garganacl",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "nidoking",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kommo-o",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "treecko",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wurmple",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sentret",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ralts",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "meowth-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "smoliv",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nincada",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sandygast",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mienfoo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "farfetchd",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "swirlix",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "trevenant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tyrogue",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toxel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "helioptile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tynamo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "onix",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "venipede",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "vanillite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gothita",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zweilous",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "solosis",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wimpod",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "eiscue",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "morpeko",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "noibat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mimikyu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tyrunt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cutiefly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "roselia",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dratini",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "milcery",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "21‒30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hypno",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "raticate",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sableye",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ferrothorn",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gothorita",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "boldore",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cleffa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grapploct",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "bounsweet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "roaring-moon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-valiant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "poipole",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bellossom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spidops",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "excadrill",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "probopass",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "barbaracle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "nidoqueen",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "drampa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bisharp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "overqwil",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "torchic",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rolycoly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zigzagoon-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gossifleur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "swinub",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "foongus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "skitty",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sandshrew",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "emolga",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "morelull",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tinkatuff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pansage",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "aipom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "stunky",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cottonee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sunkern",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cubchoo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "passimian",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "comfey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "amaura",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "silicobra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "druddigon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "larvitar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "glimmet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "trubbish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "klang",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sigilyph",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "vibrava",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "oranguru",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lilligant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pichu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ninetales-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "talonflame",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "walking-wake",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-leaves",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pheromosa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "araquanid",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mandibuzz",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "eldegoss",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chien-pao",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "falinks",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mudkip",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "fomantis",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "poliwag",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "oddish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "purrloin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "vullaby",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mareep",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hippopotas",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "smoochum",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "panpour",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "electrike",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "baltoy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "volbeat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cufant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "torkoal",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tropius",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hoppip",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "drakloak",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "60-70",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "metagross",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "honedge",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "feebas",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rotom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nidorina",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "arctozolt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "indeedee-f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ribombee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "bagon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rellor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pincurchin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cinccino",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lampent",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "linoone-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grumpig",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dusclops",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "togetic",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "happiny",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "exeggutor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "eelektross",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gouging-fire",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-boulder",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "celesteela",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "golisopod",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sandslash",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "reuniclus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toxtricity",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wo-chien",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bronzong",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dragapult",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dragonite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "salamence",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "turtwig",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sewaddle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "joltik",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rufflet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lechonk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pansear",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "burmy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "budew",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "floette",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "venonat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "diglett-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rattata-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "paras",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "fletching",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "illumise",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "miltank",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "snover",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bonsly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "nuzleaf",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "nidorino",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "arctovish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "indeedee-m",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "komala",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "squawkabilly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tadbulb",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "krokorok",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "weavile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "amoonguss",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "snorlax",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lilligant-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chansey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "exeggutor-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "raging-bolt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "iron-crown",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "kartana",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "jumpluff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "haxorus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "braviary-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "corviknight",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toxtricity-low-key",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lucario",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hydrapple",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dusknoir",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chimchar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "vulpix",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "vulpix-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "crabrawler",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sinistea",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "abra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "nacli",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "3-badges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gible",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gulpin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "frigibax",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cyclilzar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "magearna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "diancie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ferroseed",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "castform",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "siglyph",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "jangmo-o",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dracovish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ledyba",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sliggoo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "glameo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "40-40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pecharunt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ogerpon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "duraludon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "munkidori",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "fezandipiti",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "carnivine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "54‒60",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "baxcalibur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "okidogi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "luxray",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chi-yu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shaymin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "piplup",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "scatterbug",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "drowzee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spinarak",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "goomy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dracozolt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sliggoo-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "poltchageist",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "marowak-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ting-lu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pidove",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "snivy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "surskit",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "goldeen",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slowpoke-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "clobbopus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "spheal",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ducklett",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "magikarp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "skrelp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wailmer",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wiglett",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "remoraid",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "karrablast",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bruxish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "arrokuda",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "chinchou",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "5‒10",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "azurill",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "staryu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slowpoke",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "carvanha",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "25-30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mareanie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "seel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "corphish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "relicanth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "buizel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "binacle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "krabby",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "psyduck",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "frillish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tympole",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tepig",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shellos",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "chewtle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "corsola-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tentacool",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "qwilfish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "dewpider",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "grimer",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "finizen",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shelmet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "clauncher",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "barboach",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "marill",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wooper-p",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "carvana",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mantyke",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "shellos-east",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "finneon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "basculin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "horsea",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "oshawott",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shellder",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "10‒30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wooper",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tatsugiri",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pyukumuku",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "cramorant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "corsola",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "chespin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "10‒20",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "fennekin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "4-badges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "wugtrio",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "starmie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "palpitoad",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "froakie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "20-20",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "azumarill",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lombre",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "30‒35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "rowlet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "masquerain",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "slowbro",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sealeo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "swanna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gyarados",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dragalge",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "clodsire",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "eevee",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "golduck",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "muk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "octillery",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "veluza",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "barraskewda",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lanturn",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sharpedo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gastrodon-east",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "clawitzer",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tentacruel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "floatzel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "seaking",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ludicolo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "whiscash",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "litten",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "20-25",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gastrodon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "slowbro-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dewgong",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cursola",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "quagsire",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lumineon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "muk-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "palafin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "20‒25",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mantine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "basculegion-f",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kingler",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "jellicent",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kingdra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wailord",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "35‒40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "popplio",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slowking",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cloyster",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toxapex",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "elekid",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "seadra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dondozo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "44‒45",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "basculegion-m",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wishiwashi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "35‒45",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "bibarel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "seismitoad",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grookey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "slowking-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "40‒45",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "scorbunny",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "5-badges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "phione",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "manaphy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sobble",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "20-30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "5-35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "clamperl",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "luvdisc",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "yanma",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "5‒35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "alomomola",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "36-40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "36‒40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "20‒30",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "sprigatito",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "10-35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "15-25",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "togepi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "oricorio",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "fuecoco",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "huntail",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "riolu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "25-35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "15‒25",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "masqerain",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "quaxly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "gorebyss",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pelipper",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "6-badges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "yanmega",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cramoroant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "qwifish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "golbat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "25-40",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "25‒35",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pidgeotto",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "type-null",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "roggenrola",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "geodude-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "golem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "7-badges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "golem-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "15-20",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "charcadet",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "lileep",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tapu-bulu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "moltres-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "pikachu-cosplay",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "heatran",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "articuno-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tapu-fini",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zapdos-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "kecleon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "regice",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "registeel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "regirock",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "regieleki",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "regidrago",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "uxie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "azelf",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "mesprit",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "jirachi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "electrode",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]",
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tapu-lele",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "celebi",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "kyurem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "tapu-koko",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "genesect",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zeraora",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "anorith",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "darkrai",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "kubfu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "victini",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "hoopa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "volcanion",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "meloetta",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "marshadow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "zarude",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "shoal-cave-lower-offers-a-static-paradox-or-ultra-beast-encounter",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "victory-road-1f-offers-a-static-paradox-or-ultra-beast-encounter",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "dar [Encounters]"
+      ]
+    },
+    {
+      "name_key": "ivysaur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "charmeleon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wartortle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "metapod",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kakuna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "fearow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "raichu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "clefable",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wigglytuff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gloom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "venomoth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dugtrio",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "machoke",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "weepinbell",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "rapidash",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "magneton",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dodrio",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hitmonchan",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lickilicky",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "blissey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "scizor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vaporeon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "porygon2",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "omastar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kabutops",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "bayleef",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "quilava",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "croconaw",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "furret",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ledian",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ariados",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "xatu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "skiploom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mismagius",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "forretress",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "honchkrow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dudunsparce",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "magcargo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wyrdeer",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grovyle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "combusken",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "marshtomp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mightyena",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "linoone",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "silcoon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "swellow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vigoroth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ninjask",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "loudred",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hariyama",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "delcatty",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "medicham",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "manectric",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "swalot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "camerupt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cacturne",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "claydol",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cradily",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "armaldo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "milotic",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "glalie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grotle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "monferno",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "prinplup",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "staravia",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kricketune",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "luxio",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "rampardos",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "bastiodon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "wormadam",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vespiquen",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "purugly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toxicroak",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "abomasnow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "servine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pignite",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dewott",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "watchog",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "herdier",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "liepard",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "simisage",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "simipour",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "simisear",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "musharna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tranquill",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "zebstrika",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gurdurr",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "swadloon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "whirlipede",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "whimsicott",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "crustle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "carracosta",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "archeops",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "garbodor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vanillish",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sawsbuck",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "escavalier",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "eelektrik",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "beheeyem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "accelgor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "volcarona",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "quilladin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "braixen",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "frogadier",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "diggersby",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "fletchinder",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "spewpa",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pyroar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "meowstic",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "slurpuff",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "heliolisk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tyrantrum",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "aurorus",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gourgeist",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dartrix",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "torracat",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "brionne",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "trumbeak",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gumshoos",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "charjabug",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "crabominable",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lycanroc",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mudsdale",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lurantis",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "salazzle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "silvally",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cosmoem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "naganadel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "melmetal",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "thwackey",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "raboot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "drizzile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "greedent",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "corvisquire",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dottler",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "thievul",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dubwool",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "boltund",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "carkol",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sandaconda",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "centiskorch",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hattrem",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "alcremie",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "frosmoth",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "copperajah",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "archaludon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "urshifu",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sandslash-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "electrode-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "floragato",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "crocalor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "quaxwell",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "oinkologne",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pawmo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "maushold",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dachsbun",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dolliv",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "armarouge",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "bellibolt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "brambleghast",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "scovillain",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "rabsca",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "espathra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gholdengo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sneasler",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "venusaur",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "charizard",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "blastoise",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "butterfree",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "beedrill",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pidgeot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "poliwrath",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "victreebel",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "magnezone",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gengar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "weezing-g",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "rhyperior",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kleavor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "jolteon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "porygon-z",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "meganium",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "typhlosion",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "feraligatr",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "togekiss",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ampharos",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ursaluna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tyranitar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sceptile",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "blaziken",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "swampert",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "beautifly",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "shiftry",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "slaking",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "shedinja",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "exploud",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "roserade",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flygon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "walrein",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "torterra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "infernape",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "empoleon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "staraptor",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "mothim",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "garchomp",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "serperior",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "emboar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "samurott",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "stoutland",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "unfezant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "gigalith",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "leavanny",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "scolipede",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vanilluxe",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "deerling-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "klinklang",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "kingambit",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "chesnaught",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "delphox",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "greninja",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "florges",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "aegislash",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "goodra",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pumpkaboo-super",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "decidueye",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "incineroar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "primarina",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "toucannon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vikavolt",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lycanroc-dusk",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "solgaleo",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "rillaboom",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "cinderace",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "inteleon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "grimmsnarl",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "meowscarada",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "skeledirge",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "quaquaval",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pawmot",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "ceruledge",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "tinkaton",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "raichu-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "politoed",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "hitmontop",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flareon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "typhlosion-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "shellos-west",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "samurott-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "deerling-s",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-archipelago",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flabebe-yellow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pumpkaboo-small",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "decidueye-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lycanroc-midnight",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "lunala",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "dipplin",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sylveon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "deerling-w",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-continental",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flabebe-orange",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "goodra-h",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "pumpkaboo-large",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "glaceon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sawsbuck-a",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-elegant",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flabebe-blue",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "leafeon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sawsbuck-s",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-fancy",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "flabebe-white",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "umbreon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "sawsbuck-w",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-garden",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "florges-yellow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "espeon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-high-plains",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "florges-orange",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-jungle",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "florges-blue",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-marine",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "florges-white",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-meadow",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-modern",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-monsoon",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-ocean",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-polar",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-river",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-sandstorm",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-savanna",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    },
+    {
+      "name_key": "vivillon-sun",
+      "learnset": [],
+      "abilities": [],
+      "locations": [
+        "Caught? [Species]"
+      ]
+    }
+  ],
+  "move_overrides": [],
+  "item_locations": [
+    {
+      "name_key": "cut",
+      "locations": [
+        "Rustboro City, from the manin the house next to the Poke Center after defeating Roxanne"
+      ]
+    },
+    {
+      "name_key": "fly",
+      "locations": [
+        "Route 110, from your Rival after defeating them"
+      ]
+    },
+    {
+      "name_key": "surf",
+      "locations": [
+        "Route 111, very south past the 3 boss batles"
+      ]
+    },
+    {
+      "name_key": "strength",
+      "locations": [
+        "Rusturf Tunnel, after smashing the rock separating the couple"
+      ]
+    },
+    {
+      "name_key": "flash",
+      "locations": [
+        "Granite Cave, from a hiker at the entrance"
+      ]
+    },
+    {
+      "name_key": "rock-smash",
+      "locations": [
+        "Mauville City, from the Rock Smash Dude in his house"
+      ]
+    },
+    {
+      "name_key": "waterfall",
+      "locations": [
+        "Sootopolis City, from Wallace in front of the Gym"
+      ]
+    },
+    {
+      "name_key": "dive",
+      "locations": [
+        "Mossdeep City in Steven's House after you beat Tate and Liza"
+      ]
+    },
+    {
+      "name_key": "torterrite",
+      "locations": [
+        "Fortree City, from creator X after defeating him"
+      ]
+    },
+    {
+      "name_key": "empoleoniteo",
+      "locations": [
+        "Fortree City, from creator iriv24 after defeating him"
+      ]
+    },
+    {
+      "name_key": "empoleonited",
+      "locations": [
+        "Lilycove City, from Dawn after defeating her"
+      ]
+    },
+    {
+      "name_key": "infernapite",
+      "locations": [
+        "Fortree City, from creator Cap after defeating him"
+      ]
+    },
+    {
+      "name_key": "luxite",
+      "locations": [
+        "Mauville City, from Wattson after defeating him"
+      ]
+    },
+    {
+      "name_key": "roseradite",
+      "locations": [
+        "Trick House, reward for completing second puzzle"
+      ]
+    },
+    {
+      "name_key": "dusknoirite",
+      "locations": [
+        "Route 117, from Fantina after defeating her"
+      ]
+    }
+  ]
+}
