@@ -10,6 +10,7 @@ import { usePrefetch } from "@/hooks/use-prefetch";
 import { useSearchStore } from "@/stores/search-store";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AnimatePresence, motion } from "framer-motion";
+import { pageVariants, pageTransition } from "@/lib/motion";
 import { useEffect, useRef } from "react";
 
 export function AppLayout() {
@@ -75,12 +76,23 @@ export function AppLayout() {
         <Header />
         <SyncBanner />
         <TabBar />
-        <main id="main-content" ref={mainRef} className="relative flex-1 overflow-y-auto">
-          <ErrorBoundary key={location.pathname}>
-            <div key={location.pathname} className="page-enter">
-              <Outlet />
-            </div>
-          </ErrorBoundary>
+        <div className="relative flex-1 overflow-hidden">
+          <main id="main-content" ref={mainRef} className="h-full overflow-y-auto">
+            <ErrorBoundary key={location.pathname}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={location.pathname}
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={pageTransition}
+                >
+                  <Outlet />
+                </motion.div>
+              </AnimatePresence>
+            </ErrorBoundary>
+          </main>
           <AnimatePresence>
             {showOverlay && (
               <motion.div
@@ -96,7 +108,7 @@ export function AppLayout() {
               </motion.div>
             )}
           </AnimatePresence>
-        </main>
+        </div>
       </div>
     </div>
   );

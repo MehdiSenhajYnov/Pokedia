@@ -1,4 +1,4 @@
-import type { PokemonSummary } from "@/types";
+import type { PokemonSummary, EvolutionNode } from "@/types";
 
 /** Minimal fields needed for base-form inference. */
 type PokemonLike = Pick<PokemonSummary, "id" | "name_key" | "species_id">;
@@ -114,6 +114,64 @@ export function getFormLabel(nameKey: string): string | null {
   }
 
   return null;
+}
+
+const REGIONAL_SUFFIXES = ["-alola", "-galar", "-hisui", "-paldea"] as const;
+
+/**
+ * Returns the regional suffix if the name_key is a regional variant, null otherwise.
+ * Only matches regional forms (not mega, gmax, etc.).
+ */
+export function getRegionalSuffix(nameKey: string): string | null {
+  for (const suffix of REGIONAL_SUFFIXES) {
+    if (nameKey.endsWith(suffix)) return suffix;
+  }
+  return null;
+}
+
+/**
+ * Build a regional evolution chain from a base chain + regional forms.
+ * Walks the base chain recursively, replacing each node with its regional
+ * counterpart (base_name_key + suffix). Returns null if the root has no match.
+ */
+export function buildRegionalChain(
+  baseChain: EvolutionNode,
+  suffix: string,
+  regionalForms: PokemonSummary[],
+): EvolutionNode | null {
+  const formMap = new Map<string, PokemonSummary>();
+  for (const form of regionalForms) {
+    formMap.set(form.name_key, form);
+  }
+
+  return mapNode(baseChain, suffix, formMap);
+}
+
+function mapNode(
+  node: EvolutionNode,
+  suffix: string,
+  formMap: Map<string, PokemonSummary>,
+): EvolutionNode | null {
+  const regionalKey = node.name_key + suffix;
+  const form = formMap.get(regionalKey);
+  if (!form) return null;
+
+  const mappedChildren: EvolutionNode[] = [];
+  for (const child of node.evolves_to) {
+    const mapped = mapNode(child, suffix, formMap);
+    if (mapped) mappedChildren.push(mapped);
+  }
+
+  return {
+    pokemon_id: form.id,
+    name_key: form.name_key,
+    name_en: form.name_en,
+    name_fr: form.name_fr,
+    sprite_url: form.sprite_url,
+    trigger: node.trigger,
+    trigger_detail: node.trigger_detail,
+    evolves_to: mappedChildren,
+  };
 }
 
 /**

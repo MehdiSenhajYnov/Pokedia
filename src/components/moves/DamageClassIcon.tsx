@@ -1,5 +1,6 @@
 import { Flame, Sparkles, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const CLASS_CONFIG: Record<
   string,
@@ -50,16 +51,18 @@ export function DamageClassIcon({
   const Icon = config.icon;
 
   return (
-    <span
+    <motion.span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium bg-white/8",
+        "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[13px] font-medium bg-white/8",
         config.color,
         className,
       )}
       title={config.label}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 20 }}
     >
-      <Icon className="h-3 w-3" />
+      <Icon className="h-4 w-4" />
       {showLabel && <span>{config.label}</span>}
-    </span>
+    </motion.span>
   );
 }

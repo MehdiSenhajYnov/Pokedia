@@ -43,9 +43,12 @@ export interface PokemonDetail {
 
 export interface PokemonAbility {
   pokemon_id: number;
+  ability_id: number | null;
   ability_key: string;
   ability_en: string | null;
   ability_fr: string | null;
+  short_effect_en: string | null;
+  short_effect_fr: string | null;
   is_hidden: number; // 0 or 1 (SQLite integer)
   slot: number;
 }

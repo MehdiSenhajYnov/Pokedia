@@ -4,7 +4,7 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
-import { sectionReveal } from "@/lib/motion";
+import { detailStagger, detailSection } from "@/lib/motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Sparkles, Eye } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useCallback, useMemo } from "react";
@@ -103,9 +103,14 @@ export default function AbilityDetailPage() {
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden">
+    <motion.div
+      className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden"
+      variants={detailStagger}
+      initial="initial"
+      animate="animate"
+    >
       {/* Navigation */}
-      <div className="flex items-center justify-between">
+      <motion.div variants={detailSection} className="flex items-center justify-between">
         <div className="flex gap-2">
           <GlassPill>
             <button
@@ -122,6 +127,12 @@ export default function AbilityDetailPage() {
               {prevId !== null ? (
                 <Link
                   to={`/abilities/${prevId}`}
+                  onMouseDown={(e) => {
+                    if (e.button !== 1 || !allAbilities) return;
+                    e.preventDefault();
+                    const prev = allAbilities.find((a) => a.id === prevId);
+                    if (prev) openTab({ kind: "ability", entityId: prev.id, nameEn: prev.name_en ?? "", nameFr: prev.name_fr ?? "", typeKey: null }, true);
+                  }}
                   className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Previous ability"
                 >
@@ -138,6 +149,12 @@ export default function AbilityDetailPage() {
               {nextId !== null ? (
                 <Link
                   to={`/abilities/${nextId}`}
+                  onMouseDown={(e) => {
+                    if (e.button !== 1 || !allAbilities) return;
+                    e.preventDefault();
+                    const next = allAbilities.find((a) => a.id === nextId);
+                    if (next) openTab({ kind: "ability", entityId: next.id, nameEn: next.name_en ?? "", nameFr: next.name_fr ?? "", typeKey: null }, true);
+                  }}
                   className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Next ability"
                 >
@@ -151,10 +168,10 @@ export default function AbilityDetailPage() {
             </div>
           </GlassPill>
         </div>
-      </div>
+      </motion.div>
 
       {/* Hero */}
-      <div className="flex flex-col items-center gap-4">
+      <motion.div variants={detailSection} className="flex flex-col items-center gap-4">
         <div className="relative flex items-center justify-center">
           <div
             className="absolute h-24 w-24 rounded-full"
@@ -177,16 +194,13 @@ export default function AbilityDetailPage() {
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* Short Effect */}
       {shortEffectText && (
         <motion.div
           className="text-center text-sm text-muted-foreground"
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
+          variants={detailSection}
         >
           {shortEffectText}
         </motion.div>
@@ -194,12 +208,7 @@ export default function AbilityDetailPage() {
 
       {/* Full Effect */}
       {effectText && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
+        <motion.section variants={detailSection}>
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Effect</span>
           </h2>
@@ -215,12 +224,7 @@ export default function AbilityDetailPage() {
 
       {/* Pokemon with this ability */}
       {abilityPokemon && abilityPokemon.length > 0 && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
+        <motion.section variants={detailSection}>
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">
               Pokemon with this ability
@@ -234,6 +238,11 @@ export default function AbilityDetailPage() {
               <Link
                 key={`${p.pokemon_id}-${p.is_hidden}`}
                 to={`/pokemon/${p.pokemon_id}`}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({ kind: "pokemon", entityId: p.pokemon_id, nameEn: p.name_en ?? "", nameFr: p.name_fr ?? "", typeKey: p.type1_key, spriteUrl: p.sprite_url }, true);
+                }}
                 className="flex items-center gap-2.5 rounded-xl glass-flat border border-border/30 px-3 py-2 hover:border-primary/30 hover:shadow-warm transition-all"
               >
                 <img
@@ -267,6 +276,6 @@ export default function AbilityDetailPage() {
           </div>
         </motion.section>
       )}
-    </div>
+    </motion.div>
   );
 }

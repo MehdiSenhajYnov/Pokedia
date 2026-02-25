@@ -109,7 +109,7 @@ export function Sidebar() {
       animate={{ width: collapsed ? 52 : 224 }}
       transition={springSnappy}
     >
-    <GlassSidebar className="flex-1" style={{ borderRadius: collapsed ? "0 1rem 1rem 0" : "0" }}>
+    <GlassSidebar className="flex-1" style={{ borderRadius: collapsed ? "0 1rem 1rem 0" : "0", overflow: "hidden" }}>
       {/* ── Logo ── */}
       <div
         className={cn(

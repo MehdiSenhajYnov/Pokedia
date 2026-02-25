@@ -378,21 +378,6 @@
   50% { transform: translateY(-6px); }
 }
 
-@keyframes page-enter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.page-enter {
-  animation: page-enter 0.2s ease-out both;
-}
-
 @keyframes glow-pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
@@ -450,6 +435,16 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--color-muted-foreground) 25%, transparent) transparent;
+}
+
+/* ─── Hover lift utility ─── */
+@layer utilities {
+  .hover-lift {
+    transition: transform 0.2s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
 }
 
 /* ─── Selection highlight ─── */

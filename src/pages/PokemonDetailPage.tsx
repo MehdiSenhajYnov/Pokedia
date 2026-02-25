@@ -7,7 +7,7 @@ import {
   usePokemonMovesList,
   useAlternateForms,
 } from "@/hooks/use-pokemon";
-import { buildNameToIdMap, sortByPokedex, getBaseId, getFormLabel } from "@/lib/pokemon-utils";
+import { buildNameToIdMap, sortByPokedex, getBaseId, getFormLabel, getRegionalSuffix, buildRegionalChain } from "@/lib/pokemon-utils";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useComparisonStore } from "@/stores/comparison-store";
 import { useRecentStore } from "@/stores/recent-store";
@@ -28,12 +28,18 @@ import {
   Check,
   Sparkles,
   Heart,
+  Shield,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { getDefensiveMatchups } from "@/lib/type-chart";
+import {
+  ABILITY_MATCHUP_EFFECTS,
+  getAbilityAdjustedMatchups,
+  type ModifiedTypeInfo,
+} from "@/lib/ability-matchups";
 import { cn } from "@/lib/utils";
-import { staggerContainer, staggerItem, spriteFloat, sectionReveal } from "@/lib/motion";
+import { staggerContainer, staggerItem, spriteFloat, detailStagger, detailSection } from "@/lib/motion";
 
 import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
 import type { PokemonTypeName } from "@/lib/constants";
@@ -51,7 +57,7 @@ export default function PokemonDetailPage() {
   const { data: alternateForms } = useAlternateForms(pokemon?.evolution_chain_id ?? null);
   const { data: allPokemon } = useAllPokemon();
 
-  const { pokemonName, description } = useSettingsStore();
+  const { pokemonName, abilityName, description } = useSettingsStore();
 
   const { prevId, nextId } = useMemo(() => {
     if (!allPokemon || !pokemonId) return { prevId: null, nextId: null };
@@ -114,6 +120,43 @@ export default function PokemonDetailPage() {
     return () => window.removeEventListener("keydown", handleKeyNav);
   }, [handleKeyNav]);
 
+  // First non-hidden ability that modifies type matchups (if any)
+  const matchupAbility = useMemo(() => {
+    if (!abilities) return null;
+    const regular = abilities.find((a) => a.is_hidden !== 1 && ABILITY_MATCHUP_EFFECTS[a.ability_key]);
+    return regular ?? abilities.find((a) => ABILITY_MATCHUP_EFFECTS[a.ability_key]) ?? null;
+  }, [abilities]);
+
+  // Build display chain & forms: regional variants get their own chain
+  const { displayChain, displayForms } = useMemo(() => {
+    if (!pokemon || !evolutionChain) return { displayChain: evolutionChain ?? null, displayForms: alternateForms };
+    const suffix = getRegionalSuffix(pokemon.name_key);
+    if (suffix && alternateForms) {
+      // Current pokemon is a regional variant — build a regional chain
+      const regionalChain = buildRegionalChain(evolutionChain, suffix, alternateForms);
+      // Keep only non-regional forms (mega, gmax, etc.)
+      const cosmetic = alternateForms.filter((f) => !getRegionalSuffix(f.name_key));
+      return { displayChain: regionalChain ?? evolutionChain, displayForms: cosmetic.length > 0 ? cosmetic : undefined };
+    }
+    // Current pokemon is a base form — filter out regional variants from alternate forms
+    const nonRegional = alternateForms?.filter((f) => !getRegionalSuffix(f.name_key));
+    return { displayChain: evolutionChain, displayForms: nonRegional && nonRegional.length > 0 ? nonRegional : undefined };
+  }, [pokemon, evolutionChain, alternateForms]);
+
+  // Compute matchups (ability-adjusted if applicable, otherwise base)
+  const { matchups, modifiedTypes } = useMemo(() => {
+    if (!pokemon?.type1_key) return { matchups: null, modifiedTypes: new Map() as Map<PokemonTypeName, ModifiedTypeInfo> };
+    const t1 = pokemon.type1_key as PokemonTypeName;
+    const t2 = (pokemon.type2_key as PokemonTypeName | null) ?? undefined;
+    if (!matchupAbility) {
+      return {
+        matchups: getDefensiveMatchups(t1, t2),
+        modifiedTypes: new Map() as Map<PokemonTypeName, ModifiedTypeInfo>,
+      };
+    }
+    return getAbilityAdjustedMatchups(t1, t2, matchupAbility.ability_key);
+  }, [pokemon?.type1_key, pokemon?.type2_key, matchupAbility]);
+
   if (loadingPokemon || !pokemon) {
     return (
       <div className="flex h-full items-center justify-center p-8">
@@ -148,13 +191,6 @@ export default function PokemonDetailPage() {
     spe: pokemon.spe,
   };
 
-  const matchups = pokemon.type1_key
-    ? getDefensiveMatchups(
-        pokemon.type1_key as PokemonTypeName,
-        (pokemon.type2_key as PokemonTypeName | null) ?? undefined,
-      )
-    : null;
-
   const spriteBase =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
   const defaultSprite = pokemon.sprite_url ?? `${spriteBase}/${pokemon.id}.png`;
@@ -170,9 +206,14 @@ export default function PokemonDetailPage() {
   const typeHex = TYPE_COLORS_HEX[pokemon.type1_key ?? ""] ?? "#888";
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 p-6 relative overflow-hidden">
+    <motion.div
+      className="mx-auto max-w-4xl space-y-10 p-6 relative overflow-hidden"
+      variants={detailStagger}
+      initial="initial"
+      animate="animate"
+    >
       {/* ── Navigation ── */}
-      <div className="flex items-center justify-between gap-2">
+      <motion.div variants={detailSection} className="flex items-center justify-between gap-2">
         <div className="flex gap-2">
           <GlassPill>
             <button
@@ -189,6 +230,12 @@ export default function PokemonDetailPage() {
               {prevId !== null ? (
                 <Link
                   to={`/pokemon/${prevId}`}
+                  onMouseDown={(e) => {
+                    if (e.button !== 1 || !allPokemon) return;
+                    e.preventDefault();
+                    const prev = allPokemon.find((p) => p.id === prevId);
+                    if (prev) openTab({ kind: "pokemon", entityId: prev.id, nameEn: prev.name_en ?? "", nameFr: prev.name_fr ?? "", typeKey: prev.type1_key, spriteUrl: prev.sprite_url }, true);
+                  }}
                   className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Previous Pokemon"
                 >
@@ -203,6 +250,12 @@ export default function PokemonDetailPage() {
               {nextId !== null ? (
                 <Link
                   to={`/pokemon/${nextId}`}
+                  onMouseDown={(e) => {
+                    if (e.button !== 1 || !allPokemon) return;
+                    e.preventDefault();
+                    const next = allPokemon.find((p) => p.id === nextId);
+                    if (next) openTab({ kind: "pokemon", entityId: next.id, nameEn: next.name_en ?? "", nameFr: next.name_fr ?? "", typeKey: next.type1_key, spriteUrl: next.sprite_url }, true);
+                  }}
                   className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Next Pokemon"
                 >
@@ -253,10 +306,10 @@ export default function PokemonDetailPage() {
             </button>
           </GlassPill>
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Hero Section ── */}
-      <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+      <motion.div variants={detailSection} className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
         {/* Sprite + decorative circle */}
         <div className="relative flex items-center justify-center">
           {/* Type-colored radial gradient circle */}
@@ -266,21 +319,24 @@ export default function PokemonDetailPage() {
               background: `radial-gradient(circle, ${typeHex}20 0%, transparent 70%)`,
             }}
           />
-          {/* Decorative rotating dashed circle */}
-          <div
+          {/* Decorative breathing circles */}
+          <motion.div
             className="absolute h-44 w-44 rounded-full border-2 border-dashed"
-            style={{
-              borderColor: `${typeHex}25`,
-              animation: "spin 20s linear infinite",
+            style={{ borderColor: `${typeHex}25` }}
+            animate={{
+              scale: [1, 1.03, 1],
+              opacity: [0.6, 0.9, 0.6],
             }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           />
-          {/* Counter-rotating second circle */}
-          <div
+          <motion.div
             className="absolute h-48 w-48 rounded-full border border-dashed"
-            style={{
-              borderColor: `${typeHex}15`,
-              animation: "spin 20s linear infinite reverse",
+            style={{ borderColor: `${typeHex}15` }}
+            animate={{
+              scale: [1.03, 1, 1.03],
+              opacity: [0.5, 0.8, 0.5],
             }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           />
           {/* ID watermark */}
           <span className="absolute font-heading text-6xl font-bold text-muted/20 select-none">
@@ -356,52 +412,72 @@ export default function PokemonDetailPage() {
             </span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Abilities ── */}
       {abilities && abilities.length > 0 && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <h2 className="mb-3 font-heading text-sm font-bold">
+        <motion.section variants={detailSection}>
+          <h2 className="mb-4 font-heading text-base font-bold">
             <span className="border-b-2 border-primary pb-0.5">Abilities</span>
           </h2>
           <GlassCard className="rounded-2xl border border-border/30">
-            <div className="flex flex-wrap gap-2 p-4">
-              {abilities.map((a) => (
-                <span
-                  key={a.slot}
-                  className={cn(
-                    "rounded-xl bg-white/5 border px-3 py-1.5 text-xs",
-                    a.is_hidden === 1
-                      ? "border-dashed border-purple-400/40 text-purple-300"
-                      : "border-white/10",
-                  )}
-                >
-                  {pokemonName(a.ability_en, a.ability_fr)}
-                  {a.is_hidden === 1 && " (Hidden)"}
-                </span>
-              ))}
+            <div className="space-y-2.5 p-5">
+              {abilities.map((a) => {
+                const displayName = abilityName(a.ability_en, a.ability_fr) || a.ability_key;
+                const effectText = description(a.short_effect_en, a.short_effect_fr);
+                return (
+                  <div key={a.slot} className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      {a.ability_id ? (
+                        <Link
+                          to={`/abilities/${a.ability_id}`}
+                          onMouseDown={(e) => {
+                            if (e.button !== 1 || !a.ability_id) return;
+                            e.preventDefault();
+                            openTab({ kind: "ability", entityId: a.ability_id, nameEn: a.ability_en ?? "", nameFr: a.ability_fr ?? "", typeKey: null }, true);
+                          }}
+                          className={cn(
+                            "rounded-xl bg-white/5 border px-4 py-2 text-sm font-medium transition-colors hover:bg-white/10",
+                            a.is_hidden === 1
+                              ? "border-dashed border-purple-400/40 text-purple-300"
+                              : "border-white/10",
+                          )}
+                        >
+                          {displayName}
+                          {a.is_hidden === 1 && " (Hidden)"}
+                        </Link>
+                      ) : (
+                        <span
+                          className={cn(
+                            "rounded-xl bg-white/5 border px-4 py-2 text-sm",
+                            a.is_hidden === 1
+                              ? "border-dashed border-purple-400/40 text-purple-300"
+                              : "border-white/10",
+                          )}
+                        >
+                          {displayName}
+                          {a.is_hidden === 1 && " (Hidden)"}
+                        </span>
+                      )}
+                    </div>
+                    {effectText && (
+                      <p className="pl-4 text-xs text-muted-foreground leading-relaxed">{effectText}</p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </GlassCard>
         </motion.section>
       )}
 
       {/* ── Base Stats ── */}
-      <motion.section
-        variants={sectionReveal}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
-      >
-        <h2 className="mb-3 font-heading text-sm font-bold">
+      <motion.section variants={detailSection}>
+        <h2 className="mb-4 font-heading text-base font-bold">
           <span className="border-b-2 border-primary pb-0.5">Base Stats</span>
         </h2>
         <GlassCard className="rounded-2xl border border-border/30">
-          <div className="p-4">
+          <div className="p-5">
             <StatsBar stats={stats} />
           </div>
         </GlassCard>
@@ -409,46 +485,81 @@ export default function PokemonDetailPage() {
 
       {/* ── Type Matchups ── */}
       {matchups && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <h2 className="mb-3 font-heading text-sm font-bold">
+        <motion.section variants={detailSection}>
+          <h2 className="mb-4 font-heading text-base font-bold">
             <span className="border-b-2 border-primary pb-0.5">Type Matchups</span>
           </h2>
           <GlassCard className="rounded-2xl border border-border/30">
             <motion.div
-              className="space-y-1.5 text-xs p-4"
+              key={matchupAbility?.ability_key ?? "base"}
+              className="space-y-3 text-sm p-5"
               variants={staggerContainer}
               initial="initial"
               animate="animate"
             >
-              <MatchupRow label="4x" types={matchups[4]} className="text-red-400" glowColor="rgba(239,68,68,0.15)" />
-              <MatchupRow label="2x" types={matchups[2]} className="text-orange-400" />
-              <MatchupRow label="0.5x" types={matchups[0.5]} className="text-green-400" />
-              <MatchupRow label="0.25x" types={matchups[0.25]} className="text-green-600" />
-              <MatchupRow label="0x" types={matchups[0]} className="text-gray-500" glowColor="rgba(156,163,175,0.1)" />
+              {Object.keys(matchups)
+                .map(Number)
+                .filter((f) => matchups[f] && matchups[f].length > 0 && f !== 1)
+                .sort((a, b) => b - a)
+                .map((factor) => (
+                  <MatchupRow
+                    key={factor}
+                    label={factor === 0 ? "0x" : `${factor}x`}
+                    types={matchups[factor]}
+                    modifiedTypes={modifiedTypes}
+                    className={
+                      factor >= 4
+                        ? "text-red-400"
+                        : factor > 1
+                          ? "text-orange-400"
+                          : factor === 0
+                            ? "text-gray-500"
+                            : factor <= 0.25
+                              ? "text-green-600"
+                              : "text-green-400"
+                    }
+                    glowColor={
+                      factor >= 4
+                        ? "rgba(239,68,68,0.15)"
+                        : factor === 0
+                          ? "rgba(156,163,175,0.1)"
+                          : undefined
+                    }
+                  />
+                ))}
+              {matchupAbility && modifiedTypes.size > 0 && (() => {
+                const displayName = abilityName(matchupAbility.ability_en, matchupAbility.ability_fr) || matchupAbility.ability_key;
+                const entries = [...modifiedTypes.entries()];
+                const byNewFactor = new Map<number, { types: PokemonTypeName[]; oldFactors: Set<number> }>();
+                for (const [t, info] of entries) {
+                  const existing = byNewFactor.get(info.newFactor);
+                  if (existing) { existing.types.push(t); existing.oldFactors.add(info.oldFactor); }
+                  else { byNewFactor.set(info.newFactor, { types: [t], oldFactors: new Set([info.oldFactor]) }); }
+                }
+                return [...byNewFactor.entries()].map(([newFactor, { oldFactors }]) => (
+                  <div key={`note-${newFactor}`} className="flex items-center gap-2 rounded-lg bg-primary/5 border-l-2 border-primary px-4 py-2 text-xs text-muted-foreground">
+                    <Shield className="h-3.5 w-3.5 shrink-0 text-primary" />
+                    <span>
+                      {newFactor === 0 ? "0x" : `${newFactor}x`} grâce à <strong className="text-foreground">{displayName}</strong>
+                      {" "}(sans ce talent : {[...oldFactors].map((f) => `${f}x`).join("/")})
+                    </span>
+                  </div>
+                ));
+              })()}
             </motion.div>
           </GlassCard>
         </motion.section>
       )}
 
       {/* ── Evolution Chain ── */}
-      {evolutionChain && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <h2 className="mb-3 font-heading text-sm font-bold">
+      {displayChain && (
+        <motion.section variants={detailSection}>
+          <h2 className="mb-4 font-heading text-base font-bold">
             <span className="border-b-2 border-primary pb-0.5">Evolution</span>
           </h2>
           <GlassCard className="rounded-2xl border border-border/30">
-            <div className="p-4">
-              <EvolutionChain chain={evolutionChain} currentId={pokemon.id} alternateForms={alternateForms} />
+            <div className="p-5">
+              <EvolutionChain chain={displayChain} currentId={pokemon.id} alternateForms={displayForms} />
             </div>
           </GlassCard>
         </motion.section>
@@ -456,17 +567,12 @@ export default function PokemonDetailPage() {
 
       {/* ── Moves ── */}
       {moves && moves.length > 0 && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <h2 className="mb-3 font-heading text-sm font-bold">
+        <motion.section variants={detailSection}>
+          <h2 className="mb-4 font-heading text-base font-bold">
             <span className="border-b-2 border-primary pb-0.5">Moves</span>
           </h2>
           <GlassCard className="rounded-2xl border border-border/30">
-            <div className="p-4">
+            <div className="p-5">
               <MoveTable moves={moves} />
             </div>
           </GlassCard>
@@ -474,8 +580,7 @@ export default function PokemonDetailPage() {
       )}
 
       {/* Spin animation for decorative circle */}
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
+    </motion.div>
   );
 }
 
@@ -484,11 +589,13 @@ function MatchupRow({
   types,
   className,
   glowColor,
+  modifiedTypes,
 }: {
   label: string;
   types: string[] | undefined;
   className?: string;
   glowColor?: string;
+  modifiedTypes?: Map<PokemonTypeName, ModifiedTypeInfo>;
 }) {
   if (!types || types.length === 0) return null;
 
@@ -501,10 +608,21 @@ function MatchupRow({
       <span className={`w-12 text-right font-heading font-semibold ${className ?? ""}`}>
         {label}
       </span>
-      <div className="flex flex-wrap gap-1">
-        {types.map((t) => (
-          <TypeBadge key={t} type={t} />
-        ))}
+      <div className="flex flex-wrap gap-1.5">
+        {types.map((t) => {
+          const mod = modifiedTypes?.get(t as PokemonTypeName);
+          return (
+            <span key={t} className="relative">
+              <TypeBadge type={t} />
+              {mod && (
+                <span
+                  className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary border border-background"
+                  title={`Was ${mod.oldFactor}x`}
+                />
+              )}
+            </span>
+          );
+        })}
       </div>
     </motion.div>
   );

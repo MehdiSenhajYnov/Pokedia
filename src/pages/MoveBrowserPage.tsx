@@ -8,6 +8,7 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
 import { ALL_TYPES } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import {
   useReactTable,
   getCoreRowModel,
@@ -25,7 +26,7 @@ import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-const ROW_HEIGHT = 40;
+const ROW_HEIGHT = 56;
 
 export default function MoveBrowserPage() {
   usePageTitle("Moves");
@@ -270,7 +271,7 @@ export default function MoveBrowserPage() {
                     key={header.id}
                     scope="col"
                     onClick={header.column.getToggleSortingHandler()}
-                    className="px-3 py-2.5 text-left font-heading text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground cursor-pointer hover:text-foreground select-none transition-colors"
+                    className="px-4 py-3 text-left font-heading text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground cursor-pointer hover:text-foreground select-none transition-colors"
                     style={{ width: header.column.getSize() }}
                     aria-sort={
                       header.column.getIsSorted() === "asc"
@@ -335,11 +336,26 @@ export default function MoveBrowserPage() {
                         });
                         navigate(`/moves/${m.id}`);
                       }}
-                      className="border-b border-border/20 cursor-pointer hover:bg-primary/5 transition-colors"
+                      onMouseDown={(e) => {
+                        if (e.button !== 1) return;
+                        e.preventDefault();
+                        const m = row.original;
+                        openTab({
+                          kind: "move",
+                          entityId: m.id,
+                          nameEn: m.name_en ?? "",
+                          nameFr: m.name_fr ?? "",
+                          typeKey: m.type_key,
+                        }, true);
+                      }}
+                      className={cn(
+                        "border-b border-border/20 cursor-pointer hover:bg-primary/5 transition-colors",
+                        virtualRow.index % 2 === 0 && "bg-muted/15",
+                      )}
                       style={{ height: ROW_HEIGHT }}
                     >
                       {row.getVisibleCells().map((cell) => (
-                        <td key={cell.id} className="px-3 py-2">
+                        <td key={cell.id} className="px-4 py-3">
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext(),

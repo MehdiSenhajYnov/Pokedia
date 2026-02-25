@@ -3,7 +3,7 @@ import { useItemDetail, useAllItems } from "@/hooks/use-items";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { usePageTitle } from "@/hooks/use-page-title";
-import { sectionReveal, spriteFloat } from "@/lib/motion";
+import { detailStagger, detailSection, spriteFloat } from "@/lib/motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Package, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useCallback, useMemo } from "react";
@@ -97,9 +97,14 @@ export default function ItemDetailPage() {
   const effectText = description(item.effect_en, item.effect_fr);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden">
+    <motion.div
+      className="mx-auto max-w-3xl space-y-8 p-6 relative overflow-hidden"
+      variants={detailStagger}
+      initial="initial"
+      animate="animate"
+    >
       {/* ── Navigation ── */}
-      <div className="flex items-center justify-between">
+      <motion.div variants={detailSection} className="flex items-center justify-between">
         <div className="flex gap-2">
           <GlassPill>
             <button
@@ -116,6 +121,12 @@ export default function ItemDetailPage() {
               {prevId !== null ? (
                 <Link
                   to={`/items/${prevId}`}
+                  onMouseDown={(e) => {
+                    if (e.button !== 1 || !allItems) return;
+                    e.preventDefault();
+                    const prev = allItems.find((i) => i.id === prevId);
+                    if (prev) openTab({ kind: "item", entityId: prev.id, nameEn: prev.name_en ?? "", nameFr: prev.name_fr ?? "", typeKey: null, spriteUrl: prev.sprite_url }, true);
+                  }}
                   className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Previous item"
                 >
@@ -132,6 +143,12 @@ export default function ItemDetailPage() {
               {nextId !== null ? (
                 <Link
                   to={`/items/${nextId}`}
+                  onMouseDown={(e) => {
+                    if (e.button !== 1 || !allItems) return;
+                    e.preventDefault();
+                    const next = allItems.find((i) => i.id === nextId);
+                    if (next) openTab({ kind: "item", entityId: next.id, nameEn: next.name_en ?? "", nameFr: next.name_fr ?? "", typeKey: null, spriteUrl: next.sprite_url }, true);
+                  }}
                   className="flex h-8 items-center px-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Next item"
                 >
@@ -145,10 +162,10 @@ export default function ItemDetailPage() {
             </div>
           </GlassPill>
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Hero ── */}
-      <div className="flex flex-col items-center gap-4">
+      <motion.div variants={detailSection} className="flex flex-col items-center gap-4">
         <div className="relative flex items-center justify-center">
           {item.sprite_url ? (
             <motion.img
@@ -176,16 +193,11 @@ export default function ItemDetailPage() {
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* ── Effect ── */}
       {effectText && (
-        <motion.section
-          variants={sectionReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
+        <motion.section variants={detailSection}>
           <h2 className="mb-3 font-heading text-sm font-bold">
             <span className="border-b-2 border-primary pb-0.5">Effect</span>
           </h2>
@@ -198,6 +210,6 @@ export default function ItemDetailPage() {
           </GlassCard>
         </motion.section>
       )}
-    </div>
+    </motion.div>
   );
 }

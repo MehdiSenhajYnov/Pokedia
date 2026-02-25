@@ -49,9 +49,12 @@ pub struct PokemonDetail {
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct PokemonAbility {
     pub pokemon_id: i64,
+    pub ability_id: Option<i64>,
     pub ability_key: String,
     pub ability_en: Option<String>,
     pub ability_fr: Option<String>,
+    pub short_effect_en: Option<String>,
+    pub short_effect_fr: Option<String>,
     pub is_hidden: i64,
     pub slot: i64,
 }

@@ -19,8 +19,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GlassCard, GlassModal } from "@/components/ui/liquid-glass";
-import { motion } from "framer-motion";
-import { springSnappy } from "@/lib/motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { springSnappy, dialogOverlay, dialogContent } from "@/lib/motion";
 import { toast } from "sonner";
 
 type Lang = "en" | "fr";
@@ -256,48 +256,65 @@ export default function SettingsPage() {
       </GlassCard>
 
       {/* Clear Cache Confirmation Dialog */}
-      {showClearConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <motion.div
-            initial={{ scale: 0.92, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="mx-4 w-full max-w-sm"
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="clear-confirm-title"
-            aria-describedby="clear-confirm-desc"
-          >
-          <GlassModal className="rounded-2xl border border-border/30 shadow-glass">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10">
-                <Trash2 className="h-5 w-5 text-destructive" />
+      <AnimatePresence>
+        {showClearConfirm && (
+          <>
+            <motion.div
+              className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+              variants={dialogOverlay}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              onClick={() => setShowClearConfirm(false)}
+            />
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+              variants={dialogContent}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.2 }}
+            >
+              <div
+                className="pointer-events-auto mx-4 w-full max-w-sm"
+                role="alertdialog"
+                aria-modal="true"
+                aria-labelledby="clear-confirm-title"
+                aria-describedby="clear-confirm-desc"
+              >
+                <GlassModal className="rounded-2xl border border-border/30 shadow-glass">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-destructive/10">
+                      <Trash2 className="h-5 w-5 text-destructive" />
+                    </div>
+                    <h3 id="clear-confirm-title" className="font-heading text-sm font-semibold">
+                      Clear all cached data?
+                    </h3>
+                  </div>
+                  <p id="clear-confirm-desc" className="text-xs text-muted-foreground mb-4">
+                    This will remove all Pokemon, moves, items, types, and evolution chain
+                    data. You will need to run a sync again to re-download everything.
+                  </p>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => setShowClearConfirm(false)}
+                      className="rounded-xl bg-white/5 border border-white/10 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleClearCache}
+                      className="rounded-xl bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90 transition-colors"
+                    >
+                      Clear Cache
+                    </button>
+                  </div>
+                </GlassModal>
               </div>
-              <h3 id="clear-confirm-title" className="font-heading text-sm font-semibold">
-                Clear all cached data?
-              </h3>
-            </div>
-            <p id="clear-confirm-desc" className="text-xs text-muted-foreground mb-4">
-              This will remove all Pokemon, moves, items, types, and evolution chain
-              data. You will need to run a sync again to re-download everything.
-            </p>
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setShowClearConfirm(false)}
-                className="rounded-xl bg-white/5 border border-white/10 px-4 py-2 text-sm font-medium hover:shadow-warm transition-all"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleClearCache}
-                className="rounded-xl bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90 transition-colors"
-              >
-                Clear Cache
-              </button>
-            </div>
-          </GlassModal>
-          </motion.div>
-        </div>
-      )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

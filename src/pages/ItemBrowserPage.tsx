@@ -9,17 +9,16 @@ import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { cn } from "@/lib/utils";
-import { springSnappy } from "@/lib/motion";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { ItemSummary } from "@/types";
 
 const GRID_CARD_MIN_WIDTH = 300;
-const GRID_CARD_HEIGHT = 100;
-const GRID_GAP = 12;
+const GRID_CARD_HEIGHT = 132;
+const GRID_GAP = 16;
 
-const ROW_HEIGHT = 44;
+const ROW_HEIGHT = 56;
 
 export default function ItemBrowserPage() {
   usePageTitle("Items");
@@ -199,6 +198,20 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
     [openTab, navigate],
   );
 
+  const handleMiddleClick = useCallback(
+    (item: ItemSummary) => {
+      openTab({
+        kind: "item",
+        entityId: item.id,
+        nameEn: item.name_en ?? "",
+        nameFr: item.name_fr ?? "",
+        typeKey: null,
+        spriteUrl: item.sprite_url,
+      }, true);
+    },
+    [openTab],
+  );
+
   const rowCount = Math.ceil(items.length / columns);
 
   const virtualizer = useVirtualizer({
@@ -245,6 +258,7 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
                   name={getItemName(item.name_en, item.name_fr)}
                   effect={getDescription(item.effect_en, item.effect_fr)}
                   onClick={handleItemClick}
+                  onMiddleClick={handleMiddleClick}
                 />
               ))}
             </div>
@@ -260,40 +274,42 @@ interface GridItemCardProps {
   name: string;
   effect: string;
   onClick: (item: ItemSummary) => void;
+  onMiddleClick: (item: ItemSummary) => void;
 }
 
-const GridItemCard = memo(function GridItemCard({ item, name, effect, onClick }: GridItemCardProps) {
+const GridItemCard = memo(function GridItemCard({ item, name, effect, onClick, onMiddleClick }: GridItemCardProps) {
   return (
     <div
       onClick={() => onClick(item)}
-      className="group flex gap-3 rounded-2xl glass-flat border border-border/30 px-3.5 py-3 cursor-pointer hover:border-primary/30 hover:shadow-warm transition-colors duration-150"
+      onMouseDown={(e) => { if (e.button === 1) { e.preventDefault(); onMiddleClick(item); } }}
+      className="group flex gap-3 rounded-2xl glass-flat border border-border/30 px-4 py-4 cursor-pointer hover:border-primary/30 hover:shadow-warm hover:-translate-y-1 transition-all duration-200"
     >
       {item.sprite_url ? (
         <img
           src={item.sprite_url}
           alt=""
           loading="lazy"
-          className="h-10 w-10 object-contain flex-shrink-0 mt-0.5"
+          className="h-12 w-12 object-contain flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-200"
         />
       ) : (
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/8 text-muted-foreground flex-shrink-0 mt-0.5">
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/8 text-muted-foreground flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-200">
           <Package className="h-5 w-5" />
         </div>
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <span className="font-heading text-sm font-semibold leading-tight truncate">
+          <span className="font-heading text-[15px] font-semibold leading-tight truncate">
             {name || "Unknown Item"}
           </span>
           {item.category && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground flex-shrink-0">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2.5 py-1 font-heading text-xs font-medium text-muted-foreground flex-shrink-0">
               <Tag className="h-2.5 w-2.5" />
               {item.category}
             </span>
           )}
         </div>
         {effect && (
-          <p className="mt-1 text-xs text-muted-foreground leading-relaxed line-clamp-2">
+          <p className="mt-1 text-sm text-muted-foreground leading-relaxed line-clamp-2">
             {effect}
           </p>
         )}
@@ -343,11 +359,11 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
     <GlassCard className="overflow-hidden rounded-xl border border-border/30">
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-10 glass-heavy">
-          <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-            <th className="w-10 px-1 py-2.5" scope="col"><span className="sr-only">Sprite</span></th>
-            <th className="px-3 py-2.5 text-left" scope="col">Name</th>
-            <th className="px-3 py-2.5 text-left" scope="col">Category</th>
-            <th className="px-3 py-2.5 text-left" scope="col">Effect</th>
+          <tr className="border-b border-border/30 font-heading text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">
+            <th className="w-10 px-2 py-3" scope="col"><span className="sr-only">Sprite</span></th>
+            <th className="px-4 py-3 text-left" scope="col">Name</th>
+            <th className="px-4 py-3 text-left" scope="col">Category</th>
+            <th className="px-4 py-3 text-left" scope="col">Effect</th>
           </tr>
         </thead>
         <tbody>
@@ -362,31 +378,43 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
               <tr
                 key={item.id}
                 onClick={() => handleRowClick(item)}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({
+                    kind: "item",
+                    entityId: item.id,
+                    nameEn: item.name_en ?? "",
+                    nameFr: item.name_fr ?? "",
+                    typeKey: null,
+                    spriteUrl: item.sprite_url,
+                  }, true);
+                }}
                 className="border-b border-border/20 cursor-pointer hover:bg-primary/5 transition-colors"
                 style={{ height: ROW_HEIGHT }}
               >
-                <td className="px-1 py-1">
+                <td className="px-2 py-1.5">
                   {item.sprite_url ? (
                     <img
                       src={item.sprite_url}
                       alt=""
-                      className="h-8 w-8 object-contain"
+                      className="h-10 w-10 object-contain"
                       loading="lazy"
                     />
                   ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded bg-white/8 text-muted-foreground">
+                    <div className="flex h-10 w-10 items-center justify-center rounded bg-white/8 text-muted-foreground">
                       <Package className="h-4 w-4" />
                     </div>
                   )}
                 </td>
-                <td className="px-3 py-2">
-                  <span className="font-heading font-medium">
+                <td className="px-4 py-3">
+                  <span className="font-heading text-[15px] font-medium">
                     {name || "Unknown Item"}
                   </span>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-4 py-3">
                   {item.category ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2 py-0.5 font-heading text-[10px] font-medium text-muted-foreground">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/8 px-2.5 py-1 font-heading text-xs font-medium text-muted-foreground">
                       <Tag className="h-2.5 w-2.5" />
                       {item.category}
                     </span>
@@ -394,8 +422,8 @@ function VirtualizedItemList({ items }: { items: ItemSummary[] }) {
                     <span className="text-xs text-muted-foreground">—</span>
                   )}
                 </td>
-                <td className="px-3 py-2">
-                  <span className="text-xs text-muted-foreground line-clamp-1">
+                <td className="px-4 py-3">
+                  <span className="text-sm text-muted-foreground line-clamp-1">
                     {effect || "—"}
                   </span>
                 </td>

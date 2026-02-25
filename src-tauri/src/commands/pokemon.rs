@@ -70,10 +70,15 @@ pub async fn get_pokemon_abilities(
     pokemon_id: i64,
 ) -> Result<Vec<PokemonAbility>, String> {
     let rows: Vec<PokemonAbility> = sqlx::query_as(
-        "SELECT pokemon_id, ability_key, ability_en, ability_fr, is_hidden, slot
-         FROM pokemon_abilities
-         WHERE pokemon_id = ?1
-         ORDER BY slot"
+        "SELECT pa.pokemon_id, a.id AS ability_id, pa.ability_key,
+                COALESCE(a.name_en, pa.ability_en) AS ability_en,
+                COALESCE(a.name_fr, pa.ability_fr) AS ability_fr,
+                a.short_effect_en, a.short_effect_fr,
+                pa.is_hidden, pa.slot
+         FROM pokemon_abilities pa
+         LEFT JOIN abilities a ON a.name_key = pa.ability_key
+         WHERE pa.pokemon_id = ?1
+         ORDER BY pa.slot"
     )
     .bind(pokemon_id)
     .fetch_all(&state.pool)

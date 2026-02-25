@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Swords, Package, Sparkles, ChevronRight } from "lucide-react";
 import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
@@ -10,9 +11,16 @@ import { useAllItems } from "@/hooks/use-items";
 import { useAllAbilities } from "@/hooks/use-abilities";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
+import { staggerContainer, staggerItem } from "@/lib/motion";
 import type { PokemonSummary, MoveSummary, ItemSummary, AbilitySummary } from "@/types";
 
 const MAX_PER_CATEGORY = 10;
+
+const nestedStagger = {
+  animate: {
+    transition: { staggerChildren: 0.03 },
+  },
+};
 
 interface SearchCrossResultsProps {
   exclude?: "pokemon" | "moves" | "items" | "abilities" | null;
@@ -138,10 +146,15 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
   return (
-    <div className="border-t border-border/30 pt-1">
+    <motion.div
+      className="border-t border-border/30 pt-1"
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+    >
       {/* Pokemon section */}
       {pokemonResults.length > 0 && (
-        <div className="px-2 py-1.5">
+        <motion.div variants={staggerItem} className="px-2 py-1.5">
           <button
             onClick={() => navigate("/")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -159,11 +172,17 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <div className="grid gap-0.5">
+          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
             {pokemonResults.map((p) => (
-              <button
+              <motion.button
                 key={p.id}
+                variants={staggerItem}
                 onClick={() => handlePokemonClick(p)}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({ kind: "pokemon", entityId: p.id, nameEn: p.name_en ?? "", nameFr: p.name_fr ?? "", typeKey: p.type1_key, spriteUrl: p.sprite_url }, true);
+                }}
                 className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 <img
@@ -182,15 +201,15 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                   <TypeBadge type={p.type1_key} size="sm" />
                   {p.type2_key && <TypeBadge type={p.type2_key} size="sm" />}
                 </div>
-              </button>
+              </motion.button>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
 
       {/* Moves section */}
       {moveResults.length > 0 && (
-        <div className="px-2 py-1.5">
+        <motion.div variants={staggerItem} className="px-2 py-1.5">
           <button
             onClick={() => navigate("/moves")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -204,11 +223,17 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <div className="grid gap-0.5">
+          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
             {moveResults.map((m) => (
-              <button
+              <motion.button
                 key={m.id}
+                variants={staggerItem}
                 onClick={() => handleMoveClick(m)}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({ kind: "move", entityId: m.id, nameEn: m.name_en ?? "", nameFr: m.name_fr ?? "", typeKey: m.type_key }, true);
+                }}
                 className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 <TypeBadge type={m.type_key} size="sm" />
@@ -218,15 +243,15 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                 <div className="ml-auto shrink-0">
                   <DamageClassIcon damageClass={m.damage_class} />
                 </div>
-              </button>
+              </motion.button>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
 
       {/* Items section */}
       {itemResults.length > 0 && (
-        <div className="px-2 py-1.5">
+        <motion.div variants={staggerItem} className="px-2 py-1.5">
           <button
             onClick={() => navigate("/items")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -240,11 +265,17 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <div className="grid gap-0.5">
+          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
             {itemResults.map((i) => (
-              <button
+              <motion.button
                 key={i.id}
+                variants={staggerItem}
                 onClick={() => handleItemClick(i)}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({ kind: "item", entityId: i.id, nameEn: i.name_en ?? "", nameFr: i.name_fr ?? "", typeKey: null, spriteUrl: i.sprite_url }, true);
+                }}
                 className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 {i.sprite_url ? (
@@ -262,15 +293,15 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                 <span className="truncate font-medium text-xs">
                   {itemName(i.name_en ?? "", i.name_fr ?? "")}
                 </span>
-              </button>
+              </motion.button>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
 
       {/* Abilities section */}
       {abilityResults.length > 0 && (
-        <div className="px-2 py-1.5">
+        <motion.div variants={staggerItem} className="px-2 py-1.5">
           <button
             onClick={() => navigate("/abilities")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -284,11 +315,17 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <div className="grid gap-0.5">
+          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
             {abilityResults.map((a) => (
-              <button
+              <motion.button
                 key={a.id}
+                variants={staggerItem}
                 onClick={() => handleAbilityClick(a)}
+                onMouseDown={(e) => {
+                  if (e.button !== 1) return;
+                  e.preventDefault();
+                  openTab({ kind: "ability", entityId: a.id, nameEn: a.name_en ?? "", nameFr: a.name_fr ?? "", typeKey: null }, true);
+                }}
                 className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
               >
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-white/8">
@@ -297,11 +334,11 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                 <span className="truncate font-medium text-xs">
                   {abilityName(a.name_en ?? "", a.name_fr ?? "")}
                 </span>
-              </button>
+              </motion.button>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

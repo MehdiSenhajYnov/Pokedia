@@ -112,6 +112,29 @@ export const noResultsShake: Variants = {
   },
 };
 
+// ─── Detail page stagger ────────────────────────────────────────────
+export const detailStagger: Variants = {
+  initial: {},
+  animate: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+  },
+};
+
+export const detailSection: Variants = {
+  initial: { opacity: 0, y: 24 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// ─── Table row enter ────────────────────────────────────────────────
+export const tableRowEnter: Variants = {
+  initial: { opacity: 0, x: -8 },
+  animate: { opacity: 1, x: 0 },
+};
+
 // ─── Tab bar ────────────────────────────────────────────────────────
 export const tabBarVariants: Variants = {
   initial: { opacity: 0 },

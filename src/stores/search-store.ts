@@ -5,6 +5,7 @@ interface SearchState {
   query: string;
   searchActive: boolean;
   pokemonTypeFilter: string | null;
+  pokemonType2Filter: string | null;
   pokemonSort: string;
   pokemonViewMode: "grid" | "list";
   pokemonFavoritesOnly: boolean;
@@ -20,6 +21,7 @@ interface SearchState {
   activateSearch: () => void;
   dismissSearch: () => void;
   setPokemonTypeFilter: (t: string | null) => void;
+  setPokemonType2Filter: (t: string | null) => void;
   setPokemonSort: (s: string) => void;
   setPokemonViewMode: (m: "grid" | "list") => void;
   setPokemonFavoritesOnly: (v: boolean) => void;
@@ -38,6 +40,7 @@ export const useSearchStore = create<SearchState>()(
       query: "",
       searchActive: false,
       pokemonTypeFilter: null,
+      pokemonType2Filter: null,
       pokemonSort: "id",
       pokemonViewMode: "list",
       pokemonFavoritesOnly: false,
@@ -52,7 +55,14 @@ export const useSearchStore = create<SearchState>()(
       setQuery: (query) => set({ query, searchActive: query.length > 0 }),
       activateSearch: () => set({ searchActive: true }),
       dismissSearch: () => set({ searchActive: false }),
-      setPokemonTypeFilter: (pokemonTypeFilter) => set({ pokemonTypeFilter }),
+      setPokemonTypeFilter: (pokemonTypeFilter) => set((state) => ({
+        pokemonTypeFilter,
+        // Clear type 2 if type 1 is cleared or set to same value as type 2
+        pokemonType2Filter: pokemonTypeFilter === null || pokemonTypeFilter === state.pokemonType2Filter
+          ? null
+          : state.pokemonType2Filter,
+      })),
+      setPokemonType2Filter: (pokemonType2Filter) => set({ pokemonType2Filter }),
       setPokemonSort: (pokemonSort) => set({ pokemonSort }),
       setPokemonViewMode: (pokemonViewMode) => set({ pokemonViewMode }),
       setPokemonFavoritesOnly: (pokemonFavoritesOnly) => set({ pokemonFavoritesOnly }),

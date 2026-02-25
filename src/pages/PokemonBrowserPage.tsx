@@ -37,11 +37,13 @@ export default function PokemonBrowserPage() {
   const {
     query,
     pokemonTypeFilter,
+    pokemonType2Filter,
     pokemonSort,
     pokemonViewMode,
     pokemonFavoritesOnly,
     pokemonGenFilter,
     setPokemonTypeFilter,
+    setPokemonType2Filter,
     setPokemonSort,
     setPokemonViewMode,
     setPokemonFavoritesOnly,
@@ -75,7 +77,13 @@ export default function PokemonBrowserPage() {
       });
     }
 
-    if (pokemonTypeFilter) {
+    if (pokemonTypeFilter && pokemonType2Filter) {
+      // Both types selected — match Pokémon that have both, in any order
+      result = result.filter((p) =>
+        (p.type1_key === pokemonTypeFilter && p.type2_key === pokemonType2Filter) ||
+        (p.type1_key === pokemonType2Filter && p.type2_key === pokemonTypeFilter),
+      );
+    } else if (pokemonTypeFilter) {
       result = result.filter(
         (p) =>
           p.type1_key === pokemonTypeFilter ||
@@ -136,7 +144,7 @@ export default function PokemonBrowserPage() {
     }
 
     return sorted;
-  }, [allPokemon, query, pokemonTypeFilter, pokemonSort, pokemonName, pokemonFavoritesOnly, favSet, pokemonGenFilter]);
+  }, [allPokemon, query, pokemonTypeFilter, pokemonType2Filter, pokemonSort, pokemonName, pokemonFavoritesOnly, favSet, pokemonGenFilter]);
 
   if (isLoading) {
     return (
@@ -195,6 +203,23 @@ export default function PokemonBrowserPage() {
               ))}
             </SelectContent>
           </Select>
+
+          {/* Second type filter — only visible when first type is set */}
+          {pokemonTypeFilter && (
+            <Select value={pokemonType2Filter ?? "__any__"} onValueChange={(v) => setPokemonType2Filter(v === "__any__" ? null : v)}>
+              <SelectTrigger className="w-auto min-w-[120px]" aria-label="Filter by second type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__any__">+ Any type</SelectItem>
+                {ALL_TYPES.filter((t) => t !== pokemonTypeFilter).map((t) => (
+                  <SelectItem key={t} value={t}>
+                    + {t.charAt(0).toUpperCase() + t.slice(1)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
 
           {/* Generation filter */}
           <Select value={pokemonGenFilter !== null ? String(pokemonGenFilter) : "__all__"} onValueChange={(v) => setPokemonGenFilter(v === "__all__" ? null : Number(v))}>
@@ -307,9 +332,9 @@ export default function PokemonBrowserPage() {
 // Virtualized Grid view
 // ---------------------------------------------------------------------------
 
-const CARD_MIN_WIDTH = 170;
-const CARD_HEIGHT = 210;
-const GAP = 20;
+const CARD_MIN_WIDTH = 200;
+const CARD_HEIGHT = 264;
+const GAP = 24;
 
 const SPRITE_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
@@ -455,7 +480,7 @@ const PokemonGridCard = memo(function PokemonGridCard({
     >
       <div
         onClick={() => onClick(pokemon)}
-        className="relative flex flex-col items-center rounded-xl glass-flat border border-border/30 p-4 cursor-pointer transition-all duration-200 hover:border-[var(--type-color)] hover:shadow-[0_8px_30px_var(--type-glow)] active:scale-[0.97]"
+        className="relative flex flex-col items-center rounded-xl glass-flat border border-border/30 p-5 cursor-pointer transition-all duration-200 hover:border-[var(--type-color)] hover:shadow-[0_8px_30px_var(--type-glow)] active:scale-[0.97]"
         style={{
           "--type-color": `${typeHex}60`,
           "--type-glow": `${typeHex}20`,
@@ -492,34 +517,34 @@ const PokemonGridCard = memo(function PokemonGridCard({
         </div>
 
         {/* ID */}
-        <span className="font-mono text-[10px] text-muted-foreground/60">
+        <span className="font-mono text-[13px] text-muted-foreground/60">
           #{String(baseId).padStart(3, "0")}
         </span>
 
         {/* Sprite — plain img, no hooks */}
-        <div className="h-20 w-20 transition-transform duration-200 ease-out group-hover:-translate-y-2">
+        <div className="h-24 w-24 transition-transform duration-200 ease-out group-hover:-translate-y-2">
           <img
             src={pokemon.sprite_url ?? `${SPRITE_BASE}/${pokemon.id}.png`}
             alt={name}
-            className="h-20 w-20 object-contain"
+            className="h-24 w-24 object-contain"
             loading="lazy"
           />
         </div>
 
         {/* Name + form label */}
-        <span className="mt-2 truncate font-heading text-xs font-semibold max-w-full">{name}</span>
+        <span className="mt-2 truncate font-heading text-[15px] font-semibold max-w-full">{name}</span>
         {formLabel && (
-          <span className="truncate text-[10px] text-muted-foreground max-w-full">{formLabel}</span>
+          <span className="truncate text-[13px] text-muted-foreground max-w-full">{formLabel}</span>
         )}
 
         {/* Type badges */}
-        <div className="mt-2 flex gap-1">
+        <div className="mt-2 flex gap-1.5">
           <TypeBadge type={pokemon.type1_key} />
           {pokemon.type2_key && <TypeBadge type={pokemon.type2_key} />}
         </div>
 
         {/* BST */}
-        <span className="mt-1.5 font-mono text-[10px] text-muted-foreground">
+        <span className="mt-2 font-mono text-[13px] text-muted-foreground">
           BST {pokemon.base_stat_total ?? "\u2014"}
         </span>
       </div>
@@ -531,7 +556,7 @@ const PokemonGridCard = memo(function PokemonGridCard({
 // Virtualized List / table view
 // ---------------------------------------------------------------------------
 
-const ROW_HEIGHT = 56;
+const ROW_HEIGHT = 72;
 const STAT_KEYS = ["hp", "atk", "def", "spa", "spd", "spe"] as const;
 
 function VirtualizedList({ pokemon, nameToIdMap, children }: { pokemon: PokemonSummary[]; nameToIdMap: Map<string, number>; children?: React.ReactNode }) {
@@ -567,20 +592,20 @@ function VirtualizedList({ pokemon, nameToIdMap, children }: { pokemon: PokemonS
     >
       <table className="w-full text-sm">
         <thead className="sticky top-0 z-10 glass-heavy">
-          <tr className="border-b border-border/30 font-heading text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
-            <th className="w-14 px-3 py-2.5 text-left" scope="col">#</th>
-            <th className="w-10 px-1 py-2.5" scope="col"><span className="sr-only">Sprite</span></th>
-            <th className="px-3 py-2.5 text-left" scope="col">Name</th>
-            <th className="px-3 py-2.5 text-left" scope="col">Type</th>
+          <tr className="border-b border-border/30 font-heading text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">
+            <th className="w-14 px-4 py-3 text-left" scope="col">#</th>
+            <th className="w-10 px-1 py-3" scope="col"><span className="sr-only">Sprite</span></th>
+            <th className="px-4 py-3 text-left" scope="col">Name</th>
+            <th className="px-4 py-3 text-left" scope="col">Type</th>
             {STAT_KEYS.map((s) => (
-              <th key={s} className="px-3 py-2.5 text-right" scope="col"
+              <th key={s} className="px-4 py-3 text-right" scope="col"
                 style={{ color: STAT_COLORS[s] }}
               >
                 {s === "hp" ? "HP" : s === "atk" ? "Atk" : s === "def" ? "Def" : s === "spa" ? "SpA" : s === "spd" ? "SpD" : "Spe"}
               </th>
             ))}
-            <th className="px-3 py-2.5 text-right" scope="col">BST</th>
-            <th className="w-10 px-3 py-2.5" scope="col"><span className="sr-only">Actions</span></th>
+            <th className="px-4 py-3 text-right" scope="col">BST</th>
+            <th className="w-10 px-4 py-3" scope="col"><span className="sr-only">Actions</span></th>
           </tr>
         </thead>
         <tbody>
@@ -618,7 +643,7 @@ function VirtualizedList({ pokemon, nameToIdMap, children }: { pokemon: PokemonS
                 )}
                 style={{ height: ROW_HEIGHT }}
               >
-                <td className="px-3 py-2 font-mono text-muted-foreground tabular-nums">
+                <td className="px-4 py-2.5 font-mono text-muted-foreground tabular-nums">
                   {String(baseId).padStart(3, "0")}
                 </td>
                 <td className="px-1 py-1">
@@ -626,41 +651,41 @@ function VirtualizedList({ pokemon, nameToIdMap, children }: { pokemon: PokemonS
                     <img
                       src={p.sprite_url ?? `${spriteBase}/${p.id}.png`}
                       alt=""
-                      className="h-10 w-10 object-contain"
+                      className="h-12 w-12 object-contain"
                       loading="lazy"
                     />
                   </Link>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-4 py-2.5">
                   <Link
                     to={`/pokemon/${p.id}`}
-                    className="font-heading font-medium hover:underline"
+                    className="font-heading text-[15px] font-medium hover:underline"
                   >
                     {pokemonName(p.name_en, p.name_fr)}
                     {formLabel && (
-                      <span className="ml-1.5 text-xs font-body font-normal text-muted-foreground">
+                      <span className="ml-1.5 text-[13px] font-body font-normal text-muted-foreground">
                         · {formLabel}
                       </span>
                     )}
                   </Link>
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-4 py-2.5">
                   <div className="flex gap-1">
                     <TypeBadge type={p.type1_key} />
                     {p.type2_key && <TypeBadge type={p.type2_key} />}
                   </div>
                 </td>
                 {STAT_KEYS.map((s) => (
-                  <td key={s} className="px-3 py-2 text-right font-mono text-xs"
+                  <td key={s} className="px-4 py-2.5 text-right font-mono text-[13px]"
                     style={{ color: p[s] !== null ? STAT_COLORS[s] : undefined }}
                   >
                     {p[s] ?? "\u2014"}
                   </td>
                 ))}
-                <td className="px-3 py-2 text-right font-mono text-xs font-semibold">
+                <td className="px-4 py-2.5 text-right font-mono text-[13px] font-semibold">
                   {p.base_stat_total ?? "\u2014"}
                 </td>
-                <td className="px-3 py-2">
+                <td className="px-4 py-2.5">
                   <button
                     onClick={() =>
                       isCompared
