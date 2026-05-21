@@ -178,9 +178,10 @@ function ArrowWithLabel({ trigger, detail }: { trigger: string | null; detail: s
   return (
     <motion.div variants={staggerItem} className="flex flex-col items-center justify-center gap-0.5 px-1">
       <svg width="32" height="16" viewBox="0 0 32 16" className="text-muted-foreground">
-        <motion.line
-          x1="0" y1="8" x2="24" y2="8"
+        <motion.path
+          d="M 0,8 L 24,8"
           stroke="currentColor" strokeWidth="1.5" strokeDasharray="4 2"
+          fill="none"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -205,10 +206,11 @@ function ArrowWithLabel({ trigger, detail }: { trigger: string | null; detail: s
 function FormArrow({ label }: { label: string }) {
   return (
     <motion.div variants={staggerItem} className="flex flex-col items-center justify-center gap-0.5 px-1">
-      <svg width="28" height="14" viewBox="0 0 28 14" className="text-purple-400/50">
-        <motion.line
-          x1="0" y1="7" x2="20" y2="7"
+      <svg width="28" height="14" viewBox="0 0 28 14" className="text-purple-400/70">
+        <motion.path
+          d="M 0,7 L 20,7"
           stroke="currentColor" strokeWidth="1" strokeDasharray="3 2"
+          fill="none"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
@@ -221,7 +223,7 @@ function FormArrow({ label }: { label: string }) {
           transition={{ delay: 0.3, duration: 0.2 }}
         />
       </svg>
-      <span className="max-w-[80px] text-center text-[9px] leading-tight text-muted-foreground/60 italic">
+      <span className="max-w-[80px] text-center text-[9px] leading-tight text-muted-foreground/80 italic">
         {label}
       </span>
     </motion.div>

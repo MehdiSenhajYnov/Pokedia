@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import type {
   PokemonSummary,
+  PokemonPage,
   PokemonDetail,
   PokemonAbility,
   PokemonMoveEntry,
@@ -22,6 +23,23 @@ import type {
   GameMoveOverride,
 } from "@/types";
 
+export interface PokemonBrowserParams {
+  [key: string]: unknown;
+  query: string;
+  typeFilter: string | null;
+  type2Filter: string | null;
+  genMin: number | null;
+  genMax: number | null;
+  sort: string;
+  favoritesOnly: boolean;
+  nameLang: "en" | "fr";
+}
+
+export interface PokemonPageParams extends PokemonBrowserParams {
+  limit: number;
+  offset: number;
+}
+
 // Settings
 export const getSettings = () => invoke<AppSettings>("get_settings");
 export const setSetting = (key: string, value: string) =>
@@ -35,6 +53,8 @@ export const clearCache = () => invoke<void>("clear_cache");
 
 // Pokemon
 export const getAllPokemon = () => invoke<PokemonSummary[]>("get_all_pokemon");
+export const getPokemonPage = (params: PokemonPageParams) =>
+  invoke<PokemonPage>("get_pokemon_page", params);
 export const getPokemonById = (id: number) =>
   invoke<PokemonDetail | null>("get_pokemon_by_id", { id });
 export const searchPokemon = (query: string) =>

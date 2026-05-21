@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect, useCallback, memo } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback, useDeferredValue, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { useAllAbilities } from "@/hooks/use-abilities";
 import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
+import { noResultsShake } from "@/lib/motion";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import { GlassToolbar } from "@/components/ui/liquid-glass";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -20,7 +21,8 @@ const GRID_GAP = 16;
 export default function AbilityBrowserPage() {
   usePageTitle("Abilities");
   const { data: allAbilities, isLoading } = useAllAbilities();
-  const { query } = useSearchStore();
+  const query = useSearchStore((s) => s.query);
+  const deferredQuery = useDeferredValue(query);
   const [genFilter, setGenFilter] = useState<string>("__all__");
 
   const generations = useMemo(() => {
@@ -33,8 +35,8 @@ export default function AbilityBrowserPage() {
 
   const filtered = useMemo(() => {
     let result = allAbilities ?? [];
-    if (query) {
-      const q = query.toLowerCase();
+    if (deferredQuery) {
+      const q = deferredQuery.toLowerCase();
       result = result.filter(
         (a) =>
           (a.name_en?.toLowerCase().includes(q) ?? false) ||
@@ -47,7 +49,7 @@ export default function AbilityBrowserPage() {
       result = result.filter((a) => a.generation === gen);
     }
     return result;
-  }, [allAbilities, query, genFilter]);
+  }, [allAbilities, deferredQuery, genFilter]);
 
   if (isLoading) {
     return (
@@ -67,7 +69,7 @@ export default function AbilityBrowserPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-5">
+    <div className="flex flex-col flex-1 min-h-0 gap-4 p-5">
       {/* Toolbar */}
       <GlassToolbar className="rounded-2xl border border-border/30">
         <div className="flex flex-wrap items-center gap-2 px-4 py-2.5">
@@ -98,9 +100,9 @@ export default function AbilityBrowserPage() {
       {filtered.length === 0 ? (
         <motion.div
           className="flex flex-col items-center justify-center py-16 gap-3"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
+          variants={noResultsShake}
+          initial="initial"
+          animate="animate"
         >
           <Sparkles className="h-10 w-10 text-muted-foreground/40 animate-[float_3s_ease-in-out_infinite]" />
           <p className="text-sm text-muted-foreground">
@@ -177,8 +179,7 @@ function VirtualizedAbilityGrid({ items }: { items: AbilitySummary[] }) {
   return (
     <div
       ref={parentRef}
-      className="flex-1 overflow-y-auto"
-      style={{ height: "calc(100vh - 180px)" }}
+      className="flex-1 min-h-0 overflow-y-auto"
     >
       <div
         style={{
@@ -205,14 +206,17 @@ function VirtualizedAbilityGrid({ items }: { items: AbilitySummary[] }) {
               }}
             >
               {rowItems.map((ability) => (
-                <AbilityCard
+                <div
                   key={ability.id}
-                  ability={ability}
-                  name={abilityName(ability.name_en, ability.name_fr)}
-                  effect={description(ability.short_effect_en, ability.short_effect_fr)}
-                  onClick={handleClick}
-                  onMiddleClick={handleMiddleClick}
-                />
+                >
+                  <AbilityCard
+                    ability={ability}
+                    name={abilityName(ability.name_en, ability.name_fr)}
+                    effect={description(ability.short_effect_en, ability.short_effect_fr)}
+                    onClick={handleClick}
+                    onMiddleClick={handleMiddleClick}
+                  />
+                </div>
               ))}
             </div>
           );

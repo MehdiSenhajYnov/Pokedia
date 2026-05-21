@@ -18,11 +18,11 @@ export function useItemDetail(id: number | null) {
   });
 }
 
-export function useSearchItems(query: string) {
+export function useSearchItems(query: string, enabled = true) {
   return useQuery({
     queryKey: ["items", "search", query],
     queryFn: () => searchItems(query),
-    enabled: query.length > 0,
+    enabled: enabled && query.length > 0,
     staleTime: 60_000,
   });
 }

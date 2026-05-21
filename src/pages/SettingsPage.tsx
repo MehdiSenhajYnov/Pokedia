@@ -25,6 +25,8 @@ import { toast } from "sonner";
 
 type Lang = "en" | "fr";
 
+const APP_VERSION = __APP_VERSION__;
+
 export default function SettingsPage() {
   usePageTitle("Settings");
   const {
@@ -213,6 +215,24 @@ export default function SettingsPage() {
       </section>
       </GlassCard>
 
+      {/* Keyboard Shortcuts */}
+      <GlassCard className="rounded-2xl border border-border/30">
+      <section className="space-y-3 p-5">
+        <div className="flex items-center gap-2">
+          <Info className="h-4 w-4 text-primary" />
+          <h2 className="font-heading text-sm font-semibold">Keyboard Shortcuts</h2>
+        </div>
+        <div className="rounded-xl border border-border/30 overflow-hidden divide-y divide-border/30">
+          <ShortcutRow keys="Ctrl+K" description="Focus search bar" />
+          <ShortcutRow keys="Escape" description="Clear search / blur input" />
+          <ShortcutRow keys="Ctrl+Tab" description="Next tab" />
+          <ShortcutRow keys="Ctrl+Shift+Tab" description="Previous tab" />
+          <ShortcutRow keys="Ctrl+W" description="Close active tab" />
+          <ShortcutRow keys="← →" description="Previous / Next Pokemon (on detail page)" />
+        </div>
+      </section>
+      </GlassCard>
+
       {/* About */}
       <GlassCard className="rounded-2xl border border-border/30">
       <section className="space-y-3 p-5">
@@ -233,7 +253,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <p className="font-heading text-sm font-semibold">Pokedia</p>
-              <p className="font-mono text-xs text-muted-foreground">v0.1.0</p>
+              <p className="font-mono text-xs text-muted-foreground">v{APP_VERSION}</p>
             </div>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
@@ -362,6 +382,24 @@ function LangRow({
         >
           FR
         </button>
+      </div>
+    </div>
+  );
+}
+
+function ShortcutRow({ keys, description }: { keys: string; description: string }) {
+  return (
+    <div className="flex items-center justify-between px-4 py-2.5">
+      <span className="text-sm text-muted-foreground">{description}</span>
+      <div className="flex gap-1">
+        {keys.split("+").map((k, i) => (
+          <span key={i}>
+            {i > 0 && <span className="text-muted-foreground/40 mx-0.5">+</span>}
+            <kbd className="rounded-md border border-border/50 bg-muted/30 px-2 py-0.5 font-mono text-xs font-medium">
+              {k}
+            </kbd>
+          </span>
+        ))}
       </div>
     </div>
   );

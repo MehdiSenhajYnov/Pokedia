@@ -1,167 +1,72 @@
-import { LiquidGlassContainer, LiquidGlassButton } from "@tinymomentum/liquid-glass-react";
-import type { LiquidGlassContainerProps } from "@tinymomentum/liquid-glass-react";
-import { useSettingsStore } from "@/stores/settings-store";
 import { cn } from "@/lib/utils";
-import type { ReactNode, CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
-// ---------------------------------------------------------------------------
-// Presets — iOS 26 liquid glass with visible refraction
-// ---------------------------------------------------------------------------
-
-type GlassPreset = Pick<
-  LiquidGlassContainerProps,
-  | "noiseStrength"
-  | "noiseFrequency"
-  | "frostBlurRadius"
-  | "glassTintOpacity"
-  | "innerShadowBlur"
-  | "innerShadowSpread"
->;
-
-interface PresetDef extends GlassPreset {
+type GlassPreset = {
   borderRadiusPx: number;
-}
+  className: string;
+};
 
 export const LIQUID_GLASS_PRESETS = {
   card: {
     borderRadiusPx: 20,
-    noiseStrength: 40,
-    noiseFrequency: 0.007,
-    frostBlurRadius: 8,
-    glassTintOpacity: 2,
-    innerShadowBlur: 10,
-    innerShadowSpread: -3,
+    className: "glass-flat glass-edge shadow-glass",
   },
   sidebar: {
     borderRadiusPx: 0,
-    noiseStrength: 28,
-    noiseFrequency: 0.006,
-    frostBlurRadius: 12,
-    glassTintOpacity: 3,
-    innerShadowBlur: 8,
-    innerShadowSpread: -2,
+    className: "glass-light-flat glass-edge",
   },
   button: {
     borderRadiusPx: 30,
-    noiseStrength: 35,
-    noiseFrequency: 0.008,
-    frostBlurRadius: 6,
-    glassTintOpacity: 4,
-    innerShadowBlur: 10,
-    innerShadowSpread: -2,
+    className: "glass-light-flat glass-edge",
   },
   modal: {
     borderRadiusPx: 24,
-    noiseStrength: 36,
-    noiseFrequency: 0.007,
-    frostBlurRadius: 14,
-    glassTintOpacity: 3,
-    innerShadowBlur: 12,
-    innerShadowSpread: -3,
+    className: "glass-flat glass-edge shadow-glass",
   },
   navbar: {
     borderRadiusPx: 0,
-    noiseStrength: 24,
-    noiseFrequency: 0.006,
-    frostBlurRadius: 10,
-    glassTintOpacity: 2,
-    innerShadowBlur: 6,
-    innerShadowSpread: -2,
+    className: "glass-light-flat glass-edge",
   },
   toolbar: {
     borderRadiusPx: 16,
-    noiseStrength: 32,
-    noiseFrequency: 0.007,
-    frostBlurRadius: 8,
-    glassTintOpacity: 2,
-    innerShadowBlur: 8,
-    innerShadowSpread: -2,
+    className: "glass-light-flat glass-edge",
   },
   pill: {
     borderRadiusPx: 24,
-    noiseStrength: 30,
-    noiseFrequency: 0.008,
-    frostBlurRadius: 6,
-    glassTintOpacity: 2,
-    innerShadowBlur: 6,
-    innerShadowSpread: -1,
+    className: "glass-light-flat glass-edge",
   },
   subtle: {
     borderRadiusPx: 12,
-    noiseStrength: 25,
-    noiseFrequency: 0.007,
-    frostBlurRadius: 6,
-    glassTintOpacity: 1,
-    innerShadowBlur: 6,
-    innerShadowSpread: -1,
+    className: "glass-light-flat glass-edge",
   },
-} as const satisfies Record<string, PresetDef>;
-
-// ---------------------------------------------------------------------------
-// Theme-aware defaults
-// ---------------------------------------------------------------------------
-
-function useGlassTheme() {
-  const theme = useSettingsStore((s) => s.theme);
-  if (theme === "light") {
-    return {
-      glassTintColor: "#000000",
-      innerShadowColor: "rgba(255, 255, 255, 0.35)",
-    };
-  }
-  return {
-    glassTintColor: "#ffffff",
-    innerShadowColor: "rgba(255, 255, 255, 0.18)",
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Base responsive wrapper
-// ---------------------------------------------------------------------------
-
-interface GlassBaseProps {
-  preset: PresetDef;
-  children?: ReactNode;
-  className?: string;
-  style?: CSSProperties;
-  onClick?: React.MouseEventHandler;
-}
-
-function GlassBase({ preset, children, className, style, onClick }: GlassBaseProps) {
-  const themeDefaults = useGlassTheme();
-  const { borderRadiusPx, ...glassProps } = preset;
-
-  return (
-    <LiquidGlassContainer
-      {...glassProps}
-      glassTintColor={themeDefaults.glassTintColor}
-      innerShadowColor={themeDefaults.innerShadowColor}
-      width={2000}
-      height={2000}
-      borderRadius={1}
-      className={cn("lg-responsive", className)}
-      style={{
-        width: "100%",
-        height: "auto",
-        borderRadius: `${borderRadiusPx}px`,
-        ...style,
-      }}
-      onClick={onClick}
-    >
-      {children}
-    </LiquidGlassContainer>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Pre-configured components
-// ---------------------------------------------------------------------------
+} as const satisfies Record<string, GlassPreset>;
 
 interface GlassComponentProps {
   children?: ReactNode;
   className?: string;
   style?: CSSProperties;
   onClick?: React.MouseEventHandler;
+}
+
+interface GlassBaseProps extends GlassComponentProps {
+  preset: GlassPreset;
+}
+
+function GlassBase({ preset, children, className, style, onClick }: GlassBaseProps) {
+  return (
+    <div
+      className={cn("static-glass", preset.className, className)}
+      style={{
+        width: "100%",
+        height: "auto",
+        borderRadius: `${preset.borderRadiusPx}px`,
+        ...style,
+      }}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function GlassCard({ children, className, style, onClick }: GlassComponentProps) {
@@ -184,7 +89,7 @@ export function GlassSidebar({ children, className, style }: Omit<GlassComponent
   return (
     <GlassBase
       preset={LIQUID_GLASS_PRESETS.sidebar}
-      className={cn("lg-full-height", className)}
+      className={className}
       style={{ height: "100%", ...style }}
     >
       {children}
@@ -232,42 +137,26 @@ export function GlassSubtle({ children, className, style, onClick }: GlassCompon
   );
 }
 
-// ---------------------------------------------------------------------------
-// Glass Button (uses LiquidGlassButton for interactivity)
-// ---------------------------------------------------------------------------
-
 interface GlassButtonProps extends GlassComponentProps {
   disabled?: boolean;
 }
 
 export function GlassButton({ children, className, style, onClick, disabled }: GlassButtonProps) {
-  const themeDefaults = useGlassTheme();
   const preset = LIQUID_GLASS_PRESETS.button;
 
   return (
-    <LiquidGlassButton
-      noiseStrength={preset.noiseStrength}
-      noiseFrequency={preset.noiseFrequency}
-      frostBlurRadius={preset.frostBlurRadius}
-      glassTintOpacity={preset.glassTintOpacity}
-      glassTintColor={themeDefaults.glassTintColor}
-      innerShadowColor={themeDefaults.innerShadowColor}
-      innerShadowBlur={preset.innerShadowBlur}
-      innerShadowSpread={preset.innerShadowSpread}
-      width={400}
-      height={100}
-      borderRadius={1}
-      className={cn("lg-responsive lg-button", className)}
+    <button
+      type="button"
+      className={cn("static-glass inline-flex items-center justify-center", preset.className, className)}
       style={{
-        width: "auto",
-        height: "auto",
         borderRadius: `${preset.borderRadiusPx}px`,
         ...style,
       }}
       onClick={disabled ? undefined : onClick}
+      disabled={disabled}
       aria-disabled={disabled || undefined}
     >
       {children}
-    </LiquidGlassButton>
+    </button>
   );
 }

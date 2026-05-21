@@ -18,11 +18,11 @@ export function useMoveById(id: number | null) {
   });
 }
 
-export function useSearchMoves(query: string) {
+export function useSearchMoves(query: string, enabled = true) {
   return useQuery({
     queryKey: ["moves", "search", query],
     queryFn: () => searchMoves(query),
-    enabled: query.length > 0,
+    enabled: enabled && query.length > 0,
     staleTime: 60_000,
   });
 }

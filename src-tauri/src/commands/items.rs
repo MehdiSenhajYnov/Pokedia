@@ -42,18 +42,21 @@ pub async fn search_items(
     state: State<'_, AppState>,
     query: String,
 ) -> Result<Vec<ItemSummary>, String> {
-    let pattern = format!("%{}%", query.to_lowercase());
+    let normalized = query.trim().to_lowercase();
+    let pattern = format!("%{}%", normalized);
 
     let rows: Vec<ItemSummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, category, effect_en, effect_fr, sprite_url
          FROM items
-         WHERE LOWER(name_key) LIKE ?1
+         WHERE CAST(id AS TEXT) = ?2
+            OR LOWER(name_key) LIKE ?1
             OR LOWER(name_en) LIKE ?1
             OR LOWER(name_fr) LIKE ?1
          ORDER BY id
          LIMIT 50",
     )
     .bind(&pattern)
+    .bind(&normalized)
     .fetch_all(&state.pool)
     .await
     .map_err(|e| e.to_string())?;

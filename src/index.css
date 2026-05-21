@@ -4,9 +4,9 @@
 
 /* ─── Default theme (dark-first design) ─── */
 @theme {
-  --font-heading: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Outfit", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-heading: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Outfit Variable", "Outfit", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
 
   /* Background layers — deep blue-night */
   --color-background: oklch(0.18 0.035 275);
@@ -185,6 +185,11 @@
       border-color 0.2s ease,
       color 0.15s ease !important;
   }
+
+  :focus-visible {
+    outline: 2px solid oklch(from var(--color-primary) l c h / 0.5);
+    outline-offset: 2px;
+  }
 }
 
 /* ─── Typography utility classes ─── */
@@ -205,26 +210,18 @@
   /* Level 1 — sticky table headers: opaque so content doesn't bleed through */
   .glass-heavy {
     background: var(--color-background);
-    will-change: transform;
-    transform: translateZ(0);
   }
   /* Level 2 — cards, panels, dialogs */
   .glass {
-    background: color-mix(in oklch, var(--color-card) 35%, transparent);
-    backdrop-filter: blur(8px) saturate(1.5);
-    -webkit-backdrop-filter: blur(8px) saturate(1.5);
+    background: color-mix(in oklch, var(--color-card) 62%, transparent);
   }
   /* Level 3 — badges, pills, small elements */
   .glass-light {
-    background: color-mix(in oklch, var(--color-card) 50%, transparent);
-    backdrop-filter: blur(5px) saturate(1.4);
-    -webkit-backdrop-filter: blur(5px) saturate(1.4);
+    background: color-mix(in oklch, var(--color-card) 72%, transparent);
   }
-  /* Backward compat alias */
+  /* glass-subtle is an alias for glass-light */
   .glass-subtle {
-    background: color-mix(in oklch, var(--color-card) 50%, transparent);
-    backdrop-filter: blur(5px) saturate(1.4);
-    -webkit-backdrop-filter: blur(5px) saturate(1.4);
+    background: color-mix(in oklch, var(--color-card) 72%, transparent);
   }
   /* Flat variants — same look as glass but without backdrop-filter.
      Use these when many elements are visible at once (grids, lists). */
@@ -233,6 +230,9 @@
   }
   .glass-light-flat {
     background: color-mix(in oklch, var(--color-card) 60%, transparent);
+  }
+  .static-glass {
+    contain: layout paint style;
   }
   /* Luminous glass edge — opt-in on surfaces without conflicting box-shadow */
   .glass-edge {
@@ -269,57 +269,13 @@
   }
 }
 
-/* ─── @tinymomentum/liquid-glass-react integration ─── */
-
-/* The library renders: .liquid-glass-container > .liquid-glass
-   className prop goes on the inner .liquid-glass element.
-   We override the outer container to stretch children instead of centering. */
-
-/* Container: auto-size by default, stretch contents horizontally */
-.liquid-glass-container {
-  align-items: stretch !important;
-  justify-content: stretch !important;
-  height: auto !important;
-}
-
-/* Full-height variant (sidebar, etc.) */
-.liquid-glass-container:has(> .lg-full-height) {
-  height: 100% !important;
-}
-
-/* Glass element: behave as a normal flex column container */
-.liquid-glass.lg-responsive {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
-  box-shadow: none !important;
-  overflow: visible !important;
-}
-
-/* Content inside the glass element should inherit font/color and stay above pseudo-elements */
-.liquid-glass.lg-responsive > * {
-  position: relative;
-  z-index: 1;
-  font: inherit;
-  color: inherit;
-}
-
-/* Button variant: inline-flex row for button content alignment */
-.liquid-glass.lg-button {
-  display: inline-flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* ─── Mesh gradient — living background ─── */
+/* ─── Mesh gradient background ─── */
 .mesh-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.5;
-  will-change: transform;
+  filter: blur(56px);
+  opacity: 0.36;
+  contain: paint;
 }
 .mesh-blob-1 {
   width: 50vmax;
@@ -327,7 +283,6 @@
   top: -20%;
   left: -15%;
   background: var(--color-mesh-1);
-  animation: mesh-drift-1 30s ease-in-out infinite;
 }
 .mesh-blob-2 {
   width: 45vmax;
@@ -335,7 +290,6 @@
   bottom: -15%;
   right: -10%;
   background: var(--color-mesh-2);
-  animation: mesh-drift-2 25s ease-in-out infinite;
 }
 .mesh-blob-3 {
   width: 40vmax;
@@ -343,7 +297,26 @@
   top: 40%;
   left: 30%;
   background: var(--mesh-accent, var(--color-mesh-3));
-  animation: mesh-drift-3 35s ease-in-out infinite;
+}
+
+.pokedex-scroll {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  overflow-anchor: none;
+}
+
+.pokedex-card {
+  contain: layout paint;
+  backface-visibility: hidden;
+}
+
+.pokedex-row {
+  contain: layout paint;
+}
+
+.pokedex-scroll .skeleton-shimmer::after {
+  animation: none;
+  display: none;
 }
 
 /* ─── Skeleton shimmer ─── */
@@ -381,6 +354,18 @@
 @keyframes glow-pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .mesh-blob-1, .mesh-blob-2, .mesh-blob-3 {
+    animation: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @keyframes scale-pulse {

@@ -1,26 +1,32 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useDeferredValue, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Swords, Package, Sparkles, ChevronRight } from "lucide-react";
 import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
-import { useAllPokemon } from "@/hooks/use-pokemon";
-import { useAllMoves } from "@/hooks/use-moves";
-import { useAllItems } from "@/hooks/use-items";
-import { useAllAbilities } from "@/hooks/use-abilities";
+import { useSearchPokemon } from "@/hooks/use-pokemon";
+import { useSearchMoves } from "@/hooks/use-moves";
+import { useSearchItems } from "@/hooks/use-items";
+import { useSearchAbilities } from "@/hooks/use-abilities";
 import { TypeBadge } from "@/components/pokemon/TypeBadge";
 import { DamageClassIcon } from "@/components/moves/DamageClassIcon";
-import { staggerContainer, staggerItem } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 import type { PokemonSummary, MoveSummary, ItemSummary, AbilitySummary } from "@/types";
 
 const MAX_PER_CATEGORY = 10;
 
-const nestedStagger = {
-  animate: {
-    transition: { staggerChildren: 0.03 },
-  },
-};
+function HighlightMatch({ text, query }: { text: string; query: string }) {
+  if (!query || query.length < 2) return <>{text}</>;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className="bg-primary/20 text-foreground rounded-sm px-0.5">{text.slice(idx, idx + query.length)}</mark>
+      {text.slice(idx + query.length)}
+    </>
+  );
+}
 
 interface SearchCrossResultsProps {
   exclude?: "pokemon" | "moves" | "items" | "abilities" | null;
@@ -28,66 +34,97 @@ interface SearchCrossResultsProps {
 }
 
 export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsProps) {
-  const { query, dismissSearch } = useSearchStore();
+  const query = useSearchStore((s) => s.query);
+  const dismissSearch = useSearchStore((s) => s.dismissSearch);
+  const searchNavIndex = useSearchStore((s) => s.searchNavIndex);
+  const setSearchNavTotal = useSearchStore((s) => s.setSearchNavTotal);
+  const deferredQuery = useDeferredValue(query);
+  const [settledQuery, setSettledQuery] = useState(deferredQuery);
+
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      setSettledQuery(deferredQuery);
+    }, 100);
+
+    return () => window.clearTimeout(handle);
+  }, [deferredQuery]);
+
+  const normalizedQuery = settledQuery.toLowerCase().trim();
+  const canSearch = normalizedQuery.length >= 2;
   const { pokemonName, moveName, itemName, abilityName } = useSettingsStore();
   const { openTab } = useTabStore();
   const navigate = useNavigate();
 
-  const { data: allPokemon } = useAllPokemon();
-  const { data: allMoves } = useAllMoves();
-  const { data: allItems } = useAllItems();
-  const { data: allAbilities } = useAllAbilities();
+  const { data: searchedPokemon } = useSearchPokemon(
+    normalizedQuery,
+    canSearch && exclude !== "pokemon",
+  );
+  const { data: searchedMoves } = useSearchMoves(
+    normalizedQuery,
+    canSearch && exclude !== "moves",
+  );
+  const { data: searchedItems } = useSearchItems(
+    normalizedQuery,
+    canSearch && exclude !== "items",
+  );
+  const { data: searchedAbilities } = useSearchAbilities(
+    normalizedQuery,
+    canSearch && exclude !== "abilities",
+  );
 
   const pokemonResults = useMemo(() => {
-    if (exclude === "pokemon" || query.length < 2) return [];
-    const q = query.toLowerCase();
-    return (allPokemon ?? [])
-      .filter((p: PokemonSummary) => {
-        const en = (p.name_en ?? "").toLowerCase();
-        const fr = (p.name_fr ?? "").toLowerCase();
-        return en.includes(q) || fr.includes(q) || p.id.toString() === q;
-      })
-      .slice(0, MAX_PER_CATEGORY);
-  }, [exclude, query, allPokemon]);
+    if (exclude === "pokemon") return [];
+    return (searchedPokemon ?? []).slice(0, MAX_PER_CATEGORY);
+  }, [exclude, searchedPokemon]);
 
   const moveResults = useMemo(() => {
-    if (exclude === "moves" || query.length < 2) return [];
-    const q = query.toLowerCase();
-    return (allMoves ?? [])
-      .filter((m: MoveSummary) => {
-        const en = (m.name_en ?? "").toLowerCase();
-        const fr = (m.name_fr ?? "").toLowerCase();
-        return en.includes(q) || fr.includes(q) || m.id.toString() === q;
-      })
-      .slice(0, MAX_PER_CATEGORY);
-  }, [exclude, query, allMoves]);
+    if (exclude === "moves") return [];
+    return (searchedMoves ?? []).slice(0, MAX_PER_CATEGORY);
+  }, [exclude, searchedMoves]);
 
   const itemResults = useMemo(() => {
-    if (exclude === "items" || query.length < 2) return [];
-    const q = query.toLowerCase();
-    return (allItems ?? [])
-      .filter((i: ItemSummary) => {
-        const en = (i.name_en ?? "").toLowerCase();
-        const fr = (i.name_fr ?? "").toLowerCase();
-        return en.includes(q) || fr.includes(q) || i.id.toString() === q;
-      })
-      .slice(0, MAX_PER_CATEGORY);
-  }, [exclude, query, allItems]);
+    if (exclude === "items") return [];
+    return (searchedItems ?? []).slice(0, MAX_PER_CATEGORY);
+  }, [exclude, searchedItems]);
 
   const abilityResults = useMemo(() => {
-    if (exclude === "abilities" || query.length < 2) return [];
-    const q = query.toLowerCase();
-    return (allAbilities ?? [])
-      .filter((a: AbilitySummary) => {
-        const en = (a.name_en ?? "").toLowerCase();
-        const fr = (a.name_fr ?? "").toLowerCase();
-        return en.includes(q) || fr.includes(q) || a.id.toString() === q;
-      })
-      .slice(0, MAX_PER_CATEGORY);
-  }, [exclude, query, allAbilities]);
+    if (exclude === "abilities") return [];
+    return (searchedAbilities ?? []).slice(0, MAX_PER_CATEGORY);
+  }, [exclude, searchedAbilities]);
 
-  if (query.length < 2) return null;
-  if (pokemonResults.length === 0 && moveResults.length === 0 && itemResults.length === 0 && abilityResults.length === 0) return null;
+  const totalResults = pokemonResults.length + moveResults.length + itemResults.length + abilityResults.length;
+
+  // Sync total count to store for keyboard navigation
+  useEffect(() => {
+    setSearchNavTotal(totalResults);
+  }, [totalResults, setSearchNavTotal]);
+
+  // Scroll active item into view
+  useEffect(() => {
+    if (searchNavIndex >= 0) {
+      const el = document.querySelector(`[data-search-idx="${searchNavIndex}"]`);
+      el?.scrollIntoView({ block: "nearest" });
+    }
+  }, [searchNavIndex]);
+
+  // Compute flat index offsets per category
+  const pokemonOffset = 0;
+  const moveOffset = pokemonResults.length;
+  const itemOffset = moveOffset + moveResults.length;
+  const abilityOffset = itemOffset + itemResults.length;
+
+  if (query.length < 2 || normalizedQuery.length < 2) return null;
+  if (totalResults === 0) {
+    return (
+      <div
+        className="border-t border-border/30 pt-4 pb-2 text-center"
+      >
+        <p className="text-sm text-muted-foreground">
+          No results for "<span className="text-foreground font-medium">{query}</span>"
+        </p>
+      </div>
+    );
+  }
 
   const handlePokemonClick = (p: PokemonSummary) => {
     openTab({
@@ -146,15 +183,10 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
   return (
-    <motion.div
-      className="border-t border-border/30 pt-1"
-      variants={staggerContainer}
-      initial="initial"
-      animate="animate"
-    >
+    <div className="border-t border-border/30 pt-1">
       {/* Pokemon section */}
       {pokemonResults.length > 0 && (
-        <motion.div variants={staggerItem} className="px-2 py-1.5">
+        <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -172,18 +204,21 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
-            {pokemonResults.map((p) => (
-              <motion.button
+          <div className="grid gap-0.5">
+            {pokemonResults.map((p, i) => (
+              <button
                 key={p.id}
-                variants={staggerItem}
+                data-search-idx={pokemonOffset + i}
                 onClick={() => handlePokemonClick(p)}
                 onMouseDown={(e) => {
                   if (e.button !== 1) return;
                   e.preventDefault();
                   openTab({ kind: "pokemon", entityId: p.id, nameEn: p.name_en ?? "", nameFr: p.name_fr ?? "", typeKey: p.type1_key, spriteUrl: p.sprite_url }, true);
                 }}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
+                className={cn(
+                  "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8",
+                  searchNavIndex === pokemonOffset + i && "bg-primary/15 ring-1 ring-primary/30"
+                )}
               >
                 <img
                   src={p.sprite_url ?? `${spriteBase}/${p.id}.png`}
@@ -192,7 +227,7 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                   loading="lazy"
                 />
                 <span className="truncate font-medium text-xs">
-                  {pokemonName(p.name_en ?? "", p.name_fr ?? "")}
+                  <HighlightMatch text={pokemonName(p.name_en ?? "", p.name_fr ?? "")} query={query} />
                 </span>
                 <span className="font-mono text-[10px] text-muted-foreground">
                   #{String(p.id).padStart(3, "0")}
@@ -201,15 +236,15 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                   <TypeBadge type={p.type1_key} size="sm" />
                   {p.type2_key && <TypeBadge type={p.type2_key} size="sm" />}
                 </div>
-              </motion.button>
+              </button>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
 
       {/* Moves section */}
       {moveResults.length > 0 && (
-        <motion.div variants={staggerItem} className="px-2 py-1.5">
+        <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/moves")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -223,35 +258,38 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
-            {moveResults.map((m) => (
-              <motion.button
+          <div className="grid gap-0.5">
+            {moveResults.map((m, i) => (
+              <button
                 key={m.id}
-                variants={staggerItem}
+                data-search-idx={moveOffset + i}
                 onClick={() => handleMoveClick(m)}
                 onMouseDown={(e) => {
                   if (e.button !== 1) return;
                   e.preventDefault();
                   openTab({ kind: "move", entityId: m.id, nameEn: m.name_en ?? "", nameFr: m.name_fr ?? "", typeKey: m.type_key }, true);
                 }}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
+                className={cn(
+                  "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8",
+                  searchNavIndex === moveOffset + i && "bg-primary/15 ring-1 ring-primary/30"
+                )}
               >
                 <TypeBadge type={m.type_key} size="sm" />
                 <span className="truncate font-medium text-xs">
-                  {moveName(m.name_en ?? "", m.name_fr ?? "")}
+                  <HighlightMatch text={moveName(m.name_en ?? "", m.name_fr ?? "")} query={query} />
                 </span>
                 <div className="ml-auto shrink-0">
                   <DamageClassIcon damageClass={m.damage_class} />
                 </div>
-              </motion.button>
+              </button>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
 
       {/* Items section */}
       {itemResults.length > 0 && (
-        <motion.div variants={staggerItem} className="px-2 py-1.5">
+        <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/items")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -265,22 +303,25 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
-            {itemResults.map((i) => (
-              <motion.button
-                key={i.id}
-                variants={staggerItem}
-                onClick={() => handleItemClick(i)}
+          <div className="grid gap-0.5">
+            {itemResults.map((item, i) => (
+              <button
+                key={item.id}
+                data-search-idx={itemOffset + i}
+                onClick={() => handleItemClick(item)}
                 onMouseDown={(e) => {
                   if (e.button !== 1) return;
                   e.preventDefault();
-                  openTab({ kind: "item", entityId: i.id, nameEn: i.name_en ?? "", nameFr: i.name_fr ?? "", typeKey: null, spriteUrl: i.sprite_url }, true);
+                  openTab({ kind: "item", entityId: item.id, nameEn: item.name_en ?? "", nameFr: item.name_fr ?? "", typeKey: null, spriteUrl: item.sprite_url }, true);
                 }}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
+                className={cn(
+                  "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8",
+                  searchNavIndex === itemOffset + i && "bg-primary/15 ring-1 ring-primary/30"
+                )}
               >
-                {i.sprite_url ? (
+                {item.sprite_url ? (
                   <img
-                    src={i.sprite_url}
+                    src={item.sprite_url}
                     alt=""
                     className="h-6 w-6 shrink-0 object-contain"
                     loading="lazy"
@@ -291,17 +332,17 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
                   </div>
                 )}
                 <span className="truncate font-medium text-xs">
-                  {itemName(i.name_en ?? "", i.name_fr ?? "")}
+                  <HighlightMatch text={itemName(item.name_en ?? "", item.name_fr ?? "")} query={query} />
                 </span>
-              </motion.button>
+              </button>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
 
       {/* Abilities section */}
       {abilityResults.length > 0 && (
-        <motion.div variants={staggerItem} className="px-2 py-1.5">
+        <div className="px-2 py-1.5">
           <button
             onClick={() => navigate("/abilities")}
             className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-white/8 transition-colors group"
@@ -315,30 +356,33 @@ export function SearchCrossResults({ exclude, onNavigate }: SearchCrossResultsPr
             </span>
             <ChevronRight className="ml-auto h-3 w-3 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
           </button>
-          <motion.div className="grid gap-0.5" variants={nestedStagger} initial="initial" animate="animate">
-            {abilityResults.map((a) => (
-              <motion.button
+          <div className="grid gap-0.5">
+            {abilityResults.map((a, i) => (
+              <button
                 key={a.id}
-                variants={staggerItem}
+                data-search-idx={abilityOffset + i}
                 onClick={() => handleAbilityClick(a)}
                 onMouseDown={(e) => {
                   if (e.button !== 1) return;
                   e.preventDefault();
                   openTab({ kind: "ability", entityId: a.id, nameEn: a.name_en ?? "", nameFr: a.name_fr ?? "", typeKey: null }, true);
                 }}
-                className="flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8"
+                className={cn(
+                  "flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-white/8",
+                  searchNavIndex === abilityOffset + i && "bg-primary/15 ring-1 ring-primary/30"
+                )}
               >
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-white/8">
                   <Sparkles className="h-3 w-3 text-primary" />
                 </div>
                 <span className="truncate font-medium text-xs">
-                  {abilityName(a.name_en ?? "", a.name_fr ?? "")}
+                  <HighlightMatch text={abilityName(a.name_en ?? "", a.name_fr ?? "")} query={query} />
                 </span>
-              </motion.button>
+              </button>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 }

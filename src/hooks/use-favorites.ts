@@ -33,6 +33,7 @@ export function useToggleFavorite() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["favorites"] });
+      queryClient.invalidateQueries({ queryKey: ["pokemon", "browser"] });
     },
   });
 }

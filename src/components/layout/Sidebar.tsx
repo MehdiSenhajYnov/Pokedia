@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useState, useEffect, useMemo } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSyncStatus } from "@/hooks/use-sync";
 import { useComparisonStore } from "@/stores/comparison-store";
+import { useRecentStore } from "@/stores/recent-store";
+import { useAllPokemon } from "@/hooks/use-pokemon";
+import { useSettingsStore } from "@/stores/settings-store";
 import { navItemVariants, springSnappy } from "@/lib/motion";
 import { GlassSidebar } from "@/components/ui/liquid-glass";
 import {
@@ -16,6 +19,7 @@ import {
   Leaf,
   Settings,
   ChevronLeft,
+  Clock,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -87,14 +91,66 @@ function SyncDot() {
   );
 }
 
+const SPRITE_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
+
+function RecentPokemon() {
+  const { recentIds } = useRecentStore();
+  const { data: allPokemon } = useAllPokemon(recentIds.length > 0);
+  const { pokemonName } = useSettingsStore();
+
+  const recentList = useMemo(() => {
+    if (!allPokemon || recentIds.length === 0) return [];
+    const map = new Map(allPokemon.map((p) => [p.id, p]));
+    return recentIds.slice(0, 5).map((id) => map.get(id)).filter(Boolean) as typeof allPokemon;
+  }, [allPokemon, recentIds]);
+
+  if (recentList.length === 0) return null;
+
+  return (
+    <div className="border-t border-border/30 px-2 py-2">
+      <div className="mb-1 px-3">
+        <span className="text-[10px] uppercase tracking-wide font-heading font-medium text-sidebar-foreground/40 flex items-center gap-1">
+          <Clock className="h-2.5 w-2.5" />
+          Recent
+        </span>
+      </div>
+      {recentList.map((p) => (
+        <NavLink
+          key={p.id}
+          to={`/pokemon/${p.id}`}
+          className="flex h-8 items-center gap-2 rounded-lg px-3 text-xs text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+        >
+          <img
+            src={p.sprite_url ?? `${SPRITE_BASE}/${p.id}.png`}
+            alt=""
+            className="h-5 w-5 object-contain"
+          />
+          <span className="truncate font-medium">{pokemonName(p.name_en, p.name_fr)}</span>
+        </NavLink>
+      ))}
+    </div>
+  );
+}
+
 export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    const saved = localStorage.getItem("pokedia-sidebar-collapsed");
+    if (saved !== null) return saved === "true";
+    return window.matchMedia("(max-width: 860px)").matches;
+  });
   const compareCount = useComparisonStore((s) => s.pokemonIds.length);
 
   useEffect(() => {
+    localStorage.setItem("pokedia-sidebar-collapsed", String(collapsed));
+  }, [collapsed]);
+
+  useEffect(() => {
     const mq = window.matchMedia("(max-width: 860px)");
-    const handler = (e: MediaQueryListEvent) => setCollapsed(e.matches);
-    setCollapsed(mq.matches);
+    const handler = (e: MediaQueryListEvent) => {
+      if (localStorage.getItem("pokedia-sidebar-collapsed") === null) {
+        setCollapsed(e.matches);
+      }
+    };
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
@@ -117,6 +173,7 @@ export function Sidebar() {
           collapsed && "justify-center px-0"
         )}
       >
+        <Link to="/" className="flex items-center gap-2.5" aria-label="Go to Pokédex">
         <motion.div
           className="relative flex h-7 w-7 shrink-0 items-center justify-center cursor-pointer"
           whileHover={{ rotate: 180 }}
@@ -127,11 +184,20 @@ export function Sidebar() {
           <div className="absolute h-[2.5px] w-full bg-primary" />
           <div className="absolute h-2.5 w-2.5 rounded-full border-[2px] border-primary bg-sidebar" />
         </motion.div>
-        {!collapsed && (
-          <span className="font-heading text-base font-bold tracking-tight text-sidebar-foreground">
-            Pokedia
-          </span>
-        )}
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.span
+              initial={{ opacity: 0, width: 0 }}
+              animate={{ opacity: 1, width: "auto" }}
+              exit={{ opacity: 0, width: 0 }}
+              transition={{ duration: 0.15 }}
+              className="font-heading text-base font-bold tracking-tight text-sidebar-foreground overflow-hidden whitespace-nowrap"
+            >
+              Pokedia
+            </motion.span>
+          )}
+        </AnimatePresence>
+        </Link>
       </div>
 
       {/* ── Navigation ── */}
@@ -151,13 +217,21 @@ export function Sidebar() {
               )
             )}
             {/* First section header (only when expanded) */}
-            {sectionIdx === 0 && !collapsed && (
-              <div className="mb-1.5 px-3">
-                <span className="text-[10px] uppercase tracking-wide font-heading font-medium text-sidebar-foreground/40">
-                  {section.label}
-                </span>
-              </div>
-            )}
+            <AnimatePresence>
+              {sectionIdx === 0 && !collapsed && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="mb-1.5 px-3"
+                >
+                  <span className="text-[10px] uppercase tracking-wide font-heading font-medium text-sidebar-foreground/40">
+                    {section.label}
+                  </span>
+                </motion.div>
+              )}
+            </AnimatePresence>
             {section.items.map(({ to, icon: Icon, label, badge }) => {
               const badgeCount = badge === "compare" ? compareCount : 0;
               return (
@@ -197,7 +271,19 @@ export function Sidebar() {
                         whileHover="hover"
                       >
                         <Icon className="h-[18px] w-[18px] shrink-0" />
-                        {!collapsed && <span>{label}</span>}
+                        <AnimatePresence>
+                          {!collapsed && (
+                            <motion.span
+                              initial={{ opacity: 0, width: 0 }}
+                              animate={{ opacity: 1, width: "auto" }}
+                              exit={{ opacity: 0, width: 0 }}
+                              transition={{ duration: 0.15 }}
+                              className="overflow-hidden whitespace-nowrap"
+                            >
+                              {label}
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
                       </motion.div>
                       {badgeCount > 0 && (
                         <span className={cn(
@@ -215,6 +301,9 @@ export function Sidebar() {
           </div>
         ))}
       </nav>
+
+      {/* ── Recents ── */}
+      {!collapsed && <RecentPokemon />}
 
       {/* ── Bottom section ── */}
       <div className="flex flex-col gap-1 border-t border-border/30 px-2 py-3">
@@ -235,7 +324,19 @@ export function Sidebar() {
             title={collapsed ? label : undefined}
           >
             <Icon className="h-[18px] w-[18px] shrink-0" />
-            {!collapsed && <span>{label}</span>}
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.span
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="overflow-hidden whitespace-nowrap"
+                >
+                  {label}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </NavLink>
         ))}
 

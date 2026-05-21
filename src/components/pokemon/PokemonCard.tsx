@@ -106,7 +106,11 @@ export const PokemonCard = memo(function PokemonCard({ pokemon, nameToIdMap }: P
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  isCompared ? removePokemon(pokemon.id) : addPokemon(pokemon.id);
+                  if (isCompared) {
+                    removePokemon(pokemon.id);
+                  } else {
+                    addPokemon(pokemon.id);
+                  }
                 }}
                 className={cn(
                   "flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-200",

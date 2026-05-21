@@ -5,7 +5,13 @@ import path from "path";
 
 const host = process.env.TAURI_DEV_HOST;
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const pkg = require("./package.json");
+
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

@@ -109,7 +109,7 @@ export function MoveTable({ moves }: MoveTableProps) {
                   className={`border-b border-border/20 hover:bg-primary/5 transition-colors ${i % 2 === 1 ? "bg-muted/15" : ""}`}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: Math.min(i * 0.02, 0.3), duration: 0.2 }}
+                  transition={{ delay: Math.min(i * 0.02, 0.2), duration: 0.2 }}
                 >
                   {tab === "level-up" && (
                     <td className="px-4 py-3 font-mono text-muted-foreground">

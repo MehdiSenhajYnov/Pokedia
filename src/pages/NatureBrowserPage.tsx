@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAllNatures } from "@/hooks/use-natures";
 import { useSettingsStore } from "@/stores/settings-store";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 import { detailStagger, detailSection } from "@/lib/motion";
 import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
@@ -45,6 +46,7 @@ export default function NatureBrowserPage() {
   usePageTitle("Natures");
   const { data: allNatures, isLoading } = useAllNatures();
   const { natureName } = useSettingsStore();
+  const reduced = useReducedMotion();
   const [statFilter, setStatFilter] = useState("all");
   const [hideNeutral, setHideNeutral] = useState(false);
 
@@ -146,13 +148,16 @@ export default function NatureBrowserPage() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((nature) => {
+              {filtered.map((nature, index) => {
                 const isNeutral =
                   nature.increased_stat === nature.decreased_stat;
 
                 return (
-                  <tr
+                  <motion.tr
                     key={nature.id}
+                    initial={reduced ? false : { opacity: 0, x: -6 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={reduced ? { duration: 0 } : { delay: index * 0.025, duration: 0.2 }}
                     className={cn(
                       "border-b border-border/20 transition-colors",
                       isNeutral
@@ -228,7 +233,7 @@ export default function NatureBrowserPage() {
                         </span>
                       )}
                     </td>
-                  </tr>
+                  </motion.tr>
                 );
               })}
             </tbody>

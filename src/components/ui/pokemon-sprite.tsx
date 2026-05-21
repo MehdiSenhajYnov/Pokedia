@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, type SyntheticEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { springSnappy } from "@/lib/motion";
@@ -15,6 +15,12 @@ interface PokemonSpriteProps {
 const GITHUB_SPRITE_BASE =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
 
+interface ImageState {
+  sourceKey: string;
+  failedSrcs: Set<string>;
+  loadedSrc: string | null;
+}
+
 export function PokemonSprite({
   src,
   alt,
@@ -23,42 +29,65 @@ export function PokemonSprite({
   fallbackClassName,
   crossFade,
 }: PokemonSpriteProps) {
-  const [status, setStatus] = useState<"loading" | "loaded" | "fallback" | "error">(
-    src ? "loading" : pokemonId ? "fallback" : "error",
+  const fallbackSrc = pokemonId ? `${GITHUB_SPRITE_BASE}/${pokemonId}.png` : null;
+  const sourceKey = `${src ?? ""}|${fallbackSrc ?? ""}`;
+  const [imageState, setImageState] = useState<ImageState>(() => ({
+    sourceKey,
+    failedSrcs: new Set(),
+    loadedSrc: null,
+  }));
+  const activeImageState =
+    imageState.sourceKey === sourceKey
+      ? imageState
+      : { sourceKey, failedSrcs: new Set<string>(), loadedSrc: null };
+
+  const primarySrc = src && !activeImageState.failedSrcs.has(src) ? src : null;
+  const fallbackDisplaySrc =
+    fallbackSrc && !activeImageState.failedSrcs.has(fallbackSrc) ? fallbackSrc : null;
+  const currentSrc = primarySrc ?? fallbackDisplaySrc;
+  const status: "loading" | "loaded" | "fallback" | "error" =
+    !currentSrc
+      ? "error"
+      : activeImageState.loadedSrc === currentSrc
+        ? "loaded"
+        : currentSrc === src
+          ? "loading"
+          : "fallback";
+
+  const handleError = useCallback(
+    (event: SyntheticEvent<HTMLImageElement>) => {
+      const failedSrc = event.currentTarget.getAttribute("src");
+      if (!failedSrc) return;
+
+      setImageState((prev) => {
+        const failedSrcs = prev.sourceKey === sourceKey ? prev.failedSrcs : new Set<string>();
+        if (prev.sourceKey === sourceKey && failedSrcs.has(failedSrc)) return prev;
+
+        const nextFailedSrcs = new Set(failedSrcs);
+        nextFailedSrcs.add(failedSrc);
+        return {
+          sourceKey,
+          failedSrcs: nextFailedSrcs,
+          loadedSrc: prev.sourceKey === sourceKey ? prev.loadedSrc : null,
+        };
+      });
+    },
+    [sourceKey],
   );
-  const [currentSrc, setCurrentSrc] = useState(
-    src ?? (pokemonId ? `${GITHUB_SPRITE_BASE}/${pokemonId}.png` : null),
+
+  const handleLoad = useCallback(
+    (event: SyntheticEvent<HTMLImageElement>) => {
+      const loadedSrc = event.currentTarget.getAttribute("src");
+      if (!loadedSrc) return;
+
+      setImageState((prev) => {
+        const failedSrcs = prev.sourceKey === sourceKey ? prev.failedSrcs : new Set<string>();
+        if (prev.sourceKey === sourceKey && prev.loadedSrc === loadedSrc) return prev;
+        return { sourceKey, failedSrcs, loadedSrc };
+      });
+    },
+    [sourceKey],
   );
-
-  const prevSrc = useRef(src);
-  useEffect(() => {
-    if (src !== prevSrc.current) {
-      prevSrc.current = src;
-      if (src) {
-        setCurrentSrc(src);
-        setStatus("loading");
-      } else if (pokemonId) {
-        setCurrentSrc(`${GITHUB_SPRITE_BASE}/${pokemonId}.png`);
-        setStatus("fallback");
-      } else {
-        setCurrentSrc(null);
-        setStatus("error");
-      }
-    }
-  }, [src, pokemonId]);
-
-  const handleError = useCallback(() => {
-    if (status === "loading" && pokemonId) {
-      setCurrentSrc(`${GITHUB_SPRITE_BASE}/${pokemonId}.png`);
-      setStatus("fallback");
-    } else {
-      setStatus("error");
-    }
-  }, [status, pokemonId]);
-
-  const handleLoad = useCallback(() => {
-    setStatus("loaded");
-  }, []);
 
   if (status === "error" || !currentSrc) {
     return (

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /c/Users/mehdi/Desktop/Dev/Pokedia && npx vite build 2>&1)"
+    ]
+  }
+}

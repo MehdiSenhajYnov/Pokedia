@@ -4,8 +4,8 @@ import type { Transition, Variants } from "framer-motion";
 export const springSnappy: Transition = { type: "spring", stiffness: 500, damping: 30 };
 export const springBounce: Transition = { type: "spring", stiffness: 300, damping: 20 };
 export const springGentle: Transition = { type: "spring", stiffness: 200, damping: 25 };
-export const springPlayful: Transition = { type: "spring", stiffness: 400, damping: 15 };
 export const springWobbly: Transition = { type: "spring", stiffness: 350, damping: 12 };
+export const springStatBar: Transition = { type: "spring", stiffness: 200, damping: 22, mass: 0.8 };
 
 // ─── Page transitions ───────────────────────────────────────────────
 export const pageVariants: Variants = {
@@ -36,7 +36,7 @@ export const statBarVariants: Variants = {
   initial: { scaleX: 0 },
   animate: (pct: number) => ({
     scaleX: pct / 100,
-    transition: springBounce,
+    transition: springStatBar,
   }),
 };
 
@@ -73,12 +73,7 @@ export const heartBurst: Variants = {
 
 export const navItemVariants: Variants = {
   rest: { x: 0, scale: 1 },
-  hover: { x: 6, scale: 1.02 },
-};
-
-export const cardHover = {
-  whileHover: { y: -6 },
-  whileTap: { scale: 0.97 },
+  hover: { x: 3, scale: 1.02 },
 };
 
 export const spriteFloat: Variants = {
@@ -88,24 +83,10 @@ export const spriteFloat: Variants = {
   },
 };
 
-export const sectionReveal: Variants = {
-  initial: { opacity: 0, y: 20, scale: 0.98 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-export const pokeballSpin: Variants = {
-  animate: {
-    rotate: [0, 15, -15, 10, -10, 0],
-    transition: { duration: 1.2, repeat: Infinity, ease: "easeInOut" },
-  },
-};
+// sectionReveal removed — use detailSection instead
 
 export const noResultsShake: Variants = {
+  initial: { x: 0 },
   animate: {
     x: [0, -4, 4, -3, 3, 0],
     transition: { duration: 0.4 },
@@ -127,12 +108,6 @@ export const detailSection: Variants = {
     y: 0,
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
   },
-};
-
-// ─── Table row enter ────────────────────────────────────────────────
-export const tableRowEnter: Variants = {
-  initial: { opacity: 0, x: -8 },
-  animate: { opacity: 1, x: 0 },
 };
 
 // ─── Tab bar ────────────────────────────────────────────────────────

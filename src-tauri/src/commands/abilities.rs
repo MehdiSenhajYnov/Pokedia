@@ -39,18 +39,21 @@ pub async fn search_abilities(
     state: State<'_, AppState>,
     query: String,
 ) -> Result<Vec<AbilitySummary>, String> {
-    let pattern = format!("%{}%", query.to_lowercase());
+    let normalized = query.trim().to_lowercase();
+    let pattern = format!("%{}%", normalized);
 
     let rows: Vec<AbilitySummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, short_effect_en, short_effect_fr, generation
          FROM abilities
-         WHERE LOWER(name_key) LIKE ?1
+         WHERE CAST(id AS TEXT) = ?2
+            OR LOWER(name_key) LIKE ?1
             OR LOWER(name_en) LIKE ?1
             OR LOWER(name_fr) LIKE ?1
          ORDER BY id
          LIMIT 50",
     )
     .bind(&pattern)
+    .bind(&normalized)
     .fetch_all(&state.pool)
     .await
     .map_err(|e| e.to_string())?;

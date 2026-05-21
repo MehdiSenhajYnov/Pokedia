@@ -4,6 +4,8 @@ import { persist } from "zustand/middleware";
 interface SearchState {
   query: string;
   searchActive: boolean;
+  searchNavIndex: number;
+  searchNavTotal: number;
   pokemonTypeFilter: string | null;
   pokemonType2Filter: string | null;
   pokemonSort: string;
@@ -20,6 +22,8 @@ interface SearchState {
   setQuery: (q: string) => void;
   activateSearch: () => void;
   dismissSearch: () => void;
+  setSearchNavIndex: (idx: number) => void;
+  setSearchNavTotal: (total: number) => void;
   setPokemonTypeFilter: (t: string | null) => void;
   setPokemonType2Filter: (t: string | null) => void;
   setPokemonSort: (s: string) => void;
@@ -32,6 +36,7 @@ interface SearchState {
   setMovePowerMax: (v: number | null) => void;
   setItemCategoryFilter: (c: string | null) => void;
   setItemViewMode: (m: "grid" | "list") => void;
+  resetAllFilters: () => void;
 }
 
 export const useSearchStore = create<SearchState>()(
@@ -39,6 +44,8 @@ export const useSearchStore = create<SearchState>()(
     (set) => ({
       query: "",
       searchActive: false,
+      searchNavIndex: -1,
+      searchNavTotal: 0,
       pokemonTypeFilter: null,
       pokemonType2Filter: null,
       pokemonSort: "id",
@@ -52,9 +59,11 @@ export const useSearchStore = create<SearchState>()(
       itemCategoryFilter: null,
       itemViewMode: "list",
 
-      setQuery: (query) => set({ query, searchActive: query.length > 0 }),
+      setQuery: (query) => set({ query, searchActive: query.length > 0, searchNavIndex: -1 }),
       activateSearch: () => set({ searchActive: true }),
-      dismissSearch: () => set({ searchActive: false }),
+      dismissSearch: () => set({ searchActive: false, searchNavIndex: -1, searchNavTotal: 0 }),
+      setSearchNavIndex: (searchNavIndex) => set({ searchNavIndex }),
+      setSearchNavTotal: (searchNavTotal) => set({ searchNavTotal }),
       setPokemonTypeFilter: (pokemonTypeFilter) => set((state) => ({
         pokemonTypeFilter,
         // Clear type 2 if type 1 is cleared or set to same value as type 2
@@ -74,6 +83,21 @@ export const useSearchStore = create<SearchState>()(
       setMovePowerMax: (movePowerMax) => set({ movePowerMax }),
       setItemCategoryFilter: (itemCategoryFilter) => set({ itemCategoryFilter }),
       setItemViewMode: (itemViewMode) => set({ itemViewMode }),
+      resetAllFilters: () =>
+        set({
+          query: "",
+          searchActive: false,
+          pokemonTypeFilter: null,
+          pokemonType2Filter: null,
+          pokemonSort: "id",
+          pokemonFavoritesOnly: false,
+          pokemonGenFilter: null,
+          moveTypeFilter: null,
+          moveDamageClassFilter: null,
+          movePowerMin: null,
+          movePowerMax: null,
+          itemCategoryFilter: null,
+        }),
     }),
     {
       name: "pokedia-search",

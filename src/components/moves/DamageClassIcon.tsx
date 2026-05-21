@@ -53,7 +53,7 @@ export function DamageClassIcon({
   return (
     <motion.span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[13px] font-medium bg-white/8",
+        "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[13px] font-medium bg-muted/30",
         config.color,
         className,
       )}

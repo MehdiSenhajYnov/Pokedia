@@ -49,10 +49,34 @@ async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle)
             "total": total,
         }));
 
+        let fingerprint = cache::games::bundled_game_fingerprint(json_str);
+        match cache::games::is_bundled_game_current(pool, &data.game.id, &fingerprint).await {
+            Ok(true) => {
+                log::info!("Bundled game already current: {}", data.game.id);
+                continue;
+            }
+            Ok(false) => {}
+            Err(e) => log::warn!(
+                "Failed to check bundled game fingerprint for '{}': {}",
+                data.game.id,
+                e
+            ),
+        }
+
         log::info!("Auto-importing bundled game: {}", data.game.id);
         match cache::games::import_game_data(pool, &data).await {
             Ok(_) => {
                 imported += 1;
+                if let Err(e) =
+                    cache::games::set_bundled_game_fingerprint(pool, &data.game.id, &fingerprint)
+                        .await
+                {
+                    log::warn!(
+                        "Failed to save bundled game fingerprint for '{}': {}",
+                        data.game.id,
+                        e
+                    );
+                }
                 log::info!("Successfully imported game: {}", data.game.id);
             }
             Err(e) => log::error!("Failed to import game '{}': {}", data.game.id, e),
@@ -71,7 +95,11 @@ async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle)
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_log::Builder::new().build())
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .level(log::LevelFilter::Info)
+                .build(),
+        )
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .setup(|app| {
             let handle = app.handle().clone();
@@ -100,6 +128,7 @@ pub fn run() {
             commands::settings::set_setting,
             // Pokemon
             commands::pokemon::get_all_pokemon,
+            commands::pokemon::get_pokemon_page,
             commands::pokemon::get_pokemon_by_id,
             commands::pokemon::search_pokemon,
             commands::pokemon::get_pokemon_abilities,

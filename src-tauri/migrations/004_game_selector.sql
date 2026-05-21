@@ -69,3 +69,6 @@ CREATE TABLE IF NOT EXISTS game_item_locations (
 CREATE INDEX IF NOT EXISTS idx_gpm_pokemon ON game_pokemon_moves(game_id, pokemon_name_key);
 CREATE INDEX IF NOT EXISTS idx_gpl_pokemon ON game_pokemon_locations(game_id, pokemon_name_key);
 CREATE INDEX IF NOT EXISTS idx_gil_item ON game_item_locations(game_id, item_name_key);
+CREATE INDEX IF NOT EXISTS idx_pokemon_moves_move ON pokemon_moves(move_id);
+CREATE INDEX IF NOT EXISTS idx_abilities_name_key ON abilities(name_key);
+CREATE INDEX IF NOT EXISTS idx_items_category ON items(category);

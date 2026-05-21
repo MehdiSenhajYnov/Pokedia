@@ -18,21 +18,21 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 import { GlassCard } from "@/components/ui/liquid-glass";
 
 const FACTOR_BG: Record<number, string> = {
-  0: "bg-gray-800/80",
-  0.25: "bg-emerald-900/70",
-  0.5: "bg-emerald-800/50",
+  0: "bg-gray-500/20 dark:bg-gray-800/80",
+  0.25: "bg-emerald-500/20 dark:bg-emerald-900/70",
+  0.5: "bg-emerald-500/15 dark:bg-emerald-800/50",
   1: "bg-transparent",
-  2: "bg-red-900/50",
-  4: "bg-red-800/70",
+  2: "bg-red-500/15 dark:bg-red-900/50",
+  4: "bg-red-500/20 dark:bg-red-800/70",
 };
 
 const FACTOR_TEXT: Record<number, string> = {
-  0: "text-gray-500",
-  0.25: "text-emerald-300 font-bold",
-  0.5: "text-emerald-300",
+  0: "text-gray-500 dark:text-gray-500",
+  0.25: "text-emerald-600 dark:text-emerald-300 font-bold",
+  0.5: "text-emerald-600 dark:text-emerald-300",
   1: "text-muted-foreground/25",
-  2: "text-red-300",
-  4: "text-red-200 font-bold",
+  2: "text-red-600 dark:text-red-300",
+  4: "text-red-600 dark:text-red-200 font-bold",
 };
 
 const FACTOR_LABEL: Record<number, string> = {

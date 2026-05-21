@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState } from "react";
+import { useDeferredValue, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Swords } from "lucide-react";
+import { Swords, X } from "lucide-react";
 import { useAllMoves } from "@/hooks/use-moves";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useSearchStore } from "@/stores/search-store";
@@ -20,7 +20,7 @@ import {
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { MoveSummary } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { scalePop } from "@/lib/motion";
+import { scalePop, noResultsShake } from "@/lib/motion";
 import { useTabStore } from "@/stores/tab-store";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
@@ -32,25 +32,24 @@ export default function MoveBrowserPage() {
   usePageTitle("Moves");
   const { data: allMoves, isLoading } = useAllMoves();
   const navigate = useNavigate();
-  const {
-    query,
-    moveTypeFilter,
-    moveDamageClassFilter,
-    movePowerMin,
-    movePowerMax,
-    setMoveTypeFilter,
-    setMoveDamageClassFilter,
-    setMovePowerMin,
-    setMovePowerMax,
-  } = useSearchStore();
+  const query = useSearchStore((s) => s.query);
+  const moveTypeFilter = useSearchStore((s) => s.moveTypeFilter);
+  const moveDamageClassFilter = useSearchStore((s) => s.moveDamageClassFilter);
+  const movePowerMin = useSearchStore((s) => s.movePowerMin);
+  const movePowerMax = useSearchStore((s) => s.movePowerMax);
+  const setMoveTypeFilter = useSearchStore((s) => s.setMoveTypeFilter);
+  const setMoveDamageClassFilter = useSearchStore((s) => s.setMoveDamageClassFilter);
+  const setMovePowerMin = useSearchStore((s) => s.setMovePowerMin);
+  const setMovePowerMax = useSearchStore((s) => s.setMovePowerMax);
+  const deferredQuery = useDeferredValue(query);
   const { moveName } = useSettingsStore();
   const { openTab } = useTabStore();
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const filtered = useMemo(() => {
     let result = allMoves ?? [];
-    if (query) {
-      const q = query.toLowerCase();
+    if (deferredQuery) {
+      const q = deferredQuery.toLowerCase();
       result = result.filter(
         (m) =>
           (m.name_en?.toLowerCase().includes(q) ?? false) ||
@@ -73,7 +72,7 @@ export default function MoveBrowserPage() {
       result = result.filter((m) => m.power !== null && m.power <= movePowerMax);
     }
     return result;
-  }, [allMoves, query, moveTypeFilter, moveDamageClassFilter, movePowerMin, movePowerMax]);
+  }, [allMoves, deferredQuery, moveTypeFilter, moveDamageClassFilter, movePowerMin, movePowerMax]);
 
   const columns = useMemo<ColumnDef<MoveSummary>[]>(
     () => [
@@ -188,7 +187,7 @@ export default function MoveBrowserPage() {
 
   return (
     <motion.div
-      className="flex flex-col gap-4 p-5"
+      className="flex flex-col flex-1 min-h-0 gap-4 p-5"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
@@ -229,7 +228,7 @@ export default function MoveBrowserPage() {
               placeholder="Min"
               value={movePowerMin ?? ""}
               onChange={(e) => setMovePowerMin(e.target.value ? Number(e.target.value) : null)}
-              className="h-9 w-16 rounded-xl bg-white/5 border border-white/10 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              className="h-9 w-16 rounded-xl bg-white/5 border border-white/10 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/40 transition-all"
               min={0}
               aria-label="Minimum power"
             />
@@ -239,7 +238,7 @@ export default function MoveBrowserPage() {
               placeholder="Max"
               value={movePowerMax ?? ""}
               onChange={(e) => setMovePowerMax(e.target.value ? Number(e.target.value) : null)}
-              className="h-9 w-16 rounded-xl bg-white/5 border border-white/10 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              className="h-9 w-16 rounded-xl bg-white/5 border border-white/10 px-2 text-sm text-center font-mono outline-none focus:ring-2 focus:ring-primary/40 transition-all"
               min={0}
               aria-label="Maximum power"
             />
@@ -249,6 +248,27 @@ export default function MoveBrowserPage() {
             <Swords className="h-3.5 w-3.5" />
             <span>{filtered.length} moves</span>
           </div>
+
+          <AnimatePresence>
+            {(moveTypeFilter || moveDamageClassFilter || movePowerMin !== null || movePowerMax !== null || query) && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => {
+                  setMoveTypeFilter(null);
+                  setMoveDamageClassFilter(null);
+                  setMovePowerMin(null);
+                  setMovePowerMax(null);
+                }}
+                className="flex h-9 items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 text-xs text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
+              >
+                <X className="h-3 w-3" />
+                Clear
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
       </GlassToolbar>
 
@@ -256,8 +276,7 @@ export default function MoveBrowserPage() {
       <GlassCard className="overflow-hidden rounded-xl border border-border/30">
       <div
         ref={parentRef}
-        className="overflow-y-auto"
-        style={{ height: "calc(100vh - 220px)" }}
+        className="flex-1 min-h-0 overflow-y-auto"
       >
         <table className="w-full text-sm">
           <thead className="sticky top-0 z-10 glass-heavy">
@@ -307,14 +326,19 @@ export default function MoveBrowserPage() {
           </thead>
           <tbody>
             {rows.length === 0 ? (
-              <tr>
+              <motion.tr
+                variants={noResultsShake}
+                initial="initial"
+                animate="animate"
+              >
                 <td
                   colSpan={columns.length}
                   className="py-12 text-center text-sm text-muted-foreground"
                 >
+                  <Swords className="mx-auto mb-2 h-10 w-10 text-muted-foreground/40 animate-[float_3s_ease-in-out_infinite]" />
                   No moves found matching your filters.
                 </td>
-              </tr>
+              </motion.tr>
             ) : (
               <>
                 <tr style={{ height: virtualizer.getVirtualItems()[0]?.start ?? 0 }}>

@@ -50,7 +50,7 @@ export const useTabStore = create<TabState>()(
         }
 
         const tab: Tab = { ...data, id };
-        let next = [...tabs, tab];
+        const next = [...tabs, tab];
 
         // LRU eviction: remove oldest non-active tab if over limit
         if (next.length > MAX_TABS) {

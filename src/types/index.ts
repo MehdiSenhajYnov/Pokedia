@@ -18,6 +18,11 @@ export interface PokemonSummary {
   species_id: number | null;
 }
 
+export interface PokemonPage {
+  items: PokemonSummary[];
+  total: number;
+}
+
 export interface PokemonDetail {
   id: number;
   name_key: string;

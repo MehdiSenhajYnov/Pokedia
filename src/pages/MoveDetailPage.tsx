@@ -286,14 +286,8 @@ function MovePokemonSection({
   );
 
   const [activeTab, setActiveTab] = useState<string>("");
-
-  useEffect(() => {
-    if (availableTabs.length > 0 && !grouped.has(activeTab)) {
-      setActiveTab(availableTabs[0].key);
-    }
-  }, [availableTabs, activeTab, grouped]);
-
-  const currentList = grouped.get(activeTab) ?? [];
+  const selectedTab = grouped.has(activeTab) ? activeTab : (availableTabs[0]?.key ?? "");
+  const currentList = grouped.get(selectedTab) ?? [];
 
   const spriteBase =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon";
@@ -317,7 +311,7 @@ function MovePokemonSection({
             onClick={() => setActiveTab(t.key)}
             className={cn(
               "rounded-full border px-3 py-1 text-xs font-medium transition-all",
-              activeTab === t.key
+              selectedTab === t.key
                 ? "border-primary/50 bg-primary/10 text-primary"
                 : "border-white/10 bg-white/5 text-muted-foreground hover:text-foreground",
             )}
@@ -333,7 +327,7 @@ function MovePokemonSection({
       {/* Grid */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={activeTab}
+          key={selectedTab}
           className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-3"
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
@@ -362,7 +356,7 @@ function MovePokemonSection({
                   <span className="truncate font-heading text-xs font-semibold">
                     {pokemonName(p.name_en, p.name_fr)}
                   </span>
-                  {activeTab === "level-up" && p.level_learned_at > 0 && (
+                  {selectedTab === "level-up" && p.level_learned_at > 0 && (
                     <span className="inline-flex items-center rounded-full bg-white/8 px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground">
                       Lv.{p.level_learned_at}
                     </span>

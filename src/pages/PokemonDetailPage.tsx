@@ -38,7 +38,8 @@ import {
   Gamepad2,
   MapPin,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { getDefensiveMatchups } from "@/lib/type-chart";
 import {
@@ -47,7 +48,8 @@ import {
   type ModifiedTypeInfo,
 } from "@/lib/ability-matchups";
 import { cn } from "@/lib/utils";
-import { staggerContainer, staggerItem, spriteFloat, detailStagger, detailSection } from "@/lib/motion";
+import { staggerContainer, staggerItem, spriteFloat, detailStagger, detailSection, heartBurst } from "@/lib/motion";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 import { GlassCard, GlassPill } from "@/components/ui/liquid-glass";
 import type { PokemonTypeName } from "@/lib/constants";
@@ -94,6 +96,7 @@ export default function PokemonDetailPage() {
   const isFavorite = useIsFavorite(pokemonId ?? 0);
   const { mutate: toggleFav } = useToggleFavorite();
   const [showShiny, setShowShiny] = useState(false);
+  const reduced = useReducedMotion();
 
   const name = pokemon ? pokemonName(pokemon.name_en, pokemon.name_fr) : "";
   const nameToIdMapDetail = useMemo(
@@ -174,7 +177,18 @@ export default function PokemonDetailPage() {
       };
     }
     return getAbilityAdjustedMatchups(t1, t2, matchupAbility.ability_key);
-  }, [pokemon?.type1_key, pokemon?.type2_key, matchupAbility]);
+  }, [pokemon, matchupAbility]);
+
+  // Tint the mesh background with the primary type color
+  const accentHex = pokemon ? (TYPE_COLORS_HEX[pokemon.type1_key ?? ""] ?? null) : null;
+  useEffect(() => {
+    if (accentHex) {
+      document.documentElement.style.setProperty("--mesh-accent", accentHex);
+    }
+    return () => {
+      document.documentElement.style.removeProperty("--mesh-accent");
+    };
+  }, [accentHex]);
 
   if (loadingPokemon || !pokemon) {
     return (
@@ -190,7 +204,7 @@ export default function PokemonDetailPage() {
           </div>
           <div className="space-y-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-4 skeleton-shimmer rounded-xl" style={{ animationDelay: `${i * 0.06}s`, width: `${70 + Math.random() * 30}%` }} />
+              <div key={i} className="h-4 skeleton-shimmer rounded-xl" style={{ animationDelay: `${i * 0.06}s`, width: `${70 + (i * 13) % 30}%` }} />
             ))}
           </div>
         </div>
@@ -290,26 +304,45 @@ export default function PokemonDetailPage() {
         </div>
         <div className="flex gap-2">
           <GlassPill>
-            <button
-              onClick={() => toggleFav(pokemon.id)}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                toggleFav(pokemon.id);
+                toast(isFavorite ? "Removed from favorites" : "Added to favorites", { duration: 1500 });
+              }}
               className={cn(
                 "flex h-8 items-center gap-1.5 px-3 text-xs transition-all",
                 isFavorite ? "text-red-500" : "text-muted-foreground hover:text-foreground",
               )}
               aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
             >
-              <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isFavorite ? "fav" : "not"}
+                  variants={heartBurst}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                >
+                  <Heart className={cn("h-3 w-3", isFavorite && "fill-current")} />
+                </motion.div>
+              </AnimatePresence>
               {isFavorite ? "Favorited" : "Favorite"}
-            </button>
+            </motion.button>
           </GlassPill>
 
           <GlassPill>
-            <button
-              onClick={() =>
-                isCompared
-                  ? removePokemon(pokemon.id)
-                  : addPokemon(pokemon.id)
-              }
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                if (isCompared) {
+                  removePokemon(pokemon.id);
+                  toast("Removed from comparison", { duration: 1500 });
+                } else {
+                  addPokemon(pokemon.id);
+                  toast("Added to comparison", { duration: 1500 });
+                }
+              }}
               className="flex h-8 items-center gap-1.5 px-3 text-xs text-muted-foreground hover:text-foreground transition-all"
               aria-label={isCompared ? "Remove from comparison" : "Add to comparison"}
             >
@@ -322,7 +355,7 @@ export default function PokemonDetailPage() {
                   <Plus className="h-3 w-3" /> Compare
                 </>
               )}
-            </button>
+            </motion.button>
           </GlassPill>
         </div>
       </motion.div>
@@ -342,7 +375,7 @@ export default function PokemonDetailPage() {
           <motion.div
             className="absolute h-44 w-44 rounded-full border-2 border-dashed"
             style={{ borderColor: `${typeHex}25` }}
-            animate={{
+            animate={reduced ? undefined : {
               scale: [1, 1.03, 1],
               opacity: [0.6, 0.9, 0.6],
             }}
@@ -351,7 +384,7 @@ export default function PokemonDetailPage() {
           <motion.div
             className="absolute h-48 w-48 rounded-full border border-dashed"
             style={{ borderColor: `${typeHex}15` }}
-            animate={{
+            animate={reduced ? undefined : {
               scale: [1.03, 1, 1.03],
               opacity: [0.5, 0.8, 0.5],
             }}
@@ -364,8 +397,8 @@ export default function PokemonDetailPage() {
 
           <div className="relative">
             <motion.div
-              variants={spriteFloat}
-              animate="animate"
+              variants={reduced ? undefined : spriteFloat}
+              animate={reduced ? undefined : "animate"}
             >
               <PokemonSprite
                 src={spriteUrl}
@@ -541,7 +574,7 @@ export default function PokemonDetailPage() {
         </h2>
         <GlassCard className="rounded-2xl border border-border/30">
           <div className="p-5">
-            <StatsBar stats={stats} />
+            <StatsBar key={pokemon.id} stats={stats} />
           </div>
         </GlassCard>
       </motion.section>
@@ -603,8 +636,10 @@ export default function PokemonDetailPage() {
                   <div key={`note-${newFactor}`} className="flex items-center gap-2 rounded-lg bg-primary/5 border-l-2 border-primary px-4 py-2 text-xs text-muted-foreground">
                     <Shield className="h-3.5 w-3.5 shrink-0 text-primary" />
                     <span>
-                      {newFactor === 0 ? "0x" : `${newFactor}x`} grâce à <strong className="text-foreground">{displayName}</strong>
-                      {" "}(sans ce talent : {[...oldFactors].map((f) => `${f}x`).join("/")})
+                      {newFactor === 0 ? "0x" : `${newFactor}x`}{" "}
+                      {description("thanks to", "grâce à")}{" "}
+                      <strong className="text-foreground">{displayName}</strong>
+                      {" "}({description("without this ability", "sans ce talent")} : {[...oldFactors].map((f) => `${f}x`).join("/")})
                     </span>
                   </div>
                 ));

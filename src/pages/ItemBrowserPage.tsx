@@ -1,7 +1,7 @@
-import { useMemo, useRef, useState, useEffect, useCallback, memo } from "react";
+import { useMemo, useRef, useState, useEffect, useCallback, useDeferredValue, memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Package, Tag, LayoutGrid, List } from "lucide-react";
-import { motion } from "framer-motion";
+import { Package, Tag, LayoutGrid, List, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useAllItems } from "@/hooks/use-items";
@@ -9,6 +9,7 @@ import { useSearchStore } from "@/stores/search-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useTabStore } from "@/stores/tab-store";
 import { cn } from "@/lib/utils";
+import { noResultsShake } from "@/lib/motion";
 import { SearchCrossResults } from "@/components/layout/SearchCrossResults";
 import { GlassCard, GlassToolbar } from "@/components/ui/liquid-glass";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -23,13 +24,12 @@ const ROW_HEIGHT = 56;
 export default function ItemBrowserPage() {
   usePageTitle("Items");
   const { data: allItems, isLoading } = useAllItems();
-  const {
-    query,
-    itemCategoryFilter,
-    itemViewMode,
-    setItemCategoryFilter,
-    setItemViewMode,
-  } = useSearchStore();
+  const query = useSearchStore((s) => s.query);
+  const itemCategoryFilter = useSearchStore((s) => s.itemCategoryFilter);
+  const itemViewMode = useSearchStore((s) => s.itemViewMode);
+  const setItemCategoryFilter = useSearchStore((s) => s.setItemCategoryFilter);
+  const setItemViewMode = useSearchStore((s) => s.setItemViewMode);
+  const deferredQuery = useDeferredValue(query);
 
   const categories = useMemo(() => {
     if (!allItems) return [];
@@ -41,8 +41,8 @@ export default function ItemBrowserPage() {
 
   const filtered = useMemo(() => {
     let result = allItems ?? [];
-    if (query) {
-      const q = query.toLowerCase();
+    if (deferredQuery) {
+      const q = deferredQuery.toLowerCase();
       result = result.filter(
         (i) =>
           (i.name_en?.toLowerCase().includes(q) ?? false) ||
@@ -54,7 +54,7 @@ export default function ItemBrowserPage() {
       result = result.filter((i) => i.category === itemCategoryFilter);
     }
     return result;
-  }, [allItems, query, itemCategoryFilter]);
+  }, [allItems, deferredQuery, itemCategoryFilter]);
 
   if (isLoading) {
     return (
@@ -135,6 +135,22 @@ export default function ItemBrowserPage() {
             <Package className="h-3.5 w-3.5" />
             <span>{filtered.length} items</span>
           </div>
+
+          <AnimatePresence>
+            {(itemCategoryFilter || query) && (
+              <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                onClick={() => setItemCategoryFilter(null)}
+                className="flex h-9 items-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 text-xs text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
+              >
+                <X className="h-3 w-3" />
+                Clear
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
       </GlassToolbar>
 
@@ -142,9 +158,9 @@ export default function ItemBrowserPage() {
       {filtered.length === 0 ? (
         <motion.div
           className="flex flex-col items-center justify-center py-16 gap-3"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
+          variants={noResultsShake}
+          initial="initial"
+          animate="animate"
         >
           <Package className="h-10 w-10 text-muted-foreground/40 animate-[float_3s_ease-in-out_infinite]" />
           <p className="text-sm text-muted-foreground">
@@ -256,14 +272,17 @@ function VirtualizedItemGrid({ items }: { items: ItemSummary[] }) {
               }}
             >
               {rowItems.map((item) => (
-                <GridItemCard
+                <div
                   key={item.id}
-                  item={item}
-                  name={getItemName(item.name_en, item.name_fr)}
-                  effect={getDescription(item.effect_en, item.effect_fr)}
-                  onClick={handleItemClick}
-                  onMiddleClick={handleMiddleClick}
-                />
+                >
+                  <GridItemCard
+                    item={item}
+                    name={getItemName(item.name_en, item.name_fr)}
+                    effect={getDescription(item.effect_en, item.effect_fr)}
+                    onClick={handleItemClick}
+                    onMiddleClick={handleMiddleClick}
+                  />
+                </div>
               ))}
             </div>
           );

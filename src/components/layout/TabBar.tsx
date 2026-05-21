@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { X, Swords, Package, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,6 +8,7 @@ import { useSettingsStore } from "@/stores/settings-store";
 import { TYPE_COLORS_HEX } from "@/lib/constants";
 import { tabBarVariants, tabPillVariants } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { GlassToolbar } from "@/components/ui/liquid-glass";
 
 export function TabBar() {
   const { tabs, activeTabId, setActive, closeTab, closeOthers, closeAll } =
@@ -102,19 +103,26 @@ export function TabBar() {
     [handleCloseTab],
   );
 
-  // Ctrl+Tab / Ctrl+Shift+Tab cycling
+  // Ctrl+Tab / Ctrl+Shift+Tab cycling + Ctrl+W close tab
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (!e.ctrlKey || e.key !== "Tab" || tabs.length === 0) return;
-      e.preventDefault();
-      const currentIdx = tabs.findIndex((t) => t.id === activeTabId);
-      const dir = e.shiftKey ? -1 : 1;
-      const nextIdx = (currentIdx + dir + tabs.length) % tabs.length;
-      navigateToTab(tabs[nextIdx]);
+      if (!e.ctrlKey || tabs.length === 0) return;
+      if (e.key === "Tab") {
+        e.preventDefault();
+        const currentIdx = tabs.findIndex((t) => t.id === activeTabId);
+        const dir = e.shiftKey ? -1 : 1;
+        const nextIdx = (currentIdx + dir + tabs.length) % tabs.length;
+        navigateToTab(tabs[nextIdx]);
+      } else if (e.key === "w" || e.key === "W") {
+        if (visualActiveId) {
+          e.preventDefault();
+          handleCloseTab(visualActiveId);
+        }
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [tabs, activeTabId, navigateToTab]);
+  }, [tabs, activeTabId, visualActiveId, navigateToTab, handleCloseTab]);
 
   // Auto-scroll active tab into view
   useEffect(() => {
@@ -122,8 +130,26 @@ export function TabBar() {
     const active = scrollRef.current.querySelector(
       `[data-tab-id="${activeTabId}"]`,
     );
-    active?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    active?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
   }, [activeTabId]);
+
+  // Gradient fade edges when scrollable
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const update = () => {
+      setCanScrollLeft(el.scrollLeft > 0);
+      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+    };
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => { el.removeEventListener("scroll", update); ro.disconnect(); };
+  }, [tabs.length]);
 
   if (tabs.length === 0) return null;
 
@@ -134,11 +160,13 @@ export function TabBar() {
         initial="initial"
         animate="animate"
         exit="exit"
-        className="shrink-0 border-b border-border/20 bg-background/80 backdrop-blur-sm"
+        className="shrink-0 border-b border-border/20"
       >
+        <GlassToolbar className="rounded-none border-none">
+        <div className="relative">
         <div
           ref={scrollRef}
-          className="flex items-center gap-1 overflow-x-auto px-3 py-1.5 scrollbar-hide"
+          className="relative flex items-center gap-1 overflow-x-auto px-3 py-1.5 scrollbar-hide"
         >
           <AnimatePresence>
             {tabs.map((tab) => {
@@ -211,9 +239,8 @@ export function TabBar() {
                       <span className="truncate">{label}</span>
 
                       {/* Close button */}
-                      <span
-                        role="button"
-                        tabIndex={-1}
+                      <button
+                        tabIndex={0}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCloseTab(tab.id);
@@ -222,7 +249,7 @@ export function TabBar() {
                         aria-label="Close tab"
                       >
                         <X className="h-2.5 w-2.5" />
-                      </span>
+                      </button>
                     </motion.button>
                   </ContextMenu.Trigger>
 
@@ -254,6 +281,14 @@ export function TabBar() {
             })}
           </AnimatePresence>
         </div>
+        {canScrollLeft && (
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background/80 to-transparent z-10" />
+        )}
+        {canScrollRight && (
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background/80 to-transparent z-10" />
+        )}
+        </div>
+        </GlassToolbar>
       </motion.div>
     </AnimatePresence>
   );

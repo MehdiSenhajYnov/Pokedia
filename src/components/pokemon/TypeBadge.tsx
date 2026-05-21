@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { TYPE_COLORS } from "@/lib/constants";
-import { motion } from "framer-motion";
+import { memo, type CSSProperties } from "react";
 
 interface TypeBadgeProps {
   type: string | null;
@@ -10,7 +10,7 @@ interface TypeBadgeProps {
 
 const FALLBACK = { bg: "bg-gray-500", text: "text-white", hex: "#888", glow: "rgba(136,136,136,0.3)" };
 
-export function TypeBadge({ type, size = "sm", className }: TypeBadgeProps) {
+export const TypeBadge = memo(function TypeBadge({ type, size = "sm", className }: TypeBadgeProps) {
   if (!type) return null;
 
   const colors = TYPE_COLORS[type] ?? FALLBACK;
@@ -18,11 +18,11 @@ export function TypeBadge({ type, size = "sm", className }: TypeBadgeProps) {
   const hoverShadow = `inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.1), 0 4px 20px ${colors.hex}60`;
 
   return (
-    <motion.span
+    <span
       role="img"
       aria-label={`${type} type`}
       className={cn(
-        "inline-flex items-center justify-center rounded-full font-heading font-medium uppercase leading-none",
+        "inline-flex items-center justify-center rounded-full font-heading font-medium uppercase leading-none transition-[transform,box-shadow] duration-150 hover:scale-[1.06] hover:shadow-[var(--type-hover-shadow)]",
         colors.bg,
         colors.text,
         size === "sm" ? "px-3 py-1 text-xs" : "px-4 py-1.5 text-sm",
@@ -30,14 +30,10 @@ export function TypeBadge({ type, size = "sm", className }: TypeBadgeProps) {
       )}
       style={{
         boxShadow: baseShadow,
-      }}
-      whileHover={{
-        scale: 1.06,
-        boxShadow: hoverShadow,
-      }}
-      transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        "--type-hover-shadow": hoverShadow,
+      } as CSSProperties}
     >
       {type}
-    </motion.span>
+    </span>
   );
-}
+});

@@ -1,6 +1,6 @@
 import { STAT_NAMES, STAT_COLORS } from "@/lib/constants";
 import { motion } from "framer-motion";
-import { springWobbly } from "@/lib/motion";
+import { springStatBar } from "@/lib/motion";
 
 interface StatsBarProps {
   stats: Record<string, number | null>;
@@ -56,7 +56,7 @@ export function StatsBar({
                 }}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: pct / 100 }}
-                transition={{ ...springWobbly, delay: i * 0.08 }}
+                transition={{ ...springStatBar, delay: i * 0.06 }}
               />
             </div>
           </div>
@@ -64,14 +64,19 @@ export function StatsBar({
       })}
 
       {showTotal && (
-        <div className="flex items-center gap-3 border-t border-border pt-1.5 text-xs">
+        <motion.div
+          className="flex items-center gap-3 border-t border-border pt-1.5 text-xs"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35 }}
+        >
           <span className="w-8 text-right font-heading font-bold text-primary">
             TOT
           </span>
           <span className="w-8 text-right font-mono font-bold text-primary">
             {total}
           </span>
-        </div>
+        </motion.div>
       )}
     </div>
   );

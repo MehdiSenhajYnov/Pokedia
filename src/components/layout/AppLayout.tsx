@@ -11,17 +11,16 @@ import { usePrefetch } from "@/hooks/use-prefetch";
 import { useSearchStore } from "@/stores/search-store";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AnimatePresence, motion } from "framer-motion";
-import { pageVariants, pageTransition } from "@/lib/motion";
 import { useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 export function AppLayout() {
   useSyncInvalidation();
   useGameImport();
   usePrefetch();
   const location = useLocation();
-  const { query, searchActive, dismissSearch } = useSearchStore();
+  const dismissSearch = useSearchStore((s) => s.dismissSearch);
   const isBrowserPage = location.pathname === "/" || location.pathname === "/moves" || location.pathname === "/items";
-  const showOverlay = !isBrowserPage && searchActive && query.length >= 2;
   const mainRef = useRef<HTMLElement>(null);
 
   // Dismiss search overlay on any route change
@@ -79,40 +78,48 @@ export function AppLayout() {
         <SyncBanner />
         <TabBar />
         <div className="relative flex-1 overflow-hidden">
-          <main id="main-content" ref={mainRef} className="h-full overflow-y-auto flex flex-col">
+          <main
+            id="main-content"
+            ref={mainRef}
+            className={cn(
+              "flex h-full min-h-0 flex-col",
+              isBrowserPage ? "overflow-hidden" : "overflow-y-auto",
+            )}
+          >
             <ErrorBoundary key={location.pathname}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={location.pathname}
-                  className="flex flex-1 flex-col"
-                  variants={pageVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={pageTransition}
-                >
-                  <Outlet />
-                </motion.div>
-              </AnimatePresence>
+              <div key={location.pathname} className="flex min-h-0 flex-1 flex-col">
+                <Outlet />
+              </div>
             </ErrorBoundary>
           </main>
-          <AnimatePresence>
-            {showOverlay && (
-              <motion.div
-                className="absolute inset-0 z-20 overflow-y-auto bg-background/80 backdrop-blur-sm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                <div className="p-5">
-                  <SearchCrossResults onNavigate={() => dismissSearch()} />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {!isBrowserPage && <GlobalSearchOverlay />}
         </div>
       </div>
     </div>
+  );
+}
+
+function GlobalSearchOverlay() {
+  const query = useSearchStore((s) => s.query);
+  const searchActive = useSearchStore((s) => s.searchActive);
+  const dismissSearch = useSearchStore((s) => s.dismissSearch);
+  const showOverlay = searchActive && query.length >= 2;
+
+  return (
+    <AnimatePresence>
+      {showOverlay && (
+        <motion.div
+          className="absolute inset-0 z-20 overflow-y-auto bg-background/80 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          <div className="p-5">
+            <SearchCrossResults onNavigate={() => dismissSearch()} />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

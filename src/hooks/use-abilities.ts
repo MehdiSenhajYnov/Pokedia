@@ -18,11 +18,11 @@ export function useAbilityById(id: number | null) {
   });
 }
 
-export function useSearchAbilities(query: string) {
+export function useSearchAbilities(query: string, enabled = true) {
   return useQuery({
     queryKey: ["abilities", "search", query],
     queryFn: () => searchAbilities(query),
-    enabled: query.length > 0,
+    enabled: enabled && query.length > 0,
     staleTime: 60_000,
   });
 }

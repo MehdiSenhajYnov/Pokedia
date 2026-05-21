@@ -20,6 +20,12 @@ pub struct PokemonSummary {
     pub species_id: Option<i64>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PokemonPage {
+    pub items: Vec<PokemonSummary>,
+    pub total: i64,
+}
+
 /// Full pokemon detail including stats, abilities, description.
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct PokemonDetail {
