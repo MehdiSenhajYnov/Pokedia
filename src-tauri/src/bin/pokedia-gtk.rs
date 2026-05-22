@@ -1,6 +1,7 @@
 use std::cell::{Cell, RefCell};
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, HashMap, HashSet};
+use std::f64::consts::PI;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
@@ -17,10 +18,14 @@ use pokedia_lib::models::{
     PokemonDetail, PokemonMoveEntry, PokemonSummary, SyncResourceStatus,
 };
 use pokedia_lib::native;
+use serde::{Deserialize, Serialize};
 
 const APP_ID: &str = "com.pokedia.app.Gtk";
 const COMPARE_LIMIT: usize = 8;
 const ACTIVE_WINDOW_OPACITY: f64 = 0.78;
+const WORKSPACE_AUTOSAVE_INTERVAL: Duration = Duration::from_secs(2);
+const WORKSPACE_MENU_OFFSET_X: i32 = 68;
+const WORKSPACE_MENU_OFFSET_Y: i32 = 58;
 const ALL_TYPES: &[&str] = &[
     "normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground",
     "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy",
@@ -162,12 +167,173 @@ window.pokedia-window headerbar.app-header entry:backdrop {
   min-height: 34px;
 }
 
+.workspace-button,
+.workspace-button:backdrop,
+button.workspace-button,
+button.workspace-button:backdrop,
+menubutton.workspace-button,
+menubutton.workspace-button:backdrop {
+  background: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  color: rgba(245, 247, 252, .82);
+  margin-left: 0;
+  margin-right: 10px;
+  min-height: 30px;
+  padding: 0;
+}
+
+button.workspace-button,
+button.workspace-button:backdrop,
+menubutton.workspace-button button,
+menubutton.workspace-button button.toggle,
+menubutton.workspace-button:backdrop button,
+menubutton.workspace-button:backdrop button.toggle {
+  background-color: rgba(255, 255, 255, .030);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .060), rgba(255, 255, 255, .018));
+  border: 1px solid rgba(255, 255, 255, .070);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .105),
+    0 5px 16px rgba(0, 0, 0, .07);
+  color: rgba(245, 247, 252, .84);
+  min-height: 30px;
+  min-width: 112px;
+  padding: 0 8px;
+}
+
+button.workspace-button:hover,
+button.workspace-button:checked,
+menubutton.workspace-button:hover button,
+menubutton.workspace-button:hover button.toggle,
+menubutton.workspace-button button:hover,
+menubutton.workspace-button button.toggle:hover,
+menubutton.workspace-button button:checked,
+menubutton.workspace-button button.toggle:checked {
+  background-color: rgba(255, 255, 255, .052);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .095), rgba(255, 255, 255, .034));
+  border-color: rgba(255, 255, 255, .130);
+  color: #ffffff;
+}
+
+.workspace-label {
+  font-weight: 700;
+}
+
+popover.workspace-popover,
+popover.workspace-popover:backdrop {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+popover.workspace-popover contents,
+popover.workspace-popover > contents,
+popover.workspace-popover contents:backdrop,
+popover.workspace-popover:backdrop > contents {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  border-radius: 14px;
+  box-shadow: none;
+  padding: 0;
+}
+
+popover.workspace-popover arrow {
+  background-color: rgba(28, 29, 34, .28);
+  border: 1px solid rgba(255, 255, 255, .140);
+}
+
+.workspace-menu {
+  background-color: transparent;
+  background-image: none;
+  min-width: 258px;
+  padding: 15px;
+}
+
+.workspace-title {
+  color: rgba(255, 255, 255, .86);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  margin: 2px 6px 4px;
+  text-transform: uppercase;
+}
+
+.workspace-line {
+  border-radius: 10px;
+  min-height: 34px;
+}
+
+.workspace-row,
+.workspace-action {
+  border-radius: 10px;
+  color: rgba(255, 255, 255, .96);
+  font-weight: 700;
+  min-height: 34px;
+  padding: 0 9px;
+}
+
+.workspace-row:hover,
+.workspace-action:hover {
+  background: rgba(255, 255, 255, .055);
+  color: #ffffff;
+}
+
+.workspace-row.workspace-active {
+  background: rgba(255, 255, 255, .038);
+  box-shadow: none;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.workspace-menu image,
+.workspace-menu label {
+  color: inherit;
+}
+
+.workspace-meta {
+  color: rgba(235, 238, 246, .42);
+  font-size: 11px;
+}
+
+.workspace-icon-button {
+  border-radius: 999px;
+  min-height: 28px;
+  min-width: 28px;
+  padding: 0;
+}
+
+.workspace-danger:hover {
+  background: rgba(239, 68, 68, .16);
+  color: #ff8d9d;
+}
+
+.workspace-dialog-content {
+  margin: 12px;
+  min-width: 340px;
+}
+
 .app-tabbar,
 .app-tabbar:backdrop {
-  background: rgba(255, 255, 255, .018);
-  border-top: 1px solid rgba(255, 255, 255, .025);
+  background: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
   color: rgba(245, 247, 252, .88);
   padding: 4px 4px 7px 3px;
+}
+
+.app-tabbar .box,
+.app-tabbar .box:backdrop {
+  background: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
 }
 
 .app-tabbar tab,
@@ -237,45 +403,223 @@ window.pokedia-window headerbar.app-header entry:backdrop {
   min-width: 118px;
 }
 
+dropdown.filter-dropdown,
+dropdown.filter-dropdown:backdrop {
+  background-color: transparent;
+  background-image: none;
+  color: rgba(245, 247, 252, .90);
+}
+
+dropdown.filter-dropdown button,
+dropdown.filter-dropdown button.toggle,
+dropdown.filter-dropdown:backdrop button,
+dropdown.filter-dropdown:backdrop button.toggle {
+  background-color: rgba(255, 255, 255, .036);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .074), rgba(255, 255, 255, .030));
+  border: 1px solid rgba(255, 255, 255, .090);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .115),
+    inset 1px 0 0 rgba(255, 255, 255, .045);
+  color: rgba(245, 247, 252, .88);
+  min-height: 34px;
+  padding: 0 11px;
+}
+
+dropdown.filter-dropdown button:active,
+dropdown.filter-dropdown button.toggle:active,
+dropdown.filter-dropdown:hover button,
+dropdown.filter-dropdown:hover button.toggle,
+dropdown.filter-dropdown button:hover,
+dropdown.filter-dropdown button.toggle:hover,
+dropdown.filter-dropdown button:checked,
+dropdown.filter-dropdown button.toggle:checked {
+  background-color: rgba(255, 255, 255, .060);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .110), rgba(255, 255, 255, .045));
+  border-color: rgba(255, 255, 255, .155);
+  color: #ffffff;
+}
+
+dropdown.filter-dropdown:focus button,
+dropdown.filter-dropdown button:focus,
+dropdown.filter-dropdown button:focus-visible {
+  background-color: rgba(255, 255, 255, .052);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .100), rgba(255, 255, 255, .040));
+  border-color: rgba(255, 111, 144, .52);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .14),
+    0 0 0 3px rgba(255, 111, 144, .14);
+}
+
+dropdown.filter-dropdown arrow,
+dropdown.filter-dropdown image {
+  color: rgba(235, 238, 246, .58);
+  -gtk-icon-size: 14px;
+}
+
+dropdown.filter-dropdown label {
+  color: inherit;
+  font-weight: 600;
+}
+
 popover.background,
 popover.background:backdrop {
-  background: transparent;
+  background-color: transparent;
+  background-image: none;
   box-shadow: none;
 }
 
+popover.background contents,
 popover.background > contents,
+popover.background contents:backdrop,
 popover.background:backdrop > contents {
-  background: rgba(43, 44, 54, .88);
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 12px;
-  box-shadow: none;
-  padding: 4px;
+  background-color: rgba(30, 31, 38, .46);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .070), rgba(255, 255, 255, .018));
+  border: 1px solid rgba(255, 255, 255, .130);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .120),
+    0 18px 42px rgba(0, 0, 0, .24),
+    0 8px 22px rgba(255, 111, 144, .05);
+  padding: 6px;
 }
 
+popover.background scrolledwindow,
+popover.background viewport,
 popover.background listview,
 popover.background listview.view,
 popover.background row {
-  background: transparent;
+  background-color: transparent;
+  background-image: none;
   box-shadow: none;
 }
 
 popover.background row {
-  border-radius: 8px;
-  min-height: 28px;
+  border-radius: 9px;
+  color: rgba(235, 238, 246, .74);
+  min-height: 30px;
+  padding: 0 4px;
+}
+
+popover.background row label {
+  color: inherit;
 }
 
 popover.background row:hover,
 popover.background row:selected {
-  background: rgba(255, 255, 255, .08);
+  background-color: rgba(255, 255, 255, .105);
+  background-image: none;
+  color: rgba(255, 255, 255, .95);
+}
+
+popover.background row:selected,
+popover.background row:selected:hover {
+  background-color: rgba(255, 111, 144, .16);
+  background-image: none;
+  color: #ffffff;
+}
+
+popover.background.workspace-popover,
+popover.background.workspace-popover:backdrop {
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+popover.workspace-popover contents,
+popover.workspace-popover > contents,
+popover.workspace-popover.background contents,
+popover.workspace-popover.background > contents,
+popover.background.workspace-popover contents,
+popover.background.workspace-popover > contents,
+popover.background.workspace-popover contents:backdrop,
+popover.background.workspace-popover:backdrop > contents {
+  background: rgba(0, 0, 0, .12);
+  background-color: rgba(0, 0, 0, .12);
+  background-image: none;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .10);
+  padding: 9px;
+}
+
+popover.workspace-popover box,
+popover.workspace-popover button,
+popover.background.workspace-popover box,
+popover.background.workspace-popover button {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+popover.background.workspace-popover .workspace-menu {
+  background-color: transparent;
+  background-image: none;
+}
+
+popover.background.workspace-popover button.workspace-row,
+popover.background.workspace-popover button.workspace-action,
+popover.background.workspace-popover button.workspace-icon-button {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+popover.background.workspace-popover button.workspace-row:hover,
+popover.background.workspace-popover button.workspace-action:hover {
+  background-color: rgba(255, 255, 255, .040);
+  background-image: none;
+}
+
+popover.background.workspace-popover button.workspace-row.workspace-active {
+  background-color: rgba(255, 255, 255, .025);
+  background-image: none;
+  box-shadow: none;
 }
 
 .filter-toggle {
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, .070), rgba(255, 255, 255, .030)),
+    rgba(255, 255, 255, .036);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .070), rgba(255, 255, 255, .030));
+  border: 1px solid rgba(255, 255, 255, .090);
   border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .115),
+    inset 1px 0 0 rgba(255, 255, 255, .045);
+  color: rgba(235, 238, 246, .66);
   min-height: 34px;
   padding: 0 12px;
 }
 
+.filter-toggle:hover {
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, .105), rgba(255, 255, 255, .045)),
+    rgba(255, 255, 255, .060);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .105), rgba(255, 255, 255, .045));
+  border-color: rgba(255, 255, 255, .155);
+  color: #ffffff;
+}
+
 .filter-toggle:checked {
+  background:
+    linear-gradient(to bottom, rgba(255, 111, 144, .22), rgba(255, 111, 144, .12)),
+    rgba(255, 111, 144, .12);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 111, 144, .22), rgba(255, 111, 144, .12));
+  border-color: rgba(255, 111, 144, .48);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .14),
+    0 0 18px rgba(255, 111, 144, .12);
   color: #ff6f90;
 }
 
@@ -391,6 +735,16 @@ popover.background row:selected {
 .stat-spd { color: #20d179; }
 .stat-spe { color: #f14aa0; }
 .stat-bst { color: rgba(241, 244, 250, .86); }
+.stat-value { color: rgba(241, 244, 250, .92); }
+.stat-total-name {
+  color: #ff6f90;
+  font-weight: 800;
+}
+
+.stat-total-value {
+  color: #ff6f90;
+  font-weight: 800;
+}
 
 .type-pill {
   border-radius: 999px;
@@ -473,11 +827,22 @@ popover.background row:selected {
   padding: 10px;
 }
 
+.chart-axis {
+  border-radius: 7px;
+  min-height: 26px;
+  transition: background 140ms ease, box-shadow 140ms ease, opacity 140ms ease, color 140ms ease;
+}
+
+.chart-axis:hover {
+  background: rgba(255, 111, 144, .08);
+}
+
 .chart-cell {
   border-radius: 7px;
   font-weight: 800;
   min-height: 26px;
   min-width: 34px;
+  transition: background 140ms ease, box-shadow 140ms ease, opacity 140ms ease, color 140ms ease;
 }
 
 .chart-cell:hover {
@@ -501,6 +866,54 @@ popover.background row:selected {
 .chart-immune {
   background: rgba(255, 255, 255, .035);
   color: rgba(235, 238, 246, .42);
+}
+
+.chart-axis.chart-selected-axis {
+  background: rgba(255, 111, 144, .12);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 111, 144, .46),
+    0 0 14px rgba(255, 111, 144, .10);
+  color: #ffffff;
+}
+
+.chart-axis.chart-partial-axis {
+  background: rgba(255, 111, 144, .07);
+  box-shadow: inset 0 0 0 1px rgba(255, 111, 144, .28);
+  color: #ffffff;
+}
+
+.chart-axis.chart-pinned-axis {
+  background: rgba(102, 227, 223, .08);
+  box-shadow: inset 0 0 0 1px rgba(102, 227, 223, .34);
+  color: #ffffff;
+}
+
+.chart-axis.chart-cell-axis {
+  background: rgba(102, 227, 223, .055);
+  box-shadow: inset 0 0 0 1px rgba(102, 227, 223, .20);
+  color: #ffffff;
+}
+
+.chart-cell.chart-selected-axis {
+  background-image: linear-gradient(rgba(255, 111, 144, .045), rgba(255, 111, 144, .045));
+  box-shadow: none;
+}
+
+.chart-cell.chart-pinned-axis {
+  background-image: linear-gradient(rgba(102, 227, 223, .06), rgba(102, 227, 223, .06));
+  box-shadow: none;
+}
+
+.chart-cell.chart-selected-intersection {
+  background-image: linear-gradient(rgba(255, 111, 144, .16), rgba(255, 111, 144, .16));
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 111, 144, .72),
+    0 0 16px rgba(255, 111, 144, .16);
+  color: #ffffff;
+}
+
+.chart-muted {
+  opacity: .38;
 }
 
 .metric-pill {
@@ -558,26 +971,75 @@ popover.background row:selected {
 }
 
 .stat-row {
-  min-height: 30px;
+  min-height: 32px;
+}
+
+.stat-drawn-bar {
+  min-height: 12px;
+}
+
+progressbar.stat-bar {
+  min-height: 12px;
 }
 
 progressbar.stat-bar trough {
-  background: rgba(255, 255, 255, .07);
+  background-color: rgba(255, 255, 255, .07);
+  background-image: none;
+  border: none;
   border-radius: 999px;
-  min-height: 8px;
+  box-shadow: none;
+  min-height: 12px;
 }
 
 progressbar.stat-bar progress {
+  background-image: none;
+  border: none;
   border-radius: 999px;
-  min-height: 8px;
+  box-shadow: none;
+  min-height: 12px;
 }
 
-progressbar.stat-progress-hp progress { background: #ef4444; }
-progressbar.stat-progress-atk progress { background: #f97316; }
-progressbar.stat-progress-def progress { background: #eab308; }
-progressbar.stat-progress-spa progress { background: #6366f1; }
-progressbar.stat-progress-spd progress { background: #22c55e; }
-progressbar.stat-progress-spe progress { background: #ec4899; }
+progressbar.stat-progress-hp progress,
+progressbar.stat-progress-hp > trough > progress {
+  background-color: #ef4444;
+  background-image: none;
+  color: #ef4444;
+}
+
+progressbar.stat-progress-atk progress,
+progressbar.stat-progress-atk > trough > progress {
+  background-color: #f97316;
+  background-image: none;
+  color: #f97316;
+}
+
+progressbar.stat-progress-def progress,
+progressbar.stat-progress-def > trough > progress {
+  background-color: #eab308;
+  background-image: none;
+  color: #eab308;
+}
+
+progressbar.stat-progress-spa progress,
+progressbar.stat-progress-spa > trough > progress {
+  background-color: #6366f1;
+  background-image: none;
+  color: #6366f1;
+}
+
+progressbar.stat-progress-spd progress,
+progressbar.stat-progress-spd > trough > progress {
+  background-color: #22c55e;
+  background-image: none;
+  color: #22c55e;
+}
+
+progressbar.stat-progress-spe progress,
+progressbar.stat-progress-spe > trough > progress {
+  background-color: #ec4899;
+  background-image: none;
+  color: #ec4899;
+}
 
 .matchup-row {
   border-radius: 10px;
@@ -677,7 +1139,7 @@ progressbar.stat-progress-spe progress { background: #ec4899; }
 }
 "#;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 enum Page {
     Pokedex,
     Moves,
@@ -729,7 +1191,7 @@ impl Page {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 enum TabTarget {
     Pokemon(i64),
     Move(i64),
@@ -737,7 +1199,7 @@ enum TabTarget {
     Item(i64),
 }
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 enum ViewState {
     Home(Page),
     Target(TabTarget),
@@ -754,6 +1216,196 @@ struct NavigationHistory {
     current: Option<ViewState>,
     back: Vec<ViewState>,
     forward: Vec<ViewState>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct WorkspaceStore {
+    active_id: String,
+    next_id: u64,
+    workspaces: Vec<Workspace>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct Workspace {
+    id: String,
+    name: String,
+    #[serde(default)]
+    snapshot: WorkspaceSnapshot,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct WorkspaceSnapshot {
+    #[serde(default = "default_workspace_page")]
+    current_page: Page,
+    #[serde(default = "default_workspace_view_state")]
+    active: ViewState,
+    #[serde(default)]
+    tabs: Vec<TabTarget>,
+    #[serde(default)]
+    search_query: String,
+    #[serde(default)]
+    filters: WorkspaceFilters,
+    #[serde(default)]
+    compare_ids: Vec<i64>,
+}
+
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+struct WorkspaceFilters {
+    #[serde(default)]
+    pokedex_type: u32,
+    #[serde(default)]
+    pokedex_second_type: u32,
+    #[serde(default)]
+    pokedex_generation: u32,
+    #[serde(default)]
+    pokedex_sort: Vec<u32>,
+    #[serde(default)]
+    pokedex_favorites: bool,
+    #[serde(default)]
+    move_type: u32,
+    #[serde(default)]
+    move_class: u32,
+    #[serde(default)]
+    move_min_power: u32,
+    #[serde(default)]
+    move_max_power: u32,
+    #[serde(default)]
+    ability_generation: u32,
+    #[serde(default)]
+    item_category: u32,
+    #[serde(default)]
+    nature_stat: u32,
+}
+
+mod workspace_panel {
+    use gtk::glib;
+    use gtk::prelude::*;
+    use gtk::subclass::prelude::*;
+
+    #[derive(Default)]
+    pub struct WorkspacePanel;
+
+    #[glib::object_subclass]
+    impl ObjectSubclass for WorkspacePanel {
+        const NAME: &'static str = "PokediaWorkspacePanel";
+        type Type = super::WorkspacePanel;
+        type ParentType = gtk::Box;
+    }
+
+    impl ObjectImpl for WorkspacePanel {}
+
+    impl WidgetImpl for WorkspacePanel {
+        fn snapshot(&self, snapshot: &gtk::Snapshot) {
+            let widget = self.obj();
+            let width = widget.width() as f32;
+            let height = widget.height() as f32;
+
+            if width > 0.0 && height > 0.0 {
+                let bounds = gtk::graphene::Rect::new(0.0, 0.0, width, height);
+                let rounded = gtk::gsk::RoundedRect::from_rect(bounds, 14.0);
+
+                snapshot.push_rounded_clip(&rounded);
+                snapshot.append_linear_gradient(
+                    &bounds,
+                    &gtk::graphene::Point::new(0.0, 0.0),
+                    &gtk::graphene::Point::new(0.0, height),
+                    &[
+                        gtk::gsk::ColorStop::new(
+                            0.0,
+                            gtk::gdk::RGBA::new(0.165, 0.158, 0.160, 0.98),
+                        ),
+                        gtk::gsk::ColorStop::new(
+                            0.48,
+                            gtk::gdk::RGBA::new(0.125, 0.122, 0.130, 0.98),
+                        ),
+                        gtk::gsk::ColorStop::new(
+                            1.0,
+                            gtk::gdk::RGBA::new(0.085, 0.090, 0.105, 0.98),
+                        ),
+                    ],
+                );
+
+                snapshot.pop();
+            }
+
+            self.parent_snapshot(snapshot);
+
+            if width > 0.0 && height > 0.0 {
+                let border_bounds = gtk::graphene::Rect::new(0.5, 0.5, width - 1.0, height - 1.0);
+                let border = gtk::gsk::RoundedRect::from_rect(border_bounds, 13.5);
+                let border_color = gtk::gdk::RGBA::new(1.0, 1.0, 1.0, 0.11);
+                snapshot.append_border(
+                    &border,
+                    &[1.0, 1.0, 1.0, 1.0],
+                    &[border_color, border_color, border_color, border_color],
+                );
+            }
+        }
+    }
+
+    impl BoxImpl for WorkspacePanel {}
+}
+
+glib::wrapper! {
+    pub struct WorkspacePanel(ObjectSubclass<workspace_panel::WorkspacePanel>)
+        @extends gtk::Widget, gtk::Box,
+        @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Orientable;
+}
+
+impl WorkspacePanel {
+    fn new() -> Self {
+        let panel: Self = glib::Object::new();
+        panel.set_orientation(gtk::Orientation::Vertical);
+        panel.set_spacing(0);
+        panel.set_margin_start(WORKSPACE_MENU_OFFSET_X);
+        panel.set_margin_top(WORKSPACE_MENU_OFFSET_Y);
+        panel
+    }
+}
+
+#[derive(Clone)]
+struct WorkspaceUi {
+    button: gtk::Button,
+    label: gtk::Label,
+    panel: WorkspacePanel,
+    menu: gtk::Box,
+    store: Rc<RefCell<WorkspaceStore>>,
+    suppress_autosave: Rc<Cell<bool>>,
+}
+
+impl Default for WorkspaceStore {
+    fn default() -> Self {
+        Self {
+            active_id: "default".to_owned(),
+            next_id: 2,
+            workspaces: vec![Workspace {
+                id: "default".to_owned(),
+                name: "Default".to_owned(),
+                snapshot: WorkspaceSnapshot::default(),
+            }],
+        }
+    }
+}
+
+impl Default for WorkspaceSnapshot {
+    fn default() -> Self {
+        Self {
+            current_page: default_workspace_page(),
+            active: default_workspace_view_state(),
+            tabs: Vec::new(),
+            search_query: String::new(),
+            filters: WorkspaceFilters::default(),
+            compare_ids: Vec::new(),
+        }
+    }
+}
+
+fn default_workspace_page() -> Page {
+    Page::Pokedex
+}
+
+fn default_workspace_view_state() -> ViewState {
+    ViewState::Home(Page::Pokedex)
 }
 
 #[derive(Clone)]
@@ -779,7 +1431,8 @@ struct AppWidgets {
     applying_history: Rc<Cell<bool>>,
     nav_rows: Rc<Vec<(Page, gtk::ListBoxRow)>>,
     search: gtk::SearchEntry,
-    back_button: gtk::Button,
+    workspace: WorkspaceUi,
+    toast_overlay: adw::ToastOverlay,
     current_page: Rc<RefCell<Page>>,
     pokemon_model: gtk::StringList,
     move_model: gtk::StringList,
@@ -853,6 +1506,41 @@ struct CompareWidgets {
 }
 
 #[derive(Clone)]
+struct StatMeter {
+    area: gtk::DrawingArea,
+    fraction: Rc<Cell<f64>>,
+}
+
+impl StatMeter {
+    fn new(color: &str) -> Self {
+        let area = gtk::DrawingArea::new();
+        area.add_css_class("stat-drawn-bar");
+        area.set_content_height(12);
+        area.set_height_request(12);
+        area.set_hexpand(true);
+        area.set_valign(gtk::Align::Center);
+
+        let fraction = Rc::new(Cell::new(0.0));
+        let draw_fraction = fraction.clone();
+        let (red, green, blue) = parse_hex_color(color);
+        area.set_draw_func(move |_, cr, width, height| {
+            draw_stat_meter(cr, width, height, draw_fraction.get(), red, green, blue);
+        });
+
+        Self { area, fraction }
+    }
+
+    fn widget(&self) -> &gtk::DrawingArea {
+        &self.area
+    }
+
+    fn set_fraction(&self, fraction: f64) {
+        self.fraction.set(fraction.clamp(0.0, 1.0));
+        self.area.queue_draw();
+    }
+}
+
+#[derive(Clone)]
 struct DetailWidgets {
     scroller: gtk::ScrolledWindow,
     sprite: gtk::Image,
@@ -861,7 +1549,7 @@ struct DetailWidgets {
     types: gtk::Box,
     description: gtk::Label,
     metrics: gtk::Box,
-    stats: Vec<(gtk::Label, gtk::ProgressBar)>,
+    stats: Vec<(gtk::Label, Option<StatMeter>)>,
     abilities: gtk::Box,
     game_banner: gtk::Box,
     game_label: gtk::Label,
@@ -1129,12 +1817,8 @@ fn build_ui(app: &adw::Application) {
         .build();
     search.add_css_class("app-search");
 
-    let back_button = gtk::Button::from_icon_name("go-previous-symbolic");
-    back_button.add_css_class("flat");
-    back_button.set_tooltip_text(Some("Back"));
-    back_button.set_visible(false);
-
-    let header = build_header(&search, &back_button);
+    let workspace = build_workspace_switcher(Rc::new(RefCell::new(load_workspace_store())));
+    let header = build_header(&search, &workspace.button);
 
     let pokemon_model = gtk::StringList::new(&[]);
     let move_model = gtk::StringList::new(&[]);
@@ -1218,8 +1902,12 @@ fn build_ui(app: &adw::Application) {
     root.add_top_bar(&tab_bar);
     root.set_content(Some(&shell));
 
+    let app_overlay = gtk::Overlay::new();
+    app_overlay.set_child(Some(&root));
+    app_overlay.add_overlay(&workspace.panel);
+
     let toast_overlay = adw::ToastOverlay::new();
-    toast_overlay.set_child(Some(&root));
+    toast_overlay.set_child(Some(&app_overlay));
     window.set_content(Some(&toast_overlay));
 
     let widgets = AppWidgets {
@@ -1235,7 +1923,8 @@ fn build_ui(app: &adw::Application) {
         applying_history: Rc::new(Cell::new(false)),
         nav_rows: Rc::new(nav_rows.clone()),
         search,
-        back_button,
+        workspace,
+        toast_overlay,
         current_page,
         pokemon_model,
         move_model,
@@ -1345,7 +2034,14 @@ fn build_ui(app: &adw::Application) {
         data.clone(),
     );
     connect_mouse_history_buttons(&root, &widgets, pool.clone(), runtime.clone(), data.clone());
-    connect_back_button(&widgets);
+    connect_workspace_ui(
+        &widgets,
+        pool.clone(),
+        runtime.clone(),
+        data.clone(),
+        window.clone(),
+    );
+    start_workspace_autosave(&widgets);
 
     let startup_move_id = std::env::var("POKEDIA_START_MOVE_ID")
         .ok()
@@ -1359,7 +2055,28 @@ fn build_ui(app: &adw::Application) {
     let startup_page = std::env::var("POKEDIA_START_PAGE")
         .ok()
         .and_then(|value| Page::from_key(value.as_str()));
-    if let Some(move_id) = startup_move_id {
+    let has_startup_override = startup_move_id.is_some()
+        || startup_item_id.is_some()
+        || startup_ability_id.is_some()
+        || startup_page.is_some()
+        || startup_detail_id.is_some();
+
+    if !has_startup_override {
+        let snapshot = {
+            let store = widgets.workspace.store.borrow();
+            active_workspace(&store)
+                .map(|workspace| workspace.snapshot.clone())
+                .unwrap_or_default()
+        };
+        apply_workspace_snapshot(&widgets, &pool, &runtime, &data, &snapshot);
+        refresh_workspace_menu(
+            &widgets,
+            pool.clone(),
+            runtime.clone(),
+            data.clone(),
+            window.clone(),
+        );
+    } else if let Some(move_id) = startup_move_id {
         open_target_in_new_tab(
             &widgets,
             pool.clone(),
@@ -1398,6 +2115,7 @@ fn build_ui(app: &adw::Application) {
             true,
         );
     }
+    save_current_workspace(&widgets);
 
     window.present();
 }
@@ -1416,10 +2134,9 @@ fn install_css() {
     );
 }
 
-fn build_header(search: &gtk::SearchEntry, back_button: &gtk::Button) -> adw::HeaderBar {
+fn build_header(search: &gtk::SearchEntry, workspace_button: &gtk::Button) -> adw::HeaderBar {
     let header = adw::HeaderBar::new();
     header.add_css_class("app-header");
-    header.pack_start(back_button);
 
     let title = gtk::Box::new(gtk::Orientation::Horizontal, 8);
     title.add_css_class("app-brand");
@@ -1436,10 +2153,1034 @@ fn build_header(search: &gtk::SearchEntry, back_button: &gtk::Button) -> adw::He
     title.append(&icon);
     title.append(&label);
     header.pack_start(&title);
+    header.pack_start(workspace_button);
 
     header.set_title_widget(Some(search));
 
     header
+}
+
+fn build_workspace_switcher(store: Rc<RefCell<WorkspaceStore>>) -> WorkspaceUi {
+    let button = gtk::Button::new();
+    button.add_css_class("workspace-button");
+    button.set_tooltip_text(Some("Switch workspace"));
+    button.set_valign(gtk::Align::Center);
+    button.set_width_request(122);
+    button.set_height_request(30);
+
+    let button_content = gtk::Box::new(gtk::Orientation::Horizontal, 6);
+    button_content.set_valign(gtk::Align::Center);
+    let icon = gtk::Image::from_icon_name("folder-open-symbolic");
+    icon.set_pixel_size(14);
+    let label = gtk::Label::new(None);
+    label.add_css_class("workspace-label");
+    label.set_ellipsize(gtk::pango::EllipsizeMode::End);
+    label.set_max_width_chars(12);
+    label.set_xalign(0.0);
+    let arrow = gtk::Image::from_icon_name("pan-down-symbolic");
+    arrow.set_pixel_size(11);
+    button_content.append(&icon);
+    button_content.append(&label);
+    button_content.append(&arrow);
+    button.set_child(Some(&button_content));
+
+    let panel = WorkspacePanel::new();
+    panel.set_halign(gtk::Align::Start);
+    panel.set_valign(gtk::Align::Start);
+    panel.set_visible(false);
+    let menu = gtk::Box::new(gtk::Orientation::Vertical, 6);
+    menu.add_css_class("workspace-menu");
+    panel.append(&menu);
+
+    let ui = WorkspaceUi {
+        button,
+        label,
+        panel,
+        menu,
+        store,
+        suppress_autosave: Rc::new(Cell::new(false)),
+    };
+    refresh_workspace_label(&ui);
+    let panel = ui.panel.clone();
+    ui.button.connect_clicked(move |_| {
+        panel.set_visible(!panel.is_visible());
+    });
+    ui
+}
+
+fn workspace_store_path() -> PathBuf {
+    native::app_data_dir().join("gtk-workspaces.json")
+}
+
+fn load_workspace_store() -> WorkspaceStore {
+    let path = workspace_store_path();
+    let mut store = fs::read_to_string(path)
+        .ok()
+        .and_then(|content| serde_json::from_str::<WorkspaceStore>(&content).ok())
+        .unwrap_or_default();
+    normalize_workspace_store(&mut store);
+    store
+}
+
+fn normalize_workspace_store(store: &mut WorkspaceStore) {
+    store
+        .workspaces
+        .retain(|workspace| !workspace.id.trim().is_empty());
+    if store.workspaces.is_empty() {
+        *store = WorkspaceStore::default();
+        return;
+    }
+
+    let mut seen = HashSet::new();
+    store
+        .workspaces
+        .retain(|workspace| seen.insert(workspace.id.clone()));
+
+    for workspace in &mut store.workspaces {
+        if workspace.name.trim().is_empty() {
+            workspace.name = "Untitled Workspace".to_owned();
+        }
+    }
+
+    if !store
+        .workspaces
+        .iter()
+        .any(|workspace| workspace.id == store.active_id)
+    {
+        store.active_id = store
+            .workspaces
+            .first()
+            .map(|workspace| workspace.id.clone())
+            .unwrap_or_else(|| "default".to_owned());
+    }
+
+    let highest_id = store
+        .workspaces
+        .iter()
+        .filter_map(|workspace| workspace.id.strip_prefix("workspace-"))
+        .filter_map(|suffix| suffix.parse::<u64>().ok())
+        .max()
+        .unwrap_or(1);
+    store.next_id = store.next_id.max(highest_id + 1);
+}
+
+fn persist_workspace_store(store: &WorkspaceStore) {
+    let path = workspace_store_path();
+    if let Some(parent) = path.parent() {
+        if let Err(error) = fs::create_dir_all(parent) {
+            eprintln!("Failed to create workspace directory: {error}");
+            return;
+        }
+    }
+
+    match serde_json::to_string_pretty(store) {
+        Ok(json) => {
+            if let Err(error) = fs::write(path, json) {
+                eprintln!("Failed to save workspaces: {error}");
+            }
+        }
+        Err(error) => eprintln!("Failed to serialize workspaces: {error}"),
+    }
+}
+
+fn active_workspace(store: &WorkspaceStore) -> Option<&Workspace> {
+    store
+        .workspaces
+        .iter()
+        .find(|workspace| workspace.id == store.active_id)
+        .or_else(|| store.workspaces.first())
+}
+
+fn active_workspace_mut(store: &mut WorkspaceStore) -> Option<&mut Workspace> {
+    let active_id = store.active_id.clone();
+    if let Some(index) = store
+        .workspaces
+        .iter()
+        .position(|workspace| workspace.id == active_id)
+    {
+        store.workspaces.get_mut(index)
+    } else {
+        store.workspaces.first_mut()
+    }
+}
+
+fn refresh_workspace_label(ui: &WorkspaceUi) {
+    let store = ui.store.borrow();
+    let name = active_workspace(&store)
+        .map(|workspace| workspace.name.as_str())
+        .unwrap_or("Default");
+    ui.label.set_text(name);
+    ui.button
+        .set_tooltip_text(Some(&format!("Workspace: {name}")));
+}
+
+fn next_workspace_id(store: &mut WorkspaceStore) -> String {
+    loop {
+        let id = format!("workspace-{}", store.next_id);
+        store.next_id += 1;
+        if !store.workspaces.iter().any(|workspace| workspace.id == id) {
+            return id;
+        }
+    }
+}
+
+fn unique_workspace_name(
+    store: &WorkspaceStore,
+    requested: &str,
+    except_id: Option<&str>,
+) -> String {
+    let base = requested.trim();
+    let base = if base.is_empty() {
+        "Untitled Workspace"
+    } else {
+        base
+    };
+    let mut candidate = base.to_owned();
+    let mut suffix = 2;
+
+    while store.workspaces.iter().any(|workspace| {
+        Some(workspace.id.as_str()) != except_id
+            && workspace.name.eq_ignore_ascii_case(candidate.as_str())
+    }) {
+        candidate = format!("{base} {suffix}");
+        suffix += 1;
+    }
+
+    candidate
+}
+
+fn capture_workspace_snapshot(widgets: &AppWidgets) -> WorkspaceSnapshot {
+    let selected_page = widgets.tab_view.selected_page();
+    let active = selected_page
+        .as_ref()
+        .and_then(|page| {
+            if *page == widgets.home_tab {
+                None
+            } else {
+                selected_tab_target(widgets, page).map(ViewState::Target)
+            }
+        })
+        .unwrap_or_else(|| ViewState::Home(*widgets.current_page.borrow()));
+
+    let tabs = widgets
+        .open_tabs
+        .borrow()
+        .iter()
+        .map(|tab| tab.target.clone())
+        .collect::<Vec<_>>();
+
+    WorkspaceSnapshot {
+        current_page: *widgets.current_page.borrow(),
+        active,
+        tabs,
+        search_query: widgets.search.text().to_string(),
+        filters: capture_workspace_filters(widgets),
+        compare_ids: widgets.compare_ids.borrow().clone(),
+    }
+}
+
+fn capture_workspace_filters(widgets: &AppWidgets) -> WorkspaceFilters {
+    WorkspaceFilters {
+        pokedex_type: widgets.pokedex_filters.type_filter.selected(),
+        pokedex_second_type: widgets.pokedex_filters.second_type_filter.selected(),
+        pokedex_generation: widgets.pokedex_filters.generation_filter.selected(),
+        pokedex_sort: widgets
+            .pokedex_filters
+            .sort_filters
+            .iter()
+            .map(gtk::DropDown::selected)
+            .collect(),
+        pokedex_favorites: widgets.pokedex_filters.favorites_filter.is_active(),
+        move_type: widgets.move_filters.type_filter.selected(),
+        move_class: widgets.move_filters.class_filter.selected(),
+        move_min_power: widgets.move_filters.min_power_filter.selected(),
+        move_max_power: widgets.move_filters.max_power_filter.selected(),
+        ability_generation: widgets.ability_filters.generation_filter.selected(),
+        item_category: widgets.item_filters.category_filter.selected(),
+        nature_stat: widgets.nature_filters.stat_filter.selected(),
+    }
+}
+
+fn save_current_workspace(widgets: &AppWidgets) {
+    if widgets.workspace.suppress_autosave.get() {
+        return;
+    }
+
+    let snapshot = capture_workspace_snapshot(widgets);
+    {
+        let mut store = widgets.workspace.store.borrow_mut();
+        if let Some(workspace) = active_workspace_mut(&mut store) {
+            workspace.snapshot = snapshot;
+        }
+        normalize_workspace_store(&mut store);
+        persist_workspace_store(&store);
+    }
+    refresh_workspace_label(&widgets.workspace);
+}
+
+fn start_workspace_autosave(widgets: &AppWidgets) {
+    let widgets = widgets.clone();
+    glib::timeout_add_local(WORKSPACE_AUTOSAVE_INTERVAL, move || {
+        save_current_workspace(&widgets);
+        glib::ControlFlow::Continue
+    });
+}
+
+fn apply_workspace_snapshot(
+    widgets: &AppWidgets,
+    pool: &sqlx::SqlitePool,
+    runtime: &tokio::runtime::Runtime,
+    data: &LoadedData,
+    snapshot: &WorkspaceSnapshot,
+) {
+    widgets.workspace.suppress_autosave.set(true);
+    widgets.applying_history.set(true);
+
+    close_workspace_tabs(widgets);
+    apply_workspace_filters(widgets, &snapshot.filters);
+    widgets.search.set_text(snapshot.search_query.as_str());
+    widgets
+        .compare_ids
+        .replace(dedup_compare_ids(&snapshot.compare_ids));
+    update_compare_badge(&widgets.compare_badge, widgets.compare_ids.borrow().len());
+    refresh_all_pages(widgets, data, snapshot.search_query.as_str());
+
+    for target in &snapshot.tabs {
+        append_target_tab(widgets, data, target);
+    }
+
+    let next_state = match &snapshot.active {
+        ViewState::Target(target) => {
+            let page = append_target_tab(widgets, data, target);
+            widgets.tab_view.set_selected_page(&page);
+            show_tab_target(widgets, pool, runtime, data, target);
+            ViewState::Target(target.clone())
+        }
+        ViewState::Home(page) => {
+            show_workspace_home_state(widgets, data, *page);
+            ViewState::Home(*page)
+        }
+    };
+
+    widgets.history.replace(NavigationHistory {
+        current: Some(next_state),
+        back: Vec::new(),
+        forward: Vec::new(),
+    });
+    widgets.applying_history.set(false);
+    widgets.workspace.suppress_autosave.set(false);
+}
+
+fn close_workspace_tabs(widgets: &AppWidgets) {
+    let pages = widgets
+        .open_tabs
+        .borrow()
+        .iter()
+        .map(|tab| tab.page.clone())
+        .collect::<Vec<_>>();
+    widgets.open_tabs.borrow_mut().clear();
+    widgets.tab_view.set_selected_page(&widgets.home_tab);
+    for page in pages {
+        widgets.tab_view.close_page(&page);
+    }
+}
+
+fn apply_workspace_filters(widgets: &AppWidgets, filters: &WorkspaceFilters) {
+    set_dropdown_selected(&widgets.pokedex_filters.type_filter, filters.pokedex_type);
+    set_dropdown_selected(
+        &widgets.pokedex_filters.second_type_filter,
+        filters.pokedex_second_type,
+    );
+    widgets
+        .pokedex_filters
+        .second_type_filter
+        .set_visible(filters.pokedex_type != 0);
+    set_dropdown_selected(
+        &widgets.pokedex_filters.generation_filter,
+        filters.pokedex_generation,
+    );
+    for (idx, dropdown) in widgets.pokedex_filters.sort_filters.iter().enumerate() {
+        set_dropdown_selected(
+            dropdown,
+            filters.pokedex_sort.get(idx).copied().unwrap_or(0),
+        );
+    }
+    update_pokedex_sort_filter_visibility(&widgets.pokedex_filters);
+    widgets
+        .pokedex_filters
+        .favorites_filter
+        .set_active(filters.pokedex_favorites);
+    widgets
+        .pokedex_filters
+        .favorites_filter
+        .set_label(if filters.pokedex_favorites {
+            "♥ Favorites"
+        } else {
+            "♡ Favorites"
+        });
+
+    set_dropdown_selected(&widgets.move_filters.type_filter, filters.move_type);
+    set_dropdown_selected(&widgets.move_filters.class_filter, filters.move_class);
+    set_dropdown_selected(
+        &widgets.move_filters.min_power_filter,
+        filters.move_min_power,
+    );
+    set_dropdown_selected(
+        &widgets.move_filters.max_power_filter,
+        filters.move_max_power,
+    );
+    set_dropdown_selected(
+        &widgets.ability_filters.generation_filter,
+        filters.ability_generation,
+    );
+    set_dropdown_selected(&widgets.item_filters.category_filter, filters.item_category);
+    set_dropdown_selected(&widgets.nature_filters.stat_filter, filters.nature_stat);
+}
+
+fn set_dropdown_selected(dropdown: &gtk::DropDown, selected: u32) {
+    let selected = if selected == gtk::INVALID_LIST_POSITION {
+        0
+    } else {
+        selected
+    };
+    dropdown.set_selected(selected);
+}
+
+fn show_workspace_home_state(widgets: &AppWidgets, data: &LoadedData, page: Page) {
+    set_selected_nav_rows(&widgets.nav_rows, page);
+    widgets.current_page.replace(page);
+    widgets.stack.set_visible_child_name(page.stack_name());
+    widgets.tab_view.set_selected_page(&widgets.home_tab);
+    widgets
+        .search
+        .set_placeholder_text(Some(page.search_placeholder()));
+    if page == Page::Compare {
+        render_compare_page(
+            &widgets.compare,
+            data.pokemon.clone(),
+            widgets.compare_ids.clone(),
+            widgets.compare_badge.clone(),
+            widgets.sprite_loader.clone(),
+        );
+    }
+}
+
+fn dedup_compare_ids(ids: &[i64]) -> Vec<i64> {
+    ids.iter()
+        .copied()
+        .take(COMPARE_LIMIT)
+        .fold(Vec::new(), |mut next, id| {
+            if !next.contains(&id) {
+                next.push(id);
+            }
+            next
+        })
+}
+
+fn workspace_tab_count(workspace: &Workspace) -> usize {
+    workspace.snapshot.tabs.len()
+}
+
+fn hide_workspace_menu(workspace: &WorkspaceUi) {
+    workspace.panel.set_visible(false);
+}
+
+fn connect_workspace_ui(
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+    window: adw::ApplicationWindow,
+) {
+    refresh_workspace_menu(widgets, pool, runtime, data, window);
+}
+
+fn refresh_workspace_menu(
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+    window: adw::ApplicationWindow,
+) {
+    refresh_workspace_label(&widgets.workspace);
+    clear_box(&widgets.workspace.menu);
+
+    let title = gtk::Label::new(Some("Workspaces"));
+    title.add_css_class("workspace-title");
+    title.set_xalign(0.0);
+    widgets.workspace.menu.append(&title);
+
+    let (active_id, workspaces) = {
+        let store = widgets.workspace.store.borrow();
+        (store.active_id.clone(), store.workspaces.clone())
+    };
+
+    for workspace in workspaces {
+        let line = gtk::Box::new(gtk::Orientation::Horizontal, 4);
+        line.add_css_class("workspace-line");
+
+        let row = gtk::Button::new();
+        row.add_css_class("flat");
+        row.add_css_class("workspace-row");
+        if workspace.id == active_id {
+            row.add_css_class("workspace-active");
+        }
+        row.set_hexpand(true);
+        row.set_tooltip_text(Some(&format!("Switch to {}", workspace.name)));
+        let row_content = gtk::Box::new(gtk::Orientation::Horizontal, 8);
+        row_content.set_valign(gtk::Align::Center);
+        let check = gtk::Image::from_icon_name(if workspace.id == active_id {
+            "object-select-symbolic"
+        } else {
+            "folder-symbolic"
+        });
+        check.set_pixel_size(14);
+        let name = gtk::Label::new(Some(&workspace.name));
+        name.set_xalign(0.0);
+        name.set_ellipsize(gtk::pango::EllipsizeMode::End);
+        name.set_hexpand(true);
+        row_content.append(&check);
+        row_content.append(&name);
+        row.set_child(Some(&row_content));
+
+        let workspace_id = workspace.id.clone();
+        let switch_widgets = widgets.clone();
+        let switch_pool = pool.clone();
+        let switch_runtime = runtime.clone();
+        let switch_data = data.clone();
+        let switch_window = window.clone();
+        row.connect_clicked(move |_| {
+            switch_workspace(
+                &switch_widgets,
+                switch_pool.clone(),
+                switch_runtime.clone(),
+                switch_data.clone(),
+                switch_window.clone(),
+                workspace_id.as_str(),
+            );
+        });
+        line.append(&row);
+
+        widgets.workspace.menu.append(&line);
+    }
+
+    widgets
+        .workspace
+        .menu
+        .append(&gtk::Separator::new(gtk::Orientation::Horizontal));
+
+    let new_empty = workspace_action_button("list-add-symbolic", "New Empty Workspace");
+    let new_widgets = widgets.clone();
+    let new_pool = pool.clone();
+    let new_runtime = runtime.clone();
+    let new_data = data.clone();
+    let new_window = window.clone();
+    new_empty.connect_clicked(move |_| {
+        hide_workspace_menu(&new_widgets.workspace);
+        show_new_empty_workspace_dialog(
+            &new_window,
+            &new_widgets,
+            new_pool.clone(),
+            new_runtime.clone(),
+            new_data.clone(),
+        );
+    });
+    widgets.workspace.menu.append(&new_empty);
+
+    let duplicate = workspace_action_button("edit-copy-symbolic", "Save Current as New Workspace");
+    let duplicate_widgets = widgets.clone();
+    let duplicate_pool = pool.clone();
+    let duplicate_runtime = runtime.clone();
+    let duplicate_data = data.clone();
+    let duplicate_window = window.clone();
+    duplicate.connect_clicked(move |_| {
+        hide_workspace_menu(&duplicate_widgets.workspace);
+        show_duplicate_workspace_dialog(
+            &duplicate_window,
+            &duplicate_widgets,
+            duplicate_pool.clone(),
+            duplicate_runtime.clone(),
+            duplicate_data.clone(),
+        );
+    });
+    widgets.workspace.menu.append(&duplicate);
+
+    let manage = workspace_action_button("view-list-symbolic", "Manage Workspaces...");
+    let manage_widgets = widgets.clone();
+    let manage_pool = pool;
+    let manage_runtime = runtime;
+    let manage_data = data;
+    let manage_window = window;
+    manage.connect_clicked(move |_| {
+        hide_workspace_menu(&manage_widgets.workspace);
+        show_manage_workspaces_dialog(
+            &manage_window,
+            &manage_widgets,
+            manage_pool.clone(),
+            manage_runtime.clone(),
+            manage_data.clone(),
+        );
+    });
+    widgets.workspace.menu.append(&manage);
+}
+
+fn workspace_icon_button(icon_name: &str, tooltip: &str) -> gtk::Button {
+    let button = gtk::Button::from_icon_name(icon_name);
+    button.add_css_class("flat");
+    button.add_css_class("workspace-icon-button");
+    button.set_tooltip_text(Some(tooltip));
+    button
+}
+
+fn workspace_action_button(icon_name: &str, label: &str) -> gtk::Button {
+    let button = gtk::Button::new();
+    button.add_css_class("flat");
+    button.add_css_class("workspace-action");
+    let content = gtk::Box::new(gtk::Orientation::Horizontal, 8);
+    content.set_valign(gtk::Align::Center);
+    let icon = gtk::Image::from_icon_name(icon_name);
+    icon.set_pixel_size(14);
+    let text = gtk::Label::new(Some(label));
+    text.set_xalign(0.0);
+    text.set_hexpand(true);
+    content.append(&icon);
+    content.append(&text);
+    button.set_child(Some(&content));
+    button
+}
+
+fn switch_workspace(
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+    window: adw::ApplicationWindow,
+    workspace_id: &str,
+) {
+    let already_active = widgets.workspace.store.borrow().active_id == workspace_id;
+    if already_active {
+        hide_workspace_menu(&widgets.workspace);
+        return;
+    }
+
+    save_current_workspace(widgets);
+    let snapshot_and_name = {
+        let mut store = widgets.workspace.store.borrow_mut();
+        store.active_id = workspace_id.to_owned();
+        normalize_workspace_store(&mut store);
+        persist_workspace_store(&store);
+        active_workspace(&store)
+            .map(|workspace| (workspace.snapshot.clone(), workspace.name.clone()))
+    };
+
+    let Some((snapshot, name)) = snapshot_and_name else {
+        return;
+    };
+
+    apply_workspace_snapshot(widgets, &pool, &runtime, &data, &snapshot);
+    refresh_workspace_menu(widgets, pool, runtime, data, window);
+    hide_workspace_menu(&widgets.workspace);
+    show_workspace_toast(widgets, &format!("Switched to {name}"));
+}
+
+fn show_new_empty_workspace_dialog(
+    window: &adw::ApplicationWindow,
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+) {
+    save_current_workspace(widgets);
+    let widgets = widgets.clone();
+    let parent_window = window.clone();
+    let refresh_window = window.clone();
+    prompt_workspace_name(
+        &parent_window,
+        "New Empty Workspace",
+        "Create",
+        "",
+        move |name| {
+            let (snapshot, display_name) = {
+                let current_snapshot = capture_workspace_snapshot(&widgets);
+                let mut store = widgets.workspace.store.borrow_mut();
+                if let Some(workspace) = active_workspace_mut(&mut store) {
+                    workspace.snapshot = current_snapshot;
+                }
+                let name = unique_workspace_name(&store, &name, None);
+                let id = next_workspace_id(&mut store);
+                let snapshot = WorkspaceSnapshot::default();
+                store.active_id = id.clone();
+                store.workspaces.push(Workspace {
+                    id,
+                    name: name.clone(),
+                    snapshot: snapshot.clone(),
+                });
+                persist_workspace_store(&store);
+                (snapshot, name)
+            };
+            apply_workspace_snapshot(&widgets, &pool, &runtime, &data, &snapshot);
+            refresh_workspace_menu(
+                &widgets,
+                pool.clone(),
+                runtime.clone(),
+                data.clone(),
+                refresh_window.clone(),
+            );
+            show_workspace_toast(&widgets, &format!("Created {display_name}"));
+        },
+    );
+}
+
+fn show_duplicate_workspace_dialog(
+    window: &adw::ApplicationWindow,
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+) {
+    let suggested = {
+        let store = widgets.workspace.store.borrow();
+        active_workspace(&store)
+            .map(|workspace| format!("{} Copy", workspace.name))
+            .unwrap_or_else(|| "Workspace Copy".to_owned())
+    };
+    let widgets = widgets.clone();
+    let parent_window = window.clone();
+    let refresh_window = window.clone();
+    prompt_workspace_name(
+        &parent_window,
+        "Save Current as New Workspace",
+        "Save",
+        suggested.as_str(),
+        move |name| {
+            let (snapshot, display_name) = {
+                let snapshot = capture_workspace_snapshot(&widgets);
+                let mut store = widgets.workspace.store.borrow_mut();
+                if let Some(workspace) = active_workspace_mut(&mut store) {
+                    workspace.snapshot = snapshot.clone();
+                }
+                let name = unique_workspace_name(&store, &name, None);
+                let id = next_workspace_id(&mut store);
+                store.active_id = id.clone();
+                store.workspaces.push(Workspace {
+                    id,
+                    name: name.clone(),
+                    snapshot: snapshot.clone(),
+                });
+                persist_workspace_store(&store);
+                (snapshot, name)
+            };
+            apply_workspace_snapshot(&widgets, &pool, &runtime, &data, &snapshot);
+            refresh_workspace_menu(
+                &widgets,
+                pool.clone(),
+                runtime.clone(),
+                data.clone(),
+                refresh_window.clone(),
+            );
+            show_workspace_toast(&widgets, &format!("Saved {display_name}"));
+        },
+    );
+}
+
+fn show_rename_workspace_dialog(
+    window: &adw::ApplicationWindow,
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+    workspace_id: String,
+    current_name: String,
+) {
+    let widgets = widgets.clone();
+    let parent_window = window.clone();
+    let refresh_window = window.clone();
+    prompt_workspace_name(
+        &parent_window,
+        "Rename Workspace",
+        "Rename",
+        current_name.as_str(),
+        move |name| {
+            save_current_workspace(&widgets);
+            let display_name = {
+                let mut store = widgets.workspace.store.borrow_mut();
+                let name = unique_workspace_name(&store, &name, Some(workspace_id.as_str()));
+                if let Some(workspace) = store
+                    .workspaces
+                    .iter_mut()
+                    .find(|workspace| workspace.id == workspace_id)
+                {
+                    workspace.name = name.clone();
+                }
+                persist_workspace_store(&store);
+                name
+            };
+            refresh_workspace_menu(
+                &widgets,
+                pool.clone(),
+                runtime.clone(),
+                data.clone(),
+                refresh_window.clone(),
+            );
+            show_workspace_toast(&widgets, &format!("Renamed to {display_name}"));
+        },
+    );
+}
+
+#[allow(deprecated)]
+fn show_delete_workspace_confirmation(
+    window: &adw::ApplicationWindow,
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+    workspace_id: String,
+    workspace_name: String,
+) {
+    let dialog = gtk::Dialog::builder()
+        .title("Delete Workspace")
+        .modal(true)
+        .transient_for(window)
+        .build();
+    dialog.add_button("Cancel", gtk::ResponseType::Cancel);
+    dialog.add_button("Delete", gtk::ResponseType::Accept);
+    dialog.set_default_response(gtk::ResponseType::Cancel);
+    if let Some(button) = dialog.widget_for_response(gtk::ResponseType::Accept) {
+        button.add_css_class("destructive-action");
+    }
+
+    let content = dialog.content_area();
+    content.add_css_class("workspace-dialog-content");
+    let label = gtk::Label::new(Some(&format!(
+        "Delete \"{workspace_name}\"? This only removes the saved workspace, not the app data."
+    )));
+    label.set_wrap(true);
+    label.set_xalign(0.0);
+    content.append(&label);
+
+    let widgets = widgets.clone();
+    let window = window.clone();
+    dialog.connect_response(move |dialog, response| {
+        if response == gtk::ResponseType::Accept {
+            delete_workspace(
+                &widgets,
+                pool.clone(),
+                runtime.clone(),
+                data.clone(),
+                window.clone(),
+                workspace_id.as_str(),
+                workspace_name.as_str(),
+            );
+        }
+        dialog.close();
+    });
+    dialog.present();
+}
+
+fn delete_workspace(
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+    window: adw::ApplicationWindow,
+    workspace_id: &str,
+    workspace_name: &str,
+) {
+    if widgets.workspace.store.borrow().workspaces.len() <= 1 {
+        show_workspace_toast(widgets, "Keep at least one workspace");
+        return;
+    }
+
+    save_current_workspace(widgets);
+    let deleted_active;
+    let next_snapshot = {
+        let mut store = widgets.workspace.store.borrow_mut();
+        deleted_active = store.active_id == workspace_id;
+        store
+            .workspaces
+            .retain(|workspace| workspace.id != workspace_id);
+        if deleted_active {
+            store.active_id = store
+                .workspaces
+                .first()
+                .map(|workspace| workspace.id.clone())
+                .unwrap_or_else(|| "default".to_owned());
+        }
+        normalize_workspace_store(&mut store);
+        persist_workspace_store(&store);
+        if deleted_active {
+            active_workspace(&store).map(|workspace| workspace.snapshot.clone())
+        } else {
+            None
+        }
+    };
+
+    if let Some(snapshot) = next_snapshot {
+        apply_workspace_snapshot(widgets, &pool, &runtime, &data, &snapshot);
+    }
+    refresh_workspace_menu(widgets, pool, runtime, data, window);
+    show_workspace_toast(widgets, &format!("Deleted {workspace_name}"));
+}
+
+#[allow(deprecated)]
+fn show_manage_workspaces_dialog(
+    window: &adw::ApplicationWindow,
+    widgets: &AppWidgets,
+    pool: Rc<sqlx::SqlitePool>,
+    runtime: Rc<tokio::runtime::Runtime>,
+    data: LoadedData,
+) {
+    let dialog = gtk::Dialog::builder()
+        .title("Manage Workspaces")
+        .modal(true)
+        .transient_for(window)
+        .default_width(430)
+        .build();
+    dialog.add_button("Close", gtk::ResponseType::Close);
+
+    let content = dialog.content_area();
+    content.add_css_class("workspace-dialog-content");
+    let list = gtk::Box::new(gtk::Orientation::Vertical, 6);
+    content.append(&list);
+
+    let (active_id, workspaces, can_delete) = {
+        let store = widgets.workspace.store.borrow();
+        (
+            store.active_id.clone(),
+            store.workspaces.clone(),
+            store.workspaces.len() > 1,
+        )
+    };
+
+    for workspace in workspaces {
+        let row = gtk::Box::new(gtk::Orientation::Horizontal, 8);
+        row.add_css_class("settings-row");
+
+        let info = gtk::Box::new(gtk::Orientation::Vertical, 2);
+        info.set_hexpand(true);
+        let name = gtk::Label::new(Some(&workspace.name));
+        name.add_css_class("row-title");
+        name.set_xalign(0.0);
+        let meta = gtk::Label::new(Some(&format!(
+            "{} tabs{}",
+            workspace_tab_count(&workspace),
+            if workspace.id == active_id {
+                " / active"
+            } else {
+                ""
+            }
+        )));
+        meta.add_css_class("workspace-meta");
+        meta.set_xalign(0.0);
+        info.append(&name);
+        info.append(&meta);
+        row.append(&info);
+
+        let rename = workspace_icon_button("document-edit-symbolic", "Rename workspace");
+        let rename_widgets = widgets.clone();
+        let rename_pool = pool.clone();
+        let rename_runtime = runtime.clone();
+        let rename_data = data.clone();
+        let rename_window = window.clone();
+        let rename_id = workspace.id.clone();
+        let rename_name = workspace.name.clone();
+        let rename_dialog = dialog.clone();
+        rename.connect_clicked(move |_| {
+            rename_dialog.close();
+            show_rename_workspace_dialog(
+                &rename_window,
+                &rename_widgets,
+                rename_pool.clone(),
+                rename_runtime.clone(),
+                rename_data.clone(),
+                rename_id.clone(),
+                rename_name.clone(),
+            );
+        });
+        row.append(&rename);
+
+        let delete = workspace_icon_button("user-trash-symbolic", "Delete workspace");
+        delete.add_css_class("workspace-danger");
+        delete.set_sensitive(can_delete);
+        let delete_widgets = widgets.clone();
+        let delete_pool = pool.clone();
+        let delete_runtime = runtime.clone();
+        let delete_data = data.clone();
+        let delete_window = window.clone();
+        let delete_id = workspace.id.clone();
+        let delete_name = workspace.name.clone();
+        let delete_dialog = dialog.clone();
+        delete.connect_clicked(move |_| {
+            delete_dialog.close();
+            show_delete_workspace_confirmation(
+                &delete_window,
+                &delete_widgets,
+                delete_pool.clone(),
+                delete_runtime.clone(),
+                delete_data.clone(),
+                delete_id.clone(),
+                delete_name.clone(),
+            );
+        });
+        row.append(&delete);
+        list.append(&row);
+    }
+
+    dialog.connect_response(|dialog, _| dialog.close());
+    dialog.present();
+}
+
+#[allow(deprecated)]
+fn prompt_workspace_name<W, F>(
+    window: &W,
+    title: &str,
+    action_label: &str,
+    initial_name: &str,
+    on_confirm: F,
+) where
+    W: IsA<gtk::Window>,
+    F: Fn(String) + 'static,
+{
+    let dialog = gtk::Dialog::builder()
+        .title(title)
+        .modal(true)
+        .transient_for(window)
+        .default_width(360)
+        .build();
+    dialog.add_button("Cancel", gtk::ResponseType::Cancel);
+    dialog.add_button(action_label, gtk::ResponseType::Accept);
+    dialog.set_default_response(gtk::ResponseType::Accept);
+
+    let content = dialog.content_area();
+    content.add_css_class("workspace-dialog-content");
+    let entry = gtk::Entry::new();
+    entry.set_activates_default(true);
+    entry.set_placeholder_text(Some("Workspace name"));
+    entry.set_text(initial_name);
+    entry.select_region(0, -1);
+    content.append(&entry);
+
+    let on_confirm = Rc::new(on_confirm);
+    let entry_for_response = entry.clone();
+    dialog.connect_response(move |dialog, response| {
+        if response == gtk::ResponseType::Accept {
+            let name = entry_for_response.text().trim().to_owned();
+            if name.is_empty() {
+                entry_for_response.add_css_class("error");
+                entry_for_response.grab_focus();
+                return;
+            }
+            on_confirm(name);
+        }
+        dialog.close();
+    });
+
+    dialog.present();
+    entry.grab_focus();
+}
+
+fn show_workspace_toast(widgets: &AppWidgets, message: &str) {
+    widgets.toast_overlay.add_toast(adw::Toast::new(message));
 }
 
 fn build_sidebar() -> (gtk::Box, Vec<(Page, gtk::ListBoxRow)>, gtk::Label) {
@@ -2051,6 +3792,19 @@ fn refresh_type_results(
     }
 }
 
+#[derive(Clone)]
+struct TypeChartHeader {
+    type_key: String,
+    label: gtk::Label,
+}
+
+#[derive(Clone)]
+struct TypeChartCell {
+    attacking: String,
+    defending: String,
+    label: gtk::Label,
+}
+
 fn build_type_chart_grid() -> gtk::Grid {
     let grid = gtk::Grid::new();
     grid.add_css_class("section-card");
@@ -2061,17 +3815,28 @@ fn build_type_chart_grid() -> gtk::Grid {
     let mut column_headers = Vec::new();
     for (col, type_key) in ALL_TYPES.iter().enumerate() {
         let header = type_text_label(type_key);
+        header.add_css_class("chart-axis");
         grid.attach(&header, (col + 1) as i32, 0, 1, 1);
-        column_headers.push(header);
+        column_headers.push(TypeChartHeader {
+            type_key: (*type_key).to_owned(),
+            label: header,
+        });
     }
+    let mut row_headers = Vec::new();
+    let mut cells = Vec::new();
     for (row_idx, attacking) in ALL_TYPES.iter().enumerate() {
         let row_header = type_text_label(attacking);
+        row_header.add_css_class("chart-axis");
         grid.attach(&row_header, 0, (row_idx + 1) as i32, 1, 1);
+        row_headers.push(TypeChartHeader {
+            type_key: (*attacking).to_owned(),
+            label: row_header.clone(),
+        });
         for (col_idx, defending) in ALL_TYPES.iter().enumerate() {
             let factor = (type_factor(attacking, defending) * 100.0).round() as i32;
             let label = chart_factor_cell(*attacking, *defending, factor);
             let row_focus = row_header.clone();
-            let col_focus = column_headers[col_idx].clone();
+            let col_focus = column_headers[col_idx].label.clone();
             let cell_focus = label.clone();
             let motion = gtk::EventControllerMotion::new();
             motion.connect_enter(move |_, _, _| {
@@ -2080,7 +3845,7 @@ fn build_type_chart_grid() -> gtk::Grid {
                 cell_focus.add_css_class("chart-focus");
             });
             let row_focus = row_header.clone();
-            let col_focus = column_headers[col_idx].clone();
+            let col_focus = column_headers[col_idx].label.clone();
             let cell_focus = label.clone();
             motion.connect_leave(move |_| {
                 row_focus.remove_css_class("chart-focus");
@@ -2089,9 +3854,361 @@ fn build_type_chart_grid() -> gtk::Grid {
             });
             label.add_controller(motion);
             grid.attach(&label, (col_idx + 1) as i32, (row_idx + 1) as i32, 1, 1);
+            cells.push(TypeChartCell {
+                attacking: (*attacking).to_owned(),
+                defending: (*defending).to_owned(),
+                label,
+            });
         }
     }
+
+    let row_headers = Rc::new(row_headers);
+    let column_headers = Rc::new(column_headers);
+    let cells = Rc::new(cells);
+    let selected_cells: Rc<RefCell<HashSet<String>>> = Rc::new(RefCell::new(HashSet::new()));
+    let mass_selected_rows: Rc<RefCell<HashSet<String>>> = Rc::new(RefCell::new(HashSet::new()));
+    let mass_selected_columns: Rc<RefCell<HashSet<String>>> = Rc::new(RefCell::new(HashSet::new()));
+    let pinned_rows: Rc<RefCell<HashSet<String>>> = Rc::new(RefCell::new(HashSet::new()));
+    let pinned_columns: Rc<RefCell<HashSet<String>>> = Rc::new(RefCell::new(HashSet::new()));
+
+    for header in row_headers.iter() {
+        let selected_cells_for_click = selected_cells.clone();
+        let mass_selected_rows_for_click = mass_selected_rows.clone();
+        let mass_selected_columns_for_click = mass_selected_columns.clone();
+        let pinned_rows_for_click = pinned_rows.clone();
+        let pinned_columns_for_click = pinned_columns.clone();
+        let row_headers_for_click = row_headers.clone();
+        let column_headers_for_click = column_headers.clone();
+        let cells_for_click = cells.clone();
+        let type_key = header.type_key.clone();
+        let click = gtk::GestureClick::new();
+        click.connect_released(move |gesture, _, _, _| {
+            if gesture
+                .current_event_state()
+                .contains(gtk::gdk::ModifierType::SHIFT_MASK)
+            {
+                toggle_chart_axis(
+                    &selected_cells_for_click,
+                    &mass_selected_rows_for_click,
+                    &type_key,
+                    ChartAxis::Attack,
+                );
+            } else {
+                toggle_hash_selection(&pinned_rows_for_click, &type_key);
+            }
+            refresh_type_chart_selection(
+                row_headers_for_click.as_slice(),
+                column_headers_for_click.as_slice(),
+                cells_for_click.as_slice(),
+                &selected_cells_for_click.borrow(),
+                &mass_selected_rows_for_click.borrow(),
+                &mass_selected_columns_for_click.borrow(),
+                &pinned_rows_for_click.borrow(),
+                &pinned_columns_for_click.borrow(),
+            );
+        });
+        header.label.add_controller(click);
+    }
+
+    for header in column_headers.iter() {
+        let selected_cells_for_click = selected_cells.clone();
+        let mass_selected_rows_for_click = mass_selected_rows.clone();
+        let mass_selected_columns_for_click = mass_selected_columns.clone();
+        let pinned_rows_for_click = pinned_rows.clone();
+        let pinned_columns_for_click = pinned_columns.clone();
+        let row_headers_for_click = row_headers.clone();
+        let column_headers_for_click = column_headers.clone();
+        let cells_for_click = cells.clone();
+        let type_key = header.type_key.clone();
+        let click = gtk::GestureClick::new();
+        click.connect_released(move |gesture, _, _, _| {
+            if gesture
+                .current_event_state()
+                .contains(gtk::gdk::ModifierType::SHIFT_MASK)
+            {
+                toggle_chart_axis(
+                    &selected_cells_for_click,
+                    &mass_selected_columns_for_click,
+                    &type_key,
+                    ChartAxis::Defense,
+                );
+            } else {
+                toggle_hash_selection(&pinned_columns_for_click, &type_key);
+            }
+            refresh_type_chart_selection(
+                row_headers_for_click.as_slice(),
+                column_headers_for_click.as_slice(),
+                cells_for_click.as_slice(),
+                &selected_cells_for_click.borrow(),
+                &mass_selected_rows_for_click.borrow(),
+                &mass_selected_columns_for_click.borrow(),
+                &pinned_rows_for_click.borrow(),
+                &pinned_columns_for_click.borrow(),
+            );
+        });
+        header.label.add_controller(click);
+    }
+
+    for cell in cells.iter() {
+        let selected_cells_for_click = selected_cells.clone();
+        let mass_selected_rows_for_click = mass_selected_rows.clone();
+        let mass_selected_columns_for_click = mass_selected_columns.clone();
+        let pinned_rows_for_click = pinned_rows.clone();
+        let pinned_columns_for_click = pinned_columns.clone();
+        let row_headers_for_click = row_headers.clone();
+        let column_headers_for_click = column_headers.clone();
+        let cells_for_click = cells.clone();
+        let attacking = cell.attacking.clone();
+        let defending = cell.defending.clone();
+        let click = gtk::GestureClick::new();
+        click.connect_released(move |_, _, _, _| {
+            toggle_chart_cell(&selected_cells_for_click, &attacking, &defending);
+            remove_empty_mass_axes(
+                &selected_cells_for_click.borrow(),
+                &mass_selected_rows_for_click,
+                ChartAxis::Attack,
+            );
+            remove_empty_mass_axes(
+                &selected_cells_for_click.borrow(),
+                &mass_selected_columns_for_click,
+                ChartAxis::Defense,
+            );
+            refresh_type_chart_selection(
+                row_headers_for_click.as_slice(),
+                column_headers_for_click.as_slice(),
+                cells_for_click.as_slice(),
+                &selected_cells_for_click.borrow(),
+                &mass_selected_rows_for_click.borrow(),
+                &mass_selected_columns_for_click.borrow(),
+                &pinned_rows_for_click.borrow(),
+                &pinned_columns_for_click.borrow(),
+            );
+        });
+        cell.label.add_controller(click);
+    }
+
     grid
+}
+
+#[derive(Clone, Copy)]
+enum ChartAxis {
+    Attack,
+    Defense,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ChartAxisState {
+    Empty,
+    Partial,
+    Full,
+}
+
+fn chart_cell_key(attacking: &str, defending: &str) -> String {
+    format!("{attacking}|{defending}")
+}
+
+fn chart_axis_cell_keys(type_key: &str, axis: ChartAxis) -> Vec<String> {
+    ALL_TYPES
+        .iter()
+        .map(|other_type| match axis {
+            ChartAxis::Attack => chart_cell_key(type_key, other_type),
+            ChartAxis::Defense => chart_cell_key(other_type, type_key),
+        })
+        .collect()
+}
+
+fn chart_axis_state(
+    selected_cells: &HashSet<String>,
+    type_key: &str,
+    axis: ChartAxis,
+) -> ChartAxisState {
+    let selected_count = chart_axis_cell_keys(type_key, axis)
+        .iter()
+        .filter(|cell_key| selected_cells.contains(*cell_key))
+        .count();
+
+    if selected_count == 0 {
+        ChartAxisState::Empty
+    } else if selected_count == ALL_TYPES.len() {
+        ChartAxisState::Full
+    } else {
+        ChartAxisState::Partial
+    }
+}
+
+fn toggle_chart_axis(
+    selected_cells: &Rc<RefCell<HashSet<String>>>,
+    mass_selected_axes: &Rc<RefCell<HashSet<String>>>,
+    type_key: &str,
+    axis: ChartAxis,
+) {
+    let axis_cell_keys = chart_axis_cell_keys(type_key, axis);
+    let mut selected_cells = selected_cells.borrow_mut();
+    let is_full_axis = axis_cell_keys
+        .iter()
+        .all(|cell_key| selected_cells.contains(cell_key));
+
+    for cell_key in axis_cell_keys {
+        if is_full_axis {
+            selected_cells.remove(&cell_key);
+        } else {
+            selected_cells.insert(cell_key);
+        }
+    }
+    drop(selected_cells);
+
+    let mut mass_selected_axes = mass_selected_axes.borrow_mut();
+    if is_full_axis {
+        mass_selected_axes.remove(type_key);
+    } else {
+        mass_selected_axes.insert(type_key.to_owned());
+    }
+}
+
+fn toggle_chart_cell(
+    selected_cells: &Rc<RefCell<HashSet<String>>>,
+    attacking: &str,
+    defending: &str,
+) {
+    let cell_key = chart_cell_key(attacking, defending);
+    let mut selected_cells = selected_cells.borrow_mut();
+    if !selected_cells.insert(cell_key.clone()) {
+        selected_cells.remove(&cell_key);
+    }
+}
+
+fn toggle_hash_selection(selection: &Rc<RefCell<HashSet<String>>>, type_key: &str) {
+    let mut selection = selection.borrow_mut();
+    if !selection.insert(type_key.to_owned()) {
+        selection.remove(type_key);
+    }
+}
+
+fn remove_empty_mass_axes(
+    selected_cells: &HashSet<String>,
+    mass_selected_axes: &Rc<RefCell<HashSet<String>>>,
+    axis: ChartAxis,
+) {
+    mass_selected_axes.borrow_mut().retain(|type_key| {
+        chart_axis_state(selected_cells, type_key, axis) != ChartAxisState::Empty
+    });
+}
+
+fn refresh_type_chart_selection(
+    row_headers: &[TypeChartHeader],
+    column_headers: &[TypeChartHeader],
+    cells: &[TypeChartCell],
+    selected_cells: &HashSet<String>,
+    mass_selected_rows: &HashSet<String>,
+    mass_selected_columns: &HashSet<String>,
+    pinned_rows: &HashSet<String>,
+    pinned_columns: &HashSet<String>,
+) {
+    let has_selection =
+        !selected_cells.is_empty() || !pinned_rows.is_empty() || !pinned_columns.is_empty();
+    let mut active_rows = HashSet::new();
+    let mut active_columns = HashSet::new();
+    let mut selected_cell_rows = HashSet::new();
+    let mut selected_cell_columns = HashSet::new();
+
+    for cell_key in selected_cells {
+        if let Some((attacking, defending)) = cell_key.split_once('|') {
+            selected_cell_rows.insert(attacking.to_owned());
+            selected_cell_columns.insert(defending.to_owned());
+        }
+    }
+
+    active_rows.extend(mass_selected_rows.iter().cloned());
+    active_columns.extend(mass_selected_columns.iter().cloned());
+    active_rows.extend(pinned_rows.iter().cloned());
+    active_columns.extend(pinned_columns.iter().cloned());
+    active_rows.extend(selected_cell_rows.iter().cloned());
+    active_columns.extend(selected_cell_columns.iter().cloned());
+
+    for header in row_headers {
+        let axis_state = if mass_selected_rows.contains(&header.type_key) {
+            chart_axis_state(selected_cells, &header.type_key, ChartAxis::Attack)
+        } else {
+            ChartAxisState::Empty
+        };
+        let is_pinned = pinned_rows.contains(&header.type_key);
+        let has_selected_cell = selected_cell_rows.contains(&header.type_key);
+        set_css_class(
+            &header.label,
+            "chart-selected-axis",
+            axis_state == ChartAxisState::Full,
+        );
+        set_css_class(
+            &header.label,
+            "chart-partial-axis",
+            axis_state == ChartAxisState::Partial,
+        );
+        set_css_class(&header.label, "chart-cell-axis", has_selected_cell);
+        set_css_class(&header.label, "chart-pinned-axis", is_pinned);
+        set_css_class(
+            &header.label,
+            "chart-muted",
+            has_selection
+                && axis_state == ChartAxisState::Empty
+                && !is_pinned
+                && !has_selected_cell,
+        );
+    }
+
+    for header in column_headers {
+        let axis_state = if mass_selected_columns.contains(&header.type_key) {
+            chart_axis_state(selected_cells, &header.type_key, ChartAxis::Defense)
+        } else {
+            ChartAxisState::Empty
+        };
+        let is_pinned = pinned_columns.contains(&header.type_key);
+        let has_selected_cell = selected_cell_columns.contains(&header.type_key);
+        set_css_class(
+            &header.label,
+            "chart-selected-axis",
+            axis_state == ChartAxisState::Full,
+        );
+        set_css_class(
+            &header.label,
+            "chart-partial-axis",
+            axis_state == ChartAxisState::Partial,
+        );
+        set_css_class(&header.label, "chart-cell-axis", has_selected_cell);
+        set_css_class(&header.label, "chart-pinned-axis", is_pinned);
+        set_css_class(
+            &header.label,
+            "chart-muted",
+            has_selection
+                && axis_state == ChartAxisState::Empty
+                && !is_pinned
+                && !has_selected_cell,
+        );
+    }
+
+    for cell in cells {
+        let selected_cell =
+            selected_cells.contains(&chart_cell_key(&cell.attacking, &cell.defending));
+        let axis_context =
+            active_rows.contains(&cell.attacking) || active_columns.contains(&cell.defending);
+        let pinned_axis =
+            pinned_rows.contains(&cell.attacking) || pinned_columns.contains(&cell.defending);
+        set_css_class(&cell.label, "chart-selected-axis", axis_context);
+        set_css_class(&cell.label, "chart-pinned-axis", pinned_axis);
+        set_css_class(&cell.label, "chart-selected-intersection", selected_cell);
+        set_css_class(
+            &cell.label,
+            "chart-muted",
+            has_selection && !selected_cell && !axis_context,
+        );
+    }
+}
+
+fn set_css_class<W: IsA<gtk::Widget>>(widget: &W, css_class: &str, active: bool) {
+    if active {
+        widget.add_css_class(css_class);
+    } else {
+        widget.remove_css_class(css_class);
+    }
 }
 
 fn type_text_label(type_key: &str) -> gtk::Label {
@@ -3027,6 +5144,67 @@ fn sized_label(text: &str, width: i32, expand: bool, class_name: &str) -> gtk::L
     label
 }
 
+fn parse_hex_color(color: &str) -> (f64, f64, f64) {
+    let color = color.trim_start_matches('#');
+    if color.len() != 6 {
+        return (0.45, 0.55, 0.95);
+    }
+    let red = u8::from_str_radix(&color[0..2], 16).unwrap_or(115);
+    let green = u8::from_str_radix(&color[2..4], 16).unwrap_or(140);
+    let blue = u8::from_str_radix(&color[4..6], 16).unwrap_or(240);
+    (
+        f64::from(red) / 255.0,
+        f64::from(green) / 255.0,
+        f64::from(blue) / 255.0,
+    )
+}
+
+fn draw_stat_meter(
+    cr: &gtk::cairo::Context,
+    width: i32,
+    height: i32,
+    fraction: f64,
+    red: f64,
+    green: f64,
+    blue: f64,
+) {
+    let width = f64::from(width).max(0.0);
+    let height = f64::from(height).max(0.0);
+    if width <= 0.0 || height <= 0.0 {
+        return;
+    }
+
+    let bar_height = height.min(12.0);
+    let y = (height - bar_height) / 2.0;
+    let radius = bar_height / 2.0;
+
+    rounded_rect(cr, 0.0, y, width, bar_height, radius);
+    cr.set_source_rgba(1.0, 1.0, 1.0, 0.07);
+    let _ = cr.fill();
+
+    let fill_width = (width * fraction.clamp(0.0, 1.0)).clamp(0.0, width);
+    if fill_width <= 0.0 {
+        return;
+    }
+
+    rounded_rect(cr, 0.0, y, fill_width, bar_height, radius);
+    cr.set_source_rgba(red, green, blue, 1.0);
+    let _ = cr.fill();
+}
+
+fn rounded_rect(cr: &gtk::cairo::Context, x: f64, y: f64, width: f64, height: f64, radius: f64) {
+    let radius = radius.min(width / 2.0).min(height / 2.0);
+    let right = x + width;
+    let bottom = y + height;
+
+    cr.new_sub_path();
+    cr.arc(right - radius, y + radius, radius, -PI / 2.0, 0.0);
+    cr.arc(right - radius, bottom - radius, radius, 0.0, PI / 2.0);
+    cr.arc(x + radius, bottom - radius, radius, PI / 2.0, PI);
+    cr.arc(x + radius, y + radius, radius, PI, 3.0 * PI / 2.0);
+    cr.close_path();
+}
+
 fn sprite_frame(image: &gtk::Image, size: i32, class_name: &str) -> gtk::Box {
     let frame = gtk::Box::new(gtk::Orientation::Vertical, 0);
     frame.add_css_class(class_name);
@@ -3531,7 +5709,6 @@ fn show_page(
 
     widgets.current_page.replace(page);
     widgets.stack.set_visible_child_name(page.stack_name());
-    widgets.back_button.set_visible(false);
     widgets.tab_view.set_selected_page(&widgets.home_tab);
     widgets
         .search
@@ -3660,7 +5837,6 @@ fn apply_history_state(
             set_selected_nav_rows(&widgets.nav_rows, *page);
             widgets.current_page.replace(*page);
             widgets.stack.set_visible_child_name(page.stack_name());
-            widgets.back_button.set_visible(false);
             widgets
                 .search
                 .set_placeholder_text(Some(page.search_placeholder()));
@@ -3945,6 +6121,31 @@ fn selected_tab_target(widgets: &AppWidgets, page: &adw::TabPage) -> Option<TabT
         .map(|tab| tab.target.clone())
 }
 
+fn target_tab_page(widgets: &AppWidgets, target: &TabTarget) -> Option<adw::TabPage> {
+    widgets
+        .open_tabs
+        .borrow()
+        .iter()
+        .find(|tab| tab.target == *target)
+        .map(|tab| tab.page.clone())
+}
+
+fn append_target_tab(widgets: &AppWidgets, data: &LoadedData, target: &TabTarget) -> adw::TabPage {
+    if let Some(page) = target_tab_page(widgets, target) {
+        return page;
+    }
+
+    let host = adw::Bin::new();
+    let page = widgets.tab_view.append(&host);
+    page.set_title(&tab_title(target, data));
+    page.set_tooltip(&tab_tooltip(target, data));
+    widgets.open_tabs.borrow_mut().push(OpenTab {
+        page: page.clone(),
+        target: target.clone(),
+    });
+    page
+}
+
 fn open_target_in_current_tab(
     widgets: &AppWidgets,
     pool: Rc<sqlx::SqlitePool>,
@@ -3964,14 +6165,7 @@ fn open_target_in_new_tab(
     select: bool,
 ) {
     let previous_page = widgets.tab_view.selected_page();
-    let host = adw::Bin::new();
-    let page = widgets.tab_view.append(&host);
-    page.set_title(&tab_title(&target, &data));
-    page.set_tooltip(&tab_tooltip(&target, &data));
-    widgets.open_tabs.borrow_mut().push(OpenTab {
-        page: page.clone(),
-        target: target.clone(),
-    });
+    let page = append_target_tab(widgets, &data, &target);
     if select {
         widgets.tab_view.set_selected_page(&page);
         show_tab_target(widgets, &pool, &runtime, &data, &target);
@@ -4012,7 +6206,6 @@ fn show_current_browser_page(widgets: &AppWidgets) {
     widgets
         .stack
         .set_visible_child_name(widgets.current_page.borrow().stack_name());
-    widgets.back_button.set_visible(false);
     record_navigation(widgets, ViewState::Home(*widgets.current_page.borrow()));
 }
 
@@ -4279,16 +6472,6 @@ fn list_view_from_browser_page(page: &gtk::Box) -> Option<gtk::ListView> {
         .and_downcast::<gtk::ListView>()
 }
 
-fn connect_back_button(widgets: &AppWidgets) {
-    let widgets = widgets.clone();
-    let back_button = widgets.back_button.clone();
-    back_button.connect_clicked(move |_| {
-        let page = *widgets.current_page.borrow();
-        widgets.stack.set_visible_child_name(page.stack_name());
-        widgets.back_button.set_visible(false);
-    });
-}
-
 fn scroll_to_top(scroller: &gtk::ScrolledWindow) {
     let adjustment = scroller.vadjustment();
     adjustment.set_value(adjustment.lower());
@@ -4356,7 +6539,6 @@ fn load_move_detail_page(
             &widgets.sprite_loader,
         );
         widgets.stack.set_visible_child_name("move-detail");
-        widgets.back_button.set_visible(true);
         scroll_to_top(&widgets.move_detail.scroller);
     }
 }
@@ -4381,7 +6563,6 @@ fn load_ability_detail_page(
             &widgets.sprite_loader,
         );
         widgets.stack.set_visible_child_name("ability-detail");
-        widgets.back_button.set_visible(true);
         scroll_to_top(&widgets.ability_detail.scroller);
     }
 }
@@ -4414,7 +6595,6 @@ fn load_item_detail_page(
             &widgets.sprite_loader,
         );
         widgets.stack.set_visible_child_name("item-detail");
-        widgets.back_button.set_visible(true);
         scroll_to_top(&widgets.item_detail.scroller);
     }
 }
@@ -4731,41 +6911,37 @@ fn build_detail_page() -> (gtk::ScrolledWindow, DetailWidgets) {
     stats_card.add_css_class("section-card");
     stats_card.add_css_class("detail-content-card");
     let mut stats = Vec::new();
-    for (name, class_name, progress_class) in [
-        ("HP", "stat-hp", "stat-progress-hp"),
-        ("Atk", "stat-atk", "stat-progress-atk"),
-        ("Def", "stat-def", "stat-progress-def"),
-        ("SpA", "stat-spa", "stat-progress-spa"),
-        ("SpD", "stat-spd", "stat-progress-spd"),
-        ("Spe", "stat-spe", "stat-progress-spe"),
+    for (name, class_name, color) in [
+        ("HP", "stat-hp", "#ff4d55"),
+        ("Atk", "stat-atk", "#ff8a22"),
+        ("Def", "stat-def", "#ffd21a"),
+        ("SpA", "stat-spa", "#7772ff"),
+        ("SpD", "stat-spd", "#20d179"),
+        ("Spe", "stat-spe", "#f14aa0"),
     ] {
         let row = gtk::Box::new(gtk::Orientation::Horizontal, 12);
         row.add_css_class("stat-row");
         let stat_name = sized_label(name, 46, false, class_name);
         stat_name.set_valign(gtk::Align::Center);
-        let value = sized_label("", 42, false, class_name);
+        let value = sized_label("", 42, false, "stat-value");
         value.set_valign(gtk::Align::Center);
-        let bar = gtk::ProgressBar::new();
-        bar.add_css_class("stat-bar");
-        bar.add_css_class(progress_class);
-        bar.set_valign(gtk::Align::Center);
-        bar.set_hexpand(true);
+        let bar = StatMeter::new(color);
         row.append(&stat_name);
         row.append(&value);
-        row.append(&bar);
+        row.append(bar.widget());
         stats_card.append(&row);
-        stats.push((value, bar));
+        stats.push((value, Some(bar)));
     }
     let total_row = gtk::Box::new(gtk::Orientation::Horizontal, 12);
     total_row.add_css_class("stat-row");
-    let total_name = sized_label("TOT", 46, false, "stat-bst");
+    let total_name = sized_label("TOT", 46, false, "stat-total-name");
     total_name.set_valign(gtk::Align::Center);
     total_row.append(&total_name);
-    let total_value = sized_label("", 42, false, "stat-bst");
+    let total_value = sized_label("", 42, false, "stat-total-value");
     total_value.set_valign(gtk::Align::Center);
     total_row.append(&total_value);
     stats_card.append(&total_row);
-    stats.push((total_value, gtk::ProgressBar::new()));
+    stats.push((total_value, None));
     stats_section.append(&stats_card);
     wrap.append(&stats_section);
 
@@ -4993,7 +7169,6 @@ fn load_detail(
         );
         if show {
             widgets.stack.set_visible_child_name("detail");
-            widgets.back_button.set_visible(true);
             match std::env::var("POKEDIA_START_SECTION").ok().as_deref() {
                 Some("evolution") => {
                     scroll_to_widget(&widgets.detail.scroller, &widgets.detail.evolution_section);
@@ -5117,7 +7292,9 @@ fn update_detail(
     for ((label, bar), value) in detail.stats.iter().zip(values) {
         let value = value.unwrap_or(0);
         label.set_text(&value.to_string());
-        bar.set_fraction((value as f64 / 255.0).clamp(0.0, 1.0));
+        if let Some(bar) = bar {
+            bar.set_fraction((value as f64 / 255.0).clamp(0.0, 1.0));
+        }
     }
     if let Some((total_label, _)) = detail.stats.get(6) {
         total_label.set_text(

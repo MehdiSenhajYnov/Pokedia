@@ -36,11 +36,11 @@ export function StatsBar({
             >
               {STAT_NAMES[key] ?? key}
             </span>
-            <span className="w-8 text-right font-mono font-medium">
+            <span className="w-8 text-right font-mono font-semibold text-foreground/90">
               {rawValue !== null ? value : "\u2014"}
             </span>
             <div
-              className="h-3 flex-1 overflow-hidden rounded-full bg-muted/30"
+              className="h-3.5 flex-1 overflow-hidden rounded-full bg-muted/30"
               role="meter"
               aria-label={STAT_NAMES[key] ?? key}
               aria-valuenow={value}
@@ -65,7 +65,7 @@ export function StatsBar({
 
       {showTotal && (
         <motion.div
-          className="flex items-center gap-3 border-t border-border pt-1.5 text-xs"
+          className="flex items-center gap-3 border-t border-border/70 pt-1.5 text-xs"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35 }}

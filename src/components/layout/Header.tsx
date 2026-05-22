@@ -1,6 +1,6 @@
 import { startTransition, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Moon, Sun, Search, X, ChevronLeft } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { Moon, Sun, Search, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useSearchStore } from "@/stores/search-store";
@@ -30,37 +30,15 @@ function getPlaceholder(category: ActiveCategory): string {
 export function Header({ title }: { title?: string }) {
   const theme = useSettingsStore((s) => s.theme);
   const toggleTheme = useSettingsStore((s) => s.toggleTheme);
-  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isDetailPage = /^\/(pokemon|moves|items|abilities)\/\d+/.test(pathname);
 
   const activeCategory = getActiveCategory(pathname);
 
   return (
     <GlassNavbar className="shrink-0 border-b border-border/30">
       <header className="flex h-14 items-center gap-4 px-6">
-        {/* Left: back chevron + page title */}
+        {/* Left: page title */}
         <div className="flex items-center gap-1 shrink-0">
-          {isDetailPage && (
-            <button
-              onClick={() => {
-                if (window.history.length > 1) {
-                  navigate(-1);
-                } else {
-                  // Fallback: navigate to the category list
-                  const categoryMatch = pathname.match(/^\/(pokemon|moves|items|abilities)/);
-                  const category = categoryMatch?.[1];
-                  if (category === "pokemon") navigate("/");
-                  else if (category) navigate(`/${category}`);
-                  else navigate("/");
-                }
-              }}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground hover:bg-white/10 hover:text-foreground transition-colors"
-              aria-label="Go back"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-          )}
           <h1 className="font-heading text-lg font-bold tracking-tight text-foreground text-glass">
             {title || "Pokedia"}
           </h1>
