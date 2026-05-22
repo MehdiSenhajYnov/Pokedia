@@ -26,22 +26,20 @@ pub async fn is_bundled_game_current(
     game_id: &str,
     fingerprint: &str,
 ) -> Result<bool, sqlx::Error> {
-    let game_exists: Option<i64> =
-        sqlx::query_scalar("SELECT 1 FROM games WHERE id = ?1 LIMIT 1")
-            .bind(game_id)
-            .fetch_optional(pool)
-            .await?;
+    let game_exists: Option<i64> = sqlx::query_scalar("SELECT 1 FROM games WHERE id = ?1 LIMIT 1")
+        .bind(game_id)
+        .fetch_optional(pool)
+        .await?;
 
     if game_exists.is_none() {
         return Ok(false);
     }
 
     let key = format!("{BUNDLED_GAME_FINGERPRINT_PREFIX}{game_id}");
-    let stored: Option<String> =
-        sqlx::query_scalar("SELECT value FROM settings WHERE key = ?1")
-            .bind(key)
-            .fetch_optional(pool)
-            .await?;
+    let stored: Option<String> = sqlx::query_scalar("SELECT value FROM settings WHERE key = ?1")
+        .bind(key)
+        .fetch_optional(pool)
+        .await?;
 
     Ok(stored.as_deref() == Some(fingerprint))
 }
@@ -296,25 +294,33 @@ async fn import_item_locations_batch(
 }
 
 /// Delete all data for a specific game.
-pub async fn delete_game_data(
-    pool: &SqlitePool,
-    game_id: &str,
-) -> Result<(), sqlx::Error> {
+pub async fn delete_game_data(pool: &SqlitePool, game_id: &str) -> Result<(), sqlx::Error> {
     sqlx::query("DELETE FROM game_pokemon_moves WHERE game_id = ?1")
-        .bind(game_id).execute(pool).await?;
+        .bind(game_id)
+        .execute(pool)
+        .await?;
     sqlx::query("DELETE FROM game_pokemon_abilities WHERE game_id = ?1")
-        .bind(game_id).execute(pool).await?;
+        .bind(game_id)
+        .execute(pool)
+        .await?;
     sqlx::query("DELETE FROM game_pokemon_locations WHERE game_id = ?1")
-        .bind(game_id).execute(pool).await?;
+        .bind(game_id)
+        .execute(pool)
+        .await?;
     sqlx::query("DELETE FROM game_move_overrides WHERE game_id = ?1")
-        .bind(game_id).execute(pool).await?;
+        .bind(game_id)
+        .execute(pool)
+        .await?;
     sqlx::query("DELETE FROM game_item_locations WHERE game_id = ?1")
-        .bind(game_id).execute(pool).await?;
+        .bind(game_id)
+        .execute(pool)
+        .await?;
 
     Ok(())
 }
 
 /// Upsert a game_pokemon_moves entry (used by sync engine for official version groups).
+#[cfg(feature = "tauri-app")]
 pub async fn upsert_game_pokemon_move(
     pool: &SqlitePool,
     game_id: &str,

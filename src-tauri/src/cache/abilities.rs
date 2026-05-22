@@ -39,7 +39,7 @@ pub async fn upsert_ability_pokemon(
     sqlx::query(
         "INSERT INTO ability_pokemon (ability_id, pokemon_id, is_hidden)
          VALUES (?1, ?2, ?3)
-         ON CONFLICT(ability_id, pokemon_id, is_hidden) DO NOTHING"
+         ON CONFLICT(ability_id, pokemon_id, is_hidden) DO NOTHING",
     )
     .bind(ability_id)
     .bind(ap.pokemon_id)

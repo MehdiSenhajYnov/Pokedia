@@ -58,7 +58,10 @@ pub struct ParsedTypeEfficacy {
 
 impl PokeApiClient {
     /// Fetch a single type by ID from PokéAPI.
-    pub async fn fetch_type(&self, id: i64) -> Result<(ParsedType, Vec<ParsedTypeEfficacy>), reqwest::Error> {
+    pub async fn fetch_type(
+        &self,
+        id: i64,
+    ) -> Result<(ParsedType, Vec<ParsedTypeEfficacy>), reqwest::Error> {
         let url = self.url(&format!("type/{}", id));
         let api: ApiType = self.get_json(&url).await?;
         Ok(parse_type(api))

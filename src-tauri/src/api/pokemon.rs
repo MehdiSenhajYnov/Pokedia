@@ -133,8 +133,16 @@ impl PokeApiClient {
 
 /// Extract structured data from the API response.
 fn parse_pokemon(api: ApiPokemon) -> ParsedPokemon {
-    let type1 = api.types.iter().find(|t| t.slot == 1).map(|t| t.type_info.name.clone());
-    let type2 = api.types.iter().find(|t| t.slot == 2).map(|t| t.type_info.name.clone());
+    let type1 = api
+        .types
+        .iter()
+        .find(|t| t.slot == 1)
+        .map(|t| t.type_info.name.clone());
+    let type2 = api
+        .types
+        .iter()
+        .find(|t| t.slot == 2)
+        .map(|t| t.type_info.name.clone());
 
     // Map stat names to values
     let stat = |name: &str| -> i64 {
@@ -191,12 +199,14 @@ fn parse_pokemon(api: ApiPokemon) -> ParsedPokemon {
         .moves
         .iter()
         .flat_map(|m| {
-            m.version_group_details.iter().map(|vgd| ParsedVersionGroupMove {
-                version_group: vgd.version_group.name.clone(),
-                move_name: m.move_info.name.clone(),
-                learn_method: vgd.move_learn_method.name.clone(),
-                level_learned_at: vgd.level_learned_at,
-            })
+            m.version_group_details
+                .iter()
+                .map(|vgd| ParsedVersionGroupMove {
+                    version_group: vgd.version_group.name.clone(),
+                    move_name: m.move_info.name.clone(),
+                    learn_method: vgd.move_learn_method.name.clone(),
+                    level_learned_at: vgd.level_learned_at,
+                })
         })
         .collect();
 

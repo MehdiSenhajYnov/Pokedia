@@ -4,10 +4,7 @@ use crate::api::pokemon::{ParsedAbility, ParsedPokemon};
 use crate::api::species::ParsedSpecies;
 
 /// Upsert a pokemon record (without species data).
-pub async fn upsert_pokemon(
-    pool: &SqlitePool,
-    p: &ParsedPokemon,
-) -> Result<(), sqlx::Error> {
+pub async fn upsert_pokemon(pool: &SqlitePool, p: &ParsedPokemon) -> Result<(), sqlx::Error> {
     sqlx::query(
         "INSERT INTO pokemon (id, name_key, type1_key, type2_key, hp, atk, def, spa, spd, spe, base_stat_total, sprite_url, height, weight)
          VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)
@@ -60,7 +57,7 @@ pub async fn update_pokemon_species(
            description_fr = ?4,
            evolution_chain_id = ?5,
            species_id = ?6
-         WHERE id = ?7"
+         WHERE id = ?7",
     )
     .bind(&species.name_en)
     .bind(&species.name_fr)
@@ -86,7 +83,7 @@ pub async fn upsert_pokemon_ability(
          VALUES (?1, ?2, ?3, ?4)
          ON CONFLICT(pokemon_id, slot) DO UPDATE SET
            ability_key = excluded.ability_key,
-           is_hidden = excluded.is_hidden"
+           is_hidden = excluded.is_hidden",
     )
     .bind(pokemon_id)
     .bind(&ability.ability_key)
@@ -106,7 +103,7 @@ pub async fn update_ability_names(
     name_fr: Option<&str>,
 ) -> Result<(), sqlx::Error> {
     sqlx::query(
-        "UPDATE pokemon_abilities SET ability_en = ?1, ability_fr = ?2 WHERE ability_key = ?3"
+        "UPDATE pokemon_abilities SET ability_en = ?1, ability_fr = ?2 WHERE ability_key = ?3",
     )
     .bind(name_en)
     .bind(name_fr)

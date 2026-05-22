@@ -10,7 +10,7 @@ pub async fn upsert_type(pool: &SqlitePool, t: &ParsedType) -> Result<(), sqlx::
          ON CONFLICT(id) DO UPDATE SET
            name_key = excluded.name_key,
            name_en = excluded.name_en,
-           name_fr = excluded.name_fr"
+           name_fr = excluded.name_fr",
     )
     .bind(t.id)
     .bind(&t.name_key)
@@ -31,7 +31,7 @@ pub async fn upsert_type_efficacy(
         "INSERT INTO type_efficacy (attacking_type_id, defending_type_id, damage_factor)
          VALUES (?1, ?2, ?3)
          ON CONFLICT(attacking_type_id, defending_type_id) DO UPDATE SET
-           damage_factor = excluded.damage_factor"
+           damage_factor = excluded.damage_factor",
     )
     .bind(te.attacking_type_id)
     .bind(te.defending_type_id)

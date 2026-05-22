@@ -105,8 +105,9 @@ fn compare_pokemon_for_browser(
             } else {
                 right.name_en.as_ref().or(right.name_fr.as_ref())
             };
-            fold_search_text(left_name.map(String::as_str).unwrap_or(&left.name_key))
-                .cmp(&fold_search_text(right_name.map(String::as_str).unwrap_or(&right.name_key)))
+            fold_search_text(left_name.map(String::as_str).unwrap_or(&left.name_key)).cmp(
+                &fold_search_text(right_name.map(String::as_str).unwrap_or(&right.name_key)),
+            )
         }
         "bst" => compare_optional_desc(left.base_stat_total, right.base_stat_total),
         "hp" => compare_optional_desc(left.hp, right.hp),
@@ -119,7 +120,11 @@ fn compare_pokemon_for_browser(
     };
 
     sort_order
-        .then_with(|| left.species_id.unwrap_or(left.id).cmp(&right.species_id.unwrap_or(right.id)))
+        .then_with(|| {
+            left.species_id
+                .unwrap_or(left.id)
+                .cmp(&right.species_id.unwrap_or(right.id))
+        })
         .then_with(|| left.id.cmp(&right.id))
 }
 
@@ -221,9 +226,7 @@ fn pokemon_browser_order_by(sort: &str, name_lang: &str) -> &'static str {
 
 /// Get all pokemon (summary list, ordered by ID).
 #[tauri::command]
-pub async fn get_all_pokemon(
-    state: State<'_, AppState>,
-) -> Result<Vec<PokemonSummary>, String> {
+pub async fn get_all_pokemon(state: State<'_, AppState>) -> Result<Vec<PokemonSummary>, String> {
     let rows: Vec<PokemonSummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, type1_key, type2_key, hp, atk, def, spa, spd, spe, base_stat_total, sprite_url, species_id
          FROM pokemon ORDER BY id"
@@ -365,7 +368,7 @@ pub async fn get_pokemon_by_id(
         "SELECT id, name_key, name_en, name_fr, type1_key, type2_key,
                 hp, atk, def, spa, spd, spe, base_stat_total, sprite_url,
                 evolution_chain_id, description_en, description_fr, height, weight, species_id
-         FROM pokemon WHERE id = ?1"
+         FROM pokemon WHERE id = ?1",
     )
     .bind(id)
     .fetch_optional(&state.pool)
@@ -397,7 +400,9 @@ pub async fn search_pokemon(
 
     let mut ranked: Vec<(i64, PokemonSummary)> = rows
         .into_iter()
-        .filter_map(|pokemon| pokemon_search_rank(&pokemon, &folded_query).map(|rank| (rank, pokemon)))
+        .filter_map(|pokemon| {
+            pokemon_search_rank(&pokemon, &folded_query).map(|rank| (rank, pokemon))
+        })
         .collect();
 
     ranked.sort_by(|(left_rank, left), (right_rank, right)| {
@@ -428,7 +433,7 @@ pub async fn get_pokemon_abilities(
          FROM pokemon_abilities pa
          LEFT JOIN abilities a ON a.name_key = pa.ability_key
          WHERE pa.pokemon_id = ?1
-         ORDER BY pa.slot"
+         ORDER BY pa.slot",
     )
     .bind(pokemon_id)
     .fetch_all(&state.pool)
@@ -444,13 +449,12 @@ pub async fn get_pokemon_evolution_chain(
     state: State<'_, AppState>,
     pokemon_id: i64,
 ) -> Result<Option<crate::models::EvolutionNode>, String> {
-    let chain_id: Option<(Option<i64>,)> = sqlx::query_as(
-        "SELECT evolution_chain_id FROM pokemon WHERE id = ?1"
-    )
-    .bind(pokemon_id)
-    .fetch_optional(&state.pool)
-    .await
-    .map_err(|e| e.to_string())?;
+    let chain_id: Option<(Option<i64>,)> =
+        sqlx::query_as("SELECT evolution_chain_id FROM pokemon WHERE id = ?1")
+            .bind(pokemon_id)
+            .fetch_optional(&state.pool)
+            .await
+            .map_err(|e| e.to_string())?;
 
     let chain_id = match chain_id.and_then(|(id,)| id) {
         Some(id) => id,
@@ -500,7 +504,8 @@ pub async fn get_alternate_forms(
 
     // 3. Filter out base-form IDs — what remains are alternate forms
     let base_set: std::collections::HashSet<i64> = base_ids.into_iter().collect();
-    let forms: Vec<PokemonSummary> = all.into_iter()
+    let forms: Vec<PokemonSummary> = all
+        .into_iter()
         .filter(|p| !base_set.contains(&p.id))
         .collect();
 

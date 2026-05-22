@@ -56,7 +56,7 @@ pub async fn upsert_pokemon_move(
         "INSERT INTO pokemon_moves (pokemon_id, move_id, learn_method, level_learned_at)
          VALUES (?1, ?2, ?3, ?4)
          ON CONFLICT(pokemon_id, move_id, learn_method) DO UPDATE SET
-           level_learned_at = excluded.level_learned_at"
+           level_learned_at = excluded.level_learned_at",
     )
     .bind(pokemon_id)
     .bind(move_id)

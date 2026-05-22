@@ -4,9 +4,7 @@ use tauri::State;
 
 /// Get all items (ordered by ID).
 #[tauri::command]
-pub async fn get_all_items(
-    state: State<'_, AppState>,
-) -> Result<Vec<ItemSummary>, String> {
+pub async fn get_all_items(state: State<'_, AppState>) -> Result<Vec<ItemSummary>, String> {
     let rows: Vec<ItemSummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, category, effect_en, effect_fr, sprite_url
          FROM items ORDER BY id",

@@ -1,11 +1,9 @@
-use crate::models::{AbilitySummary, AbilityDetail, AbilityPokemonEntry};
+use crate::models::{AbilityDetail, AbilityPokemonEntry, AbilitySummary};
 use crate::AppState;
 use tauri::State;
 
 #[tauri::command]
-pub async fn get_all_abilities(
-    state: State<'_, AppState>,
-) -> Result<Vec<AbilitySummary>, String> {
+pub async fn get_all_abilities(state: State<'_, AppState>) -> Result<Vec<AbilitySummary>, String> {
     let rows: Vec<AbilitySummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, short_effect_en, short_effect_fr, generation
          FROM abilities ORDER BY id",

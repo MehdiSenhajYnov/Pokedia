@@ -1,18 +1,27 @@
-use std::sync::Arc;
-
-use sqlx::SqlitePool;
-use tauri::{Emitter, Manager};
-
-use api::PokeApiClient;
-
+#[cfg(feature = "tauri-app")]
 mod api;
 mod cache;
-mod commands;
-mod db;
+pub mod db;
 pub mod models;
+#[cfg(feature = "gtk-app")]
+pub mod native;
+
+#[cfg(feature = "tauri-app")]
+mod commands;
+#[cfg(feature = "tauri-app")]
 mod sync;
 
+#[cfg(feature = "tauri-app")]
+use api::PokeApiClient;
+#[cfg(feature = "tauri-app")]
+use sqlx::SqlitePool;
+#[cfg(feature = "tauri-app")]
+use std::sync::Arc;
+#[cfg(feature = "tauri-app")]
+use tauri::{Emitter, Manager};
+
 /// Shared application state accessible from all Tauri commands.
+#[cfg(feature = "tauri-app")]
 pub struct AppState {
     pub pool: SqlitePool,
     pub api_client: Arc<PokeApiClient>,
@@ -28,6 +37,7 @@ const BUNDLED_GAMES: &[&str] = &[
 /// Auto-import bundled hackrom data on every startup (delete + re-insert).
 /// This ensures updates shipped with new app versions are always applied.
 /// Runs in a background task, emits `game-import-progress` events.
+#[cfg(feature = "tauri-app")]
 async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle) {
     let total = BUNDLED_GAMES.len();
     let mut imported = 0u32;
@@ -42,12 +52,15 @@ async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle)
         };
 
         let game_name = data.game.name_en.clone();
-        let _ = handle.emit("game-import-progress", serde_json::json!({
-            "status": "importing",
-            "game": game_name,
-            "current": imported + 1,
-            "total": total,
-        }));
+        let _ = handle.emit(
+            "game-import-progress",
+            serde_json::json!({
+                "status": "importing",
+                "game": game_name,
+                "current": imported + 1,
+                "total": total,
+            }),
+        );
 
         let fingerprint = cache::games::bundled_game_fingerprint(json_str);
         match cache::games::is_bundled_game_current(pool, &data.game.id, &fingerprint).await {
@@ -84,14 +97,18 @@ async fn auto_import_bundled_games(pool: &SqlitePool, handle: &tauri::AppHandle)
     }
 
     if imported > 0 {
-        let _ = handle.emit("game-import-progress", serde_json::json!({
-            "status": "done",
-            "imported": imported,
-        }));
+        let _ = handle.emit(
+            "game-import-progress",
+            serde_json::json!({
+                "status": "done",
+                "imported": imported,
+            }),
+        );
     }
 }
 
 /// Entry point for the Tauri application.
+#[cfg(feature = "tauri-app")]
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -106,12 +123,17 @@ pub fn run() {
 
             // Initialize database synchronously within the setup closure
             let pool = tauri::async_runtime::block_on(async {
-                db::init_db(&handle).await.expect("Failed to initialize database")
+                db::init_db(&handle)
+                    .await
+                    .expect("Failed to initialize database")
             });
 
             let api_client = Arc::new(PokeApiClient::new());
 
-            app.manage(AppState { pool: pool.clone(), api_client });
+            app.manage(AppState {
+                pool: pool.clone(),
+                api_client,
+            });
 
             // Auto-import bundled hackrom data in background (non-blocking)
             let import_handle = handle.clone();

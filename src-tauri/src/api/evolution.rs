@@ -67,7 +67,7 @@ fn parse_chain_link(link: &ApiChainLink) -> EvolutionNode {
     EvolutionNode {
         pokemon_id,
         name_key: link.species.name.clone(),
-        name_en: None,  // will be enriched from DB later
+        name_en: None, // will be enriched from DB later
         name_fr: None,
         sprite_url: None,
         trigger,

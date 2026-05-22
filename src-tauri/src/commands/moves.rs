@@ -4,12 +4,10 @@ use tauri::State;
 
 /// Get all moves (summary list, ordered by ID).
 #[tauri::command]
-pub async fn get_all_moves(
-    state: State<'_, AppState>,
-) -> Result<Vec<MoveSummary>, String> {
+pub async fn get_all_moves(state: State<'_, AppState>) -> Result<Vec<MoveSummary>, String> {
     let rows: Vec<MoveSummary> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, type_key, damage_class, power, accuracy, pp
-         FROM moves ORDER BY id"
+         FROM moves ORDER BY id",
     )
     .fetch_all(&state.pool)
     .await
@@ -27,7 +25,7 @@ pub async fn get_move_by_id(
     let row: Option<MoveDetail> = sqlx::query_as(
         "SELECT id, name_key, name_en, name_fr, type_key, damage_class,
                 power, accuracy, pp, priority, effect_en, effect_fr
-         FROM moves WHERE id = ?1"
+         FROM moves WHERE id = ?1",
     )
     .bind(id)
     .fetch_optional(&state.pool)
@@ -54,7 +52,7 @@ pub async fn search_moves(
             OR LOWER(name_en) LIKE ?1
             OR LOWER(name_fr) LIKE ?1
          ORDER BY id
-         LIMIT 50"
+         LIMIT 50",
     )
     .bind(&pattern)
     .bind(&normalized)
@@ -100,7 +98,7 @@ pub async fn get_pokemon_moves(
          FROM pokemon_moves pm
          JOIN moves m ON pm.move_id = m.id
          WHERE pm.pokemon_id = ?1
-         ORDER BY pm.learn_method, pm.level_learned_at, m.name_key"
+         ORDER BY pm.learn_method, pm.level_learned_at, m.name_key",
     )
     .bind(pokemon_id)
     .fetch_all(&state.pool)

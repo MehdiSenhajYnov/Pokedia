@@ -4,15 +4,11 @@ use tauri::State;
 
 /// Get all application settings as a single object.
 #[tauri::command]
-pub async fn get_settings(
-    state: State<'_, AppState>,
-) -> Result<AppSettings, String> {
-    let rows: Vec<(String, String)> = sqlx::query_as(
-        "SELECT key, value FROM settings"
-    )
-    .fetch_all(&state.pool)
-    .await
-    .map_err(|e| e.to_string())?;
+pub async fn get_settings(state: State<'_, AppState>) -> Result<AppSettings, String> {
+    let rows: Vec<(String, String)> = sqlx::query_as("SELECT key, value FROM settings")
+        .fetch_all(&state.pool)
+        .await
+        .map_err(|e| e.to_string())?;
 
     let mut settings = AppSettings::default();
     for (key, value) in rows {

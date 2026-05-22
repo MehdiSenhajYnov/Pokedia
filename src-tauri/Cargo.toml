@@ -12,6 +12,26 @@ rust-version = "1.77.2"
 name = "pokedia_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
+[[bin]]
+name = "pokedia-gtk"
+path = "src/bin/pokedia-gtk.rs"
+required-features = ["gtk-app"]
+
+[features]
+default = ["tauri-app"]
+tauri-app = [
+  "dep:reqwest",
+  "dep:tauri",
+  "dep:tauri-plugin-log",
+  "dep:tauri-plugin-window-state",
+]
+gtk-app = [
+  "dep:adw",
+  "dep:directories",
+  "dep:gtk",
+  "dep:reqwest",
+]
+
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
@@ -19,11 +39,14 @@ tauri-build = { version = "2", features = [] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 log = "0.4"
-tauri = { version = "2", features = ["tray-icon"] }
-tauri-plugin-log = "2"
+tauri = { version = "2", features = ["tray-icon"], optional = true }
+tauri-plugin-log = { version = "2", optional = true }
 sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite"] }
-reqwest = { version = "0.12", features = ["json"] }
+reqwest = { version = "0.12", features = ["blocking", "json"], optional = true }
 tokio = { version = "1", features = ["full"] }
 thiserror = "2"
 chrono = { version = "0.4", features = ["serde"] }
-tauri-plugin-window-state = "2.4.1"
+tauri-plugin-window-state = { version = "2.4.1", optional = true }
+adw = { package = "libadwaita", version = "0.9.1", features = ["gtk_v4_20", "v1_8"], optional = true }
+directories = { version = "6.0.0", optional = true }
+gtk = { package = "gtk4", version = "0.11.3", features = ["v4_20"], optional = true }

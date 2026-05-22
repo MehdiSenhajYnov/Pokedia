@@ -1,19 +1,32 @@
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
 use sqlx::SqlitePool;
+use std::path::Path;
 use std::str::FromStr;
+#[cfg(feature = "tauri-app")]
 use tauri::Manager;
 
 /// Initialize the SQLite database: create file, pool, and run migrations.
-pub async fn init_db(app_handle: &tauri::AppHandle) -> Result<SqlitePool, Box<dyn std::error::Error>> {
+#[cfg(feature = "tauri-app")]
+pub async fn init_db(
+    app_handle: &tauri::AppHandle,
+) -> Result<SqlitePool, Box<dyn std::error::Error>> {
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
         .expect("failed to resolve app data directory");
 
-    // Ensure the directory exists
-    std::fs::create_dir_all(&app_data_dir)?;
+    init_db_at_path(&app_data_dir.join("pokedia.db")).await
+}
 
-    let db_path = app_data_dir.join("pokedia.db");
+/// Initialize the SQLite database at an explicit path.
+///
+/// This keeps database setup reusable by both the Tauri webview client and the
+/// GTK/libadwaita native client.
+pub async fn init_db_at_path(db_path: &Path) -> Result<SqlitePool, Box<dyn std::error::Error>> {
+    if let Some(parent) = db_path.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+
     let db_url = format!("sqlite:{}?mode=rwc", db_path.to_string_lossy());
 
     log::info!("Database path: {}", db_url);

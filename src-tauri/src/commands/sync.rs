@@ -11,12 +11,11 @@ pub async fn start_sync(
 ) -> Result<(), String> {
     // Check if already syncing
     {
-        let row: Option<(String,)> = sqlx::query_as(
-            "SELECT status FROM sync_meta WHERE status = 'syncing' LIMIT 1"
-        )
-        .fetch_optional(&state.pool)
-        .await
-        .map_err(|e| e.to_string())?;
+        let row: Option<(String,)> =
+            sqlx::query_as("SELECT status FROM sync_meta WHERE status = 'syncing' LIMIT 1")
+                .fetch_optional(&state.pool)
+                .await
+                .map_err(|e| e.to_string())?;
 
         if row.is_some() {
             return Err("Sync is already in progress".to_string());
@@ -42,11 +41,9 @@ pub async fn start_sync(
 
 /// Get the current sync status.
 #[tauri::command]
-pub async fn get_sync_status(
-    state: State<'_, AppState>,
-) -> Result<SyncStatus, String> {
+pub async fn get_sync_status(state: State<'_, AppState>) -> Result<SyncStatus, String> {
     let rows: Vec<SyncResourceStatus> = sqlx::query_as(
-        "SELECT resource, total, completed, status, error FROM sync_meta ORDER BY resource"
+        "SELECT resource, total, completed, status, error FROM sync_meta ORDER BY resource",
     )
     .fetch_all(&state.pool)
     .await
@@ -62,9 +59,7 @@ pub async fn get_sync_status(
 
 /// Cancel the current sync.
 #[tauri::command]
-pub async fn cancel_sync(
-    state: State<'_, AppState>,
-) -> Result<(), String> {
+pub async fn cancel_sync(state: State<'_, AppState>) -> Result<(), String> {
     SYNC_CANCEL_FLAG.store(true, std::sync::atomic::Ordering::SeqCst);
     log::info!("Sync cancellation requested");
 
@@ -80,9 +75,7 @@ pub async fn cancel_sync(
 
 /// Clear all cached data from the database.
 #[tauri::command]
-pub async fn clear_cache(
-    state: State<'_, AppState>,
-) -> Result<(), String> {
+pub async fn clear_cache(state: State<'_, AppState>) -> Result<(), String> {
     // Delete from all data tables (but not settings)
     // Order matters: delete child tables before parents (FK constraints)
     let tables = [

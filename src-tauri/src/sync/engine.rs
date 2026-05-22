@@ -31,11 +31,7 @@ pub struct SyncEngine {
 }
 
 impl SyncEngine {
-    pub fn new(
-        pool: SqlitePool,
-        client: Arc<PokeApiClient>,
-        app_handle: tauri::AppHandle,
-    ) -> Self {
+    pub fn new(pool: SqlitePool, client: Arc<PokeApiClient>, app_handle: tauri::AppHandle) -> Self {
         Self {
             pool,
             client,
@@ -54,7 +50,8 @@ impl SyncEngine {
             log::info!("Skipping types (already done)");
         } else if let Err(e) = self.sync_types().await {
             log::error!("Types sync failed: {}", e);
-            self.update_sync_meta("types", 0, 0, "error", Some(&e)).await;
+            self.update_sync_meta("types", 0, 0, "error", Some(&e))
+                .await;
         }
 
         if self.is_cancelled() {
@@ -67,7 +64,8 @@ impl SyncEngine {
             log::info!("Skipping moves (already done)");
         } else if let Err(e) = self.sync_moves().await {
             log::error!("Moves sync failed: {}", e);
-            self.update_sync_meta("moves", 0, 0, "error", Some(&e)).await;
+            self.update_sync_meta("moves", 0, 0, "error", Some(&e))
+                .await;
         }
 
         if self.is_cancelled() {
@@ -97,7 +95,9 @@ impl SyncEngine {
             let app_it = self.app_handle.clone();
 
             let pokemon_handle = tokio::spawn(async move {
-                if pk_done { return Ok(()); }
+                if pk_done {
+                    return Ok(());
+                }
                 let engine = SyncEngine {
                     pool: pool_pk,
                     client: client_pk,
@@ -108,7 +108,9 @@ impl SyncEngine {
             });
 
             let items_handle = tokio::spawn(async move {
-                if it_done { return Ok(()); }
+                if it_done {
+                    return Ok(());
+                }
                 let engine = SyncEngine {
                     pool: pool_it,
                     client: client_it,
@@ -121,11 +123,13 @@ impl SyncEngine {
             let (pk_result, it_result) = tokio::join!(pokemon_handle, items_handle);
             if let Err(e) = pk_result.unwrap_or(Err("Pokemon sync task panicked".to_string())) {
                 log::error!("Pokemon sync failed: {}", e);
-                self.update_sync_meta("pokemon", 0, 0, "error", Some(&e)).await;
+                self.update_sync_meta("pokemon", 0, 0, "error", Some(&e))
+                    .await;
             }
             if let Err(e) = it_result.unwrap_or(Err("Items sync task panicked".to_string())) {
                 log::error!("Items sync failed: {}", e);
-                self.update_sync_meta("items", 0, 0, "error", Some(&e)).await;
+                self.update_sync_meta("items", 0, 0, "error", Some(&e))
+                    .await;
             }
         }
 
@@ -139,7 +143,8 @@ impl SyncEngine {
             log::info!("Skipping evolution chains (already done)");
         } else if let Err(e) = self.sync_evolution_chains().await {
             log::error!("Evolution chains sync failed: {}", e);
-            self.update_sync_meta("evolution_chains", 0, 0, "error", Some(&e)).await;
+            self.update_sync_meta("evolution_chains", 0, 0, "error", Some(&e))
+                .await;
         }
 
         if self.is_cancelled() {
@@ -169,7 +174,9 @@ impl SyncEngine {
             let app_abi = self.app_handle.clone();
 
             let natures_handle = tokio::spawn(async move {
-                if nat_done { return Ok(()); }
+                if nat_done {
+                    return Ok(());
+                }
                 let engine = SyncEngine {
                     pool: pool_nat,
                     client: client_nat,
@@ -180,7 +187,9 @@ impl SyncEngine {
             });
 
             let abilities_handle = tokio::spawn(async move {
-                if abi_done { return Ok(()); }
+                if abi_done {
+                    return Ok(());
+                }
                 let engine = SyncEngine {
                     pool: pool_abi,
                     client: client_abi,
@@ -193,11 +202,13 @@ impl SyncEngine {
             let (nat_result, abi_result) = tokio::join!(natures_handle, abilities_handle);
             if let Err(e) = nat_result.unwrap_or(Err("Natures sync task panicked".to_string())) {
                 log::error!("Natures sync failed: {}", e);
-                self.update_sync_meta("natures", 0, 0, "error", Some(&e)).await;
+                self.update_sync_meta("natures", 0, 0, "error", Some(&e))
+                    .await;
             }
             if let Err(e) = abi_result.unwrap_or(Err("Abilities sync task panicked".to_string())) {
                 log::error!("Abilities sync failed: {}", e);
-                self.update_sync_meta("abilities", 0, 0, "error", Some(&e)).await;
+                self.update_sync_meta("abilities", 0, 0, "error", Some(&e))
+                    .await;
             }
         }
 
@@ -214,24 +225,28 @@ impl SyncEngine {
         let resource = "types";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("type").await
-        }).await {
+        let list = match self
+            .retry(3, || async { self.client.get_resource_list("type").await })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -240,10 +255,12 @@ impl SyncEngine {
                 None => continue,
             };
 
-            let result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_type(id).await
-            }).await;
+            let result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_type(id).await
+                })
+                .await;
 
             match result {
                 Ok((parsed_type, efficacies)) => {
@@ -258,10 +275,12 @@ impl SyncEngine {
             }
 
             completed += 1;
-            self.update_sync_meta(resource, total, completed, "syncing", None).await;
+            self.update_sync_meta(resource, total, completed, "syncing", None)
+                .await;
         }
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -271,24 +290,28 @@ impl SyncEngine {
         let resource = "moves";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("move").await
-        }).await {
+        let list = match self
+            .retry(3, || async { self.client.get_resource_list("move").await })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -297,10 +320,12 @@ impl SyncEngine {
                 None => continue,
             };
 
-            let result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_move(id).await
-            }).await;
+            let result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_move(id).await
+                })
+                .await;
 
             match result {
                 Ok(parsed_move) => {
@@ -313,11 +338,13 @@ impl SyncEngine {
 
             completed += 1;
             if completed % 20 == 0 || completed == total {
-                self.update_sync_meta(resource, total, completed, "syncing", None).await;
+                self.update_sync_meta(resource, total, completed, "syncing", None)
+                    .await;
             }
         }
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -327,24 +354,30 @@ impl SyncEngine {
         let resource = "pokemon";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("pokemon").await
-        }).await {
+        let list = match self
+            .retry(3, || async {
+                self.client.get_resource_list("pokemon").await
+            })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -354,10 +387,12 @@ impl SyncEngine {
             };
 
             // Fetch pokemon data
-            let pokemon_result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_pokemon(id).await
-            }).await;
+            let pokemon_result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_pokemon(id).await
+                })
+                .await;
 
             match pokemon_result {
                 Ok(parsed) => {
@@ -366,7 +401,9 @@ impl SyncEngine {
 
                     // Upsert abilities
                     for ability in &parsed.abilities {
-                        let _ = cache::pokemon::upsert_pokemon_ability(&self.pool, parsed.id, ability).await;
+                        let _ =
+                            cache::pokemon::upsert_pokemon_ability(&self.pool, parsed.id, ability)
+                                .await;
                     }
 
                     // Upsert pokemon-move references (latest version group only)
@@ -383,18 +420,24 @@ impl SyncEngine {
                             &vgm.move_name,
                             &vgm.learn_method,
                             vgm.level_learned_at,
-                        ).await;
+                        )
+                        .await;
                     }
 
                     // Fetch species data for names and descriptions
-                    let species_result = self.retry(3, || async {
-                        let _permit = self.semaphore.acquire().await.unwrap();
-                        self.client.fetch_species_by_url(&parsed.species_url).await
-                    }).await;
+                    let species_result = self
+                        .retry(3, || async {
+                            let _permit = self.semaphore.acquire().await.unwrap();
+                            self.client.fetch_species_by_url(&parsed.species_url).await
+                        })
+                        .await;
 
                     match species_result {
                         Ok(species) => {
-                            let _ = cache::pokemon::update_pokemon_species(&self.pool, parsed.id, &species).await;
+                            let _ = cache::pokemon::update_pokemon_species(
+                                &self.pool, parsed.id, &species,
+                            )
+                            .await;
                         }
                         Err(e) => {
                             log::warn!("Failed to fetch species for pokemon {}: {}", id, e);
@@ -408,14 +451,16 @@ impl SyncEngine {
 
             completed += 1;
             if completed % 10 == 0 || completed == total {
-                self.update_sync_meta(resource, total, completed, "syncing", None).await;
+                self.update_sync_meta(resource, total, completed, "syncing", None)
+                    .await;
             }
         }
 
         // Register official version groups as games
         self.register_official_games().await;
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -442,12 +487,13 @@ impl SyncEngine {
         for (id, name, sort_order) in &official_games {
             // Only register if we actually have data for this version group
             let has_data: bool = sqlx::query_scalar::<_, i64>(
-                "SELECT COUNT(*) FROM game_pokemon_moves WHERE game_id = ?1 LIMIT 1"
+                "SELECT COUNT(*) FROM game_pokemon_moves WHERE game_id = ?1 LIMIT 1",
             )
             .bind(id)
             .fetch_one(&self.pool)
             .await
-            .unwrap_or(0) > 0;
+            .unwrap_or(0)
+                > 0;
 
             if !has_data {
                 continue;
@@ -471,24 +517,28 @@ impl SyncEngine {
         let resource = "items";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("item").await
-        }).await {
+        let list = match self
+            .retry(3, || async { self.client.get_resource_list("item").await })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -497,10 +547,12 @@ impl SyncEngine {
                 None => continue,
             };
 
-            let result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_item(id).await
-            }).await;
+            let result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_item(id).await
+                })
+                .await;
 
             match result {
                 Ok(parsed_item) => {
@@ -513,11 +565,13 @@ impl SyncEngine {
 
             completed += 1;
             if completed % 20 == 0 || completed == total {
-                self.update_sync_meta(resource, total, completed, "syncing", None).await;
+                self.update_sync_meta(resource, total, completed, "syncing", None)
+                    .await;
             }
         }
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -527,24 +581,30 @@ impl SyncEngine {
         let resource = "evolution_chains";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("evolution-chain").await
-        }).await {
+        let list = match self
+            .retry(3, || async {
+                self.client.get_resource_list("evolution-chain").await
+            })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -553,14 +613,17 @@ impl SyncEngine {
                 None => continue,
             };
 
-            let result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_evolution_chain(id).await
-            }).await;
+            let result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_evolution_chain(id).await
+                })
+                .await;
 
             match result {
                 Ok((chain_id, node)) => {
-                    let _ = cache::evolution::upsert_evolution_chain(&self.pool, chain_id, &node).await;
+                    let _ =
+                        cache::evolution::upsert_evolution_chain(&self.pool, chain_id, &node).await;
                 }
                 Err(e) => {
                     log::warn!("Failed to fetch evolution chain {}: {}", id, e);
@@ -569,11 +632,13 @@ impl SyncEngine {
 
             completed += 1;
             if completed % 20 == 0 || completed == total {
-                self.update_sync_meta(resource, total, completed, "syncing", None).await;
+                self.update_sync_meta(resource, total, completed, "syncing", None)
+                    .await;
             }
         }
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -583,24 +648,30 @@ impl SyncEngine {
         let resource = "natures";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("nature").await
-        }).await {
+        let list = match self
+            .retry(3, || async {
+                self.client.get_resource_list("nature").await
+            })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -609,10 +680,12 @@ impl SyncEngine {
                 None => continue,
             };
 
-            let result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_nature(id).await
-            }).await;
+            let result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_nature(id).await
+                })
+                .await;
 
             match result {
                 Ok(parsed_nature) => {
@@ -624,10 +697,12 @@ impl SyncEngine {
             }
 
             completed += 1;
-            self.update_sync_meta(resource, total, completed, "syncing", None).await;
+            self.update_sync_meta(resource, total, completed, "syncing", None)
+                .await;
         }
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -637,24 +712,30 @@ impl SyncEngine {
         let resource = "abilities";
         self.update_sync_meta(resource, 0, 0, "syncing", None).await;
 
-        let list = match self.retry(3, || async {
-            self.client.get_resource_list("ability").await
-        }).await {
+        let list = match self
+            .retry(3, || async {
+                self.client.get_resource_list("ability").await
+            })
+            .await
+        {
             Ok(l) => l,
             Err(e) => {
                 let msg = e.to_string();
-                self.update_sync_meta(resource, 0, 0, "error", Some(&msg)).await;
+                self.update_sync_meta(resource, 0, 0, "error", Some(&msg))
+                    .await;
                 return Err(msg);
             }
         };
         let total = list.len() as i64;
-        self.update_sync_meta(resource, total, 0, "syncing", None).await;
+        self.update_sync_meta(resource, total, 0, "syncing", None)
+            .await;
 
         let mut completed: i64 = 0;
 
         for entry in &list {
             if self.is_cancelled() {
-                self.update_sync_meta(resource, total, completed, "cancelled", None).await;
+                self.update_sync_meta(resource, total, completed, "cancelled", None)
+                    .await;
                 return Ok(());
             }
 
@@ -663,16 +744,23 @@ impl SyncEngine {
                 None => continue,
             };
 
-            let result = self.retry(3, || async {
-                let _permit = self.semaphore.acquire().await.unwrap();
-                self.client.fetch_ability(id).await
-            }).await;
+            let result = self
+                .retry(3, || async {
+                    let _permit = self.semaphore.acquire().await.unwrap();
+                    self.client.fetch_ability(id).await
+                })
+                .await;
 
             match result {
                 Ok(parsed_ability) => {
                     let _ = cache::abilities::upsert_ability(&self.pool, &parsed_ability).await;
                     for ap in &parsed_ability.pokemon {
-                        let _ = cache::abilities::upsert_ability_pokemon(&self.pool, parsed_ability.id, ap).await;
+                        let _ = cache::abilities::upsert_ability_pokemon(
+                            &self.pool,
+                            parsed_ability.id,
+                            ap,
+                        )
+                        .await;
                     }
                 }
                 Err(e) => {
@@ -682,11 +770,13 @@ impl SyncEngine {
 
             completed += 1;
             if completed % 20 == 0 || completed == total {
-                self.update_sync_meta(resource, total, completed, "syncing", None).await;
+                self.update_sync_meta(resource, total, completed, "syncing", None)
+                    .await;
             }
         }
 
-        self.update_sync_meta(resource, total, completed, "done", None).await;
+        self.update_sync_meta(resource, total, completed, "done", None)
+            .await;
         Ok(())
     }
 
@@ -698,12 +788,11 @@ impl SyncEngine {
 
     /// Check if a resource is already synced (status = "done").
     async fn is_resource_done(&self, resource: &str) -> bool {
-        let row = sqlx::query_scalar::<_, String>(
-            "SELECT status FROM sync_meta WHERE resource = ?1"
-        )
-        .bind(resource)
-        .fetch_optional(&self.pool)
-        .await;
+        let row =
+            sqlx::query_scalar::<_, String>("SELECT status FROM sync_meta WHERE resource = ?1")
+                .bind(resource)
+                .fetch_optional(&self.pool)
+                .await;
 
         matches!(row, Ok(Some(status)) if status == "done")
     }
@@ -727,7 +816,7 @@ impl SyncEngine {
                 .unwrap_or(0);
 
             let expected: Option<i64> = sqlx::query_scalar(
-                "SELECT total FROM sync_meta WHERE resource = ?1 AND status = 'done'"
+                "SELECT total FROM sync_meta WHERE resource = ?1 AND status = 'done'",
             )
             .bind(resource)
             .fetch_optional(&self.pool)
@@ -738,9 +827,12 @@ impl SyncEngine {
                 if actual < total {
                     log::warn!(
                         "Data integrity: {} has {} rows but expected {} — marking as partial",
-                        resource, actual, total
+                        resource,
+                        actual,
+                        total
                     );
-                    self.update_sync_meta(resource, total, actual, "partial", None).await;
+                    self.update_sync_meta(resource, total, actual, "partial", None)
+                        .await;
                 }
             }
         }
@@ -765,7 +857,7 @@ impl SyncEngine {
                completed = excluded.completed,
                status = excluded.status,
                error = excluded.error,
-               updated_at = excluded.updated_at"
+               updated_at = excluded.updated_at",
         )
         .bind(resource)
         .bind(total)

@@ -14,7 +14,7 @@ pub async fn upsert_evolution_chain(
         "INSERT INTO evolution_chains (id, data)
          VALUES (?1, ?2)
          ON CONFLICT(id) DO UPDATE SET
-           data = excluded.data"
+           data = excluded.data",
     )
     .bind(chain_id)
     .bind(&json)
@@ -29,12 +29,10 @@ pub async fn get_evolution_chain(
     pool: &SqlitePool,
     chain_id: i64,
 ) -> Result<Option<EvolutionNode>, sqlx::Error> {
-    let row: Option<(String,)> = sqlx::query_as(
-        "SELECT data FROM evolution_chains WHERE id = ?1"
-    )
-    .bind(chain_id)
-    .fetch_optional(pool)
-    .await?;
+    let row: Option<(String,)> = sqlx::query_as("SELECT data FROM evolution_chains WHERE id = ?1")
+        .bind(chain_id)
+        .fetch_optional(pool)
+        .await?;
 
     Ok(row.and_then(|(data,)| serde_json::from_str(&data).ok()))
 }
