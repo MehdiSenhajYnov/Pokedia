@@ -20,6 +20,7 @@ use pokedia_lib::native;
 
 const APP_ID: &str = "com.pokedia.app.Gtk";
 const COMPARE_LIMIT: usize = 8;
+const ACTIVE_WINDOW_OPACITY: f64 = 0.78;
 const ALL_TYPES: &[&str] = &[
     "normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground",
     "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy",
@@ -64,24 +65,70 @@ const NATURE_STAT_KEYS: &[&str] = &[
 ];
 
 const STYLE: &str = r#"
+window,
+window.background,
 window.pokedia-window,
 window.pokedia-window:backdrop,
 window.pokedia-window > contents,
 window.pokedia-window:backdrop > contents {
   background: transparent;
+  background-color: transparent;
+  background-image: none;
+}
+
+.background,
+.background:backdrop,
+.view,
+.view:backdrop,
+box.background,
+box.background:backdrop,
+toolbarview,
+toolbarview:backdrop,
+stack,
+stack:backdrop,
+scrolledwindow,
+scrolledwindow:backdrop,
+viewport,
+viewport:backdrop,
+listview,
+listview:backdrop,
+list,
+list:backdrop,
+row,
+row:backdrop {
+  background-color: transparent;
+  background-image: none;
 }
 
 window.pokedia-window .pokedia-root,
 window.pokedia-window:backdrop .pokedia-root {
-  background:
-    radial-gradient(820px 620px at 18% 18%, rgba(76, 95, 132, .18), transparent 58%),
-    radial-gradient(760px 560px at 86% 88%, rgba(132, 70, 92, .16), transparent 60%),
-    rgba(24, 25, 34, .76);
+  background: rgba(22, 22, 25, .16);
+  border: 1px solid rgba(255, 255, 255, .055);
+  border-radius: 18px;
+  color: #f4f4f5;
+}
+
+window.pokedia-window scrolledwindow,
+window.pokedia-window viewport,
+window.pokedia-window listview,
+window.pokedia-window flowbox,
+window.pokedia-window list,
+window.pokedia-window row,
+window.pokedia-window:backdrop scrolledwindow,
+window.pokedia-window:backdrop viewport,
+window.pokedia-window:backdrop listview,
+window.pokedia-window:backdrop flowbox,
+window.pokedia-window:backdrop list,
+window.pokedia-window:backdrop row {
+  background: transparent;
 }
 
 window.pokedia-window headerbar.app-header,
 window.pokedia-window headerbar.app-header:backdrop {
-  background: rgba(29, 30, 39, .58);
+  background: transparent;
+  background-image: none;
+  border: none;
+  border-radius: 18px 18px 0 0;
   box-shadow: none;
   color: rgba(245, 247, 252, .92);
   min-height: 48px;
@@ -108,8 +155,8 @@ window.pokedia-window headerbar.app-header entry:backdrop {
 
 .app-search,
 .app-search:backdrop {
-  background: rgba(255, 255, 255, .055);
-  border: 1px solid rgba(255, 255, 255, .07);
+  background: rgba(255, 255, 255, .042);
+  border: 1px solid rgba(255, 255, 255, .065);
   border-radius: 999px;
   color: rgba(245, 247, 252, .92);
   min-height: 34px;
@@ -117,8 +164,8 @@ window.pokedia-window headerbar.app-header entry:backdrop {
 
 .app-tabbar,
 .app-tabbar:backdrop {
-  background: rgba(29, 30, 39, .50);
-  border-top: 1px solid rgba(255, 255, 255, .035);
+  background: rgba(255, 255, 255, .018);
+  border-top: 1px solid rgba(255, 255, 255, .025);
   color: rgba(245, 247, 252, .88);
   padding: 4px 4px 7px 3px;
 }
@@ -130,8 +177,9 @@ window.pokedia-window headerbar.app-header entry:backdrop {
 }
 
 .sidebar-pane {
-  background: rgba(23, 24, 34, .58);
-  border-right: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .034);
+  border: 1px solid rgba(255, 255, 255, .058);
+  border-radius: 18px;
 }
 
 .sidebar-section {
@@ -150,11 +198,11 @@ window.pokedia-window headerbar.app-header entry:backdrop {
 }
 
 .nav-row:hover {
-  background: rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, .08);
 }
 
 .nav-row.selected-nav {
-  background: rgba(255, 103, 132, .15);
+  background: rgba(255, 103, 132, .20);
   color: #ff6f90;
   font-weight: 700;
 }
@@ -169,8 +217,8 @@ window.pokedia-window headerbar.app-header entry:backdrop {
 }
 
 .section-card {
-  background: rgba(44, 46, 58, .54);
-  border: 1px solid rgba(255, 255, 255, .09);
+  background: rgba(255, 255, 255, .025);
+  border: 1px solid rgba(255, 255, 255, .055);
   border-radius: 14px;
 }
 
@@ -179,8 +227,8 @@ window.pokedia-window headerbar.app-header entry:backdrop {
 }
 
 .toolbar-card {
-  background: rgba(255, 255, 255, .045);
-  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .034);
+  border: 1px solid rgba(255, 255, 255, .058);
   border-radius: 12px;
   padding: 7px 10px;
 }
@@ -197,7 +245,7 @@ popover.background:backdrop {
 
 popover.background > contents,
 popover.background:backdrop > contents {
-  background: rgba(43, 44, 54, .98);
+  background: rgba(43, 44, 54, .88);
   border: 1px solid rgba(255, 255, 255, .12);
   border-radius: 12px;
   box-shadow: none;
@@ -232,7 +280,7 @@ popover.background row:selected {
 }
 
 .table-header {
-  background: rgba(9, 11, 22, .70);
+  background: rgba(9, 11, 22, .10);
   border-radius: 13px 13px 0 0;
   color: rgba(235, 238, 246, .58);
   font-size: 12px;
@@ -248,7 +296,8 @@ popover.background row:selected {
 }
 
 .data-row {
-  border-bottom: 1px solid rgba(255, 255, 255, .035);
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, .026);
   color: rgba(245, 247, 252, .92);
   min-height: 46px;
   padding: 0 8px;
@@ -277,17 +326,17 @@ popover.background row:selected {
 }
 
 .data-row:hover {
-  background: rgba(255, 255, 255, .055);
+  background: rgba(255, 255, 255, .075);
   border-radius: 10px;
 }
 
 .data-row.selected-data-row {
-  background: rgba(255, 255, 255, .13);
+  background: rgba(255, 255, 255, .12);
   border-radius: 10px;
 }
 
 .sprite-frame {
-  background: rgba(255, 255, 255, .045);
+  background: rgba(255, 255, 255, .05);
   border-radius: 10px;
   min-height: 40px;
   min-width: 40px;
@@ -295,8 +344,8 @@ popover.background row:selected {
 
 .detail-sprite-frame {
   background:
-    radial-gradient(120px 100px at 50% 48%, rgba(255, 255, 255, .10), transparent 70%),
-    rgba(255, 255, 255, .045);
+    radial-gradient(120px 100px at 50% 48%, rgba(255, 255, 255, .08), transparent 70%),
+    rgba(255, 255, 255, .05);
   border-radius: 14px;
   min-height: 150px;
   min-width: 150px;
@@ -304,8 +353,8 @@ popover.background row:selected {
 
 .entity-icon-frame {
   background:
-    radial-gradient(90px 74px at 50% 50%, rgba(255, 255, 255, .10), transparent 72%),
-    rgba(255, 255, 255, .045);
+    radial-gradient(90px 74px at 50% 50%, rgba(255, 255, 255, .08), transparent 72%),
+    rgba(255, 255, 255, .05);
   border-radius: 14px;
   min-height: 112px;
   min-width: 112px;
@@ -464,7 +513,7 @@ popover.background row:selected {
 
 .ability-card {
   background: rgba(255, 255, 255, .035);
-  border: 1px solid rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .055);
   border-radius: 12px;
   padding: 14px;
 }
@@ -502,7 +551,7 @@ popover.background row:selected {
 }
 
 .game-banner {
-  background: rgba(255, 103, 132, .06);
+  background: rgba(255, 103, 132, .10);
   border: 1px solid rgba(255, 103, 132, .22);
   border-radius: 12px;
   padding: 8px 12px;
@@ -513,7 +562,7 @@ popover.background row:selected {
 }
 
 progressbar.stat-bar trough {
-  background: rgba(255, 255, 255, .045);
+  background: rgba(255, 255, 255, .07);
   border-radius: 999px;
   min-height: 8px;
 }
@@ -535,13 +584,13 @@ progressbar.stat-progress-spe progress { background: #ec4899; }
   padding: 8px 10px;
 }
 
-.matchup-bad { background: rgba(239, 68, 68, .08); }
-.matchup-good { background: rgba(34, 197, 94, .07); }
-.matchup-neutral { background: rgba(255, 255, 255, .035); }
+.matchup-bad { background: rgba(239, 68, 68, .12); }
+.matchup-good { background: rgba(34, 197, 94, .10); }
+.matchup-neutral { background: rgba(255, 255, 255, .055); }
 
 .evo-card,
 .pokemon-chip {
-  background: rgba(255, 255, 255, .04);
+  background: rgba(255, 255, 255, .065);
   border: 1px solid rgba(255, 255, 255, .07);
   border-radius: 12px;
   padding: 8px;
@@ -578,7 +627,7 @@ progressbar.stat-progress-spe progress { background: #ec4899; }
 }
 
 .move-method {
-  background: rgba(255, 255, 255, .06);
+  background: rgba(255, 255, 255, .075);
   border-radius: 10px;
   color: rgba(245, 247, 252, .90);
   font-weight: 700;
@@ -586,7 +635,7 @@ progressbar.stat-progress-spe progress { background: #ec4899; }
 }
 
 .move-tabs {
-  background: rgba(9, 11, 22, .28);
+  background: rgba(9, 11, 22, .20);
   border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 12px;
   padding: 3px;
@@ -600,7 +649,7 @@ progressbar.stat-progress-spe progress { background: #ec4899; }
 }
 
 .move-tab:checked {
-  background: rgba(255, 255, 255, .10);
+  background: rgba(255, 255, 255, .13);
   color: rgba(245, 247, 252, .96);
 }
 
@@ -1064,6 +1113,14 @@ fn build_ui(app: &adw::Application) {
         .height_request(300)
         .build();
     window.add_css_class("pokedia-window");
+    window.set_opacity(ACTIVE_WINDOW_OPACITY);
+    window.connect_is_active_notify(|window| {
+        window.set_opacity(if window.is_active() {
+            ACTIVE_WINDOW_OPACITY
+        } else {
+            1.0
+        });
+    });
 
     let search = gtk::SearchEntry::builder()
         .placeholder_text(Page::Pokedex.search_placeholder())
@@ -1156,12 +1213,14 @@ fn build_ui(app: &adw::Application) {
 
     let root = adw::ToolbarView::new();
     root.add_css_class("pokedia-root");
-    root.set_top_bar_style(adw::ToolbarStyle::RaisedBorder);
+    root.set_top_bar_style(adw::ToolbarStyle::Flat);
     root.add_top_bar(&header);
     root.add_top_bar(&tab_bar);
     root.set_content(Some(&shell));
 
-    window.set_content(Some(&root));
+    let toast_overlay = adw::ToastOverlay::new();
+    toast_overlay.set_child(Some(&root));
+    window.set_content(Some(&toast_overlay));
 
     let widgets = AppWidgets {
         stack,
@@ -1213,12 +1272,7 @@ fn build_ui(app: &adw::Application) {
     connect_navigation(&widgets, &nav_rows, data.clone());
     connect_search(&widgets, data.clone());
     connect_filter_controls(&widgets, data.clone());
-    connect_tab_view(
-        &widgets,
-        pool.clone(),
-        runtime.clone(),
-        data.clone(),
-    );
+    connect_tab_view(&widgets, pool.clone(), runtime.clone(), data.clone());
     connect_pokemon_activation(
         &pokedex_page,
         &widgets,
@@ -1290,13 +1344,7 @@ fn build_ui(app: &adw::Application) {
         runtime.clone(),
         data.clone(),
     );
-    connect_mouse_history_buttons(
-        &root,
-        &widgets,
-        pool.clone(),
-        runtime.clone(),
-        data.clone(),
-    );
+    connect_mouse_history_buttons(&root, &widgets, pool.clone(), runtime.clone(), data.clone());
     connect_back_button(&widgets);
 
     let startup_move_id = std::env::var("POKEDIA_START_MOVE_ID")
@@ -3827,25 +3875,27 @@ fn connect_tab_view(
     let select_pool = pool.clone();
     let select_runtime = runtime.clone();
     let select_data = data.clone();
-    widgets.tab_view.connect_selected_page_notify(move |tab_view| {
-        let Some(page) = tab_view.selected_page() else {
-            return;
-        };
-        if page == select_widgets.home_tab {
-            show_current_browser_page(&select_widgets);
-            return;
-        }
-        let Some(target) = selected_tab_target(&select_widgets, &page) else {
-            return;
-        };
-        show_tab_target(
-            &select_widgets,
-            &select_pool,
-            &select_runtime,
-            &select_data,
-            &target,
-        );
-    });
+    widgets
+        .tab_view
+        .connect_selected_page_notify(move |tab_view| {
+            let Some(page) = tab_view.selected_page() else {
+                return;
+            };
+            if page == select_widgets.home_tab {
+                show_current_browser_page(&select_widgets);
+                return;
+            }
+            let Some(target) = selected_tab_target(&select_widgets, &page) else {
+                return;
+            };
+            show_tab_target(
+                &select_widgets,
+                &select_pool,
+                &select_runtime,
+                &select_data,
+                &target,
+            );
+        });
 
     let close_widgets = widgets.clone();
     let close_pool = pool;
@@ -4973,10 +5023,7 @@ fn merge_game_moves(
         .map(|entry| entry.learn_method.clone())
         .collect::<HashSet<_>>();
     let mut merged = game_moves;
-    let mut seen = merged
-        .iter()
-        .map(move_identity)
-        .collect::<HashSet<_>>();
+    let mut seen = merged.iter().map(move_identity).collect::<HashSet<_>>();
 
     for entry in base_moves {
         if game_methods.contains(&entry.learn_method) {
