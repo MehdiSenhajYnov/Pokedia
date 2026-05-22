@@ -65,15 +65,68 @@ const NATURE_STAT_KEYS: &[&str] = &[
 
 const STYLE: &str = r#"
 window.pokedia-window,
-window.pokedia-window > contents {
+window.pokedia-window:backdrop,
+window.pokedia-window > contents,
+window.pokedia-window:backdrop > contents {
   background: transparent;
 }
 
-.pokedia-root {
+window.pokedia-window .pokedia-root,
+window.pokedia-window:backdrop .pokedia-root {
   background:
     radial-gradient(820px 620px at 18% 18%, rgba(76, 95, 132, .18), transparent 58%),
     radial-gradient(760px 560px at 86% 88%, rgba(132, 70, 92, .16), transparent 60%),
     rgba(24, 25, 34, .76);
+}
+
+window.pokedia-window headerbar.app-header,
+window.pokedia-window headerbar.app-header:backdrop {
+  background: rgba(29, 30, 39, .58);
+  box-shadow: none;
+  color: rgba(245, 247, 252, .92);
+  min-height: 48px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+window.pokedia-window headerbar.app-header button,
+window.pokedia-window headerbar.app-header button:backdrop,
+window.pokedia-window headerbar.app-header entry,
+window.pokedia-window headerbar.app-header entry:backdrop {
+  opacity: 1;
+}
+
+.app-brand {
+  margin-left: 4px;
+  margin-right: 12px;
+}
+
+.app-brand-logo {
+  min-height: 22px;
+  min-width: 22px;
+}
+
+.app-search,
+.app-search:backdrop {
+  background: rgba(255, 255, 255, .055);
+  border: 1px solid rgba(255, 255, 255, .07);
+  border-radius: 999px;
+  color: rgba(245, 247, 252, .92);
+  min-height: 34px;
+}
+
+.app-tabbar,
+.app-tabbar:backdrop {
+  background: rgba(29, 30, 39, .50);
+  border-top: 1px solid rgba(255, 255, 255, .035);
+  color: rgba(245, 247, 252, .88);
+  padding: 4px 4px 7px 3px;
+}
+
+.app-tabbar tab,
+.app-tabbar tab:backdrop {
+  min-height: 30px;
+  opacity: 1;
 }
 
 .sidebar-pane {
@@ -111,10 +164,6 @@ window.pokedia-window > contents {
   font-weight: 800;
 }
 
-.game-button {
-  color: #ff6f90;
-}
-
 .page {
   background: transparent;
 }
@@ -138,6 +187,38 @@ window.pokedia-window > contents {
 
 .filter-dropdown {
   min-width: 118px;
+}
+
+popover.background,
+popover.background:backdrop {
+  background: transparent;
+  box-shadow: none;
+}
+
+popover.background > contents,
+popover.background:backdrop > contents {
+  background: rgba(43, 44, 54, .98);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 4px;
+}
+
+popover.background listview,
+popover.background listview.view,
+popover.background row {
+  background: transparent;
+  box-shadow: none;
+}
+
+popover.background row {
+  border-radius: 8px;
+  min-height: 28px;
+}
+
+popover.background row:hover,
+popover.background row:selected {
+  background: rgba(255, 255, 255, .08);
 }
 
 .filter-toggle {
@@ -173,8 +254,36 @@ window.pokedia-window > contents {
   padding: 0 8px;
 }
 
+.table-scroller,
+.table-scroller viewport,
+.table-scroller listview {
+  background: transparent;
+  border-radius: 0 0 13px 13px;
+}
+
+.table-scroller undershoot {
+  background: none;
+}
+
+.data-list,
+.data-list row,
+.data-list row:hover,
+.data-list row:selected,
+.data-list row:selected:hover,
+.data-list row:focus,
+.data-list row:selected:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
 .data-row:hover {
   background: rgba(255, 255, 255, .055);
+  border-radius: 10px;
+}
+
+.data-row.selected-data-row {
+  background: rgba(255, 255, 255, .13);
+  border-radius: 10px;
 }
 
 .sprite-frame {
@@ -961,6 +1070,7 @@ fn build_ui(app: &adw::Application) {
         .width_request(160)
         .hexpand(true)
         .build();
+    search.add_css_class("app-search");
 
     let back_button = gtk::Button::from_icon_name("go-previous-symbolic");
     back_button.add_css_class("flat");
@@ -1020,6 +1130,9 @@ fn build_ui(app: &adw::Application) {
     stack.set_visible_child_name(Page::Pokedex.stack_name());
 
     let shell = gtk::Box::new(gtk::Orientation::Horizontal, 0);
+    shell.set_margin_start(4);
+    shell.set_margin_end(10);
+    shell.set_margin_bottom(10);
     shell.append(&sidebar);
     shell.append(&stack);
 
@@ -1036,6 +1149,7 @@ fn build_ui(app: &adw::Application) {
         .and_then(|value| value.parse::<i64>().ok());
 
     let tab_bar = adw::TabBar::new();
+    tab_bar.add_css_class("app-tabbar");
     tab_bar.set_autohide(false);
     tab_bar.set_expand_tabs(false);
     tab_bar.set_view(Some(&tab_view));
@@ -1256,37 +1370,26 @@ fn install_css() {
 
 fn build_header(search: &gtk::SearchEntry, back_button: &gtk::Button) -> adw::HeaderBar {
     let header = adw::HeaderBar::new();
+    header.add_css_class("app-header");
     header.pack_start(back_button);
 
     let title = gtk::Box::new(gtk::Orientation::Horizontal, 8);
-    let icon = gtk::Image::from_icon_name("applications-games-symbolic");
+    title.add_css_class("app-brand");
+    title.set_valign(gtk::Align::Center);
+    let icon_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("icons/32x32.png");
+    let icon = gtk::Image::new();
+    icon.set_from_file(Some(&icon_path));
+    icon.add_css_class("app-brand-logo");
+    icon.set_width_request(22);
+    icon.set_height_request(22);
+    icon.set_pixel_size(22);
     let label = gtk::Label::new(Some("Pokedia"));
     label.add_css_class("header-title");
     title.append(&icon);
     title.append(&label);
     header.pack_start(&title);
 
-    let game = gtk::MenuButton::builder()
-        .label("RunBun")
-        .icon_name("input-gaming-symbolic")
-        .build();
-    game.add_css_class("pill");
-    game.add_css_class("game-button");
-    header.pack_start(&game);
-
     header.set_title_widget(Some(search));
-
-    let theme = gtk::Button::from_icon_name("weather-clear-night-symbolic");
-    theme.add_css_class("flat");
-    theme.set_tooltip_text(Some("Theme"));
-    header.pack_end(&theme);
-
-    let menu = gtk::MenuButton::builder()
-        .icon_name("open-menu-symbolic")
-        .build();
-    menu.add_css_class("flat");
-    menu.set_tooltip_text(Some("Main Menu"));
-    header.pack_end(&menu);
 
     header
 }
@@ -1496,16 +1599,13 @@ fn build_pokedex_page(
     let factory = build_pokemon_factory(sprite_loader.clone(), compare_ids, compare_badge);
     let selection = gtk::SingleSelection::new(Some(model.clone()));
     let list = gtk::ListView::new(Some(selection), Some(factory));
+    list.add_css_class("data-list");
     list.set_single_click_activate(true);
     list.set_halign(gtk::Align::Fill);
     list.set_hexpand(true);
     list.set_vexpand(true);
 
-    let scroller = gtk::ScrolledWindow::builder()
-        .hscrollbar_policy(gtk::PolicyType::Automatic)
-        .vexpand(true)
-        .child(&list)
-        .build();
+    let scroller = table_scroller(&list);
     panel.append(&scroller);
     page.append(&panel);
 
@@ -1552,14 +1652,11 @@ fn build_moves_page(model: &gtk::StringList) -> (gtk::Box, gtk::Label, MoveFilte
     let factory = build_move_factory();
     let selection = gtk::SingleSelection::new(Some(model.clone()));
     let list = gtk::ListView::new(Some(selection), Some(factory));
+    list.add_css_class("data-list");
     list.set_halign(gtk::Align::Fill);
     list.set_hexpand(true);
     list.set_vexpand(true);
-    let scroller = gtk::ScrolledWindow::builder()
-        .hscrollbar_policy(gtk::PolicyType::Automatic)
-        .vexpand(true)
-        .child(&list)
-        .build();
+    let scroller = table_scroller(&list);
     panel.append(&scroller);
     page.append(&panel);
 
@@ -1644,14 +1741,11 @@ fn build_items_page(
     let factory = build_item_factory();
     let selection = gtk::SingleSelection::new(Some(model.clone()));
     let list = gtk::ListView::new(Some(selection), Some(factory));
+    list.add_css_class("data-list");
     list.set_halign(gtk::Align::Fill);
     list.set_hexpand(true);
     list.set_vexpand(true);
-    let scroller = gtk::ScrolledWindow::builder()
-        .hscrollbar_policy(gtk::PolicyType::Automatic)
-        .vexpand(true)
-        .child(&list)
-        .build();
+    let scroller = table_scroller(&list);
     panel.append(&scroller);
     page.append(&panel);
 
@@ -1691,14 +1785,11 @@ fn build_natures_page(model: &gtk::StringList) -> (gtk::Box, gtk::Label, NatureF
     let factory = build_nature_factory();
     let selection = gtk::SingleSelection::new(Some(model.clone()));
     let list = gtk::ListView::new(Some(selection), Some(factory));
+    list.add_css_class("data-list");
     list.set_halign(gtk::Align::Fill);
     list.set_hexpand(true);
     list.set_vexpand(true);
-    let scroller = gtk::ScrolledWindow::builder()
-        .hscrollbar_policy(gtk::PolicyType::Automatic)
-        .vexpand(true)
-        .child(&list)
-        .build();
+    let scroller = table_scroller(&list);
     panel.append(&scroller);
     page.append(&panel);
 
@@ -2435,6 +2526,23 @@ fn style_dropdown(dropdown: &gtk::DropDown) {
     dropdown.set_valign(gtk::Align::Center);
 }
 
+fn bind_list_item_selection(item: &gtk::ListItem, row: &gtk::Box) {
+    set_data_row_selected(row, item.property::<bool>("selected"));
+
+    let row = row.clone();
+    item.connect_selected_notify(move |item| {
+        set_data_row_selected(&row, item.property::<bool>("selected"));
+    });
+}
+
+fn set_data_row_selected(row: &gtk::Box, selected: bool) {
+    if selected {
+        row.add_css_class("selected-data-row");
+    } else {
+        row.remove_css_class("selected-data-row");
+    }
+}
+
 fn type_filter_labels() -> Vec<String> {
     let mut labels = Vec::with_capacity(ALL_TYPES.len() + 1);
     labels.push("All types".to_owned());
@@ -2516,7 +2624,7 @@ fn page_box() -> gtk::Box {
     page.set_margin_top(12);
     page.set_margin_bottom(12);
     page.set_margin_start(10);
-    page.set_margin_end(10);
+    page.set_margin_end(0);
     page
 }
 
@@ -2524,6 +2632,17 @@ fn toolbar_card() -> gtk::Box {
     let toolbar = gtk::Box::new(gtk::Orientation::Horizontal, 6);
     toolbar.add_css_class("toolbar-card");
     toolbar
+}
+
+fn table_scroller(child: &impl IsA<gtk::Widget>) -> gtk::ScrolledWindow {
+    let scroller = gtk::ScrolledWindow::builder()
+        .hscrollbar_policy(gtk::PolicyType::Automatic)
+        .vexpand(true)
+        .child(child)
+        .build();
+    scroller.add_css_class("table-scroller");
+    scroller.set_overflow(gtk::Overflow::Hidden);
+    scroller
 }
 
 fn button_label(label: &str) -> gtk::Button {
@@ -2617,6 +2736,7 @@ fn build_pokemon_factory(
         let item = item.downcast_ref::<gtk::ListItem>().expect("ListItem");
         let row = gtk::Box::new(gtk::Orientation::Horizontal, 6);
         row.add_css_class("data-row");
+        bind_list_item_selection(item, &row);
         row.set_halign(gtk::Align::Fill);
         row.set_hexpand(true);
 
@@ -2741,6 +2861,7 @@ fn build_move_factory() -> gtk::SignalListItemFactory {
         let item = item.downcast_ref::<gtk::ListItem>().expect("ListItem");
         let row = gtk::Box::new(gtk::Orientation::Horizontal, 8);
         row.add_css_class("data-row");
+        bind_list_item_selection(item, &row);
         row.set_halign(gtk::Align::Fill);
         row.set_hexpand(true);
         let types = gtk::Box::new(gtk::Orientation::Horizontal, 6);
@@ -2785,6 +2906,7 @@ fn build_item_factory() -> gtk::SignalListItemFactory {
         let item = item.downcast_ref::<gtk::ListItem>().expect("ListItem");
         let row = gtk::Box::new(gtk::Orientation::Horizontal, 8);
         row.add_css_class("data-row");
+        bind_list_item_selection(item, &row);
         row.set_halign(gtk::Align::Fill);
         row.set_hexpand(true);
         row.append(&sized_label("", 140, false, "row-title"));
@@ -2818,6 +2940,7 @@ fn build_nature_factory() -> gtk::SignalListItemFactory {
         let item = item.downcast_ref::<gtk::ListItem>().expect("ListItem");
         let row = gtk::Box::new(gtk::Orientation::Horizontal, 6);
         row.add_css_class("data-row");
+        bind_list_item_selection(item, &row);
         row.set_halign(gtk::Align::Fill);
         row.set_hexpand(true);
         row.append(&sized_label("", 96, false, "row-title"));
