@@ -26,6 +26,8 @@ const ACTIVE_WINDOW_OPACITY: f64 = 0.78;
 const WORKSPACE_AUTOSAVE_INTERVAL: Duration = Duration::from_secs(2);
 const WORKSPACE_MENU_OFFSET_X: i32 = 68;
 const WORKSPACE_MENU_OFFSET_Y: i32 = 58;
+const FILTER_DROPDOWN_MIN_WIDTH: i32 = 118;
+const FILTER_DROPDOWN_MAX_HEIGHT: i32 = 336;
 const ALL_TYPES: &[&str] = &[
     "normal", "fire", "water", "electric", "grass", "ice", "fighting", "poison", "ground",
     "flying", "psychic", "bug", "rock", "ghost", "dragon", "dark", "steel", "fairy",
@@ -403,6 +405,80 @@ popover.workspace-popover arrow {
   min-width: 118px;
 }
 
+button.filter-dropdown,
+button.filter-dropdown:backdrop {
+  background-color: rgba(255, 255, 255, .036);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .074), rgba(255, 255, 255, .030));
+  border: 1px solid rgba(255, 255, 255, .090);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .115),
+    inset 1px 0 0 rgba(255, 255, 255, .045);
+  color: rgba(245, 247, 252, .88);
+  min-height: 34px;
+  padding: 0 11px;
+}
+
+button.filter-dropdown:hover,
+button.filter-dropdown.filter-open,
+button.filter-dropdown:checked,
+button.filter-dropdown:active,
+button.filter-dropdown:focus,
+button.filter-dropdown:focus-visible {
+  background-color: rgba(255, 255, 255, .052);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .095), rgba(255, 255, 255, .034));
+  border-color: rgba(255, 255, 255, .130);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .105);
+  color: #ffffff;
+}
+
+button.filter-dropdown image {
+  color: rgba(235, 238, 246, .58);
+}
+
+button.filter-dropdown label {
+  color: inherit;
+  font-weight: 600;
+}
+
+.workspace-menu.filter-menu {
+  min-width: 0;
+  padding: 8px;
+}
+
+.filter-menu-scroller,
+.filter-menu-scroller viewport {
+  background: transparent;
+  background-image: none;
+  border: none;
+}
+
+.filter-menu-scroller scrollbar {
+  background: transparent;
+  border: none;
+  margin: 2px 0 2px 4px;
+  min-width: 7px;
+}
+
+.filter-menu-scroller scrollbar trough {
+  background: rgba(255, 255, 255, .030);
+  border-radius: 999px;
+  min-width: 7px;
+}
+
+.filter-menu-scroller scrollbar slider {
+  background: rgba(255, 255, 255, .210);
+  border-radius: 999px;
+  min-height: 30px;
+  min-width: 7px;
+}
+
+.filter-menu-scroller scrollbar slider:hover {
+  background: rgba(255, 255, 255, .300);
+}
+
 dropdown.filter-dropdown,
 dropdown.filter-dropdown:backdrop {
   background-color: transparent;
@@ -435,10 +511,10 @@ dropdown.filter-dropdown button:hover,
 dropdown.filter-dropdown button.toggle:hover,
 dropdown.filter-dropdown button:checked,
 dropdown.filter-dropdown button.toggle:checked {
-  background-color: rgba(255, 255, 255, .060);
+  background-color: rgba(255, 255, 255, .052);
   background-image:
-    linear-gradient(to bottom, rgba(255, 255, 255, .110), rgba(255, 255, 255, .045));
-  border-color: rgba(255, 255, 255, .155);
+    linear-gradient(to bottom, rgba(255, 255, 255, .095), rgba(255, 255, 255, .034));
+  border-color: rgba(255, 255, 255, .130);
   color: #ffffff;
 }
 
@@ -447,11 +523,24 @@ dropdown.filter-dropdown button:focus,
 dropdown.filter-dropdown button:focus-visible {
   background-color: rgba(255, 255, 255, .052);
   background-image:
-    linear-gradient(to bottom, rgba(255, 255, 255, .100), rgba(255, 255, 255, .040));
-  border-color: rgba(255, 111, 144, .52);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .14),
-    0 0 0 3px rgba(255, 111, 144, .14);
+    linear-gradient(to bottom, rgba(255, 255, 255, .095), rgba(255, 255, 255, .034));
+  border-color: rgba(255, 255, 255, .130);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .105);
+}
+
+.filter-dropdown button:active,
+.filter-dropdown button.toggle:active,
+.filter-dropdown button:checked,
+.filter-dropdown button.toggle:checked,
+.filter-dropdown button:focus,
+.filter-dropdown button.toggle:focus,
+.filter-dropdown button:focus-visible,
+.filter-dropdown button.toggle:focus-visible {
+  background-color: rgba(255, 255, 255, .052);
+  background-image:
+    linear-gradient(to bottom, rgba(255, 255, 255, .095), rgba(255, 255, 255, .034));
+  border-color: rgba(255, 255, 255, .130);
+  color: #ffffff;
 }
 
 dropdown.filter-dropdown arrow,
@@ -469,23 +558,29 @@ popover.background,
 popover.background:backdrop {
   background-color: transparent;
   background-image: none;
+  border: none;
   box-shadow: none;
+  outline-color: transparent;
+  outline-width: 0;
+  padding: 0;
 }
 
 popover.background contents,
 popover.background > contents,
 popover.background contents:backdrop,
 popover.background:backdrop > contents {
-  background-color: rgba(30, 31, 38, .46);
+  background-color: rgba(32, 31, 33, .98);
   background-image:
-    linear-gradient(to bottom, rgba(255, 255, 255, .070), rgba(255, 255, 255, .018));
-  border: 1px solid rgba(255, 255, 255, .130);
+    linear-gradient(to bottom, rgba(42, 40, 41, .98), rgba(32, 31, 33, .98) 48%, rgba(22, 23, 27, .98));
+  border: 1px solid rgba(255, 255, 255, .11);
   border-radius: 14px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .120),
-    0 18px 42px rgba(0, 0, 0, .24),
-    0 8px 22px rgba(255, 111, 144, .05);
-  padding: 6px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, .18);
+  padding: 9px;
+}
+
+popover.background arrow {
+  background-color: rgba(32, 31, 33, .98);
+  border: 1px solid rgba(255, 255, 255, .11);
 }
 
 popover.background scrolledwindow,
@@ -499,10 +594,11 @@ popover.background row {
 }
 
 popover.background row {
-  border-radius: 9px;
-  color: rgba(235, 238, 246, .74);
-  min-height: 30px;
-  padding: 0 4px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, .96);
+  font-weight: 700;
+  min-height: 34px;
+  padding: 0 9px;
 }
 
 popover.background row label {
@@ -511,14 +607,14 @@ popover.background row label {
 
 popover.background row:hover,
 popover.background row:selected {
-  background-color: rgba(255, 255, 255, .105);
+  background-color: rgba(255, 255, 255, .055);
   background-image: none;
-  color: rgba(255, 255, 255, .95);
+  color: #ffffff;
 }
 
 popover.background row:selected,
 popover.background row:selected:hover {
-  background-color: rgba(255, 111, 144, .16);
+  background-color: rgba(255, 255, 255, .038);
   background-image: none;
   color: #ffffff;
 }
@@ -1363,6 +1459,168 @@ impl WorkspacePanel {
     }
 }
 
+impl FilterDropdown {
+    fn new(options: Vec<String>) -> Self {
+        let options = Rc::new(options);
+        let button = gtk::Button::new();
+        button.add_css_class("filter-dropdown");
+        button.set_valign(gtk::Align::Center);
+
+        let content = gtk::Box::new(gtk::Orientation::Horizontal, 8);
+        content.set_valign(gtk::Align::Center);
+        let label = gtk::Label::new(None);
+        label.set_xalign(0.0);
+        label.set_hexpand(true);
+        label.set_ellipsize(gtk::pango::EllipsizeMode::End);
+        let arrow = gtk::Image::from_icon_name("pan-down-symbolic");
+        arrow.set_pixel_size(12);
+        content.append(&label);
+        content.append(&arrow);
+        button.set_child(Some(&content));
+
+        let panel = WorkspacePanel::new();
+        panel.set_halign(gtk::Align::Start);
+        panel.set_valign(gtk::Align::Start);
+        panel.set_visible(false);
+
+        let menu = gtk::Box::new(gtk::Orientation::Vertical, 4);
+        menu.add_css_class("workspace-menu");
+        menu.add_css_class("filter-menu");
+        let scroller = gtk::ScrolledWindow::builder()
+            .hscrollbar_policy(gtk::PolicyType::Never)
+            .vscrollbar_policy(gtk::PolicyType::Automatic)
+            .max_content_height(FILTER_DROPDOWN_MAX_HEIGHT)
+            .propagate_natural_height(true)
+            .child(&menu)
+            .build();
+        scroller.add_css_class("filter-menu-scroller");
+        panel.append(&scroller);
+
+        let dropdown = Self {
+            button,
+            label,
+            panel,
+            menu,
+            options,
+            selected: Rc::new(Cell::new(0)),
+            row_states: Rc::new(RefCell::new(Vec::new())),
+            handlers: Rc::new(RefCell::new(Vec::new())),
+        };
+        dropdown.build_rows();
+        dropdown.refresh();
+        dropdown
+    }
+
+    fn widget(&self) -> &gtk::Button {
+        &self.button
+    }
+
+    fn selected(&self) -> u32 {
+        self.selected.get()
+    }
+
+    fn set_selected(&self, selected: u32) {
+        let selected = if selected == gtk::INVALID_LIST_POSITION {
+            0
+        } else {
+            selected.min(self.options.len().saturating_sub(1) as u32)
+        };
+        if self.selected.replace(selected) == selected {
+            self.refresh();
+            return;
+        }
+        self.refresh();
+        for handler in self.handlers.borrow().iter() {
+            handler(self);
+        }
+    }
+
+    fn set_visible(&self, visible: bool) {
+        self.button.set_visible(visible);
+        if !visible {
+            self.hide_menu();
+        }
+    }
+
+    fn is_visible(&self) -> bool {
+        self.button.is_visible()
+    }
+
+    fn connect_selected_notify<F: Fn(&FilterDropdown) + 'static>(&self, f: F) {
+        self.handlers.borrow_mut().push(Box::new(f));
+    }
+
+    fn hide_menu(&self) {
+        self.panel.set_visible(false);
+        self.button.remove_css_class("filter-open");
+    }
+
+    fn show_menu(&self, overlay: &gtk::Overlay) {
+        if let Some(bounds) = self.button.compute_bounds(overlay) {
+            let x = bounds.x().round().max(0.0) as i32;
+            let y = (bounds.y() + bounds.height() + 6.0).round().max(0.0) as i32;
+            self.panel.set_margin_start(x);
+            self.panel.set_margin_top(y);
+            self.panel
+                .set_width_request(self.button.width().max(FILTER_DROPDOWN_MIN_WIDTH));
+        }
+        self.panel.set_visible(true);
+        self.button.add_css_class("filter-open");
+    }
+
+    fn build_rows(&self) {
+        for (idx, option) in self.options.iter().enumerate() {
+            let row = gtk::Button::new();
+            row.add_css_class("workspace-row");
+            row.set_has_frame(false);
+            row.set_halign(gtk::Align::Fill);
+            row.set_hexpand(true);
+
+            let layout = gtk::Box::new(gtk::Orientation::Horizontal, 9);
+            let check = gtk::Image::from_icon_name("object-select-symbolic");
+            check.set_pixel_size(13);
+            let label = gtk::Label::new(Some(option));
+            label.set_xalign(0.0);
+            label.set_hexpand(true);
+            label.set_ellipsize(gtk::pango::EllipsizeMode::End);
+            layout.append(&check);
+            layout.append(&label);
+            row.set_child(Some(&layout));
+
+            let dropdown = self.clone();
+            row.connect_clicked(move |_| {
+                dropdown.set_selected(idx as u32);
+                dropdown.hide_menu();
+            });
+
+            self.menu.append(&row);
+            self.row_states.borrow_mut().push((row, check));
+        }
+    }
+
+    fn refresh(&self) {
+        let selected = self.selected.get() as usize;
+        let label = self
+            .options
+            .get(selected)
+            .or_else(|| self.options.first())
+            .map(String::as_str)
+            .unwrap_or("");
+        self.label.set_text(label);
+        self.button.set_tooltip_text(Some(label));
+
+        for (idx, (row, check)) in self.row_states.borrow().iter().enumerate() {
+            let active = idx == selected;
+            if active {
+                row.add_css_class("workspace-active");
+            } else {
+                row.remove_css_class("workspace-active");
+            }
+            check.set_opacity(if active { 1.0 } else { 0.0 });
+        }
+    }
+}
+
 #[derive(Clone)]
 struct WorkspaceUi {
     button: gtk::Button,
@@ -1466,36 +1724,50 @@ struct AppWidgets {
 
 #[derive(Clone)]
 struct PokedexFilterWidgets {
-    type_filter: gtk::DropDown,
-    second_type_filter: gtk::DropDown,
-    generation_filter: gtk::DropDown,
-    sort_filters: Vec<gtk::DropDown>,
+    type_filter: FilterDropdown,
+    second_type_filter: FilterDropdown,
+    generation_filter: FilterDropdown,
+    sort_filters: Vec<FilterDropdown>,
     favorites_filter: gtk::ToggleButton,
 }
 
 #[derive(Clone)]
 struct MoveFilterWidgets {
-    type_filter: gtk::DropDown,
-    class_filter: gtk::DropDown,
-    min_power_filter: gtk::DropDown,
-    max_power_filter: gtk::DropDown,
+    type_filter: FilterDropdown,
+    class_filter: FilterDropdown,
+    min_power_filter: FilterDropdown,
+    max_power_filter: FilterDropdown,
 }
 
 #[derive(Clone)]
 struct AbilityFilterWidgets {
-    generation_filter: gtk::DropDown,
+    generation_filter: FilterDropdown,
     generations: Rc<Vec<i64>>,
 }
 
 #[derive(Clone)]
 struct ItemFilterWidgets {
-    category_filter: gtk::DropDown,
+    category_filter: FilterDropdown,
     categories: Rc<Vec<String>>,
 }
 
 #[derive(Clone)]
 struct NatureFilterWidgets {
-    stat_filter: gtk::DropDown,
+    stat_filter: FilterDropdown,
+}
+
+type FilterDropdownHandler = Box<dyn Fn(&FilterDropdown)>;
+
+#[derive(Clone)]
+struct FilterDropdown {
+    button: gtk::Button,
+    label: gtk::Label,
+    panel: WorkspacePanel,
+    menu: gtk::Box,
+    options: Rc<Vec<String>>,
+    selected: Rc<Cell<u32>>,
+    row_states: Rc<RefCell<Vec<(gtk::Button, gtk::Image)>>>,
+    handlers: Rc<RefCell<Vec<FilterDropdownHandler>>>,
 }
 
 #[derive(Clone)]
@@ -1956,6 +2228,7 @@ fn build_ui(app: &adw::Application) {
         sprite_loader,
     };
 
+    attach_filter_dropdowns(&widgets, &app_overlay);
     update_compare_badge(&widgets.compare_badge, widgets.compare_ids.borrow().len());
     refresh_all_pages(&widgets, &data, "");
     connect_navigation(&widgets, &nav_rows, data.clone());
@@ -2388,7 +2661,7 @@ fn capture_workspace_filters(widgets: &AppWidgets) -> WorkspaceFilters {
             .pokedex_filters
             .sort_filters
             .iter()
-            .map(gtk::DropDown::selected)
+            .map(FilterDropdown::selected)
             .collect(),
         pokedex_favorites: widgets.pokedex_filters.favorites_filter.is_active(),
         move_type: widgets.move_filters.type_filter.selected(),
@@ -2537,7 +2810,7 @@ fn apply_workspace_filters(widgets: &AppWidgets, filters: &WorkspaceFilters) {
     set_dropdown_selected(&widgets.nature_filters.stat_filter, filters.nature_stat);
 }
 
-fn set_dropdown_selected(dropdown: &gtk::DropDown, selected: u32) {
+fn set_dropdown_selected(dropdown: &FilterDropdown, selected: u32) {
     let selected = if selected == gtk::INVALID_LIST_POSITION {
         0
     } else {
@@ -2563,6 +2836,118 @@ fn show_workspace_home_state(widgets: &AppWidgets, data: &LoadedData, page: Page
             widgets.sprite_loader.clone(),
         );
     }
+}
+
+fn attach_filter_dropdowns(widgets: &AppWidgets, overlay: &gtk::Overlay) {
+    let dropdowns = Rc::new(all_filter_dropdowns(widgets));
+    let workspace = widgets.workspace.clone();
+    for dropdown in dropdowns.iter() {
+        overlay.add_overlay(&dropdown.panel);
+        let current = dropdown.clone();
+        let overlay = overlay.clone();
+        let all_dropdowns = dropdowns.clone();
+        let workspace = workspace.clone();
+        dropdown.button.connect_clicked(move |_| {
+            let was_open = current.panel.is_visible();
+            for dropdown in all_dropdowns.iter() {
+                dropdown.hide_menu();
+            }
+            hide_workspace_menu(&workspace);
+            if !was_open && current.button.is_visible() {
+                current.show_menu(&overlay);
+            }
+        });
+    }
+
+    let all_dropdowns = dropdowns.clone();
+    widgets.workspace.button.connect_clicked(move |_| {
+        for dropdown in all_dropdowns.iter() {
+            dropdown.hide_menu();
+        }
+    });
+
+    let all_dropdowns = dropdowns.clone();
+    let overlay_for_click = overlay.clone();
+    let workspace = widgets.workspace.clone();
+    let outside_click = gtk::GestureClick::new();
+    outside_click.set_button(0);
+    outside_click.set_propagation_phase(gtk::PropagationPhase::Capture);
+    outside_click.connect_pressed(move |gesture, _, x, y| {
+        if gesture.current_button() != 1 {
+            return;
+        }
+        let hits_filter = all_dropdowns
+            .iter()
+            .any(|dropdown| filter_dropdown_contains_point(dropdown, &overlay_for_click, x, y));
+        let hits_workspace =
+            workspace_dropdown_contains_point(&workspace, &overlay_for_click, x, y);
+        if hits_filter || hits_workspace {
+            return;
+        }
+        for dropdown in all_dropdowns.iter() {
+            dropdown.hide_menu();
+        }
+        hide_workspace_menu(&workspace);
+    });
+    overlay.add_controller(outside_click);
+}
+
+fn all_filter_dropdowns(widgets: &AppWidgets) -> Vec<FilterDropdown> {
+    let mut dropdowns = vec![
+        widgets.pokedex_filters.type_filter.clone(),
+        widgets.pokedex_filters.second_type_filter.clone(),
+        widgets.pokedex_filters.generation_filter.clone(),
+        widgets.move_filters.type_filter.clone(),
+        widgets.move_filters.class_filter.clone(),
+        widgets.move_filters.min_power_filter.clone(),
+        widgets.move_filters.max_power_filter.clone(),
+        widgets.ability_filters.generation_filter.clone(),
+        widgets.item_filters.category_filter.clone(),
+        widgets.nature_filters.stat_filter.clone(),
+    ];
+    dropdowns.extend(widgets.pokedex_filters.sort_filters.iter().cloned());
+    dropdowns
+}
+
+fn filter_dropdown_contains_point(
+    dropdown: &FilterDropdown,
+    overlay: &gtk::Overlay,
+    x: f64,
+    y: f64,
+) -> bool {
+    widget_contains_overlay_point(&dropdown.button, overlay, x, y)
+        || widget_contains_overlay_point(&dropdown.panel, overlay, x, y)
+}
+
+fn workspace_dropdown_contains_point(
+    workspace: &WorkspaceUi,
+    overlay: &gtk::Overlay,
+    x: f64,
+    y: f64,
+) -> bool {
+    widget_contains_overlay_point(&workspace.button, overlay, x, y)
+        || widget_contains_overlay_point(&workspace.panel, overlay, x, y)
+}
+
+fn widget_contains_overlay_point<W: IsA<gtk::Widget>>(
+    widget: &W,
+    overlay: &gtk::Overlay,
+    x: f64,
+    y: f64,
+) -> bool {
+    let widget = widget.as_ref();
+    if !widget.is_visible() || !widget.is_mapped() {
+        return false;
+    }
+    let Some(bounds) = widget.compute_bounds(overlay) else {
+        return false;
+    };
+    let x = x as f32;
+    let y = y as f32;
+    x >= bounds.x()
+        && x <= bounds.x() + bounds.width()
+        && y >= bounds.y()
+        && y <= bounds.y() + bounds.height()
 }
 
 fn dedup_compare_ids(ids: &[i64]) -> Vec<i64> {
@@ -3369,11 +3754,11 @@ fn build_pokedex_page(
     let favorites_filter = gtk::ToggleButton::with_label("♡ Favorites");
     favorites_filter.add_css_class("flat");
     favorites_filter.add_css_class("filter-toggle");
-    toolbar.append(&type_filter);
-    toolbar.append(&second_type_filter);
-    toolbar.append(&generation_filter);
+    toolbar.append(type_filter.widget());
+    toolbar.append(second_type_filter.widget());
+    toolbar.append(generation_filter.widget());
     for sort_filter in &sort_filters {
-        toolbar.append(sort_filter);
+        toolbar.append(sort_filter.widget());
     }
     toolbar.append(&favorites_filter);
     let count = count_label();
@@ -3418,10 +3803,10 @@ fn build_moves_page(model: &gtk::StringList) -> (gtk::Box, gtk::Label, MoveFilte
     let class_filter = dropdown_from_static(MOVE_CLASS_OPTIONS);
     let min_power_filter = dropdown_from_static(MOVE_MIN_POWER_LABELS);
     let max_power_filter = dropdown_from_static(MOVE_MAX_POWER_LABELS);
-    toolbar.append(&type_filter);
-    toolbar.append(&class_filter);
-    toolbar.append(&min_power_filter);
-    toolbar.append(&max_power_filter);
+    toolbar.append(type_filter.widget());
+    toolbar.append(class_filter.widget());
+    toolbar.append(min_power_filter.widget());
+    toolbar.append(max_power_filter.widget());
     let count = count_label();
     toolbar.append(&count);
     page.append(&toolbar);
@@ -3472,7 +3857,7 @@ fn build_abilities_page(
     toolbar.append(&title);
     let generations = ability_generation_keys(abilities);
     let generation_filter = dropdown_from_options(&generation_filter_labels(&generations));
-    toolbar.append(&generation_filter);
+    toolbar.append(generation_filter.widget());
     let count = count_label();
     toolbar.append(&count);
     page.append(&toolbar);
@@ -3513,7 +3898,7 @@ fn build_items_page(
     let toolbar = toolbar_card();
     let categories = item_category_keys(items);
     let category_filter = dropdown_from_options(&category_filter_labels(&categories));
-    toolbar.append(&category_filter);
+    toolbar.append(category_filter.widget());
     let count = count_label();
     toolbar.append(&count);
     page.append(&toolbar);
@@ -3555,7 +3940,7 @@ fn build_natures_page(model: &gtk::StringList) -> (gtk::Box, gtk::Label, NatureF
     title.add_css_class("header-title");
     toolbar.append(&title);
     let stat_filter = dropdown_from_options(&nature_stat_labels());
-    toolbar.append(&stat_filter);
+    toolbar.append(stat_filter.widget());
     let count = count_label();
     toolbar.append(&count);
     page.append(&toolbar);
@@ -4673,22 +5058,12 @@ fn sync_resource_row(resource: &SyncResourceStatus) -> gtk::Box {
     settings_text_row(&native::titleize_key(&label), &value)
 }
 
-fn dropdown_from_static(options: &[&str]) -> gtk::DropDown {
-    let dropdown = gtk::DropDown::from_strings(options);
-    style_dropdown(&dropdown);
-    dropdown
+fn dropdown_from_static(options: &[&str]) -> FilterDropdown {
+    FilterDropdown::new(options.iter().map(|option| (*option).to_owned()).collect())
 }
 
-fn dropdown_from_options(options: &[String]) -> gtk::DropDown {
-    let refs = options.iter().map(String::as_str).collect::<Vec<_>>();
-    let dropdown = gtk::DropDown::from_strings(&refs);
-    style_dropdown(&dropdown);
-    dropdown
-}
-
-fn style_dropdown(dropdown: &gtk::DropDown) {
-    dropdown.add_css_class("filter-dropdown");
-    dropdown.set_valign(gtk::Align::Center);
+fn dropdown_from_options(options: &[String]) -> FilterDropdown {
+    FilterDropdown::new(options.to_vec())
 }
 
 fn bind_list_item_selection(item: &gtk::ListItem, row: &gtk::Box) {
@@ -5238,7 +5613,7 @@ enum PokedexSort {
     Spe,
 }
 
-fn dropdown_index(dropdown: &gtk::DropDown) -> usize {
+fn dropdown_index(dropdown: &FilterDropdown) -> usize {
     let selected = dropdown.selected();
     if selected == gtk::INVALID_LIST_POSITION {
         0
@@ -5247,7 +5622,7 @@ fn dropdown_index(dropdown: &gtk::DropDown) -> usize {
     }
 }
 
-fn selected_type_filter(dropdown: &gtk::DropDown) -> Option<&'static str> {
+fn selected_type_filter(dropdown: &FilterDropdown) -> Option<&'static str> {
     let index = dropdown_index(dropdown);
     if index == 0 {
         None
@@ -5265,7 +5640,7 @@ fn selected_pokedex_type_filters(
     )
 }
 
-fn selected_generation_range(dropdown: &gtk::DropDown) -> Option<(i64, i64)> {
+fn selected_generation_range(dropdown: &FilterDropdown) -> Option<(i64, i64)> {
     let index = dropdown_index(dropdown);
     if index == 0 {
         None
@@ -5274,7 +5649,7 @@ fn selected_generation_range(dropdown: &gtk::DropDown) -> Option<(i64, i64)> {
     }
 }
 
-fn selected_pokedex_sort(dropdown: &gtk::DropDown) -> PokedexSort {
+fn selected_pokedex_sort(dropdown: &FilterDropdown) -> PokedexSort {
     match dropdown_index(dropdown) {
         1 => PokedexSort::Name,
         2 => PokedexSort::Bst,
@@ -5320,7 +5695,7 @@ fn update_pokedex_sort_filter_visibility(filters: &PokedexFilterWidgets) {
     }
 }
 
-fn selected_move_class(dropdown: &gtk::DropDown) -> Option<&'static str> {
+fn selected_move_class(dropdown: &FilterDropdown) -> Option<&'static str> {
     match dropdown_index(dropdown) {
         1 => Some("physical"),
         2 => Some("special"),
@@ -5329,7 +5704,7 @@ fn selected_move_class(dropdown: &gtk::DropDown) -> Option<&'static str> {
     }
 }
 
-fn selected_power_filter(dropdown: &gtk::DropDown, values: &[Option<i64>]) -> Option<i64> {
+fn selected_power_filter(dropdown: &FilterDropdown, values: &[Option<i64>]) -> Option<i64> {
     values.get(dropdown_index(dropdown)).copied().flatten()
 }
 
@@ -5351,7 +5726,7 @@ fn selected_item_category(filters: &ItemFilterWidgets) -> Option<&str> {
     }
 }
 
-fn selected_nature_stat(dropdown: &gtk::DropDown) -> Option<&'static str> {
+fn selected_nature_stat(dropdown: &FilterDropdown) -> Option<&'static str> {
     let index = dropdown_index(dropdown);
     if index == 0 {
         None
