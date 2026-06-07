@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Pokedia
+Comment=Pokemon hackrom encyclopedia
+Exec=pokedia-gtk
+Icon=com.pokedia.app
+Terminal=false
+Categories=Game;
+Keywords=Pokemon;Pokedex;Hackrom;Pokedia;
+StartupNotify=true

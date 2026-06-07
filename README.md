@@ -2,101 +2,76 @@
 
 Encyclopedie Pokemon desktop pour joueurs de hackroms. Bilingue EN/FR.
 
-Application desktop qui synchronise les donnees depuis [PokeAPI v2](https://pokeapi.co/) et les stocke localement dans une base SQLite pour un acces instantane hors-ligne.
+Pokedia est maintenant une application desktop native GTK/libadwaita. Elle lit les donnees depuis une base SQLite locale et importe automatiquement les datasets hackrom livres avec l'application.
 
 ## Fonctionnalites
 
-- **Pokedex complet** — 1000+ Pokemon avec stats, types, talents, attaques, chaine d'evolution, formes alternatives (Mega, Alola, Galar...)
-- **Encyclopedie des attaques** — Filtrage par type, classe de degats, puissance. Liste des Pokemon qui apprennent chaque attaque
-- **Encyclopedie des objets** — Filtrage par categorie, descriptions bilingues
-- **Encyclopedie des talents** — Effets detailles, Pokemon associes (talent cache ou non)
-- **Table des natures** — Statistiques augmentees/diminuees, saveurs
-- **Table des types** — Matchups offensifs/defensifs interactifs, support double type, ajustements par talent (Levitation, Pare-Feu, etc.)
-- **Comparateur** — Comparaison cote a cote des stats et matchups de type
-- **Favoris** — Marquer des Pokemon en favori avec filtre dedie
-- **Onglets** — Systeme d'onglets pour naviguer entre les pages detail (LRU, max 20)
-- **Bilingue** — Choix de la langue (EN/FR) par categorie : noms Pokemon, noms attaques, noms objets, noms talents, noms natures, descriptions
-- **Theme** — Mode sombre / clair
-- **Synchronisation** — Telechargement depuis PokeAPI avec progression par ressource, reprise partielle, annulation, retry automatique
+- Pokedex complet avec stats, types, talents, attaques, chaine d'evolution et formes alternatives
+- Encyclopedie des attaques avec filtres par type, classe de degats et puissance
+- Encyclopedie des objets avec categories, descriptions et emplacements hackrom
+- Encyclopedie des talents avec effets detailles et Pokemon associes
+- Table des natures
+- Table des types interactive avec support double type et ajustements par talent
+- Comparateur de Pokemon
+- Favoris
+- Onglets natifs pour garder plusieurs pages de detail ouvertes
+- Donnees hackrom integrees pour Run & Bun, Radical Red et Emerald Imperium
 
 ## Stack technique
 
 | Couche | Technologies |
-|--------|-------------|
-| Desktop | [Tauri 2](https://v2.tauri.app/) |
-| Backend | Rust, [sqlx](https://github.com/launchbadge/sqlx) (SQLite), [reqwest](https://github.com/seanmonstar/reqwest), [tokio](https://tokio.rs/) |
-| Frontend | [React 19](https://react.dev/), [Vite 7](https://vite.dev/), TypeScript 5.9 |
-| UI | [Tailwind CSS v4](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/) (New York), [Radix UI](https://www.radix-ui.com/) |
-| Data | [TanStack Query](https://tanstack.com/query) + [Table](https://tanstack.com/table) + [Virtual](https://tanstack.com/virtual) |
-| State | [Zustand](https://zustand.docs.pmnd.rs/) (5 stores avec persist) |
-| Animations | [Framer Motion](https://www.framer.com/motion/) |
-| Icones | [Lucide React](https://lucide.dev/) |
+|--------|--------------|
+| Desktop | Rust, GTK4, libadwaita |
+| Donnees | SQLite, sqlx |
+| Runtime | Tokio |
+| Reseau | reqwest pour le cache local des sprites |
+| Donnees embarquees | JSON hackrom compile dans le binaire |
 
 ## Prerequis
 
-- [Node.js](https://nodejs.org/) >= 18
-- [Rust](https://www.rust-lang.org/tools/install) >= 1.77.2
-- Dependances systeme Tauri 2 : voir [guide Tauri](https://v2.tauri.app/start/prerequisites/)
+- Rust >= 1.77.2
+- GTK4 et libadwaita installes sur le systeme
 
-## Installation
+Sur Fedora:
 
 ```bash
-# Cloner le repo
-git clone https://github.com/votre-user/pokedia.git
-cd pokedia
+sudo dnf install gtk4-devel libadwaita-devel
+```
 
-# Installer les dependances frontend
-npm install
+Sur Ubuntu/Debian:
 
-# Lancer en mode developpement
-npm run tauri dev
+```bash
+sudo apt install libgtk-4-dev libadwaita-1-dev
 ```
 
 ## Commandes
 
-| Commande | Description |
-|----------|-------------|
-| `npm run tauri dev` | Lancer l'app en dev (frontend + backend) |
-| `npx vite build` | Build frontend uniquement (check rapide) |
-| `cargo check` (dans `src-tauri/`) | Verifier la compilation Rust |
-| `npm run lint` | Lancer ESLint |
-| `npm run tauri build` | Build de production (installateur NSIS Windows) |
+```bash
+cargo run --bin pokedia-gtk
+cargo check --bin pokedia-gtk
+cargo build --release --bin pokedia-gtk
+```
 
 ## Structure du projet
 
-```
-src/                          # Frontend React
-  pages/                      # 12 pages (lazy-loaded)
-  components/
-    layout/                   # AppLayout, Header, Sidebar, TabBar, SyncBanner, SearchCrossResults
-    pokemon/                  # PokemonCard, TypeBadge, StatsBar, EvolutionChain, MoveTable
-    moves/                    # DamageClassIcon
-    ui/                       # shadcn components, liquid-glass, pokemon-sprite
-  stores/                     # 5 stores Zustand (search, settings, comparison, recent, tabs)
-  hooks/                      # 11 hooks (TanStack Query + utilitaires)
-  lib/                        # Utilitaires (IPC Tauri, type chart, constants, motion presets)
-  types/                      # Interfaces TypeScript
-
-src-tauri/                    # Backend Rust
-  src/
-    lib.rs                    # Setup Tauri, AppState, enregistrement des 21 commandes
-    db.rs                     # Init SQLite (WAL, pool 5 connexions) + migrations
-    commands/                 # 9 modules de commandes IPC
-    sync/engine.rs            # Moteur de sync (5 phases, semaphore, retry, reprise)
-    api/                      # Client PokeAPI + 8 fetchers par ressource
-    cache/                    # 7 modules d'upsert SQLite
-    models/                   # 8 modules de structs Rust (Serialize/Deserialize)
-  migrations/                 # 3 fichiers SQL de migration
+```text
+Cargo.toml
+src/
+  bin/pokedia-gtk.rs       # Interface GTK/libadwaita
+  lib.rs                   # Modules partages et donnees embarquees
+  db.rs                    # Initialisation SQLite et migrations
+  native.rs                # Requetes de lecture pour le client GTK
+  cache/games.rs           # Import des datasets hackrom embarques
+  models/                  # Structures Rust serialisables et FromRow
+data/games/                # Datasets hackrom JSON
+migrations/                # Migrations SQL
+icons/                     # Icones de l'application
+HackRomInfo/               # Documents sources des hackroms
 ```
 
-## Architecture
+## Donnees locales
 
-- **Base denormalisee** — Colonnes `name_en`/`name_fr` dans toutes les tables pour un changement de langue instantane sans jointures
-- **Sync engine** — Pipeline en 5 phases avec semaphore (10 requetes concurrentes), retry 3x avec backoff exponentiel, reprise partielle, annulation
-- **Donnees client** — Toutes les donnees chargees en memoire (`staleTime: Infinity`) pour recherche/filtre instantane
-- **Virtualisation** — Listes longues rendues avec `@tanstack/react-virtual`
-- **Code splitting** — 12 pages lazy-loaded avec `React.lazy` + `Suspense`
-- **Liquid glass** — Effets visuels style iOS 26 sur la navigation et les cartes
+La base SQLite est creee dans le dossier de donnees utilisateur `com.pokedia.app` et s'appelle `pokedia.db`. Les migrations sont appliquees au demarrage. Les datasets hackrom embarques sont reimportes automatiquement quand leur empreinte change.
 
 ## Licence
 
